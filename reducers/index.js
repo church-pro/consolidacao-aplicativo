@@ -15,12 +15,12 @@ function prospectos(state = [], action){
 		case LIMPAR_PROSPECTOS:
 			return []
 		case PEGAR_PROSPECTOS:
-			return [...state, ...action.prospectos]
+			return [...action.prospectos]
 		case ADICIONAR_PROSPECTOS:
 			return [...state, ...action.prospectos]
 		case ALTERAR_PROSPECTO:
 			const estadoAtualizado = state.map(prospecto => {
-				if(prospecto.id === action.prospecto.id){
+				if(prospecto._id === action.prospecto._id){
 					return action.prospecto
 				}else{
 					return prospecto

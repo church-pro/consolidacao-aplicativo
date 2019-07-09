@@ -26,11 +26,11 @@ class ListaDeProspectos extends React.Component {
 		this.props.navigation.navigate('Sincronizacao', {tela: 'Prospectos'})
 	}
 
-	_keyExtractor = (item, index) => item.id;
+	_keyExtractor = (item, index) => item._id;
 
 	_renderItem = ({ item }) => (
 		<Prospecto
-			key={item.id}
+			key={item._id}
 			prospecto={item}
 			navigation={this.props.navigation}
 		/>

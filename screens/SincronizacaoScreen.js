@@ -11,6 +11,8 @@ import {
 	alterarUsuarioNoAsyncStorage,
 	limparProspectosNoAsyncStorage,
 	alterarProspectoNoAsyncStorage,
+	porProspectoDaSincronizacao,
+	adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import {
 	sincronizarNaAPI,
@@ -46,7 +48,7 @@ class SincronizacaoScreen extends React.Component {
 							let dados = {
 								email: usuario.email,
 								senha: usuario.senha,
-								prospectos: prospectos
+								prospectos: prospectos,
 							}
 							sincronizarNaAPI(dados)
 								.then(retorno => {
@@ -56,16 +58,20 @@ class SincronizacaoScreen extends React.Component {
 											dados.no_id = retorno.resultado.no_id
 											dados.data_atualizacao = retorno.resultado.data_atualizacao
 											dados.hora_atualizacao = retorno.resultado.hora_atualizacao
+											delete dados.prospectos
 											alterarUsuarioNoAsyncStorage(dados)
 												.then(() =>  {
-													if(dados.prospectos){
-														dados.prospectos.forEach(prospecto => {
-															prospecto.sincronizado = true
-															alterarProspectoNoAsyncStorage(prospecto)
+													// pondo prospectos retornados da api com id correto
+													let prospectosFiltrados = retorno.resultado.prospectos
+														.filter(prospecto => prospecto)
+													this.props.porProspectoDaSincronizacao(prospectosFiltrados)
+														.then(() => {
+															Alert.alert('Sincronização', 'Sincronizado com sucesso!')
+															navigation.navigate(tela)
 														})
-														Alert.alert('Sincronização', 'Sincronizado com sucesso!')
-														navigation.navigate(tela)
-													}
+														.catch(err => {
+															console.log('err: ', err)
+														})
 												})
 										}
 										// apertei sair
@@ -112,7 +118,7 @@ function mapStateToProps({usuario, prospectos}, props){
 	return {
 		tela,
 		usuario,
-		prospectos: prospectos && prospectos.filter(prospecto => prospecto.sincronizado === false),
+		prospectos,
 	}
 }
 
@@ -121,6 +127,8 @@ function mapDispatchToProps(dispatch){
 		limparProspectosNoAsyncStorage: () => dispatch(limparProspectosNoAsyncStorage()),
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
 		alterarProspectoNoAsyncStorage: (usuario) => dispatch(alterarProspectoNoAsyncStorage(usuario)),
+		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
+		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
 	}
 }
 

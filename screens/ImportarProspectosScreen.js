@@ -117,7 +117,7 @@ class ImportarProspectosScreen extends React.Component {
 									contatoNovo.rating = null
 									contatoNovo.email = null
 									contatoNovo.online = false
-									contatoNovo.sincronizado = false
+									contatoNovo.cadastroNaApi = false
 									let contador = 1
 									contato.phoneNumbers.map(item => {
 										if(contador === 1){
@@ -188,7 +188,12 @@ class ImportarProspectosScreen extends React.Component {
 		} = this.props
 		this.setState({carregando:true})
 		adicionarProspectosAoAsyncStorage(
-			contatosParaSelecionar.filter(contato => selected.get(contato.id))
+			contatosParaSelecionar
+			.filter(contato => selected.get(contato.id))
+			.map(contato => {
+				contato._id = contato.id
+				return contato
+			})
 		).then(() => {
 			this.setState({carregando:false})
 			Alert.alert('Importação', 'Importação concluida com sucesso!')

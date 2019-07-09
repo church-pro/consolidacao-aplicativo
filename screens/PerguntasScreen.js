@@ -147,7 +147,7 @@ class PerguntasScreen extends React.Component {
 function mapStateToProps({prospectos}, {navigation}){
 	const prospecto_id = navigation.state.params.prospecto_id
 	return {
-		prospecto: prospectos && prospectos.find(prospecto => prospecto.id === prospecto_id)
+		prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id)
 	}
 }
 

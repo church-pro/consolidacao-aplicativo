@@ -122,7 +122,7 @@ class ProspectosScreen extends React.Component {
 			pendente: false,
 		})
 
-		navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_APRESENTAR })
+		navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_APRESENTAR })
 	}
 
 	static navigationOptions = () => {

@@ -55,14 +55,14 @@ class Prospecto extends React.Component {
 	handleEmail = () => {
 		const { prospecto } = this.props
 		const to = prospecto.email // string or array of email addresses
-        email(to, {
-            // Optional additional arguments
-            // cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
-            // bcc: 'mee@mee.com', // string or array of email addresses
-            subject: '',
-            body: 'Lista de Ouro App'
-        }).catch(console.error)
-    }
+		email(to, {
+			// Optional additional arguments
+			// cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
+			// bcc: 'mee@mee.com', // string or array of email addresses
+			subject: '',
+			body: 'Lista de Ouro App'
+		}).catch(console.error)
+	}
 
 	render() {
 		const { prospecto, navigation } = this.props
@@ -77,18 +77,18 @@ class Prospecto extends React.Component {
 								borderRadius: 9, backgroundColor: gold, borderWidth: 0,
 								paddingHorizontal: 4, paddingVertical: 2
 							}}>
-								<Text style={{ color: white, fontSize: 12 }}>
-									{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
-								</Text>
-							</View>
+							<Text style={{ color: white, fontSize: 12 }}>
+								{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
+							</Text>
 						</View>
+					</View>
 					}
 					{
 						prospecto.rating &&
-						<View style={[styles.rating, style = { alignItems: 'center' }]}>
-							<Icon name='star' type="font-awesome" size={14} color={gold} />
-							<Text style={{ color: gold }}> {prospecto.rating} </Text>
-						</View>
+							<View style={[styles.rating, style = { alignItems: 'center' }]}>
+								<Icon name='star' type="font-awesome" size={14} color={gold} />
+								<Text style={{ color: gold }}> {prospecto.rating} </Text>
+							</View>
 					}
 				</View>
 				<View style={styles.name_phone}>
@@ -96,10 +96,10 @@ class Prospecto extends React.Component {
 						<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
 
 						{prospecto.online &&
-							<View style={{ marginLeft: 5, backgroundColor: gold, padding: 3, flexDirection: "row", borderRadius: 4, alignItems: "center" }}>
-								<Icon name="globe" type='font-awesome' color={white} size={16} containerStyle={{ marginRight: 4 }} />
-								<Text style={{ color: white }}>web</Text>
-							</View>
+								<View style={{ marginLeft: 5, backgroundColor: gold, padding: 3, flexDirection: "row", borderRadius: 4, alignItems: "center" }}>
+									<Icon name="globe" type='font-awesome' color={white} size={16} containerStyle={{ marginRight: 4 }} />
+									<Text style={{ color: white }}>web</Text>
+								</View>
 						}
 					</View>
 
@@ -133,62 +133,57 @@ class Prospecto extends React.Component {
 				</View>
 
 				<View style={styles.subFooter}>
-					{
-						prospecto.situacao_id === SITUACAO_QUALIFICAR &&
+
+					<Icon
+						name='trash'
+						type='font-awesome'
+						color={lightdark}
+						onPress={() => {
+							Alert.alert('Remover', 'Você deseja remover este prospecto?',
+								[{ text: 'Não' },
+									{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
+						}
+						}
+					/>
+
+				{
+					prospecto.situacao_id === SITUACAO_QUALIFICAR &&
 						<View style={styles.footerQualificar}>
 							<Icon
 								name='pencil'
 								type='font-awesome'
 								color={lightdark}
-								onPress={() => { navigation.navigate('Prospecto', { prospecto_id: prospecto.id }) }}
+								onPress={() => { navigation.navigate('Prospecto', { prospecto_id: prospecto._id }) }}
 							/>
 
-							<Icon
-								name='trash'
-								type='font-awesome'
-								color={lightdark}
-								onPress={() => { Alert.alert('Remover', 'Você deseja remover este prospecto?', [{ text: 'Não' }, { text: 'Sim', onPress: () => { this.removerProspecto() } }]) }}
-							/>
-							<TouchableOpacity
-								style={styles.button}
-								onPress={() => { navigation.navigate('QualificarProspecto', { prospecto_id: prospecto.id }) }}
-							>
-								<Text style={styles.textButton}>Qualificar</Text>
-							</TouchableOpacity>
-						</View>
-					}
-					{
-						prospecto.situacao_id === SITUACAO_CONVIDAR &&
+						<TouchableOpacity
+							style={styles.button}
+							onPress={() => { navigation.navigate('QualificarProspecto', { prospecto_id: prospecto._id }) }}
+						>
+							<Text style={styles.textButton}>Qualificar</Text>
+						</TouchableOpacity>
+					</View>
+				}
+				{
+					prospecto.situacao_id === SITUACAO_CONVIDAR &&
 						<View style={styles.footerConvidar}>
-							<Icon
-								name='trash'
-								type='font-awesome'
-								color={lightdark}
-								onPress={() => {
-									Alert.alert('Remover', 'Você deseja remover este prospecto?',
-										[{ text: 'Não' },
-										{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
-								}
-								}
-							/>
-
 							<TouchableOpacity
 								style={styles.button}
-								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_APRESENTAR }) }}
+								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_APRESENTAR }) }}
 							>
 								<Text style={styles.textButton}>Marcar Apresentação</Text>
 							</TouchableOpacity>
 
 						</View>
-					}
-					{
-						prospecto.situacao_id === SITUACAO_APRESENTAR &&
+				}
+				{
+					prospecto.situacao_id === SITUACAO_APRESENTAR &&
 						<View style={styles.footerAPN}>
 							<View style={{ flexDirection: 'row' }}>
 								<Text style={{ alignSelf: "center", marginRight: 5 }}>Apresentação feita?</Text>
 								<TouchableOpacity
 									style={styles.button}
-									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto.id }) }}
+									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto._id }) }}
 								>
 									<Text style={styles.textButton}>Sim</Text>
 								</TouchableOpacity>
@@ -199,7 +194,7 @@ class Prospecto extends React.Component {
 											Alert.alert(prospecto.nome, 'O que você deseja fazer com este prospecto?',
 												[
 													{ text: 'Excluir', onPress: () => { this.removerProspecto() } },
-													{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR }) } },
+													{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_ACOMPANHAR }) } },
 													{ text: 'Cancelar' },
 												])
 										}
@@ -210,24 +205,13 @@ class Prospecto extends React.Component {
 								</TouchableOpacity>
 							</View>
 						</View>
-					}
-					{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
+				}
+				{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
 
 						<View style={styles.footerAcompanhar}>
-							<Icon
-								name='trash'
-								type='font-awesome'
-								color={lightdark}
-								onPress={() => {
-									Alert.alert('Remover', 'Você deseja remover este prospecto?',
-										[{ text: 'Não' },
-										{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
-								}
-								}
-							/>
 							<TouchableOpacity
 								style={styles.button}
-								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_FECHAMENTO }) }}
+								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_FECHAMENTO }) }}
 							>
 								<Text style={styles.textButton}>Remarcar</Text>
 							</TouchableOpacity>
@@ -238,20 +222,9 @@ class Prospecto extends React.Component {
 								<Text style={styles.textButton}>Fechamento</Text>
 							</TouchableOpacity>
 						</View>
-					}
-					{prospecto.situacao_id == SITUACAO_FECHAMENTO &&
+				}
+				{prospecto.situacao_id == SITUACAO_FECHAMENTO &&
 						<View style={styles.footerFechamento}>
-							<Icon
-								name='trash'
-								type='font-awesome'
-								color={lightdark}
-								onPress={() => {
-									Alert.alert('Remover', 'Você deseja remover este prospecto?',
-										[{ text: 'Não' },
-										{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
-								}
-								}
-							/>
 							<View
 								style={{
 									backgroundColor: gold, borderRadius: 9, borderWidth: 0,
@@ -261,9 +234,9 @@ class Prospecto extends React.Component {
 								<Text style={styles.textButton}>Pago</Text>
 							</View>
 						</View>
-					}
-				</View>
-			</Card>
+				}
+			</View>
+		</Card>
 
 		)
 	}

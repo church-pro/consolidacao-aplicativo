@@ -5,6 +5,7 @@ import {
 	recuperarUsuario,
 	submeterUsuario,
 	limparProspectos,
+	limparESubmeterProspectos,
 } from '../helpers/api'
 import{
 	pegarDataEHoraAtual,
@@ -127,4 +128,12 @@ export const alterarUsuarioNoAsyncStorage = (usuario) => dispatch => {
 export const limparProspectosNoAsyncStorage = () => dispatch => {
 	limparProspectos()
 	dispatch(limparProspectosNoState())
+}
+
+export const porProspectoDaSincronizacao = (prospectos) => dispatch => {
+	return limparESubmeterProspectos(prospectos)
+		.then(prospectos => {
+			dispatch(pegarProspectos(prospectos))
+			return prospectos
+		})
 }

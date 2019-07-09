@@ -1,11 +1,11 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '001'
+const versaoBanco = '003'
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
-api = 'https://church-pro-consolidacao-api.herokuapp.com'
+//api = 'https://church-pro-consolidacao-api.herokuapp.com'
 const headers = {
 	'Content-Type': 'application/json'
 }
@@ -72,12 +72,19 @@ export function submeterProspectos(prospectos){
 		})                                    
 }
 
+export async function limparESubmeterProspectos(prospectos){
+	const dados = {}
+	dados.prospectos = [...prospectos]
+	await AsyncStorage.setItem(CHAVE_PROSPECTOS, JSON.stringify(dados))
+	return prospectos                 
+}
+
 export function modificarProspecto(prospecto){
 	return recuperarProspectos()              
 		.then(dados => {                      
 			const prospectosAlterados = 
 				dados.prospectos.map(prospectoNoAsyncStorage => {
-					if(prospectoNoAsyncStorage.id === prospecto.id){
+					if(prospectoNoAsyncStorage._id === prospecto._id){
 						return prospecto
 					}else{
 						return prospectoNoAsyncStorage
