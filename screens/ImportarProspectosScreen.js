@@ -117,6 +117,7 @@ class ImportarProspectosScreen extends React.Component {
 									contatoNovo.rating = null
 									contatoNovo.email = null
 									contatoNovo.online = false
+									contatoNovo.sincronizado = false
 									let contador = 1
 									contato.phoneNumbers.map(item => {
 										if(contador === 1){

@@ -10,6 +10,7 @@ import { Icon } from 'native-base';
 import {
 	alterarUsuarioNoAsyncStorage,
 	limparProspectosNoAsyncStorage,
+	alterarProspectoNoAsyncStorage,
 } from '../actions'
 import {
 	sincronizarNaAPI,
@@ -39,11 +40,13 @@ class SincronizacaoScreen extends React.Component {
 							limparProspectosNoAsyncStorage,
 							alterarUsuarioNoAsyncStorage,
 							tela,
+							prospectos,
 						} = this.props
 						if(usuario.email){
 							let dados = {
 								email: usuario.email,
 								senha: usuario.senha,
+								prospectos: prospectos
 							}
 							sincronizarNaAPI(dados)
 								.then(retorno => {
@@ -55,8 +58,14 @@ class SincronizacaoScreen extends React.Component {
 											dados.hora_atualizacao = retorno.resultado.hora_atualizacao
 											alterarUsuarioNoAsyncStorage(dados)
 												.then(() =>  {
-													Alert.alert('Sincronização', 'Sincronizado com sucesso!')
-													navigation.navigate(tela)
+													if(dados.prospectos){
+														dados.prospectos.forEach(prospecto => {
+															prospecto.sincronizado = true
+															alterarProspectoNoAsyncStorage(prospecto)
+														})
+														Alert.alert('Sincronização', 'Sincronizado com sucesso!')
+														navigation.navigate(tela)
+													}
 												})
 										}
 										// apertei sair
@@ -98,11 +107,12 @@ class SincronizacaoScreen extends React.Component {
 	}
 }
 
-function mapStateToProps({usuario,}, props){
+function mapStateToProps({usuario, prospectos}, props){
 	const tela = props.navigation.state.params.tela
 	return {
 		tela,
 		usuario,
+		prospectos: prospectos && prospectos.filter(prospecto => prospecto.sincronizado === false),
 	}
 }
 
@@ -110,6 +120,7 @@ function mapDispatchToProps(dispatch){
 	return {
 		limparProspectosNoAsyncStorage: () => dispatch(limparProspectosNoAsyncStorage()),
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+		alterarProspectoNoAsyncStorage: (usuario) => dispatch(alterarProspectoNoAsyncStorage(usuario)),
 	}
 }
 

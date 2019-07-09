@@ -83,6 +83,7 @@ class ProspectoScreen extends React.Component {
 				prospecto.id = Date.now() + ''
 				prospecto.rating = null
 				prospecto.online = false
+				prospecto.sincronizado = false
 				prospecto.situacao_id = 1
 			}
 			prospecto.nome = nome

@@ -74,6 +74,7 @@ class LoginScreen extends React.Component {
 						const dados = {
 							email,
 							senha,
+							prospectos: null,
 						}
 						sincronizarNaAPI(dados)
 							.then(retorno => {
@@ -95,9 +96,7 @@ class LoginScreen extends React.Component {
 										})
 								}else{
 									this.setState({carregando:false})
-									alertTitulo = 'Aviso'
-									alertCorpo = 'Usuário/Senha não conferem!'
-									Alert.alert(alertTitulo, alertCorpo)
+									Alert.alert('Aviso', 'Usuário/Senha não conferem!')
 								}
 							})
 					}else{
