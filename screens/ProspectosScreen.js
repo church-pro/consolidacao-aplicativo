@@ -59,9 +59,6 @@ class ProspectosScreen extends React.Component {
 	};
 
 	componentDidMount(){
-		this.props.navigation.setParams({
-			sincronizar: this.sincronizar
-		})
 		this.props
 			.pegarProspectosNoAsyncStorage()
 			.then(() => this.setState({carregando: false}))
@@ -99,7 +96,6 @@ class ProspectosScreen extends React.Component {
 		if(tipo === 'remover'){
 			Alert.alert('Removido', 'Prospecto removido!')
 		}else{
-
 			Alert.alert('Pendente', 'Prospecto pendete!')
 		}
 	}
@@ -127,75 +123,6 @@ class ProspectosScreen extends React.Component {
 		})
 
 		navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_APRESENTAR })
-	}
-
-	sincronizar = () => {
-		try{
-			NetInfo.isConnected
-				.fetch()
-				.then(isConnected => {
-					if(isConnected){
-						const {
-							usuario,
-							navigation,
-							adicionarProspectosAoAsyncStorage,
-							alterarUsuarioNoAsyncStorage,
-						} = this.props
-						if(usuario.email){
-							this.setState({carregando: true})
-							let dados = {
-								email: usuario.email,
-								senha: usuario.senha,
-							}
-							recuperarHistoricoNaoSincronizado()
-								.then(historicos => {
-									//dados.historicos = historicos
-									dados.historicos = []
-
-									sincronizarNaAPI(dados)
-										.then(retorno => {
-											let alertTitulo = ''
-											let alertCorpo = ''
-											if(retorno.ok){
-												if(retorno.resultado.prospectos){
-													const prospectosParaAdicionar = retorno.resultado.prospectos
-														.map(prospecto => {
-															prospecto.id = prospecto._id	
-															prospecto.rating = null
-															prospecto.situacao_id = 1
-															prospecto.online = true
-															delete prospecto._id
-															return prospecto
-														})
-													adicionarProspectosAoAsyncStorage(prospectosParaAdicionar)
-												}
-												limparHistoricos()
-												alertTitulo = 'Sincronização'
-												alertCorpo = 'Sincronizado com sucesso!'
-												this.setState({carregando: false})
-												Alert.alert(alertTitulo, alertCorpo)
-											}else{
-												alertTitulo = 'Aviso'
-												alertCorpo = 'Usuário/Senha não conferem!'
-												alterarUsuarioNoAsyncStorage({})
-													.then(() =>  {
-														this.setState({carregando: false})
-														Alert.alert(alertTitulo, alertCorpo)
-													})
-											}
-										})
-										.catch(err => console.log('err: ', err))
-								})
-						}else{
-							navigation.navigate('Login')
-						}
-					}else{
-						Alert.alert('Internet', 'Verifique sua internet!')
-					}
-				})
-		} catch(err) {
-			Alert.alert('Error', err)
-		}
 	}
 
 	static navigationOptions = () => {
@@ -268,6 +195,11 @@ class ProspectosScreen extends React.Component {
 				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)} 
 				navigation={navigation}
 			/>)
+
+		let tabInicial = 'Qualificar'
+		if(this.props.tabInicial){
+			tabInicial = this.props.tabInicial
+		}
 		const Tabs = createMaterialTopTabNavigator(
 			{
 				Qualificar: {
@@ -312,6 +244,7 @@ class ProspectosScreen extends React.Component {
 				},
 			},
 			{
+				initialRouteName: tabInicial,
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,
@@ -342,13 +275,13 @@ class ProspectosScreen extends React.Component {
 						</TouchableOpacity>
 					</Left>
 					<Body style={{flex: 1}}>
-						<Title style={{textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}>LISTA DE OURO</Title>
+						<Title style={{textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}>CHURCH PRO CONSOLIDAÇÃO</Title>
 					</Body>
 					<Right style={{flex: 0}}>
 						<TouchableOpacity 
 							style={{backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8}}
-							onPress={() => this.sincronizar()}>
-							<Icon name='download' type='font-awesome' color={white} />
+							onPress={() => navigation.navigate('Sincronizacao', {tela: 'Prospectos'})}>
+							<Icon name='retweet' type='font-awesome' color={white} />
 						</TouchableOpacity>
 					</Right>
 				</Header>
@@ -460,11 +393,16 @@ class ProspectosScreen extends React.Component {
 	}
 }
 
-function mapStateToProps({ prospectos, usuario, administracao,}){
+function mapStateToProps({ prospectos, usuario, administracao,}, props){
+	let tabInicial = null
+	if(props.navigation.state.params && props.navigation.state.params.tab){
+		tabInicial = props.navigation.state.params.tab
+	}
 	return {
 		prospectos,
 		usuario,
 		administracao,
+		tabInicial,
 	}
 }
 

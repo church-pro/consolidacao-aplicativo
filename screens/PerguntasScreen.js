@@ -30,8 +30,10 @@ class PerguntasScreen extends React.Component {
 		const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
 		prospecto.situacao_id = SITUACAO_FECHAMENTO
 		alterarProspectoNoAsyncStorage(prospecto)
-		Alert.alert('Sucesso', 'Prospecto pagou!')
-		navigation.goBack()
+			.then(() => {
+				Alert.alert('Sucesso', 'Prospecto pagou!')
+				navigation.goBack()
+			})
 	}
 
 	render() {

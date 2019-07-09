@@ -8,6 +8,7 @@ import PerguntasScreen from '../screens/PerguntasScreen';
 import ProspectoScreen from '../screens/ProspectoScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegistroScreen from '../screens/RegistroScreen';
+import SincronizacaoScreen from '../screens/SincronizacaoScreen';
 import { white, dark } from '../helpers/colors'
 
 const ProspectosStack = createStackNavigator(
@@ -20,6 +21,7 @@ const ProspectosStack = createStackNavigator(
 		Prospecto: ProspectoScreen,
 		Login: LoginScreen,
 		Registro: RegistroScreen,
+		Sincronizacao: SincronizacaoScreen,
 	}, 
 	{
 		initialRouteName: 'Login',

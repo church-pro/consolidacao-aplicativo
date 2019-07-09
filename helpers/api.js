@@ -1,12 +1,11 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '022'
-const CHAVE_PROSPECTOS = 'ListaDeOuro:prospectos' + versaoBanco
-const CHAVE_HISTORICO = 'ListaDeOuro:historico' + versaoBanco
-const CHAVE_USUARIO = 'ListaDeOuro:usuario' + versaoBanco
+const versaoBanco = '001'
+const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
+const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
-api = 'https://lista-de-ouro-api.herokuapp.com'
+//api = 'https://church-pro-consolidacao-api.herokuapp.com'
 const headers = {
 	'Content-Type': 'application/json'
 }
@@ -18,7 +17,7 @@ export const teste = () =>
 
 export const registrarNaAPI = (dados) =>
 	fetch(
-		`${api}/no/registrar`,
+		`${api}/no/registrarUsuario`,
 		{
 			headers,
 			method: "POST",
@@ -90,45 +89,10 @@ export function modificarProspecto(prospecto){
 		})                                    
 }
 
-export function recuperarHistorico(){        
-	return AsyncStorage.getItem(CHAVE_HISTORICO)
-		.then(JSON.parse)                     
-		.then((dados) => {                    
-			if(dados === null){               
-				dados = {historico: []}      
-				AsyncStorage.setItem(CHAVE_HISTORICO, JSON.stringify(dados))
-			}                                 
-			return dados                      
-		})                                    
-}
-
-export function recuperarHistoricoNaoSincronizado(){        
-	return AsyncStorage.getItem(CHAVE_HISTORICO)
-		.then(JSON.parse)                     
-		.then((dados) => {                    
-			let retorno = []
-			if(dados && dados.historico){
-				let historicosParaEnviar = dados.historico.filter(item => !item.sincronizado)
-				retorno = historicosParaEnviar
-			}
-			return retorno
-		})
-}
-
-export function submeterHistoricos(historicos){
-	return recuperarHistorico()              
-		.then(dados => {                      
-			dados.historico = [...dados.historico, ...historicos]
-			AsyncStorage.setItem(CHAVE_HISTORICO, JSON.stringify(dados))
-			return historicos                 
-		})                                    
-}
-
-export function limparHistoricos(){
-	let dados = {}
-	dados.historico = []
-	AsyncStorage.setItem(CHAVE_HISTORICO, JSON.stringify(dados))
-	return true
+export function limparProspectos(){
+	const dados = {prospectos: []}      
+	AsyncStorage.setItem(CHAVE_PROSPECTOS, JSON.stringify(dados))
+	return true 
 }
 
 export function recuperarUsuario(){        

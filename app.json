@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Lista de Ouro",
-    "description": "Lista de Ouro",
-    "slug": "lista-de-ouro",
+    "name": "Consolidação",
+    "description": "Church Pro Consolidação",
+    "slug": "church-pro-consolidacao",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": ["ios", "android"],
@@ -22,11 +22,11 @@
     ],
     "ios": {
       "supportsTablet": true, 
-      "bundleIdentifier": "br.com.listadeouro",
+      "bundleIdentifier": "br.com.churchpro",
       "buildNumber": "3"
     },
 	  "android": {
-		  "package": "br.com.listadeouro.exp"
+		  "package": "br.com.churchpro.exp"
 	  }
   }
 }

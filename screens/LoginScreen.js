@@ -13,9 +13,10 @@ import { Icon } from 'native-base';
 import {
 	alterarUsuarioNoAsyncStorage,
 	pegarUsuarioNoAsyncStorage,
+	adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import {
-	logarNaApi,
+	sincronizarNaAPI,
 } from '../helpers/api'
 import { connect } from 'react-redux'
 
@@ -33,6 +34,7 @@ class LoginScreen extends React.Component {
 	}
 
 	componentDidMount(){
+
 		this.setState({carregando:true})
 		this.props
 			.pegarUsuarioNoAsyncStorage()
@@ -42,6 +44,7 @@ class LoginScreen extends React.Component {
 				}
 				this.setState({carregando:false})
 			})
+
 	}
 
 	ajudadorDeSubmissao = () => {
@@ -72,11 +75,21 @@ class LoginScreen extends React.Component {
 							email,
 							senha,
 						}
-						logarNaApi(dados)
+						sincronizarNaAPI(dados)
 							.then(retorno => {
 								if(retorno.ok){
+									dados.no_id = retorno.resultado.no_id
+									dados.data_atualizacao = retorno.resultado.data_atualizacao ? retorno.resultado.data_atualizacao : null
+									dados.hora_atualizacao = retorno.resultado.hora_atualizacao ? retorno.resultado.hora_atualizacao : null
 									this.props.alterarUsuarioNoAsyncStorage(dados)
 										.then(() => {
+											if(retorno.resultado.prospectos){
+												this.props.adicionarProspectosAoAsyncStorage(retorno.resultado.prospectos)
+													.then(() => {
+														this.setState({carregando:false})
+														this.props.navigation.navigate('Prospectos')
+													})
+											}
 											this.setState({carregando:false})
 											this.props.navigation.navigate('Prospectos')
 										})
@@ -95,12 +108,12 @@ class LoginScreen extends React.Component {
 	}
 
 	render() {
+
 		const {
 			email,
 			senha,
 			carregando,
 		} = this.state
-		const { goBack } = this.props.navigation;
 		return (
 			<KeyboardAwareScrollView
 				contentContainerStyle={styles.container}
@@ -124,7 +137,10 @@ class LoginScreen extends React.Component {
 						<Fragment>
 
 							<View>
-								<Image source={logo} style={styles.logo} />
+								<Text
+									style={{color: '#FFFFFF'}}>
+									Church Pro Consolidação	
+								</Text>
 							</View>
 
 							<View style={styles.containerLogin}>
@@ -145,7 +161,6 @@ class LoginScreen extends React.Component {
 										onChangeText={texto => this.setState({ email: texto })}
 										returnKeyType={'next'}
 										onSubmitEditing={() => this.inputSenha.focus()}
-										autoCapitalize={false}
 									/>
 								</View>
 								<View style={{ marginTop: 18 }}>
@@ -158,7 +173,6 @@ class LoginScreen extends React.Component {
 									<TextInput style={styles.inputText}
 										ref={(input) => { this.inputSenha = input; }}
 										keyboardAppearance='dark'
-										autoCapitalize="none"
 										placeholderTextColor="#d3d3d3"
 										selectionColor="#fff"
 										keyboardType='default'
@@ -195,14 +209,25 @@ class LoginScreen extends React.Component {
 	}
 }
 
+const mapStateToProps = (state, props) => {
+	let tipo = null
+	if(props.navigation.state.params && props.navigation.state.params.tipo){
+		tipo =  props.navigation.state.params.tipo
+	}
+	return {
+		tipo,
+	}
+}
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
 		pegarUsuarioNoAsyncStorage: (usuario) => dispatch(pegarUsuarioNoAsyncStorage(usuario)),
+		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
 	}
 }
 
-export default connect(null, mapDispatchToProps)(LoginScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
 
 const styles = StyleSheet.create({
 	container: {

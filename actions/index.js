@@ -2,14 +2,15 @@ import {
 	recuperarProspectos,
 	submeterProspectos,
 	modificarProspecto,
-	submeterHistoricos,
 	recuperarUsuario,
 	submeterUsuario,
+	limparProspectos,
 } from '../helpers/api'
 import{
 	pegarDataEHoraAtual,
 } from '../helpers/helper'
 
+export const LIMPAR_PROSPECTOS = 'LIMPAR_PROSPECTOS'
 export const PEGAR_PROSPECTOS = 'PEGAR_PROSPECTOS'
 export const ADICIONAR_PROSPECTOS = 'ADICIONAR_PROSPECTOS'
 export const ALTERAR_PROSPECTO = 'ALTERAR_PROSPECTO'
@@ -17,6 +18,12 @@ export const PEGAR_ADMINISTRACAO = 'PEGAR_ADMINISTRACAO'
 export const ALTERAR_ADMINISTRACAO = 'ALTERAR_ADMINISTRACAO'
 export const PEGAR_USUARIO = 'PEGAR_USUARIO'
 export const ALTERAR_USUARIO = 'ALTERAR_USUARIO'
+
+export function limparProspectosNoState(){ 
+	return {
+		type: LIMPAR_PROSPECTOS,
+	}
+}
 
 export function pegarProspectos(prospectos){ 
 	return {
@@ -76,21 +83,6 @@ export const pegarProspectosNoAsyncStorage = () => dispatch => {
 }
 
 export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => {
-	const historicos = 
-		prospectos
-		.map(prospecto => {
-			const historico = {
-				sincronizado: false,
-				data_criacao: pegarDataEHoraAtual()[0],
-				hora_criacao: pegarDataEHoraAtual()[1],
-				dados: {
-					prospecto_id: prospecto.id,
-					prospecto,
-				},
-			}
-			return historico
-		})
-	submeterHistoricos(historicos)
 	return submeterProspectos(prospectos)
 		.then(prospectos => {
 			dispatch(adicionarProspectos(prospectos))
@@ -99,24 +91,20 @@ export const adicionarProspectosAoAsyncStorage = (prospectos) => dispatch => {
 }
 
 export const alterarProspectoNoAsyncStorage = (prospecto) => dispatch => {
-	const historico = {
-		sincronizado: false,
-		data_criacao: pegarDataEHoraAtual()[0],
-		hora_criacao: pegarDataEHoraAtual()[1],
-		dados: {
-			prospecto_id: prospecto.id,
-			situacao_id: prospecto.situacao_id,
-		}
-	}
-	submeterHistoricos([historico])
-
 	if(prospecto.novo){
 		delete prospecto.novo
-		submeterProspectos([prospecto])
-			.then(prospectos => dispatch(adicionarProspectos(prospectos)))
+		return submeterProspectos([prospecto])
+			.then(prospectos => {
+				dispatch(adicionarProspectos(prospectos))
+				return true
+			})
+
 	}else{
-		modificarProspecto(prospecto)
-			.then(prospecto => dispatch(alterarProspecto(prospecto)))
+		return modificarProspecto(prospecto)
+			.then(prospecto => {
+				dispatch(alterarProspecto(prospecto))
+				return true
+			})
 	}
 }
 
@@ -134,4 +122,9 @@ export const alterarUsuarioNoAsyncStorage = (usuario) => dispatch => {
 			dispatch(alterarUsuario(usuario))
 			return true
 		})
+}
+
+export const limparProspectosNoAsyncStorage = () => dispatch => {
+	limparProspectos()
+	dispatch(limparProspectosNoState())
 }

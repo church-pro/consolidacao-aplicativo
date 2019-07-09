@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { 
+	LIMPAR_PROSPECTOS,
 	PEGAR_PROSPECTOS, 
 	ADICIONAR_PROSPECTOS, 
 	ALTERAR_PROSPECTO, 
@@ -11,6 +12,8 @@ import {
 
 function prospectos(state = [], action){
 	switch(action.type){
+		case LIMPAR_PROSPECTOS:
+			return []
 		case PEGAR_PROSPECTOS:
 			return [...state, ...action.prospectos]
 		case ADICIONAR_PROSPECTOS:

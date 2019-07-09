@@ -4,7 +4,8 @@ import {
 	Text,
 	Alert,
 	TouchableOpacity,
-	StyleSheet
+	StyleSheet,
+	ActivityIndicator,
 } from 'react-native';
 import { Button } from 'native-base';
 import { AirbnbRating } from 'react-native-ratings'
@@ -16,13 +17,17 @@ import { SITUACAO_CONVIDAR } from '../helpers/constants'
 class QualificarProspectoScreen extends React.Component {
 
 	alterarProspecto = () => {
+		this.setState({carregando: true})
 		if (this.state.rating > 0) {
 			const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
 			prospecto.rating = this.state.rating
 			prospecto.situacao_id = SITUACAO_CONVIDAR
 			alterarProspectoNoAsyncStorage(prospecto)
-			Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
-			navigation.goBack()
+				.then(() => {
+					Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
+					this.setState({carregando: false})
+					navigation.goBack()
+				})
 		} else {
 			Alert.alert('Aviso', 'Selecione uma qualificação')
 		}
@@ -35,6 +40,7 @@ class QualificarProspectoScreen extends React.Component {
 	}
 
 	state = {
+		carregando: false,
 		rating: 0,
 	}
 
@@ -61,33 +67,51 @@ class QualificarProspectoScreen extends React.Component {
 
 	render() {
 		const { prospecto } = this.props
+		const { carregando } = this.state
 
 		return (
 			<View style={styles.container}>
-				<Text style={{ textAlign: "center", color: gray, fontSize: 18 }}>
-					Qualifique o prospecto de acordo com o nível de interesse
-				</Text>
 
-				<View>
-					<Text style={styles.name}>
-						{prospecto && prospecto.nome}
-					</Text>
+				{
+					carregando && 
+					<View style={{flex: 1, justifyContent: 'center'}}>
+						<ActivityIndicator 
+							size="large"
+							color={gold}
+						/>
+					</View>
+				}
 
-					<AirbnbRating
-						showRating={false}
-						defaultRating={this.state.rating}
-						onFinishRating={(valor) => this.setState({ rating: valor })}
-					/>
-				</View>
+				{
+					!carregando &&
+						<View>
 
-				<View>
-					<TouchableOpacity
-						onPress={() => this.alterarProspecto()}
-						style={styles.button}
-					>
-						<Text style={{ textAlign: "center", fontSize: 16 }}>Qualificar</Text>
-					</TouchableOpacity>
-				</View>
+							<Text style={{ textAlign: "center", color: gray, fontSize: 18 }}>
+								Qualifique o prospecto de acordo com o nível de interesse
+							</Text>
+
+							<View>
+								<Text style={styles.name}>
+									{prospecto && prospecto.nome}
+								</Text>
+
+								<AirbnbRating
+									showRating={false}
+									defaultRating={this.state.rating}
+									onFinishRating={(valor) => this.setState({ rating: valor })}
+								/>
+							</View>
+
+							<View>
+								<TouchableOpacity
+									onPress={() => this.alterarProspecto()}
+									style={styles.button}
+								>
+									<Text style={{ textAlign: "center", fontSize: 16 }}>Qualificar</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
+				}
 
 			</View>
 		)
