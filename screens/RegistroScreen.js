@@ -126,8 +126,11 @@ class RegistroScreen extends React.Component {
 										}
 										this.props.alterarUsuarioNoAsyncStorage(usuario)
 											.then(() => {
-												Alert.alert('Registro', 'Registrado com sucesso!')
-												this.props.navigation.navigate('Prospectos')
+												this.props.porProspectoDaSincronizacao([])
+													.then(() => {
+														Alert.alert('Registro', 'Registrado com sucesso!')
+														this.props.navigation.navigate('Prospectos')
+													})
 											})
 									} else {
 										Alert.alert('Aviso', resposta.mensagem)
