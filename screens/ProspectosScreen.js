@@ -30,7 +30,6 @@ import {
 	alterarProspectoNoAsyncStorage, 
 	alterarAdministracao,
 	alterarUsuarioNoAsyncStorage,
-	pegarProspectosNoAsyncStorage,
 	pegarUsuarioNoAsyncStorage,
 	adicionarProspectosAoAsyncStorage,
 } from '../actions'
@@ -59,11 +58,7 @@ class ProspectosScreen extends React.Component {
 	};
 
 	componentDidMount(){
-		this.props
-			.pegarProspectosNoAsyncStorage()
-			.then(() => this.setState({carregando: false}))
-		this.props
-			.pegarUsuarioNoAsyncStorage()
+		this.setState({carregando:false})
 	}
 
 	novoProspecto = () => {

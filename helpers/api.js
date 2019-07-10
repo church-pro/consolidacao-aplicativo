@@ -1,11 +1,11 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '003'
+const versaoBanco = '004'
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
-//api = 'https://church-pro-consolidacao-api.herokuapp.com'
+api = 'https://church-pro-consolidacao-api.herokuapp.com'
 const headers = {
 	'Content-Type': 'application/json'
 }

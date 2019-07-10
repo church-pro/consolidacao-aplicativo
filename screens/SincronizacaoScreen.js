@@ -4,15 +4,10 @@ import { Alert, Text, View, Image, TextInput,
 	ActivityIndicator,
 	NetInfo,
 } from 'react-native';
-import { dark, white, gray, gold, lightdark } from '../helpers/colors';
-import logo from '../assets/images/logo-word.png'
-import { Icon } from 'native-base';
+import { white, gold, dark } from '../helpers/colors';
 import {
 	alterarUsuarioNoAsyncStorage,
-	limparProspectosNoAsyncStorage,
-	alterarProspectoNoAsyncStorage,
 	porProspectoDaSincronizacao,
-	adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import {
 	sincronizarNaAPI,
@@ -39,7 +34,6 @@ class SincronizacaoScreen extends React.Component {
 						const {
 							usuario,
 							navigation,
-							limparProspectosNoAsyncStorage,
 							alterarUsuarioNoAsyncStorage,
 							tela,
 							prospectos,
@@ -78,7 +72,7 @@ class SincronizacaoScreen extends React.Component {
 										if(tela === 'Login'){
 											alterarUsuarioNoAsyncStorage({})
 												.then(() => {
-													limparProspectosNoAsyncStorage()
+
 													navigation.navigate(tela)
 												})
 										}
@@ -100,10 +94,7 @@ class SincronizacaoScreen extends React.Component {
 
 	render() {
 		return (
-			<View style={{flex: 1, justifyContent: 'center'}}>
-				<Text>
-					Sincronizando
-				</Text>
+			<View style={{flex: 1, justifyContent: 'center', backgroundColor: dark}}>
 				<ActivityIndicator 
 					size="large"
 					color={gold}
@@ -124,11 +115,8 @@ function mapStateToProps({usuario, prospectos}, props){
 
 function mapDispatchToProps(dispatch){
 	return {
-		limparProspectosNoAsyncStorage: () => dispatch(limparProspectosNoAsyncStorage()),
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
-		alterarProspectoNoAsyncStorage: (usuario) => dispatch(alterarProspectoNoAsyncStorage(usuario)),
 		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
-		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
 	}
 }
 

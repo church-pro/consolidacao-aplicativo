@@ -14,6 +14,8 @@ import {
 	alterarUsuarioNoAsyncStorage,
 	pegarUsuarioNoAsyncStorage,
 	adicionarProspectosAoAsyncStorage,
+	pegarProspectosNoAsyncStorage,
+	porProspectoDaSincronizacao,
 } from '../actions'
 import {
 	sincronizarNaAPI,
@@ -34,17 +36,21 @@ class LoginScreen extends React.Component {
 	}
 
 	componentDidMount(){
-
 		this.setState({carregando:true})
-		this.props
-			.pegarUsuarioNoAsyncStorage()
+
+		this.props.pegarUsuarioNoAsyncStorage()
 			.then(usuario => {
 				if(usuario.email && usuario.email !== ''){
-					this.props.navigation.navigate('Prospectos')
+					this.props.pegarProspectosNoAsyncStorage()
+						.then(() => {
+							this.setState({carregando:false})
+							this.props.navigation.navigate('Prospectos')
+						})
+				}else{
+					this.setState({carregando:false})
 				}
-				this.setState({carregando:false})
-			})
 
+			})
 	}
 
 	ajudadorDeSubmissao = () => {
@@ -85,7 +91,7 @@ class LoginScreen extends React.Component {
 									this.props.alterarUsuarioNoAsyncStorage(dados)
 										.then(() => {
 											if(retorno.resultado.prospectos){
-												this.props.adicionarProspectosAoAsyncStorage(retorno.resultado.prospectos)
+												this.props.porProspectoDaSincronizacao(retorno.resultado.prospectos)
 													.then(() => {
 														this.setState({carregando:false})
 														this.props.navigation.navigate('Prospectos')
@@ -223,6 +229,8 @@ const mapDispatchToProps = (dispatch) => {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
 		pegarUsuarioNoAsyncStorage: (usuario) => dispatch(pegarUsuarioNoAsyncStorage(usuario)),
 		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
+		pegarProspectosNoAsyncStorage: (prospectos) => dispatch(pegarProspectosNoAsyncStorage(prospectos)),
+		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
 	}
 }
 
