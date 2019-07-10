@@ -58,7 +58,9 @@ class ProspectosScreen extends React.Component {
 	};
 
 	componentDidMount(){
-		this.setState({carregando:false})
+		if(this.props.prospectos){
+			this.setState({carregando:false})
+		}
 	}
 
 	novoProspecto = () => {
