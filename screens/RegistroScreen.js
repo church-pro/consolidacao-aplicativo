@@ -20,6 +20,7 @@ import {
 } from '../helpers/api'
 import {
 	alterarUsuarioNoAsyncStorage,
+	porProspectoDaSincronizacao,
 } from '../actions'
 import { connect } from 'react-redux'
 
@@ -315,6 +316,7 @@ class RegistroScreen extends React.Component {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
 	}
 }
 
