@@ -7,7 +7,7 @@ import {
 	Linking
 } from 'react-native';
 import { Card, Icon, Badge } from 'react-native-elements'
-import { white, lightdark, gold, dark } from '../helpers/colors'
+import { white, gray, gold, dark, blue } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import email from 'react-native-email'
 import {
@@ -21,6 +21,7 @@ import {
 import { alterarProspectoNoAsyncStorage, alterarAdministracao } from '../actions'
 import { connect } from 'react-redux'
 import styles from './ProspectoStyle';
+import Swipeable from 'react-native-swipeable';
 
 class Prospecto extends React.Component {
 
@@ -66,121 +67,118 @@ class Prospecto extends React.Component {
 
 	render() {
 		const { prospecto, navigation } = this.props
+
+		const rightButtons = [
+
+			<TouchableOpacity
+				onPress={() => { navigation.navigate('Prospecto', { prospecto_id: prospecto._id }) }}
+				style={{
+					flex: 1,
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'flex-start',
+					backgroundColor: blue,
+					paddingLeft: 30,
+				}}
+			>
+				<Icon name="pencil" size={22} color={white} type='font-awesome' />
+			</TouchableOpacity>,
+			<TouchableOpacity
+				style={{
+					flex: 1,
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'flex-start',
+					backgroundColor: blue,
+					paddingLeft: 30,
+				}}
+				onPress={() => { this.removerProspecto() }} >
+				<Icon name="trash" size={22} color={white} type='font-awesome' />
+			</TouchableOpacity>
+		]
+
 		return (
 
 			<Card containerStyle={styles.containerCard} key={prospecto.id}>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-					{
-						prospecto.data && prospecto.situacao_id !== SITUACAO_FECHAMENTO &&
-						<View style={styles.date}>
-							<View style={{
-								borderRadius: 9, backgroundColor: gold, borderWidth: 0,
-								paddingHorizontal: 4, paddingVertical: 2
-							}}>
-							<Text style={{ color: white, fontSize: 12 }}>
-								{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
-							</Text>
-						</View>
-					</View>
-					}
-					{
-						prospecto.rating &&
-							<View style={[styles.rating, style = { alignItems: 'center' }]}>
-								<Icon name='star' type="font-awesome" size={14} color={gold} />
-								<Text style={{ color: gold }}> {prospecto.rating} </Text>
-							</View>
-					}
-				</View>
-				<View style={styles.name_phone}>
-					<View style={styles.content}>
-						<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
-
-						{prospecto.online &&
-								<View style={{ marginLeft: 5, backgroundColor: gold, padding: 3, flexDirection: "row", borderRadius: 4, alignItems: "center" }}>
-									<Icon name="globe" type='font-awesome' color={white} size={16} containerStyle={{ marginRight: 4 }} />
-									<Text style={{ color: white }}>web</Text>
+				<Swipeable
+					rightButtons={rightButtons}
+					onRef={ref => this.swipeable = ref}
+					onSwipeStart={this.props.onSwipeStart}
+					onSwipeRelease={this.props.onSwipeRelease}
+				>
+					<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+						{
+							prospecto.data && prospecto.situacao_id !== SITUACAO_FECHAMENTO &&
+							<View style={styles.date}>
+								<View style={{
+									borderRadius: 9, backgroundColor: blue, borderWidth: 0,
+									paddingHorizontal: 4, paddingVertical: 2
+								}}>
+									<Text style={{ color: white, fontSize: 12 }}>
+										{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
+									</Text>
 								</View>
-						}
-					</View>
-
-					<View style={styles.content}>
-						<Text style={[styles.text, style = { marginTop: 5 }]}>({prospecto.ddd}) {prospecto.telefone}</Text>
-					</View>
-
-					<View style={[styles.content, style = { marginTop: 5, justifyContent: 'space-between' }]}>
-						<View style={{flexDirection: 'row'}}>
-
-							<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4 }}>
-								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.chamarOTelefoneDoCelular() }} >
-									<Icon name="phone" size={18} containerStyle={{ marginRight: 6 }} color={white} />
-									<Text style={{ color: white }}>Ligar</Text>
-								</TouchableOpacity>
 							</View>
-							<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5 }}>
-								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.whatsapp() }} >
-									<Icon name="whatsapp" size={18} color="#5FCE5F" containerStyle={{ marginRight: 6 }} type='font-awesome' />
-									<Text style={{ color: white }}>Whats</Text>
-								</TouchableOpacity>
-							</View>
-							<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5 }}>
-								<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.handleEmail() }} >
-									<Icon name="envelope" size={18} color={white} containerStyle={{ marginRight: 6 }} type='font-awesome' />
-									<Text style={{ color: white }}>Email</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
+						}
+
 					</View>
-				</View>
-
-				<View style={styles.subFooter}>
-
-					<Icon
-						name='trash'
-						type='font-awesome'
-						color={lightdark}
-						onPress={() => {
-							Alert.alert('Remover', 'Você deseja remover este prospecto?',
-								[{ text: 'Não' },
-									{ text: 'Sim', onPress: () => { this.removerProspecto() } }])
-						}
-						}
-					/>
-
-				{
-					prospecto.situacao_id === SITUACAO_QUALIFICAR &&
-						<View style={styles.footerQualificar}>
-							<Icon
-								name='pencil'
-								type='font-awesome'
-								color={lightdark}
-								onPress={() => { navigation.navigate('Prospecto', { prospecto_id: prospecto._id }) }}
-							/>
-
+					<View style={styles.name_phone}>
 						<TouchableOpacity
-							style={styles.button}
 							onPress={() => { navigation.navigate('QualificarProspecto', { prospecto_id: prospecto._id }) }}
 						>
-							<Text style={styles.textButton}>Qualificar</Text>
-						</TouchableOpacity>
-					</View>
-				}
-				{
-					prospecto.situacao_id === SITUACAO_CONVIDAR &&
-						<View style={styles.footerConvidar}>
-							<TouchableOpacity
-								style={styles.button}
-								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_APRESENTAR }) }}
-							>
-								<Text style={styles.textButton}>Marcar Apresentação</Text>
-							</TouchableOpacity>
 
-						</View>
-				}
-				{
-					prospecto.situacao_id === SITUACAO_APRESENTAR &&
-						<View style={styles.footerAPN}>
+							<View style={styles.content}>
+								<View style={{ alignItems: 'center', justifyContent: 'center' }}>
+									<Icon
+										name='star'
+										size={34}
+										color={blue}
+										type='font-awesome'
+										containerStyle={{ marginRight: 6 }}
+									/>
+									<Text style={{ position: "absolute", left: 11.4, top: 9, color: white, fontWeight: 'bold' }}>{prospecto.rating}</Text>
+								</View>
+
+								<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
+							</View>
+						</TouchableOpacity>
+
+						{/* <View style={[styles.content, style = { marginTop: 5, justifyContent: 'space-between' }]}>
 							<View style={{ flexDirection: 'row' }}>
-								<Text style={{ alignSelf: "center", marginRight: 5 }}>Apresentação feita?</Text>
+
+								<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4 }}>
+									<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.chamarOTelefoneDoCelular() }} >
+										<Icon name="phone" size={18} containerStyle={{ marginRight: 6 }} color={white} />
+										<Text style={{ color: white }}>Ligar</Text>
+									</TouchableOpacity>
+								</View>
+								<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5 }}>
+									<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.whatsapp() }} >
+										<Icon name="whatsapp" size={18} color="#5FCE5F" containerStyle={{ marginRight: 6 }} type='font-awesome' />
+										<Text style={{ color: white }}>Whats</Text>
+									</TouchableOpacity>
+								</View>
+							</View>
+						</View> */}
+
+						{
+							prospecto.situacao_id === SITUACAO_CONVIDAR &&
+							<View style={{ backgroundColor: 'transparent', marginLeft: 3, flexDirection: 'row', alignItems: 'center' }}>
+								<TouchableOpacity
+									hitSlop={{ top: 15, right: 15, bottom: 15, left: 15 }}
+									onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_APRESENTAR }) }}
+								>
+									<Icon name='list' type='font-awesome' color={gray} containerStyle={{ marginRight: 12 }} type='font-awesome' />
+								</TouchableOpacity>
+
+							</View>
+						}
+						{
+							prospecto.situacao_id === SITUACAO_APRESENTAR &&
+							<View style={{ flexDirection: 'row' }}>
+								<Text style={{
+									alignSelf: "center", marginRight: 5, color: white
+								}}>Apresentação feita?</Text>
 								<TouchableOpacity
 									style={styles.button}
 									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto._id }) }}
@@ -204,39 +202,39 @@ class Prospecto extends React.Component {
 									<Text style={styles.textButton}>Não</Text>
 								</TouchableOpacity>
 							</View>
-						</View>
-				}
-				{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
+						}
+						{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
 
-						<View style={styles.footerAcompanhar}>
-							<TouchableOpacity
-								style={styles.button}
-								onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_FECHAMENTO }) }}
-							>
-								<Text style={styles.textButton}>Remarcar</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={styles.button}
-								onPress={() => { Alert.alert('Fechar', 'Você deseja fechar este prospecto?', [{ text: 'Não' }, { text: 'Sim', onPress: () => { this.fecharProspecto() } }]) }}
-							>
-								<Text style={styles.textButton}>Fechamento</Text>
-							</TouchableOpacity>
-						</View>
-				}
-				{prospecto.situacao_id == SITUACAO_FECHAMENTO &&
-						<View style={styles.footerFechamento}>
-							<View
-								style={{
-									backgroundColor: gold, borderRadius: 9, borderWidth: 0,
-									padding: 5
-								}}
-							>
-								<Text style={styles.textButton}>Pago</Text>
+							<View style={styles.footerAcompanhar}>
+								<TouchableOpacity
+									style={styles.button}
+									onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_FECHAMENTO }) }}
+								>
+									<Text style={styles.textButton}>Remarcar</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={styles.button}
+									onPress={() => { Alert.alert('Fechar', 'Você deseja fechar este prospecto?', [{ text: 'Não' }, { text: 'Sim', onPress: () => { this.fecharProspecto() } }]) }}
+								>
+									<Text style={styles.textButton}>Fechamento</Text>
+								</TouchableOpacity>
 							</View>
-						</View>
-				}
-			</View>
-		</Card>
+						}
+						{prospecto.situacao_id == SITUACAO_FECHAMENTO &&
+							<View style={styles.footerFechamento}>
+								<View
+									style={{
+										backgroundColor: gold, borderRadius: 9, borderWidth: 0,
+										padding: 5
+									}}
+								>
+									<Text style={styles.textButton}>Pago</Text>
+								</View>
+							</View>
+						}
+					</View>
+				</Swipeable>
+			</Card>
 
 		)
 	}

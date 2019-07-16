@@ -26,6 +26,7 @@
     "react-native-notifications": "^1.5.0",
     "react-native-phone-call": "^1.0.9",
     "react-native-ratings": "^6.1.0",
+    "react-native-swipeable": "^0.6.0",
     "react-navigation": "^2.18.2",
     "react-redux": "^5.1.1",
     "redux": "^4.0.1",

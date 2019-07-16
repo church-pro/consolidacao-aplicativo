@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { lightdark, gray, white, gold, dark } from '../helpers/colors';
+import { lightdark, gray, white, gold, dark, blue } from '../helpers/colors';
 
 const styles = StyleSheet.create({
 
@@ -8,14 +8,20 @@ const styles = StyleSheet.create({
         backgroundColor: lightdark,
     },
     containerCard: {
-        backgroundColor: 'transparent', 
-        borderRadius: 6, 
+        backgroundColor: 'transparent',
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderColor: gray,
         padding: 0,
+        margin: 0,
         flexDirection: 'column',
     },
     name_phone: {
-        flexDirection: 'column',
-        padding: 8,
+        flexDirection: 'row',
+        padding: 15,
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
     },
     text: {
         color: white
@@ -41,7 +47,7 @@ const styles = StyleSheet.create({
     badgeDate: {
         backgroundColor: gold,
     },
-   
+
 
     // STYLES FOOTER
     subFooter: {
@@ -100,18 +106,18 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: white
     },
-    buttonImport:{
-        backgroundColor: gold,
+    buttonImport: {
+        backgroundColor: blue,
         borderWidth: 0,
         justifyContent: 'center',
         alignSelf: 'center',
         width: '100%',
-        height:'100%',
+        height: '100%',
     },
     textButtonImport: {
         textAlign: 'center',
-        color: dark,
-        fontSize: 17, 
+        color: white,
+        fontSize: 17,
         fontWeight: "bold"
     },
 

@@ -7,17 +7,18 @@ import {
 	StyleSheet,
 	ActivityIndicator,
 } from 'react-native';
-import { Button } from 'native-base';
 import { AirbnbRating } from 'react-native-ratings'
-import { white, lightdark, dark, gray, gold } from '../helpers/colors'
+import { white, lightdark, dark, gray, gold, black } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { alterarProspectoNoAsyncStorage } from '../actions'
 import { SITUACAO_CONVIDAR } from '../helpers/constants'
+import { LinearGradient } from 'expo'
+import CPButton from '../components/CPButton';
 
 class QualificarProspectoScreen extends React.Component {
 
 	alterarProspecto = () => {
-		this.setState({carregando: true})
+		this.setState({ carregando: true })
 		if (this.state.rating > 0) {
 			const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
 			prospecto.rating = this.state.rating
@@ -25,7 +26,7 @@ class QualificarProspectoScreen extends React.Component {
 			alterarProspectoNoAsyncStorage(prospecto)
 				.then(() => {
 					Alert.alert('Qualificado', 'Agora seu prospecto está na etapa "Convidar"')
-					this.setState({carregando: false})
+					this.setState({ carregando: false })
 					navigation.goBack()
 				})
 		} else {
@@ -49,7 +50,7 @@ class QualificarProspectoScreen extends React.Component {
 		return {
 			// title: 'Qualificar',
 			headerStyle: {
-				backgroundColor: lightdark,
+				backgroundColor: black,
 				borderBottomWidth: 0,
 			},
 			headerTitleStyle: {
@@ -70,12 +71,12 @@ class QualificarProspectoScreen extends React.Component {
 		const { carregando } = this.state
 
 		return (
-			<View style={styles.container}>
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 
 				{
-					carregando && 
-					<View style={{flex: 1, justifyContent: 'center'}}>
-						<ActivityIndicator 
+					carregando &&
+					<View style={{ flex: 1, justifyContent: 'center' }}>
+						<ActivityIndicator
 							size="large"
 							color={gold}
 						/>
@@ -84,36 +85,34 @@ class QualificarProspectoScreen extends React.Component {
 
 				{
 					!carregando &&
-						<View>
+					<View style={styles.container}>
 
-							<Text style={{ textAlign: "center", color: gray, fontSize: 18 }}>
-								Qualifique o prospecto de acordo com o nível de interesse
+						<Text style={{ textAlign: "center", color: gray, fontSize: 18 }}>
+							Qualifique o prospecto de acordo com o nível de interesse
 							</Text>
 
-							<View>
-								<Text style={styles.name}>
-									{prospecto && prospecto.nome}
-								</Text>
+						<View>
+							<Text style={styles.name}>
+								{prospecto && prospecto.nome}
+							</Text>
 
-								<AirbnbRating
-									showRating={false}
-									defaultRating={this.state.rating}
-									onFinishRating={(valor) => this.setState({ rating: valor })}
-								/>
-							</View>
-
-							<View>
-								<TouchableOpacity
-									onPress={() => this.alterarProspecto()}
-									style={styles.button}
-								>
-									<Text style={{ textAlign: "center", fontSize: 16 }}>Qualificar</Text>
-								</TouchableOpacity>
-							</View>
+							<AirbnbRating
+								showRating={false}
+								defaultRating={this.state.rating}
+								onFinishRating={(valor) => this.setState({ rating: valor })}
+							/>
 						</View>
+
+						<View>
+							<CPButton
+								title="Qualificar"
+								OnPress={() => this.alterarProspecto()}
+							/>
+						</View>
+					</View>
 				}
 
-			</View>
+			</LinearGradient>
 		)
 	}
 }
@@ -137,14 +136,13 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		padding: 10,
-		backgroundColor: lightdark,
 		justifyContent: "space-between",
 		paddingBottom: 15,
 	},
-	name:{
-		textAlign: "center", 
-		fontSize: 27, 
-		color: white, 
+	name: {
+		textAlign: "center",
+		fontSize: 27,
+		color: white,
 		paddingVertical: 6,
 	},
 	button: {

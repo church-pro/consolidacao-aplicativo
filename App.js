@@ -2,14 +2,14 @@ import React from 'react'
 import { Platform, StatusBar, StyleSheet, View } from 'react-native'
 import { AppLoading, Asset, Font, Icon } from 'expo'
 import AppNavigator from './navigation/AppNavigator'
-import {createStore, applyMiddleware} from 'redux'
-import {Provider} from 'react-redux'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import rootReducer from './reducers'
-import {Constants} from 'expo' 
-import { gray, dark } from './helpers/colors'
+import { Constants } from 'expo'
+import { gray, dark, black } from './helpers/colors'
 
-const logger = store => next => action => { 
+const logger = store => next => action => {
 	console.group(action.type)
 	console.info('DESPACHANDO ACAO: ', action)
 	let resultado = next(action)
@@ -19,10 +19,10 @@ const logger = store => next => action => {
 }
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
-function BarraDeEstado ({backgroundColor, ...props}){
+function BarraDeEstado({ backgroundColor, ...props }) {
 	return (
-		<View style={{backgroundColor, height: Constants.statusBarHeight}}>
-			<StatusBar translucent backgroundColor={backgroundColor} {...props}/>
+		<View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+			<StatusBar translucent backgroundColor={backgroundColor} {...props} />
 		</View>
 	)
 }
@@ -75,6 +75,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: Platform.OS==="ios" ? dark : gray,
+		backgroundColor: Platform.OS === "ios" ? black : gray,
 	},
 });

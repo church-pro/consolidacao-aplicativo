@@ -1,10 +1,11 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { StyleSheet, Platform } from 'react-native';
-import { Alert, Text, View, Image, TextInput, 
+import {
+	Alert, Text, View, Image, TextInput,
 	ActivityIndicator,
 	NetInfo,
 } from 'react-native';
-import { white, gold, dark } from '../helpers/colors';
+import { white, gold, dark, blue } from '../helpers/colors';
 import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,
@@ -21,16 +22,16 @@ class SincronizacaoScreen extends React.Component {
 		header: null,
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		this.sincronizar()
 	}
 
 	sincronizar = () => {
-		try{
+		try {
 			NetInfo.isConnected
 				.fetch()
 				.then(isConnected => {
-					if(isConnected){
+					if (isConnected) {
 						const {
 							usuario,
 							navigation,
@@ -38,7 +39,7 @@ class SincronizacaoScreen extends React.Component {
 							tela,
 							prospectos,
 						} = this.props
-						if(usuario.email){
+						if (usuario.email) {
 							let dados = {
 								email: usuario.email,
 								senha: usuario.senha,
@@ -46,15 +47,15 @@ class SincronizacaoScreen extends React.Component {
 							}
 							sincronizarNaAPI(dados)
 								.then(retorno => {
-									if(retorno.ok){
+									if (retorno.ok) {
 										// nao apertei sair
-										if(tela !== 'Login'){
+										if (tela !== 'Login') {
 											dados.no_id = retorno.resultado.no_id
 											dados.data_atualizacao = retorno.resultado.data_atualizacao
 											dados.hora_atualizacao = retorno.resultado.hora_atualizacao
 											delete dados.prospectos
 											alterarUsuarioNoAsyncStorage(dados)
-												.then(() =>  {
+												.then(() => {
 													// pondo prospectos retornados da api com id correto
 													let prospectosFiltrados = retorno.resultado.prospectos
 														.filter(prospecto => prospecto)
@@ -69,7 +70,7 @@ class SincronizacaoScreen extends React.Component {
 												})
 										}
 										// apertei sair
-										if(tela === 'Login'){
+										if (tela === 'Login') {
 											alterarUsuarioNoAsyncStorage({})
 												.then(() => {
 
@@ -80,31 +81,32 @@ class SincronizacaoScreen extends React.Component {
 									}
 								})
 								.catch(err => console.log('err: ', err))
-						}else{
+						} else {
 							navigation.navigate('Login')
 						}
-					}else{
+					} else {
 						Alert.alert('Internet', 'Verifique sua internet!')
 					}
 				})
-		} catch(err) {
+		} catch (err) {
 			Alert.alert('Error', err)
 		}
 	}
 
 	render() {
 		return (
-			<View style={{flex: 1, justifyContent: 'center', backgroundColor: dark}}>
-				<ActivityIndicator 
+			<View style={{ flex: 1, justifyContent: 'center', backgroundColor: dark }}>
+				<Text style={{ color: white, textAlign: 'center', fontSize: 22, marginBottom: 6 }}>Sincronizando</Text>
+				<ActivityIndicator
 					size="large"
-					color={gold}
+					color={blue}
 				/>
 			</View>
 		)
 	}
 }
 
-function mapStateToProps({usuario, prospectos}, props){
+function mapStateToProps({ usuario, prospectos }, props) {
 	const tela = props.navigation.state.params.tela
 	return {
 		tela,
@@ -113,7 +115,7 @@ function mapStateToProps({usuario, prospectos}, props){
 	}
 }
 
-function mapDispatchToProps(dispatch){
+function mapDispatchToProps(dispatch) {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
 		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
