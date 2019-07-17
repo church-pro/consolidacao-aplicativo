@@ -13,10 +13,14 @@ import {connect} from 'react-redux'
 import {Permissions, Contacts} from 'expo' 
 import { 
 	adicionarProspectosAoAsyncStorage,
+	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
 import { white, gold, lightdark, gray, dark } from '../helpers/colors'
-import { SITUACAO_QUALIFICAR } from '../helpers/constants'
+import { SITUACAO_IMPORTAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
+import {
+	pegarDataEHoraAtual
+} from '../helpers/helper'
 
 class MyListItem extends React.PureComponent {
 	_onPress = () => {
@@ -111,13 +115,14 @@ class ImportarProspectosScreen extends React.Component {
 								if(contato.phoneNumbers && contato.phoneNumbers.length){
 									let contatoNovo = {}
 									delete contatoNovo.selecionado
-									contatoNovo.situacao_id = SITUACAO_QUALIFICAR 
+									contatoNovo.situacao_id = SITUACAO_IMPORTAR
 									contatoNovo.id = Date.now() + contato.id
 									contatoNovo.nome = contato.name
 									contatoNovo.rating = null
 									contatoNovo.email = null
 									contatoNovo.online = false
 									contatoNovo.cadastroNaApi = false
+									contatoNovo.celular_id = contatoNovo.id
 									let contador = 1
 									contato.phoneNumbers.map(item => {
 										if(contador === 1){
@@ -184,21 +189,37 @@ class ImportarProspectosScreen extends React.Component {
 		} = this.state
 		const {
 			adicionarProspectosAoAsyncStorage,
+			adicionarSituacoesAoAsyncStorage,
 			navigation,
 		} = this.props
 		this.setState({carregando:true})
-		adicionarProspectosAoAsyncStorage(
+		const contatosFiltrados = 
 			contatosParaSelecionar
 			.filter(contato => selected.get(contato.id))
 			.map(contato => {
 				contato._id = contato.id
 				return contato
 			})
-		).then(() => {
-			this.setState({carregando:false})
-			Alert.alert('Importação', 'Importação concluida com sucesso!')
-			navigation.goBack()
-		})
+		adicionarProspectosAoAsyncStorage(contatosFiltrados)
+			.then(() => {
+				let situacoes = []
+				contatosFiltrados
+					.forEach(contato => {
+						const situacao = {
+							prospecto_id: contato.celular_id,
+							situacao_id: SITUACAO_IMPORTAR,
+							data_criacao: pegarDataEHoraAtual()[0],
+							hora_criacao: pegarDataEHoraAtual()[1],
+						}
+						situacoes.push(situacao)
+					})
+				adicionarSituacoesAoAsyncStorage(situacoes)
+					.then(() => {
+						this.setState({carregando:false})
+						Alert.alert('Importação', 'Importação concluida com sucesso!')
+						navigation.goBack()
+					})
+			})
 	}
 
 	render() {
@@ -252,6 +273,7 @@ class ImportarProspectosScreen extends React.Component {
 function mapDispatchToProps(dispatch){
 	return {
 		adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
+		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
 	}
 }
 

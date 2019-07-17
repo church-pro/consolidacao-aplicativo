@@ -1,8 +1,9 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '0002'
+const versaoBanco = '0003'
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
+const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
 api = 'https://church-pro-consolidacao-api.herokuapp.com'
@@ -121,4 +122,25 @@ export function submeterUsuario(usuario){
 			AsyncStorage.setItem(CHAVE_USUARIO, JSON.stringify(dados))
 			return usuario                 
 		})
+}
+
+export function recuperarSituacoes(){        
+	return AsyncStorage.getItem(CHAVE_SITUACOES)
+		.then(JSON.parse)                     
+		.then((dados) => {                    
+			if(dados === null){               
+				dados = {situacoes: []}      
+				AsyncStorage.setItem(CHAVE_SITUACOES, JSON.stringify(dados))
+			}                                 
+			return dados                      
+		})                                    
+}
+
+export function submeterSituacoes(situacoes){
+	return recuperarSituacoes()              
+		.then(dados => {                      
+			dados.situacoes = [...dados.situacoes, ...situacoes]
+			AsyncStorage.setItem(CHAVE_SITUACOES, JSON.stringify(dados))
+			return situacoes                 
+		})                                    
 }

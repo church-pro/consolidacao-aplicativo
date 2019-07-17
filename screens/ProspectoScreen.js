@@ -11,8 +11,15 @@ import { Button, Card, Icon, Input } from 'react-native-elements'
 import { white, lightdark, dark, gold } from '../helpers/colors'
 import {
 	alterarProspectoNoAsyncStorage,
+	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
+import {
+	SITUACAO_IMPORTAR
+} from '../helpers/constants'
 import { connect } from 'react-redux'
+import {
+	pegarDataEHoraAtual
+} from '../helpers/helper'
 
 class ProspectoScreen extends React.Component {
 
@@ -89,17 +96,28 @@ class ProspectoScreen extends React.Component {
 				prospecto.rating = null
 				prospecto.online = false
 				prospecto.cadastroNaApi = false
-				prospecto.situacao_id = 1
+				prospecto.situacao_id = SITUACAO_IMPORTAR
+				prospecto.celular_id = prospecto._id
 			}
 			prospecto.nome = nome
 			prospecto.ddd = ddd
 			prospecto.telefone = telefone
 			prospecto.email = email
-			this.props.alterarProspectoNoAsyncStorage(prospecto)
+
+			const situacao = {
+				prospecto_id: prospecto.celular_id,
+				situacao_id: SITUACAO_IMPORTAR,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
+			}
+			this.props.adicionarSituacoesAoAsyncStorage([situacao])
 				.then(() => {
-					this.setState({carregando:false})
-					Alert.alert('Cadastro', 'Cadastro concluido com sucesso!')
-					this.props.navigation.navigate('Prospectos')
+					this.props.alterarProspectoNoAsyncStorage(prospecto)
+						.then(() => {
+							this.setState({carregando:false})
+							Alert.alert('Cadastro', 'Cadastro concluido com sucesso!')
+							this.props.navigation.navigate('Prospectos')
+						})
 				})
 		}
 	}
@@ -276,6 +294,7 @@ const mapStateToProps = ({ prospectos }, { navigation }) => {
 const mapDispatchToProps = dispatch => {
 	return {
 		alterarProspectoNoAsyncStorage: prospecto => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
+		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
 	}
 }
 
