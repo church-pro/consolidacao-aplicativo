@@ -8,7 +8,8 @@ import {
     ActivityIndicator,
     FlatList,
 } from 'react-native';
-import { List, ListItem, Button, Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements'
+import { Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
 import { connect } from 'react-redux'
 import { Permissions, Contacts } from 'expo'
 import {
@@ -27,7 +28,7 @@ class MyListItem extends React.PureComponent {
     render() {
         const textColor = this.props.selected ? blue : white;
         return (
-            <TouchableOpacity style={{ padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: lightdark }} onPress={this._onPress}>
+            <TouchableOpacity style={{ padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: 'transparent' }} onPress={this._onPress}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ color: white }}>{this.props.title}</Text>
                     <Icon name="check" color={textColor} />
@@ -81,8 +82,7 @@ class MultiSelectList extends React.PureComponent {
 
 class ImportarProspectosScreen extends React.Component {
     static navigationOptions = {
-        title: 'Importar Prospectos',
-        headerTintColor: white,
+        header: null,
     }
 
     state = {
@@ -211,6 +211,25 @@ class ImportarProspectosScreen extends React.Component {
 
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+                <Header style={{ backgroundColor: black, borderBottomWidth: 0, paddingTop: 20 }} iosBarStyle="light-content">
+                    <Left style={{ flex: 0 }}>
+                        <TouchableOpacity
+                            style={{ backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal: 6 }}
+                            onPress={() => this.props.navigation.goBack()}>
+                            <Icon type="font-awesome" name="angle-left" color={white} size={36} />
+                        </TouchableOpacity>
+                    </Left>
+                    <Body style={{ flex: 1 }}>
+                        <Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontSize: 16 }}>Importar Prospectos</Title>
+                    </Body>
+                    <Right style={{ flex: 0 }}>
+                        <TouchableOpacity
+                            style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 6 }}
+                            onPress={() => this.props.navigation.navigate('Prospecto')}>
+                            <Icon name='plus' type='font-awesome' color={white} />
+                        </TouchableOpacity>
+                    </Right>
+                </Header>
 
                 {
                     carregando &&
@@ -234,7 +253,7 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     !carregando && contatosParaSelecionar &&
-                    <View style={{ height: 70, backgroundColor: dark, justifyContent: 'center' }}>
+                    <View style={{ height: 70, backgroundColor: blue, justifyContent: 'center' }}>
                         <TouchableOpacity style={styles.buttonImport}
                             onPress={() => { this.adicionarContatos() }}
                         >

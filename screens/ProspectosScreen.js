@@ -38,6 +38,9 @@ import {
 	recuperarHistoricoNaoSincronizado,
 	limparHistoricos,
 } from '../helpers/api'
+import AddButton from '../components/AddButton';
+import ImportarProspectosScreen from './ImportarProspectosScreen';
+import ProspectoScreen from './ProspectoScreen';
 
 class ProspectosScreen extends React.Component {
 
@@ -193,20 +196,20 @@ class ProspectosScreen extends React.Component {
 				navigation={navigation}
 			/>)
 
-		let tabInicial = 'Qualificar'
+		let tabInicial = 'Convidar'
 		if (this.props.tabInicial) {
 			tabInicial = this.props.tabInicial
 		}
 		const Tabs = createBottomTabNavigator(
 			{
-				Qualificar: {
-					screen: ListaDeProspectosQualificar,
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='star' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
+				// Qualificar: {
+				// 	screen: ListaDeProspectosQualificar,
+				// 	navigationOptions: {
+				// 		tabBarIcon: ({ tintColor }) => (
+				// 			<Icon name='star' type='font-awesome' color={tintColor} />
+				// 		),
+				// 	}
+				// },
 				Convidar: {
 					screen: ListaDeProspectosConvidar,
 					navigationOptions: {
@@ -222,6 +225,14 @@ class ProspectosScreen extends React.Component {
 							<Icon name='calendar' type='font-awesome' color={tintColor} />
 						),
 					}
+				},
+				add: {
+					screen: ProspectoScreen,
+					navigationOptions: () => ({
+						tabBarButtonComponent: () => (
+							<AddButton />
+						),
+					}),
 				},
 				Acompanhar: {
 					screen: ListaDeProspectosAcompanhar,
