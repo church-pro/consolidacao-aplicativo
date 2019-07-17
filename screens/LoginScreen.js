@@ -1,15 +1,13 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import { StyleSheet, Platform } from 'react-native';
-import { Alert, Text, View, Image, TextInput, 
-	KeyboardAvoidingView, 
+import {
+	Alert, Text, View, Image, TextInput,
 	TouchableOpacity,
 	ActivityIndicator,
 	NetInfo,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { dark, white, gray, gold, lightdark } from '../helpers/colors';
-import logo from '../assets/images/logo-word.png'
-import { Icon } from 'native-base';
+import { dark, white, gray, gold, lightdark, black } from '../helpers/colors';
 import {
 	alterarUsuarioNoAsyncStorage,
 	pegarUsuarioNoAsyncStorage,
@@ -21,6 +19,8 @@ import {
 	sincronizarNaAPI,
 } from '../helpers/api'
 import { connect } from 'react-redux'
+import CPButton from '../components/CPButton';
+import { LinearGradient } from 'expo'
 
 class LoginScreen extends React.Component {
 
@@ -35,19 +35,19 @@ class LoginScreen extends React.Component {
 		carregando: false,
 	}
 
-	componentDidMount(){
-		this.setState({carregando:true})
+	componentDidMount() {
+		this.setState({ carregando: true })
 
 		this.props.pegarUsuarioNoAsyncStorage()
 			.then(usuario => {
-				if(usuario.email && usuario.email !== ''){
+				if (usuario.email && usuario.email !== '') {
 					this.props.pegarProspectosNoAsyncStorage()
 						.then(() => {
-							this.setState({carregando:false})
+							this.setState({ carregando: false })
 							this.props.navigation.navigate('Prospectos')
 						})
-				}else{
-					this.setState({carregando:false})
+				} else {
+					this.setState({ carregando: false })
 				}
 
 			})
@@ -74,9 +74,9 @@ class LoginScreen extends React.Component {
 			NetInfo.isConnected
 				.fetch()
 				.then(isConnected => {
-					if(isConnected){
+					if (isConnected) {
 
-						this.setState({carregando:true})
+						this.setState({ carregando: true })
 						const dados = {
 							email,
 							senha,
@@ -84,28 +84,28 @@ class LoginScreen extends React.Component {
 						}
 						sincronizarNaAPI(dados)
 							.then(retorno => {
-								if(retorno.ok){
+								if (retorno.ok) {
 									dados.no_id = retorno.resultado.no_id
 									dados.data_atualizacao = retorno.resultado.data_atualizacao ? retorno.resultado.data_atualizacao : null
 									dados.hora_atualizacao = retorno.resultado.hora_atualizacao ? retorno.resultado.hora_atualizacao : null
 									this.props.alterarUsuarioNoAsyncStorage(dados)
 										.then(() => {
-											if(retorno.resultado.prospectos){
+											if (retorno.resultado.prospectos) {
 												this.props.porProspectoDaSincronizacao(retorno.resultado.prospectos)
 													.then(() => {
-														this.setState({carregando:false})
+														this.setState({ carregando: false })
 														this.props.navigation.navigate('Prospectos')
 													})
 											}
-											this.setState({carregando:false})
+											this.setState({ carregando: false })
 											this.props.navigation.navigate('Prospectos')
 										})
-								}else{
-									this.setState({carregando:false})
+								} else {
+									this.setState({ carregando: false })
 									Alert.alert('Aviso', 'Usuário/Senha não conferem!')
 								}
 							})
-					}else{
+					} else {
 						Alert.alert('Internet', 'Verifique sua internet!')
 					}
 				})
@@ -120,46 +120,43 @@ class LoginScreen extends React.Component {
 			carregando,
 		} = this.state
 		return (
-			<KeyboardAwareScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: dark }}
-				enableOnAndroid enableAutomaticScroll={true}
-				keyboardShoulfPersistTaps='always'
-				extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#404040']}>
+				<KeyboardAwareScrollView
+					contentContainerStyle={styles.container}
+					enableOnAndroid enableAutomaticScroll={true}
+					keyboardShoulfPersistTaps='always'
+					extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
-				{
-					carregando && 
-					<View style={{flex: 1, justifyContent: 'center'}}>
-						<ActivityIndicator 
-							size="large"
-							color={gold}
-						/>
-					</View>
-				}
+					{
+						carregando &&
+						<View style={{ flex: 1, justifyContent: 'center' }}>
+							<ActivityIndicator
+								size="large"
+								color={gold}
+							/>
+						</View>
+					}
 
-				{
-					!carregando &&
+					{
+						!carregando &&
 						<Fragment>
 
-							<View>
-								<Text
-									style={{color: '#FFFFFF'}}>
-									Church Pro Consolidação	
+							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+								<Text style={{ color: '#FFFFFF', fontSize: 26 }}>
+									Church Pro
+								</Text>
+								<Text style={{ color: '#FFFFFF', fontSize: 20 }}>
+									Consolidação
 								</Text>
 							</View>
 
-							<View style={styles.containerLogin}>
-								<View>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='envelope' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Email</Text>
-									</View>
+							<View style={{ flex: 1 }}>
+								<View style={[styles.containerInput, { borderBottomWidth: 1, borderBottomColor: gray, borderTopLeftRadius: 6, borderTopRightRadius: 6 }]}>
 									<TextInput style={styles.inputText}
 										keyboardAppearance='dark'
 										autoCapitalize="none"
 										placeholderTextColor="#d3d3d3"
+										placeholder="Seu Email"
 										selectionColor="#fff"
 										keyboardType="email-address"
 										value={email}
@@ -168,17 +165,12 @@ class LoginScreen extends React.Component {
 										onSubmitEditing={() => this.inputSenha.focus()}
 									/>
 								</View>
-								<View style={{ marginTop: 18 }}>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='lock' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Senha</Text>
-									</View>
+								<View style={[styles.containerInput, { borderBottomLeftRadius: 6, borderBottomRightRadius: 6 }]}>
 									<TextInput style={styles.inputText}
 										ref={(input) => { this.inputSenha = input; }}
 										keyboardAppearance='dark'
 										placeholderTextColor="#d3d3d3"
+										placeholder="Senha"
 										selectionColor="#fff"
 										keyboardType='default'
 										secureTextEntry={true}
@@ -188,36 +180,36 @@ class LoginScreen extends React.Component {
 										onSubmitEditing={() => this.ajudadorDeSubmissao()}
 									/>
 								</View>
+								<View>
+									<CPButton
+										title="Entrar"
+										OnPress={() => this.ajudadorDeSubmissao()}
+									/>
+								</View>
 							</View>
 
-							<View>
-								<TouchableOpacity
-									style={styles.button}
-									onPress={() => this.ajudadorDeSubmissao()}>
-									<Text style={styles.textButton}>Logar</Text>
-								</TouchableOpacity>
-							</View>
 
 							<View style={styles.containerButton}>
 
 								<TouchableOpacity
 									style={[styles.button, style = { backgroundColor: 'transparent' }]}
 									onPress={() => this.props.navigation.navigate('Registro')}>
-									<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Crie sua conta</Text>
+									<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Ainda não tem uma conta? Crie aqui!</Text>
 								</TouchableOpacity>
 							</View>
 
-						 </Fragment>
-				}
-			</KeyboardAwareScrollView>
+						</Fragment>
+					}
+				</KeyboardAwareScrollView>
+			</LinearGradient>
 		)
 	}
 }
 
 const mapStateToProps = (state, props) => {
 	let tipo = null
-	if(props.navigation.state.params && props.navigation.state.params.tipo){
-		tipo =  props.navigation.state.params.tipo
+	if (props.navigation.state.params && props.navigation.state.params.tipo) {
+		tipo = props.navigation.state.params.tipo
 	}
 	return {
 		tipo,
@@ -239,33 +231,26 @@ export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: dark,
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		alignItems: 'stretch',
+		padding: 20,
 	},
 	logo: {
 		alignSelf: 'center',
 		width: Platform.OS === "ios" ? 200 : 180,
 		height: Platform.OS === "ios" ? 115 : 105,
 	},
-	containerLogin: {
-		height: 210,
-		margin: 12,
-		backgroundColor: lightdark,
-		borderRadius: 10,
-		justifyContent: 'center',
-		padding: 14,
+	containerInput: {
+		backgroundColor: black,
+		height: 45,
 	},
 	inputText: {
-		paddingVertical: 5,
 		fontSize: 16,
 		color: white,
-		borderRadius: 6,
 		fontWeight: '400',
-		borderBottomWidth: 1,
-		borderBottomColor: white,
-
+		height: 45,
+		paddingHorizontal: 4
 	},
 	containerButton: {
 		marginBottom: 6,

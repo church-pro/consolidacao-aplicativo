@@ -2,18 +2,13 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import {
 	Alert,
-	Text,
 	View,
-	Image,
-	TextInput,
-	KeyboardAvoidingView,
-	TouchableOpacity,
 	NetInfo,
 	ActivityIndicator,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { dark, white, gray, gold, lightdark } from '../helpers/colors';
-import logo from '../assets/images/logo-word.png'
+import { dark, white, gray, gold, lightdark, black } from '../helpers/colors';
+import { Input } from 'react-native-elements'
 import { Icon } from 'native-base';
 import {
 	registrarNaAPI,
@@ -23,6 +18,8 @@ import {
 	porProspectoDaSincronizacao,
 } from '../actions'
 import { connect } from 'react-redux'
+import { LinearGradient } from 'expo'
+import CPButton from '../components/CPButton';
 
 class RegistroScreen extends React.Component {
 
@@ -159,59 +156,62 @@ class RegistroScreen extends React.Component {
 			rede_id,
 		} = this.state
 		return (
-			<KeyboardAwareScrollView
-				contentContainerStyle={styles.container}
-				style={{ backgroundColor: lightdark }}
-				keyboardShoulfPersistTaps='always'
-				enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				<KeyboardAwareScrollView
+					contentContainerStyle={styles.container}
+					keyboardShoulfPersistTaps='always'
+					enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 
-				{
-					carregando &&
+					{
+						carregando &&
 						<View style={{ flex: 1, justifyContent: 'center' }}>
 							<ActivityIndicator
 								size="large"
-								color={gold}
+								color={blue}
 							/>
 						</View>
-				}
+					}
 
-				{
-					!carregando &&
+					{
+						!carregando &&
 						<View>
 							<View style={styles.containerLogin}>
-								<View>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='user' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Nome</Text>
-									</View>
-									<TextInput style={styles.inputText}
-										keyboardAppearance='dark'
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
-										value={nome}
-										onChangeText={texto => this.setState({ nome: texto })}
-										ref={(input) => { this.inputNome = input; }}
-										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputDDD.focus()}
-									/>
-								</View>
+								<Input
+									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									underlineColorAndroid="transparent"
+									keyboardAppearance='dark'
+									onSubmitEditing={() => this.inputDDD.focus()}
+									returnKeyType="next"
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="NOME"
+									inputStyle={{ color: white, marginLeft: 5 }}
+									labelStyle={{ marginTop: 5, color: white }}
+									value={nome}
+									onChangeText={texto => this.setState({ nome: texto })}
+									returnKeyType={'next'}
+									onSubmitEditing={() => this.inputDDD.focus()}
+
+								/>
 
 								<View style={{ marginTop: 8, flexDirection: "row" }}>
-									<View style={{ width: 50, marginRight: 10 }}>
-										<View style={{ flexDirection: 'row' }}>
-											<Icon name='phone' type='FontAwesome'
-												style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-											/>
-											<Text style={{ color: gold }}>DDD</Text>
-										</View>
-										<TextInput style={[styles.inputText, style = { textAlign: 'center' }]}
-											keyboardAppearance='dark'
-											maxLength={2}
-											placeholderTextColor="#d3d3d3"
-											selectionColor="#fff"
+
+									<View style={{ marginRight: 6 }}>
+										<Input
+											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10, paddingHorizontal: 15 }}
+											inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+											underlineColorAndroid="transparent"
 											keyboardType='phone-pad'
+											keyboardAppearance='dark'
+											placeholder=""
+											placeholderTextColor={'#ddd'}
+											autoCorrect={false}
+											label="DDD"
+											maxLength={2}
+											inputStyle={{ color: white, marginLeft: 5 }}
+											labelStyle={{ marginTop: 5, color: white }}
 											value={ddd}
 											onChangeText={texto => this.setState({ ddd: texto })}
 											ref={(input) => { this.inputDDD = input; }}
@@ -221,14 +221,18 @@ class RegistroScreen extends React.Component {
 									</View>
 
 									<View style={{ flex: 1 }}>
-										<View style={{ flexDirection: 'row' }}>
-											<Text style={{ color: gold }}>Telefone</Text>
-										</View>
-										<TextInput style={styles.inputText}
-											keyboardAppearance='dark'
-											placeholderTextColor="#d3d3d3"
-											selectionColor="#fff"
+										<Input
+											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
+											inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+											underlineColorAndroid="transparent"
 											keyboardType='phone-pad'
+											keyboardAppearance='dark'
+											placeholder=""
+											placeholderTextColor={'#ddd'}
+											autoCorrect={false}
+											label="TELEFONE"
+											inputStyle={{ color: white, marginLeft: 5 }}
+											labelStyle={{ marginTop: 5, color: white }}
 											value={telefone}
 											onChangeText={texto => this.setState({ telefone: texto })}
 											ref={(input) => { this.inputTelefone = input; }}
@@ -239,18 +243,19 @@ class RegistroScreen extends React.Component {
 								</View>
 
 								<View style={{ marginTop: 8 }}>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='envelope' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Email</Text>
-									</View>
-									<TextInput style={styles.inputText}
+									<Input
+										containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+										inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+										underlineColorAndroid="transparent"
+										keyboardType='email-address'
 										keyboardAppearance='dark'
 										autoCapitalize="none"
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
-										keyboardType="email-address"
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label="EMAIL"
+										inputStyle={{ color: white, marginLeft: 5 }}
+										labelStyle={{ marginTop: 5, color: white }}
 										value={email}
 										onChangeText={texto => this.setState({ email: texto })}
 										ref={(input) => { this.inputEmail = input; }}
@@ -259,56 +264,56 @@ class RegistroScreen extends React.Component {
 									/>
 								</View>
 
-								<View style={{ marginTop: 8 }}>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='lock' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Senha</Text>
-									</View>
-									<TextInput style={styles.inputText}
-										keyboardAppearance='dark'
-										autoCapitalize="none"
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
-										keyboardType='default'
-										secureTextEntry={true}
-										value={senha}
-										onChangeText={texto => this.setState({ senha: texto })}
-										ref={(input) => { this.inputSenha = input; }}
-										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputRede.focus()}
-									/>
-								</View>
+								<Input
+									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									underlineColorAndroid="transparent"
+									keyboardType='visible-password'
+									secureTextEntry={true}
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="SENHA"
+									inputStyle={{ color: white, marginLeft: 5 }}
+									labelStyle={{ marginTop: 5, color: white }}
+									value={senha}
+									onChangeText={texto => this.setState({ senha: texto })}
+									ref={(input) => { this.inputSenha = input; }}
+									returnKeyType={'go'}
+									onSubmitEditing={() => this.ajudadorDeSubmissao()}
+								/>
 
-								<View style={{ marginTop: 8 }}>
-									<View style={{ flexDirection: 'row' }}>
-										<Icon name='envelope' type='FontAwesome'
-											style={{ fontSize: 16, marginRight: 5, color: gold, marginLeft: 2 }}
-										/>
-										<Text style={{ color: gold }}>Identificação da Rede</Text>
-									</View>
-									<TextInput style={styles.inputText}
-										keyboardAppearance='dark'
-										placeholderTextColor="#d3d3d3"
-										selectionColor="#fff"
-										value={rede_id}
-										onChangeText={texto => this.setState({ rede_id: texto })}
-										ref={(input) => { this.inputRede = input; }}
-										returnKeyType={'go'}
-										onSubmitEditing={() => this.ajudadorDeSubmissao()}
-									/>
-								</View>
+								<Input
+									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									underlineColorAndroid="transparent"
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="IDENTIFICAÇÃO DA REDE"
+									inputStyle={{ color: white, marginLeft: 5 }}
+									labelStyle={{ marginTop: 5, color: white }}
+									value={rede_id}
+									onChangeText={texto => this.setState({ rede_id: texto })}
+									ref={(input) => { this.inputSenha = input; }}
+									returnKeyType={'go'}
+									onSubmitEditing={() => this.ajudadorDeSubmissao()}
+								/>
+
 							</View>
-						<TouchableOpacity style={styles.button} onPress={() => this.ajudadorDeSubmissao()}>
-							<Text style={styles.textButton}>Registrar</Text>
-						</TouchableOpacity>
 
-					</View>
-				}
+							<CPButton
+								title='Registrar'
+								OnPress={() => this.ajudadorDeSubmissao()}
+							/>
 
-			</KeyboardAwareScrollView>
+						</View>
+					}
 
+				</KeyboardAwareScrollView>
+			</LinearGradient>
 		)
 	}
 }
@@ -325,44 +330,7 @@ export default connect(null, mapDispatchToProps)(RegistroScreen)
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: lightdark,
-		flexDirection: 'column',
-		justifyContent: 'flex-start',
+		padding: 20,
 	},
-	logo: {
-		alignSelf: 'center',
-		width: 205,
-		height: 120,
-	},
-	containerLogin: {
-		height: 280,
-		margin: 12,
-		backgroundColor: dark,
-		borderRadius: 10,
-		justifyContent: 'center',
-		padding: 14,
-	},
-	inputText: {
-		paddingVertical: 5,
-		fontSize: 16,
-		color: white,
-		borderRadius: 6,
-		fontWeight: '400',
-		borderBottomWidth: 1,
-		borderBottomColor: white,
-
-	},
-	button: {
-		backgroundColor: gold,
-		height: 50,
-		borderRadius: 10,
-		justifyContent: 'center',
-		margin: 12,
-	},
-	textButton: {
-		fontSize: 16,
-		color: white,
-		textAlign: 'center',
-	}
 })
 

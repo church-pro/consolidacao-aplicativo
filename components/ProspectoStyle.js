@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
     sideMenu: {
         flex: 1,
         alignItems: 'flex-start',
-        backgroundColor: dark,
     },
     imgLogo: {
         height: 85,

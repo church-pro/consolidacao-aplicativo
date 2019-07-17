@@ -8,6 +8,8 @@ import {
 	scheduleNotification,
 	cancelarTodasNotificacoes,
 } from '../helpers/helper'
+import { LinearGradient } from 'expo'
+import { black, dark, lightdark } from '../helpers/colors';
 
 class SideBar extends React.Component {
 
@@ -21,25 +23,27 @@ class SideBar extends React.Component {
 					onPress: () => console.log('Cancel Pressed'),
 					style: 'cancel',
 				},
-				{text: 'Sim', onPress: () => this.props.navigation.navigate('Sincronizacao', {tela: 'Login'})},
+				{ text: 'Sim', onPress: () => this.props.navigation.navigate('Sincronizacao', { tela: 'Login' }) },
 			],
-			{cancelable: false},
+			{ cancelable: false },
 		)
 
 	}
 
 	render() {
 		return (
-			<View style={styles.sideMenu}>
-				<Image style={styles.imgLogo} source={require('../assets/images/logo.png')} />
-				<Button 
-					style={{ backgroundColor: 'transparent', height: 80 }}
-					onPress={() => this.sair()}>
-					<Text style={styles.textMenu}>
-						Sair
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#404040']}>
+				<View style={styles.sideMenu}>
+					<Image style={styles.imgLogo} source={require('../assets/images/logo.png')} />
+					<Button
+						style={{ backgroundColor: 'transparent', height: 80 }}
+						onPress={() => this.sair()}>
+						<Text style={styles.textMenu}>
+							Sair
 					</Text>
-				</Button>
-			</View>
+					</Button>
+				</View>
+			</LinearGradient>
 		)
 	}
 }
