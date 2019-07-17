@@ -17,8 +17,8 @@ import { LinearGradient } from 'expo'
 import { white, gold, dark, lightdark, black, blue } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
-import { 
-	SITUACAO_IMPORTAR, 
+import {
+	SITUACAO_IMPORTAR,
 	SITUACAO_MENSAGEM,
 	SITUACAO_LIGAR,
 	SITUACAO_VISITA,
@@ -144,16 +144,16 @@ class ProspectosScreen extends React.Component {
 			pendente,
 		} = this.state
 
-	const dadosListagem = [
+		const dadosListagem = [
 			{
 				label: 'Mensagem',
 				tipo: SITUACAO_IMPORTAR,
-				icone: 'star',
+				icone: 'phone',
 			},
 			{
 				label: 'Ligar',
 				tipo: SITUACAO_LIGAR,
-				icone: 'star',
+				icone: 'calendar',
 			},
 			{
 				label: 'Adicionar',
@@ -162,37 +162,37 @@ class ProspectosScreen extends React.Component {
 			{
 				label: 'Visita',
 				tipo: SITUACAO_VISITA,
-				icone: 'star',
+				icone: 'info-circle',
 			},
 			{
 				label: 'Evento',
 				tipo: SITUACAO_EVENTO,
-				icone: 'star',
+				icone: 'trophy',
 			},
 		]
 
 		let componentesDaTab = {}
 		dadosListagem.forEach(item => {
 
-			if(item.tipo){
+			if (item.tipo) {
 
-				const componenteLista =	(props) => (
-					<ListaDeProspectos 
+				const componenteLista = (props) => (
+					<ListaDeProspectos
 						title={item.label}
-						prospectos={prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)} 
+						prospectos={prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)}
 						navigation={navigation}
 					/>)
 
 				componentesDaTab[[item.label]] = {
-					screen: componenteLista, 
+					screen: componenteLista,
 					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => ( <Icon name={item.icone} type='font-awesome' color={tintColor} />),
+						tabBarIcon: ({ tintColor }) => (<Icon name={item.icone} type='font-awesome' color={tintColor} />),
 					}
 				}
 
 			}
 
-			if(item.tipo === null){
+			if (item.tipo === null) {
 
 				componentesDaTab.adicionar = {
 					screen: ImportarProspectosScreen,
@@ -207,7 +207,7 @@ class ProspectosScreen extends React.Component {
 		})
 
 		let tabInicial = 'Mensagem'
-		if(this.props.tabInicial){
+		if (this.props.tabInicial) {
 			tabInicial = this.props.tabInicial
 		}
 		const Tabs = createBottomTabNavigator(
