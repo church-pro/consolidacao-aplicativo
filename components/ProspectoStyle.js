@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     },
     textMenu: {
         color: white,
-        fontSize: 36,
+        fontSize: 32,
         fontWeight: '200',
         paddingVertical: 30,
         marginLeft: 20

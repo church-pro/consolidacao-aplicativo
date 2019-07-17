@@ -9,7 +9,7 @@ import {
 	cancelarTodasNotificacoes,
 } from '../helpers/helper'
 import { LinearGradient } from 'expo'
-import { black, dark, lightdark } from '../helpers/colors';
+import { black, dark, lightdark, white } from '../helpers/colors';
 
 class SideBar extends React.Component {
 
@@ -34,7 +34,10 @@ class SideBar extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#404040']}>
 				<View style={styles.sideMenu}>
-					<Image style={styles.imgLogo} source={require('../assets/images/logo.png')} />
+					<View style={{ marginTop: 25, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+						<Text style={{ fontSize: 22, color: white, textAlign: "center", fontWeight: "bold" }}>CHURCH PRO</Text>
+						<Text style={{ fontSize: 18, color: white, textAlign: "center" }}>CONSOLIDAÇÃO</Text>
+					</View>
 					<Button
 						style={{ backgroundColor: 'transparent', height: 80 }}
 						onPress={() => this.sair()}>
