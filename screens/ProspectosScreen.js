@@ -17,13 +17,12 @@ import { LinearGradient } from 'expo'
 import { white, gold, dark, lightdark, black, blue } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
-import {
-	SITUACAO_QUALIFICAR,
-	SITUACAO_CONVIDAR,
-	SITUACAO_APRESENTAR,
-	SITUACAO_ACOMPANHAR,
-	SITUACAO_FECHAMENTO,
-	SITUACAO_REMOVIDO,
+import { 
+	SITUACAO_IMPORTAR, 
+	SITUACAO_MENSAGEM,
+	SITUACAO_LIGAR,
+	SITUACAO_VISITA,
+	SITUACAO_EVENTO
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 import {
@@ -145,112 +144,74 @@ class ProspectosScreen extends React.Component {
 			pendente,
 		} = this.state
 
-		const ListaDeProspectosQualificar = (props) => (
-			<View style={{ flex: 1 }}>
-				<ListaDeProspectos
-					title={'Qualificar'}
-					prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_QUALIFICAR)}
-					navigation={navigation}
-				/>
-
-				<ActionButton buttonColor={gold} buttonTextStyle={{ color: blue }} spacing={15} offsetX={20} offsetY={20} >
-					<ActionButton.Item size={40} buttonColor={blue}
-						onPress={() => {
-							this.props.navigation.navigate('Prospecto')
-						}}
-					>
-						<Icon name='add' color={dark} />
-					</ActionButton.Item>
-					<ActionButton.Item size={40} buttonColor={blue}
-						onPress={() => {
-							this.props.navigation.navigate('ImportarProspectos')
-						}}>
-						<Icon name='address-book' type='font-awesome' color={dark} />
-					</ActionButton.Item>
-				</ActionButton>
-
-			</View>
-		)
-		const ListaDeProspectosConvidar = (props) => (
-			<ListaDeProspectos
-				title={'Convidar'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CONVIDAR)}
-				navigation={navigation}
-			/>)
-		const ListaDeProspectosApresentar = (props) => (
-			<ListaDeProspectos
-				title={'Apresentar'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_APRESENTAR)}
-				navigation={navigation}
-			/>)
-		const ListaDeProspectosAcompanhar = (props) => (
-			<ListaDeProspectos
-				title={'Acompanhar'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_ACOMPANHAR)}
-				navigation={navigation}
-			/>)
-		const ListaDeProspectosFechamento = (props) => (
-			<ListaDeProspectos
-				title={'Fechamento'}
-				prospectos={prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_FECHAMENTO)}
-				navigation={navigation}
-			/>)
-
-		let tabInicial = 'Convidar'
-		if (this.props.tabInicial) {
-			tabInicial = this.props.tabInicial
-		}
-		const Tabs = createBottomTabNavigator(
+	const dadosListagem = [
 			{
-				// Qualificar: {
-				// 	screen: ListaDeProspectosQualificar,
-				// 	navigationOptions: {
-				// 		tabBarIcon: ({ tintColor }) => (
-				// 			<Icon name='star' type='font-awesome' color={tintColor} />
-				// 		),
-				// 	}
-				// },
-				Convidar: {
-					screen: ListaDeProspectosConvidar,
+				label: 'Mensagem',
+				tipo: SITUACAO_IMPORTAR,
+				icone: 'star',
+			},
+			{
+				label: 'Ligar',
+				tipo: SITUACAO_LIGAR,
+				icone: 'star',
+			},
+			{
+				label: 'Adicionar',
+				tipo: null,
+			},
+			{
+				label: 'Visita',
+				tipo: SITUACAO_VISITA,
+				icone: 'star',
+			},
+			{
+				label: 'Evento',
+				tipo: SITUACAO_EVENTO,
+				icone: 'star',
+			},
+		]
+
+		let componentesDaTab = {}
+		dadosListagem.forEach(item => {
+
+			if(item.tipo){
+
+				const componenteLista =	(props) => (
+					<ListaDeProspectos 
+						title={item.label}
+						prospectos={prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)} 
+						navigation={navigation}
+					/>)
+
+				componentesDaTab[[item.label]] = {
+					screen: componenteLista, 
 					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='phone' type='font-awesome' color={tintColor} />
-						),
+						tabBarIcon: ({ tintColor }) => ( <Icon name={item.icone} type='font-awesome' color={tintColor} />),
 					}
-				},
-				Apresentar: {
-					screen: ListaDeProspectosApresentar,
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='calendar' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				add: {
-					screen: ProspectoScreen,
+				}
+
+			}
+
+			if(item.tipo === null){
+
+				componentesDaTab.adicionar = {
+					screen: ImportarProspectosScreen,
 					navigationOptions: () => ({
 						tabBarButtonComponent: () => (
 							<AddButton />
 						),
 					}),
-				},
-				Acompanhar: {
-					screen: ListaDeProspectosAcompanhar,
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='info-circle' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-				Fechamento: {
-					screen: ListaDeProspectosFechamento,
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (
-							<Icon name='trophy' type='font-awesome' color={tintColor} />
-						),
-					}
-				},
-			},
+				}
+
+			}
+		})
+
+		let tabInicial = 'Mensagem'
+		if(this.props.tabInicial){
+			tabInicial = this.props.tabInicial
+		}
+		const Tabs = createBottomTabNavigator(
+			componentesDaTab,
 			{
 				initialRouteName: tabInicial,
 				tabBarOptions: {

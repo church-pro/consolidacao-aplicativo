@@ -6,6 +6,8 @@ import {
 	submeterUsuario,
 	limparProspectos,
 	limparESubmeterProspectos,
+	recuperarSituacoes,
+	submeterSituacoes,
 } from '../helpers/api'
 import{
 	pegarDataEHoraAtual,
@@ -19,6 +21,8 @@ export const PEGAR_ADMINISTRACAO = 'PEGAR_ADMINISTRACAO'
 export const ALTERAR_ADMINISTRACAO = 'ALTERAR_ADMINISTRACAO'
 export const PEGAR_USUARIO = 'PEGAR_USUARIO'
 export const ALTERAR_USUARIO = 'ALTERAR_USUARIO'
+export const PEGAR_SITUACOES = 'PEGAR_SITUACOES'
+export const ADICIONAR_SITUACOES = 'ADICIONAR_SITUACOES'
 
 export function limparProspectosNoState(){ 
 	return {
@@ -72,6 +76,20 @@ export function alterarUsuario(usuario){
 	return {
 		type: ALTERAR_USUARIO,
 		usuario,
+	}
+}
+
+export function pegarSituacoes(situacoes){ 
+	return {
+		type: PEGAR_SITUACOES,
+		situacoes,
+	}
+}
+
+export function adicionarSituacoes(situacoes){ 
+	return {
+		type: ADICIONAR_SITUACOES,
+		situacoes,
 	}
 }
 
@@ -135,5 +153,21 @@ export const porProspectoDaSincronizacao = (prospectos) => dispatch => {
 		.then(prospectos => {
 			dispatch(pegarProspectos(prospectos))
 			return prospectos
+		})
+}
+
+export const pegarSituacoesNoAsyncStorage = () => dispatch => {
+	return recuperarSituacoes()
+		.then(situacoesNaAsyncStorage => {
+			dispatch(pegarSituacoes(situacoesNaAsyncStorage.situacoes))
+			return situacoesNaAsyncStorage.situacoes 
+		})
+}
+
+export const adicionarSituacoesAoAsyncStorage = (situacoes) => dispatch => {
+	return submeterSituacoes(situacoes)
+		.then(prospectos => {
+			dispatch(adicionarSituacoes(situacoes))
+			return true
 		})
 }

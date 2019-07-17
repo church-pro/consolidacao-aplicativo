@@ -12,13 +12,18 @@ import { Icon } from 'react-native-elements'
 import { Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
 import { connect } from 'react-redux'
 import { Permissions, Contacts } from 'expo'
-import {
-    adicionarProspectosAoAsyncStorage,
-} from '../actions'
 import { white, gold, lightdark, gray, dark, black, blue } from '../helpers/colors'
-import { SITUACAO_QUALIFICAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 import { LinearGradient } from 'expo'
+import { 
+	adicionarProspectosAoAsyncStorage,
+	adicionarSituacoesAoAsyncStorage,
+} from '../actions'
+import { SITUACAO_IMPORTAR } from '../helpers/constants'
+import styles from '../components/ProspectoStyle';
+import {
+	pegarDataEHoraAtual
+} from '../helpers/helper'
 
 class MyListItem extends React.PureComponent {
     _onPress = () => {
@@ -101,71 +106,72 @@ class ImportarProspectosScreen extends React.Component {
         });
     };
 
-    componentDidMount() {
-        let contatosParaSelecionar = []
-        Permissions.askAsync(Permissions.CONTACTS)
-            .then(({ status }) => {
-                if (status === 'granted') {
-                    Contacts.getContactsAsync()
-                        .then(data => {
-                            data.data.map(contato => {
-                                if (contato.phoneNumbers && contato.phoneNumbers.length) {
-                                    let contatoNovo = {}
-                                    delete contatoNovo.selecionado
-                                    contatoNovo.situacao_id = SITUACAO_QUALIFICAR
-                                    contatoNovo.id = Date.now() + contato.id
-                                    contatoNovo.nome = contato.name
-                                    contatoNovo.rating = null
-                                    contatoNovo.email = null
-                                    contatoNovo.online = false
-                                    contatoNovo.cadastroNaApi = false
-                                    let contador = 1
-                                    contato.phoneNumbers.map(item => {
-                                        if (contador === 1) {
-                                            let ddd = 61
-                                            let telefoneTexto = item.number.toString()
-                                            telefoneTexto = telefoneTexto.replace('-', '')
-                                            telefoneTexto = telefoneTexto.replace(' ', '')
-                                            telefoneTexto = telefoneTexto.replace('+', '')
-                                            telefoneTexto = telefoneTexto.replace('(', '')
-                                            telefoneTexto = telefoneTexto.replace(')', '')
-                                            let telefone = telefoneTexto
-                                            const tamanhoDoNumero = telefoneTexto.length
-                                            if (tamanhoDoNumero > 9) {
-                                                telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
-                                                if (parseInt(telefone.substr(0, 1)) !== 9) {
-                                                    telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
-                                                }
-                                            }
-                                            if (tamanhoDoNumero >= 11) {
-                                                let valorParaReduzir = 11
-                                                if (parseInt(telefoneTexto.substr(0, 1)) === 0) {
-                                                    valorParaReduzir = 10
-                                                }
-                                                ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
-                                                if (parseInt(ddd).toString().length !== 2) {
-                                                    ddd = '61'
-                                                }
-                                            }
-                                            contatoNovo.ddd = ddd
-                                            contatoNovo.telefone = telefone
-                                            contatoNovo.title = `${contatoNovo.nome} - (${contatoNovo.ddd}) ${contatoNovo.telefone}`
-                                            contatosParaSelecionar.push(contatoNovo)
-                                            contador++
-                                        }
-                                    })
-                                }
-                            })
-                            if (contatosParaSelecionar.length) {
-                                this.setState({
-                                    contatosParaSelecionar,
-                                    carregando: false
-                                })
-                            }
-                        })
-                }
-            })
-    }
+	componentDidMount(){
+		let contatosParaSelecionar = []
+		Permissions.askAsync(Permissions.CONTACTS)
+			.then(({status}) => {
+				if(status === 'granted'){
+					Contacts.getContactsAsync()
+						.then(data => {
+							data.data.map(contato => {
+								if(contato.phoneNumbers && contato.phoneNumbers.length){
+									let contatoNovo = {}
+									delete contatoNovo.selecionado
+									contatoNovo.situacao_id = SITUACAO_IMPORTAR
+									contatoNovo.id = Date.now() + contato.id
+									contatoNovo.nome = contato.name
+									contatoNovo.rating = null
+									contatoNovo.email = null
+									contatoNovo.online = false
+									contatoNovo.cadastroNaApi = false
+									contatoNovo.celular_id = contatoNovo.id
+									let contador = 1
+									contato.phoneNumbers.map(item => {
+										if(contador === 1){
+											let ddd = 61
+											let telefoneTexto = item.number.toString()
+											telefoneTexto = telefoneTexto.replace('-', '')
+											telefoneTexto = telefoneTexto.replace(' ', '')
+											telefoneTexto = telefoneTexto.replace('+', '')
+											telefoneTexto = telefoneTexto.replace('(', '')
+											telefoneTexto = telefoneTexto.replace(')', '')
+											let telefone = telefoneTexto
+											const tamanhoDoNumero = telefoneTexto.length
+											if(tamanhoDoNumero > 9){
+												telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
+												if(parseInt(telefone.substr(0, 1)) !== 9){
+													telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
+												}
+											}
+											if(tamanhoDoNumero >= 11){
+												let valorParaReduzir = 11
+												if(parseInt(telefoneTexto.substr(0, 1)) === 0){
+													valorParaReduzir = 10
+												}
+												ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
+												if(parseInt(ddd).toString().length !== 2){
+													ddd = '61'
+												}
+											}
+											contatoNovo.ddd = ddd
+											contatoNovo.telefone = telefone
+											contatoNovo.title = `${contatoNovo.nome} - (${contatoNovo.ddd}) ${contatoNovo.telefone}`
+											contatosParaSelecionar.push(contatoNovo)
+											contador++
+										}
+									})
+								}
+							})
+							if(contatosParaSelecionar.length){
+								this.setState({
+									contatosParaSelecionar,
+									carregando: false
+								})
+							}
+						})
+				}
+			})
+	}	
 
     selecionarContato(indice) {
         let {
@@ -177,30 +183,46 @@ class ImportarProspectosScreen extends React.Component {
         this.setState({ contatosParaSelecionar })
     }
 
-    adicionarContatos() {
-        const {
-            contatosParaSelecionar,
-            selected,
-            carregando,
-        } = this.state
-        const {
-            adicionarProspectosAoAsyncStorage,
-            navigation,
-        } = this.props
-        this.setState({ carregando: true })
-        adicionarProspectosAoAsyncStorage(
-            contatosParaSelecionar
-                .filter(contato => selected.get(contato.id))
-                .map(contato => {
-                    contato._id = contato.id
-                    return contato
-                })
-        ).then(() => {
-            this.setState({ carregando: false })
-            Alert.alert('Importação', 'Importação concluida com sucesso!')
-            navigation.goBack()
-        })
-    }
+	adicionarContatos(){
+		const {
+			contatosParaSelecionar,
+			selected,		
+			carregando,
+		} = this.state
+		const {
+			adicionarProspectosAoAsyncStorage,
+			adicionarSituacoesAoAsyncStorage,
+			navigation,
+		} = this.props
+		this.setState({carregando:true})
+		const contatosFiltrados = 
+			contatosParaSelecionar
+			.filter(contato => selected.get(contato.id))
+			.map(contato => {
+				contato._id = contato.id
+				return contato
+			})
+		adicionarProspectosAoAsyncStorage(contatosFiltrados)
+			.then(() => {
+				let situacoes = []
+				contatosFiltrados
+					.forEach(contato => {
+						const situacao = {
+							prospecto_id: contato.celular_id,
+							situacao_id: SITUACAO_IMPORTAR,
+							data_criacao: pegarDataEHoraAtual()[0],
+							hora_criacao: pegarDataEHoraAtual()[1],
+						}
+						situacoes.push(situacao)
+					})
+				adicionarSituacoesAoAsyncStorage(situacoes)
+					.then(() => {
+						this.setState({carregando:false})
+						Alert.alert('Importação', 'Importação concluida com sucesso!')
+						navigation.goBack()
+					})
+			})
+	}
 
     render() {
         const { carregando } = this.state
@@ -268,11 +290,11 @@ class ImportarProspectosScreen extends React.Component {
 
 }
 
-
-function mapDispatchToProps(dispatch) {
-    return {
-        adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
-    }
+function mapDispatchToProps(dispatch){
+	return {
+		adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
+		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
+	}
 }
 
 export default connect(null, mapDispatchToProps)(ImportarProspectosScreen)
