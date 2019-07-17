@@ -143,23 +143,25 @@ class Prospecto extends React.Component {
 							</View>
 						</TouchableOpacity>
 
-						{/* <View style={[styles.content, style = { marginTop: 5, justifyContent: 'space-between' }]}>
+						<View style={[styles.content, style = { marginTop: 5, justifyContent: 'space-between' }]}>
 							<View style={{ flexDirection: 'row' }}>
 
 								<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4 }}>
-									<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.chamarOTelefoneDoCelular() }} >
-										<Icon name="phone" size={18} containerStyle={{ marginRight: 6 }} color={white} />
-										<Text style={{ color: white }}>Ligar</Text>
+									<TouchableOpacity style={{ padding: 5 }} onPress={() => { this.chamarOTelefoneDoCelular() }}
+										hitSlop={{ top: 15, right: 0, bottom: 15, left: 15 }}
+									>
+										<Icon name="phone" size={20} color={white} />
 									</TouchableOpacity>
 								</View>
 								<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4, marginLeft: 5 }}>
-									<TouchableOpacity style={{ flexDirection: "row" }} onPress={() => { this.whatsapp() }} >
-										<Icon name="whatsapp" size={18} color="#5FCE5F" containerStyle={{ marginRight: 6 }} type='font-awesome' />
-										<Text style={{ color: white }}>Whats</Text>
+									<TouchableOpacity style={{ padding: 5 }} onPress={() => { this.whatsapp() }}
+										hitSlop={{ top: 15, right: 15, bottom: 15, left: 0 }}
+									>
+										<Icon name="whatsapp" size={20} color="#5FCE5F" type='font-awesome' />
 									</TouchableOpacity>
 								</View>
 							</View>
-						</View> */}
+						</View>
 
 						{
 							prospecto.situacao_id === SITUACAO_CONVIDAR &&
@@ -178,7 +180,8 @@ class Prospecto extends React.Component {
 							<View style={{ flexDirection: 'row' }}>
 								<Text style={{
 									alignSelf: "center", marginRight: 5, color: white
-								}}>Apresentação feita?</Text>
+								}}>Apresentação feita?
+								</Text>
 								<TouchableOpacity
 									style={styles.button}
 									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto._id }) }}
