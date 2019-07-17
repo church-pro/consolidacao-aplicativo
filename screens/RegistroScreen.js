@@ -4,6 +4,7 @@ import {
 	Alert,
 	View,
 	NetInfo,
+	Platform,
 	ActivityIndicator,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -203,7 +204,7 @@ class RegistroScreen extends React.Component {
 											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10, paddingHorizontal: 15 }}
 											inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 											underlineColorAndroid="transparent"
-											keyboardType='phone-pad'
+											keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
 											keyboardAppearance='dark'
 											placeholder=""
 											placeholderTextColor={'#ddd'}
@@ -225,7 +226,7 @@ class RegistroScreen extends React.Component {
 											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
 											inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 											underlineColorAndroid="transparent"
-											keyboardType='phone-pad'
+											keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
 											keyboardAppearance='dark'
 											placeholder=""
 											placeholderTextColor={'#ddd'}
