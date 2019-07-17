@@ -22,7 +22,6 @@ import {
 	SITUACAO_MENSAGEM,
 	SITUACAO_LIGAR,
 	SITUACAO_VISITA,
-	SITUACAO_EVENTO
 } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 import {
@@ -152,7 +151,7 @@ class ProspectosScreen extends React.Component {
 			},
 			{
 				label: 'Ligar',
-				tipo: SITUACAO_LIGAR,
+				tipo: SITUACAO_MENSAGEM,
 				icone: 'calendar',
 			},
 			{
@@ -161,12 +160,12 @@ class ProspectosScreen extends React.Component {
 			},
 			{
 				label: 'Visita',
-				tipo: SITUACAO_VISITA,
+				tipo: SITUACAO_LIGAR,
 				icone: 'info-circle',
 			},
 			{
 				label: 'Evento',
-				tipo: SITUACAO_EVENTO,
+				tipo: SITUACAO_VISITA,
 				icone: 'trophy',
 			},
 		]

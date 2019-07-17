@@ -11,25 +11,62 @@ import { white, gray, gold, dark, blue } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import email from 'react-native-email'
 import {
-	SITUACAO_QUALIFICAR,
-	SITUACAO_CONVIDAR,
-	SITUACAO_APRESENTAR,
-	SITUACAO_ACOMPANHAR,
-	SITUACAO_FECHAMENTO,
+	SITUACAO_IMPORTAR,
+	SITUACAO_MENSAGEM,
+	SITUACAO_LIGAR,
+	SITUACAO_VISITA,
 	SITUACAO_REMOVIDO,
 } from '../helpers/constants'
-import { alterarProspectoNoAsyncStorage, alterarAdministracao } from '../actions'
+import { 
+	alterarProspectoNoAsyncStorage, 
+	alterarAdministracao,
+	adicionarSituacoesAoAsyncStorage,
+} from '../actions'
 import { connect } from 'react-redux'
 import styles from './ProspectoStyle';
 import Swipeable from 'react-native-swipeable';
+import {
+	pegarDataEHoraAtual
+} from '../helpers/helper'
 
 class Prospecto extends React.Component {
 
+	perguntaSeDesejaRemover(){
+		Alert.alert(
+			'Remover',
+			'Reamente deseja remover?',
+			[
+				{
+					text: 'Não',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{ text: 'Sim', onPress: () => this.removerProspecto() },
+			],
+			{ cancelable: false },
+		)
+
+	}
+
 	removerProspecto() {
-		const { prospecto, alterarProspectoNoAsyncStorage } = this.props
+		const { 
+			prospecto, 
+			alterarProspectoNoAsyncStorage,
+			adicionarSituacoesAoAsyncStorage,
+		} = this.props
+
 		prospecto.situacao_id = SITUACAO_REMOVIDO
 		alterarProspectoNoAsyncStorage(prospecto)
-		Alert.alert('Removido', 'Prospecto removido!')
+			.then(() => {
+				const situacao = {
+					prospecto_id: prospecto.celular_id,
+					situacao_id: SITUACAO_REMOVIDO,
+					data_criacao: pegarDataEHoraAtual()[0],
+					hora_criacao: pegarDataEHoraAtual()[1],
+				}
+				this.props.adicionarSituacoesAoAsyncStorage([situacao])
+					.then(() => Alert.alert('Removido', 'Prospecto removido!'))
+			})
 	}
 
 	fecharProspecto() {
@@ -92,7 +129,7 @@ class Prospecto extends React.Component {
 					backgroundColor: blue,
 					paddingLeft: 30,
 				}}
-				onPress={() => { this.removerProspecto() }} >
+				onPress={() => { this.perguntaSeDesejaRemover() }} >
 				<Icon name="trash" size={22} color={white} type='font-awesome' />
 			</TouchableOpacity>
 		]
@@ -143,7 +180,7 @@ class Prospecto extends React.Component {
 							</View>
 						</TouchableOpacity>
 
-						{/* <View style={[styles.content, style = { marginTop: 5, justifyContent: 'space-between' }]}>
+						<View style={[styles.content, style = { marginTop: 5, justifyContent: 'space-between' }]}>
 							<View style={{ flexDirection: 'row' }}>
 
 								<View style={{ backgroundColor: dark, padding: 4, borderRadius: 4 }}>
@@ -159,8 +196,9 @@ class Prospecto extends React.Component {
 									</TouchableOpacity>
 								</View>
 							</View>
-						</View> */}
+						</View>
 
+						{/*
 						{
 							prospecto.situacao_id === SITUACAO_CONVIDAR &&
 							<View style={{ backgroundColor: 'transparent', marginLeft: 3, flexDirection: 'row', alignItems: 'center' }}>
@@ -232,6 +270,7 @@ class Prospecto extends React.Component {
 								</View>
 							</View>
 						}
+	*/}
 					</View>
 				</Swipeable>
 			</Card>
@@ -250,6 +289,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
+		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
 	}
 }
 

@@ -130,6 +130,7 @@ class LoginScreen extends React.Component {
 					{
 						carregando &&
 						<View style={{ flex: 1, justifyContent: 'center' }}>
+							<Text style={{ color: white, textAlign: 'center', fontSize: 22, marginBottom: 6 }}>Logando</Text>
 							<ActivityIndicator
 								size="large"
 								color={gold}
