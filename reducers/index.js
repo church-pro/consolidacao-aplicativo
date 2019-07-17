@@ -67,6 +67,13 @@ function usuario(state = {}, action){
 	}
 }
 
+function situacoes(state = [], action){
+	switch(action.type){
+		default:
+			return state
+	}
+}
+
 export default combineReducers({
 	prospectos,
 	administracao,
