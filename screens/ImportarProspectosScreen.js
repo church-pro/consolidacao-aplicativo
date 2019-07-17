@@ -13,7 +13,6 @@ import { Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
 import { connect } from 'react-redux'
 import { Permissions, Contacts } from 'expo'
 import { white, gold, lightdark, gray, dark, black, blue } from '../helpers/colors'
-import styles from '../components/ProspectoStyle';
 import { LinearGradient } from 'expo'
 import { 
 	adicionarProspectosAoAsyncStorage,
