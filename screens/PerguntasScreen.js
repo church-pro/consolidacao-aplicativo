@@ -3,150 +3,160 @@ import {
     View,
     Text,
     Alert,
+	ActivityIndicator,
 } from 'react-native';
 import { Button, Card, Icon, Input, CheckBox } from 'react-native-elements'
 import { white, red, gray, black, lightdark, dark, gold, blue } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { SITUACAO_ACOMPANHAR, SITUACAO_FECHADO, SITUACAO_FECHAMENTO } from '../helpers/constants'
-import { alterarProspectoNoAsyncStorage } from '../actions'
+import { 
+	alterarProspectoNoAsyncStorage,
+	adicionarSituacoesAoAsyncStorage,
+} from '../actions'
 import CPButton from '../components/CPButton';
 import { LinearGradient } from 'expo'
+import {
+	pegarDataEHoraAtual
+} from '../helpers/helper'
 
 class PerguntasScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            title: 'Resultado',
+            title: 'Perguntas',
             headerTintColor: white,
         }
     }
 
-    state = {
-        foiFeitoOPreCadastro: false,
-        naoFoiFeitoOPreCadastro: false,
-        foiFechado: false,
-        naoFoiFechado: false,
-    }
+	state = {
+		carregando: false,
+	}
 
-    alterarProspecto() {
-        const { prospecto, alterarProspectoNoAsyncStorage, navigation } = this.props
-        prospecto.situacao_id = SITUACAO_FECHAMENTO
+	componentDidMount(){
+		const {
+			estados
+		} = this.props
+		this.setState(estados)
+	}
+
+    ajudadorDeSubmit() {
+		this.setState({carregando: true})
+		const { 
+			prospecto, 
+			alterarProspectoNoAsyncStorage, 
+			adicionarSituacoesAoAsyncStorage,
+			navigation,
+		} = this.props
+		const { 
+			situacao_id_nova,
+			situacao_id_extra,
+			paraOndeNavegar,
+			qualAba,
+			alertTitulo,
+			alertMensagem,
+		} = this.state
+        prospecto.situacao_id = situacao_id_nova
         alterarProspectoNoAsyncStorage(prospecto)
-            .then(() => {
-                Alert.alert('Sucesso', 'Prospecto pagou!')
-                navigation.goBack()
-            })
+			.then(() => {
+				let situacoes = []
+				const situacao = {
+					prospecto_id: prospecto.celular_id,
+					situacao_id: situacao_id_nova,
+					data_criacao: pegarDataEHoraAtual()[0],
+					hora_criacao: pegarDataEHoraAtual()[1],
+				}
+				situacoes.push(situacao)
+				if(situacao_id_extra){
+					const situacaoExtra = {
+						prospecto_id: prospecto.celular_id,
+						situacao_id: situacao_id_extra,
+						data_criacao: pegarDataEHoraAtual()[0],
+						hora_criacao: pegarDataEHoraAtual()[1],
+					}
+					situacoes.push(situacaoExtra)
+				}
+				this.props.adicionarSituacoesAoAsyncStorage(situacoes)
+					.then(() => {
+						Alert.alert(alertTitulo, alertMensagem)
+						this.setState({carregando: false})
+						navigation.navigate(paraOndeNavegar, qualAba)
+					})
+			})
     }
 
     render() {
-        const { prospecto, navigation } = this.props
-        const { foiFeitoOPreCadastro, naoFoiFeitoOPreCadastro, foiFechado, naoFoiFechado } = this.state
-
+		const { 
+			prospecto, 
+			navigation,
+			perguntas,
+		} = this.props
+		const estados = this.state
+		const {
+			carregando
+		} = estados
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
                 <View style={{ flex: 1, padding: 20 }}>
-                    <Card containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 6, margin: 0 }}>
-                        <Text style={{
-                            color: white, textAlign: 'center', fontWeight: 'bold',
-                            paddingBottom: 8
-                        }}>
-                            Foi feito o pré-cadastro?</Text>
-                        <View style={{ flexDirection: 'row', backgroundColor: lightdark, height: 50, justifyContent: 'center', alignItems: 'center' }}>
-                            <CheckBox
-                                title='Sim'
-                                textStyle={{ color: white }}
-                                checked={this.state.foiFeitoOPreCadastro}
-                                onPress={() => this.setState({
-                                    foiFeitoOPreCadastro: true,
-                                    naoFoiFeitoOPreCadastro: false,
-                                })}
-                                checkedIcon='dot-circle-o'
-                                checkedColor={gold}
-                                uncheckedIcon='circle-o'
-                                containerStyle={{
-                                    backgroundColor: 'transparent',
-                                    padding: 0, borderColor: 'transparent'
-                                }}
-                            />
-                            <CheckBox
-                                title='Não'
-                                textStyle={{ color: white }}
-                                checked={this.state.naoFoiFeitoOPreCadastro}
-                                onPress={() => this.setState({
-                                    foiFeitoOPreCadastro: false,
-                                    naoFoiFeitoOPreCadastro: true,
-                                    foiFechado: false
-                                })}
-                                checkedIcon='dot-circle-o'
-                                checkedColor={gold}
-                                uncheckedIcon='circle-o'
-                                containerStyle={{
-                                    backgroundColor: 'transparent',
-                                    padding: 0, borderColor: 'transparent'
-                                }}
-                            />
-                        </View>
-                    </Card>
-                    {
-                        foiFeitoOPreCadastro &&
-                        <Card containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 6, margin: 0, marginTop: 10, }}>
-                            <Text style={{
-                                color: white, textAlign: 'center',
-                                fontWeight: 'bold', paddingBottom: 8
-                            }}>
-                                O prospecto pagou?
-							</Text>
-                            <View style={{ flexDirection: 'row', backgroundColor: lightdark, height: 50, justifyContent: 'center', alignItems: 'center' }}>
-                                <CheckBox
-                                    title='Sim'
-                                    textStyle={{ color: white }}
-                                    checked={this.state.foiFechado}
-                                    onPress={() => this.setState({
-                                        foiFechado: true,
-                                        naoFoiFechado: false,
-                                    })}
-                                    checkedIcon='dot-circle-o'
-                                    checkedColor={gold}
-                                    uncheckedIcon='circle-o'
-                                    containerStyle={{
-                                        backgroundColor: 'transparent',
-                                        padding: 0, borderColor: 'transparent'
-                                    }}
-                                />
-                                <CheckBox
-                                    title='Não'
-                                    textStyle={{ color: white }}
-                                    checked={this.state.naoFoiFechado}
-                                    onPress={() => this.setState({
-                                        foiFechado: false,
-                                        naoFoiFechado: true,
-                                    })}
-                                    checkedIcon='dot-circle-o'
-                                    checkedColor={gold}
-                                    uncheckedIcon='circle-o'
-                                    containerStyle={{
-                                        backgroundColor: 'transparent',
-                                        padding: 0, borderColor: 'transparent'
-                                    }}
-                                />
-                            </View>
-                        </Card>
 
-                    }
-                    {
-                        foiFeitoOPreCadastro && foiFechado &&
-                        <CPButton
-                            title='Prospecto pagou'
-                            OnPress={() => { this.alterarProspecto() }}
-                        />
-                    }
-                    {
-                        foiFeitoOPreCadastro && !foiFechado && naoFoiFechado &&
-                        <CPButton
-                            title='Remarcar'
-                            OnPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto.id, situacao_id: SITUACAO_ACOMPANHAR, }) }}
-                        />
-                    }
+					{
+						carregando &&
+						<View style={{ flex: 1, justifyContent: 'center' }}>
+							<ActivityIndicator
+								size="large"
+								color={blue}
+							/>
+						</View>
+					}
+
+					{
+						perguntas &&
+						estados &&
+						!carregando &&
+						perguntas.map(pergunta => {
+							let resposta = <View key={pergunta.titulo}></View>
+							if(estados[[pergunta.mostrar]]){
+								resposta = 	
+									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 6, margin: 0 }}>
+										<Text style={{
+											color: white, textAlign: 'center', fontWeight: 'bold',
+											paddingBottom: 8
+										}}>
+										{pergunta.titulo}
+										</Text>
+										<View style={{ backgroundColor: lightdark, height: 100, alignItems: 'center' }}>
+											{
+												pergunta.opcoes.map(opcao => {
+													return <CheckBox
+														key={opcao.titulo}
+														title={opcao.titulo}
+														textStyle={{ color: white }}
+														checked={estados[[opcao.estado]]}
+														onPress={() => this.setState(opcao.onPress)}
+														checkedIcon='dot-circle-o'
+														checkedColor={gold}
+														uncheckedIcon='circle-o'
+														containerStyle={{
+															backgroundColor: 'transparent',
+															padding: 0, borderColor: 'transparent'
+														}}
+													/>
+												})
+											}
+										</View>
+									</Card>
+							}
+							return resposta
+						})
+					}
+					{
+						estados &&
+						estados.mostrarBotaoConfirmar &&
+						!carregando &&
+						<CPButton
+							title='Confirmar'
+							OnPress={() => {this.ajudadorDeSubmit()}}
+						/>
+					}
                 </View>
             </LinearGradient>
         )
@@ -155,15 +165,23 @@ class PerguntasScreen extends React.Component {
 }
 
 function mapStateToProps({ prospectos }, { navigation }) {
-    const prospecto_id = navigation.state.params.prospecto_id
+	const { params } = navigation.state
+	const {
+		prospecto_id,
+		estados,
+		perguntas,
+	} = params
     return {
-        prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id)
+        prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id),
+		estados,
+		perguntas,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
+        adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
     }
 }
 

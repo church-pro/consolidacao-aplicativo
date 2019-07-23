@@ -166,8 +166,8 @@ export const pegarSituacoesNoAsyncStorage = () => dispatch => {
 
 export const adicionarSituacoesAoAsyncStorage = (situacoes) => dispatch => {
 	return submeterSituacoes(situacoes)
-		.then(prospectos => {
+		.then(situacoes => {
 			dispatch(adicionarSituacoes(situacoes))
-			return true
+			return situacoes 
 		})
 }
