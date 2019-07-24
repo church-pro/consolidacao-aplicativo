@@ -218,7 +218,7 @@ class ImportarProspectosScreen extends React.Component {
 					.then(() => {
 						this.setState({carregando:false})
 						Alert.alert('Importação', 'Importação concluida com sucesso!')
-						navigation.goBack()
+						navigation.navigate('Prospectos', {qualAba: 'Mensagem'})
 					})
 			})
 	}
