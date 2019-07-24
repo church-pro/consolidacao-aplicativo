@@ -15,12 +15,17 @@ import {
 	SITUACAO_MENSAGEM,
 	SITUACAO_LIGAR,
 	SITUACAO_VISITA,
+	SITUACAO_EVENTO,
 	SITUACAO_REMOVIDO,
 	SITUACAO_MENSAGEM_NUMERO_INVALIDO,
 	SITUACAO_LIGAR_NUMERO_INVALIDO,
 	SITUACAO_LIGAR_APENAS_TOCOU,
 	SITUACAO_LIGAR_MARCOU_VISITA_SEM_FALAR,
 	SITUACAO_LIGAR_FALEI_MAS_NAO_MARQUEI,
+	SITUACAO_VISITA_DESMARCOU,
+	SITUACAO_VISITEI_MAS_NAO_CONVIDEI,
+	SITUACAO_VISITA_NAO_FUI,
+	SITUACAO_EVENTO_NAO_VEIO,
 } from '../helpers/constants'
 import { 
 	alterarProspectoNoAsyncStorage, 
@@ -142,6 +147,7 @@ class Prospecto extends React.Component {
 		const labelMensgemRemovido = 'Pessoa Removida'
 		const labelVolta = labelParabens
 		const labelMensagemVoltar = 'Seu progresso foi salvo!'
+		const labelMensagemEvento = 'Você concluiu o processo'
 		let parametros = {}
 		if(prospecto.situacao_id === SITUACAO_IMPORTAR){
 			estados = {
@@ -154,8 +160,9 @@ class Prospecto extends React.Component {
 				mostrarPerguntaDois: false,
 				situacao_id_nova: SITUACAO_MENSAGEM,
 				situacao_id_extra: null,
-				paraOndeNavegar: 'Prospectos',
+				paraOndeVoltar: 'Prospectos',
 				qualAba: 'Mensagem',
+				paraOndeNavegar: null,
 				alertTitulo: labelParabens,
 				alertMensagem: labelMensagem + 'ligar',
 			}
@@ -224,13 +231,10 @@ class Prospecto extends React.Component {
 				},
 			]
 			parametros ={
-				prospecto_id: prospecto._id,
-				situacao_id: SITUACAO_MENSAGEM,
 				estados,
 				perguntas,
 			}
 		}
-
 		if(prospecto.situacao_id === SITUACAO_MENSAGEM){
 			estados = {
 				liguei: false,
@@ -247,8 +251,9 @@ class Prospecto extends React.Component {
 				mostrarPerguntaTres: false,
 				situacao_id_nova: SITUACAO_LIGAR,
 				situacao_id_extra: null,
-				paraOndeNavegar: 'Prospectos',
+				paraOndeVoltar: 'Prospectos',
 				qualAba: 'Ligar',
+				paraOndeNavegar: 'MarcarDataEHora',	
 				alertTitulo: labelParabens,
 				alertMensagem: labelMensagem + 'visita',
 			}
@@ -264,6 +269,8 @@ class Prospecto extends React.Component {
 								liguei: true,
 								naoTelefoneInvalido: false,
 								naoApenasTocou: false,
+								marcouVisita: false,
+								naoMarcouVisita: false,
 								mostrarBotaoConfirmar: false,
 								mostrarPerguntaDois: true,
 								mostrarPerguntaTres: false,
@@ -312,7 +319,7 @@ class Prospecto extends React.Component {
 				},
 				{
 					mostrar: 'mostrarPerguntaDois',
-					titulo: 'Marcou Visita',
+					titulo: 'Marcou Visita?',
 					opcoes: [
 						{
 							estado: 'marcouVisita',
@@ -324,6 +331,7 @@ class Prospecto extends React.Component {
 								mostrarPerguntaDois: true,
 								mostrarPerguntaTres: false,
 								situacao_id_nova: SITUACAO_LIGAR,
+								situacao_id_extra: null,
 								alertTitulo: labelParabens,
 								alertMensagem: labelMensagem + 'visita',
 							},
@@ -337,7 +345,7 @@ class Prospecto extends React.Component {
 								mostrarBotaoConfirmar: false,
 								mostrarPerguntaDois: true,
 								mostrarPerguntaTres: true,
-								situacao_id_nova: SITUACAO_LIGAR_FALEI_MAS_NAO_MARQUEI,
+								situacao_id_extra: SITUACAO_LIGAR_FALEI_MAS_NAO_MARQUEI,
 								alertTitulo: labelParabens,
 								alertMensagem: labelMensagem + 'visita',
 							},
@@ -363,13 +371,14 @@ class Prospecto extends React.Component {
 						},
 						{
 							estado: 'avancar',
-							titulo: 'Agendar mesmo assim',
+							titulo: 'Agendar visita mesmo assim',
 							onPress: {
 								remover: false,
 								avancar: true,
 								voltar: false,
 								mostrarBotaoConfirmar: true,
-								situacao_id_nova: SITUACAO_LIGAR_MARCOU_VISITA_SEM_FALAR,
+								situacao_id_nova: SITUACAO_LIGAR,
+								situacao_id_extra: SITUACAO_LIGAR_MARCOU_VISITA_SEM_FALAR,
 								alertTitulo: labelParabens,
 								alertMensagem: labelMensagem + 'visita'
 							},
@@ -391,12 +400,317 @@ class Prospecto extends React.Component {
 				},
 			]
 			parametros ={
-				prospecto_id: prospecto._id,
-				situacao_id: SITUACAO_MENSAGEM,
 				estados,
 				perguntas,
 			}
 		}
+		if(prospecto.situacao_id === SITUACAO_LIGAR){
+			estados = {
+				visitei: false,
+				naoVisitei: false,
+				mostrarBotaoConfirmar: false,
+				convidei: false,
+				naoConvidei: false,
+				desmarcou:false,
+				naoFui: false,
+				remover: false,
+				recomecar: false,
+				avancar: false,
+				mostrarPerguntaUm: true,
+				mostrarPerguntaDois: false,
+				mostrarPerguntaTres: false,
+				mostrarPerguntaQuatro: false,
+				situacao_id_nova: SITUACAO_VISITA,
+				situacao_id_extra: null,
+				paraOndeVoltar: 'Prospectos',
+				qualAba: 'Visita',
+				paraOndeNavegar: null,
+				alertTitulo: labelParabens,
+				alertMensagem: labelMensagem + 'evento',
+			}
+			perguntas = [
+				{
+					mostrar: 'mostrarPerguntaUm',
+					titulo: 'Conseguiu Visitar?',
+					opcoes: [
+						{
+							estado: 'visitei',
+							titulo: 'Sim',
+							onPress: {
+								visitei: true,
+								naoVisitei: false,
+								mostrarBotaoConfirmar: false,
+								convidei: false,
+								naoConvidei: false,
+								desmarcou:false,
+								naoFui: false,
+								remover: false,
+								recomecar: false,
+								avancar: false,
+								mostrarPerguntaUm: true,
+								mostrarPerguntaDois: true,
+								mostrarPerguntaTres: false,
+								mostrarPerguntaQuatro: false,
+								situacao_id_nova: SITUACAO_VISITA,
+								situacao_id_extra: null,
+								alertTitulo: labelParabens,
+								alertMensagem: labelMensagem + 'visita',
+							},
+						},
+						{
+							estado: 'naoVisitei',
+							titulo: 'Não',
+							onPress: {
+								visitei: false,
+								naoVisitei: true,
+								mostrarBotaoConfirmar: false,
+								convidei: false,
+								naoConvidei: false,
+								desmarcou:false,
+								naoFui: false,
+								remover: false,
+								recomecar: false,
+								avancar: false,
+								mostrarPerguntaUm: true,
+								mostrarPerguntaDois: false,
+								mostrarPerguntaTres: true,
+								mostrarPerguntaQuatro: false,
+								situacao_id_nova: SITUACAO_VISITA,
+								situacao_id_extra: null,
+							},
+						},
+					]
+				},
+				{
+					mostrar: 'mostrarPerguntaDois',
+					titulo: 'Convidou?',
+					opcoes: [
+						{
+							estado: 'convidei',
+							titulo: 'Sim - Aceitou Convite',
+							onPress: {
+								mostrarBotaoConfirmar: true,
+								convidei: true,
+								naoConvidei: false,
+								desmarcou:false,
+								naoFui: false,
+								remover: false,
+								recomecar: false,
+								avancar: false,
+								mostrarPerguntaUm: true,
+								mostrarPerguntaDois: true,
+								mostrarPerguntaTres: false,
+								mostrarPerguntaQuatro: false,
+								situacao_id_nova: SITUACAO_VISITA,
+								situacao_id_extra: null,
+								alertTitulo: labelParabens,
+								alertMensagem: labelMensagem + 'evento',
+							},
+						},
+						{
+							estado: 'naoConvidei',
+							titulo: 'Não',
+							onPress: {
+								mostrarBotaoConfirmar: false,
+								convidei: false,
+								naoConvidei: true,
+								desmarcou:false,
+								naoFui: false,
+								remover: false,
+								recomecar: false,
+								avancar: false,
+								mostrarPerguntaUm: true,
+								mostrarPerguntaDois: true,
+								mostrarPerguntaTres: false,
+								mostrarPerguntaQuatro: true,
+								situacao_id_nova: SITUACAO_VISITA,
+								situacao_id_extra: SITUACAO_VISITEI_MAS_NAO_CONVIDEI,
+							},
+						},
+					]
+				},
+				{
+					mostrar: 'mostrarPerguntaTres',
+					titulo: 'O que aconteceu?',
+					opcoes: [
+						{
+							estado: 'desmarcou',
+							titulo: 'Pessoa Desmarcou',
+							onPress: {
+								mostrarBotaoConfirmar: false,
+								desmarcou: true,
+								naoFui: false,
+								remover: false,
+								avancar: false,
+								recomecar: false,
+								mostrarPerguntaTres: true,
+								mostrarPerguntaQuatro: true,
+								situacao_id_nova: SITUACAO_VISITA,
+								situacao_id_extra: SITUACAO_VISITA_DESMARCOU,
+							},
+						},
+						{
+							estado: 'naoFui',
+							titulo: 'Eu não fui',
+							onPress: {
+								mostrarBotaoConfirmar: false,
+								desmarcou: false,
+								naoFui: true,
+								remover: false,
+								recomecar: false,
+								avancar: false,
+								mostrarPerguntaTres: true,
+								mostrarPerguntaQuatro: true,
+								situacao_id_nova: SITUACAO_VISITA,
+								situacao_id_extra: SITUACAO_VISITA_NAO_FUI,
+							},
+						},
+					]
+				},
+				{
+					mostrar: 'mostrarPerguntaQuatro',
+					titulo: 'O que deseja fazer?',
+					opcoes: [
+						{
+							estado: 'remover',
+							titulo: 'Remover',
+							onPress: {
+								mostrarBotaoConfirmar: true,
+								remover: true,
+								recomecar: false,
+								avancar: false,
+								situacao_id_nova: SITUACAO_REMOVIDO,
+								alertTitulo: labelRemover,
+								alertMensagem: labelMensgemRemovido,
+							},
+						},
+						{
+							estado: 'recomecar',
+							titulo: 'Recomeçar o processo com a pessoa',
+							onPress: {
+								mostrarBotaoConfirmar: true,
+								remover: false,
+								recomecar: true,
+								avancar: false,
+								situacao_id_nova: SITUACAO_IMPORTAR,
+								alertTitulo: labelParabens,
+								alertMensagem: labelMensagem + 'mensagem'
+							},
+						},
+						{
+							estado: 'avancar',
+							titulo: 'Avançar para etapa evento',
+							onPress: {
+								mostrarBotaoConfirmar: true,
+								remover: false,
+								recomecar: false,
+								avancar: true,
+								situacao_id_nova: SITUACAO_VISITA,
+								alertTitulo: labelParabens,
+								alertMensagem: labelMensagem + 'evento'
+							},
+						},
+					]
+				},
+			]
+			parametros ={
+				estados,
+				perguntas,
+			}
+		}
+		if(prospecto.situacao_id === SITUACAO_VISITA){
+			estados = {
+				veio: false,
+				naoNao: false,
+				mostrarBotaoConfirmar: false,
+				remover: false,
+				recomecar: false,
+				mostrarPerguntaUm: true,
+				mostrarPerguntaDois: false,
+				situacao_id_nova: SITUACAO_EVENTO,
+				situacao_id_extra: null,
+				paraOndeVoltar: 'Prospectos',
+				qualAba: 'Visita',
+				paraOndeNavegar: null,
+				alertTitulo: labelParabens,
+				alertMensagem: labelMensagemEvento,
+			}
+			perguntas = [
+				{
+					mostrar: 'mostrarPerguntaUm',
+					titulo: 'A pessoa veio?',
+					opcoes: [
+						{
+							estado: 'veio',
+							titulo: 'Sim',
+							onPress: {
+								veio: true,
+								naoNao: false,
+								mostrarBotaoConfirmar: true,
+								remover: false,
+								recomecar: false,
+								mostrarPerguntaUm: true,
+								mostrarPerguntaDois: false,
+								situacao_id_nova: SITUACAO_EVENTO,
+								situacao_id_extra: null,
+								alertTitulo: labelParabens,
+								alertMensagem: labelMensagemEvento,
+							},
+						},
+						{
+							estado: 'naoVisitei',
+							titulo: 'Não',
+							onPress: {
+								veio: false,
+								naoNao: true,
+								mostrarBotaoConfirmar: false,
+								remover: false,
+								recomecar: false,
+								mostrarPerguntaUm: true,
+								mostrarPerguntaDois: true,
+								situacao_id_extra: SITUACAO_EVENTO_NAO_VEIO,
+							},
+						},
+					]
+				},
+				{
+					mostrar: 'mostrarPerguntaDois',
+					titulo: 'O que deseja fazer?',
+					opcoes: [
+						{
+							estado: 'remover',
+							titulo: 'Remover',
+							onPress: {
+								remover: true,
+								recomecar: false,
+								mostrarBotaoConfirmar: true,
+								situacao_id_nova: SITUACAO_REMOVIDO,
+								alertTitulo: labelRemover,
+								alertMensagem: labelMensgemRemovido,
+							},
+						},
+						{
+							estado: 'recomecar',
+							titulo: 'Recomeçar o processo com a pessoa',
+							onPress: {
+								remover: false,
+								recomecar: true,
+								mostrarBotaoConfirmar: true,
+								situacao_id_nova: SITUACAO_IMPORTAR,
+								alertTitulo: labelParabens,
+								alertMensagem: labelMensagem + 'ligar',
+							},
+						},
+					]
+				},
+			]
+			parametros ={
+				estados,
+				perguntas,
+			}
+		}
+
+		parametros.prospecto_id = prospecto._id
 		funcaoOnPressDoIconeList = () => navigation.navigate('Perguntas', parametros)
 
 		return (
@@ -409,7 +723,7 @@ class Prospecto extends React.Component {
 				>
 					<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
 						{
-							prospecto.data && prospecto.situacao_id !== SITUACAO_FECHAMENTO &&
+							prospecto.data &&
 							<View style={styles.date}>
 								<View style={{
 									borderRadius: 9, backgroundColor: blue, borderWidth: 0,
@@ -424,10 +738,6 @@ class Prospecto extends React.Component {
 
 					</View>
 					<View style={styles.name_phone}>
-						<TouchableOpacity
-							onPress={() => { navigation.navigate('QualificarProspecto', { prospecto_id: prospecto._id }) }}
-						>
-
 						<View style={styles.content}>
 							<View style={{ alignItems: 'center', justifyContent: 'center' }}>
 								<Icon
@@ -442,7 +752,6 @@ class Prospecto extends React.Component {
 
 							<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
 						</View>
-					</TouchableOpacity>
 
 					<View style={{ backgroundColor: 'transparent', marginLeft: 3, flexDirection: 'row', alignItems: 'center' }}>
 
@@ -462,73 +771,11 @@ class Prospecto extends React.Component {
 						onPress={() => funcaoOnPressDoIconeList()}>
 						<Icon name='list' type='font-awesome' color={gray} containerStyle={{ marginRight: 12 }} type='font-awesome' />
 					</TouchableOpacity>
-
-					{/*
-						{
-							prospecto.situacao_id === SITUACAO_APRESENTAR &&
-							<View style={{ flexDirection: 'row' }}>
-								<Text style={{
-									alignSelf: "center", marginRight: 5, color: white
-								}}>Apresentação feita?
-								</Text>
-								<TouchableOpacity
-									style={styles.button}
-									onPress={() => { navigation.navigate('Perguntas', { prospecto_id: prospecto._id }) }}
-								>
-									<Text style={styles.textButton}>Sim</Text>
-								</TouchableOpacity>
-								<TouchableOpacity
-									style={[styles.button, { marginLeft: 5 }]}
-									onPress={() => {
-										{
-											Alert.alert(prospecto.nome, 'O que você deseja fazer com este prospecto?',
-												[
-													{ text: 'Excluir', onPress: () => { this.removerProspecto() } },
-													{ text: 'Remarcar', onPress: () => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_ACOMPANHAR }) } },
-													{ text: 'Cancelar' },
-												])
-										}
-									}
-									}
-								>
-									<Text style={styles.textButton}>Não</Text>
-								</TouchableOpacity>
-							</View>
-						}
-						{prospecto.situacao_id === SITUACAO_ACOMPANHAR &&
-
-							<View style={styles.footerAcompanhar}>
-								<TouchableOpacity
-									style={styles.button}
-									onPress={() => { navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_FECHAMENTO }) }}
-								>
-									<Text style={styles.textButton}>Remarcar</Text>
-								</TouchableOpacity>
-								<TouchableOpacity
-									style={styles.button}
-									onPress={() => { Alert.alert('Fechar', 'Você deseja fechar este prospecto?', [{ text: 'Não' }, { text: 'Sim', onPress: () => { this.fecharProspecto() } }]) }}
-								>
-									<Text style={styles.textButton}>Fechamento</Text>
-								</TouchableOpacity>
-							</View>
-						}
-						{prospecto.situacao_id == SITUACAO_FECHAMENTO &&
-							<View style={styles.footerFechamento}>
-								<View
-									style={{
-										backgroundColor: gold, borderRadius: 9, borderWidth: 0,
-										padding: 5
-									}}
-								>
-									<Text style={styles.textButton}>Pago</Text>
-								</View>
-							</View>
-						}
-						*/}
-					</View>
 				</View>
-			</Swipeable>
-		</Card>
+
+			</View>
+		</Swipeable>
+	</Card>
 		)
 	}
 }

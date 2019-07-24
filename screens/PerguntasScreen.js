@@ -8,7 +8,10 @@ import {
 import { Button, Card, Icon, Input, CheckBox } from 'react-native-elements'
 import { white, red, gray, black, lightdark, dark, gold, blue } from '../helpers/colors'
 import { connect } from 'react-redux'
-import { SITUACAO_ACOMPANHAR, SITUACAO_FECHADO, SITUACAO_FECHAMENTO } from '../helpers/constants'
+import { 
+	SITUACAO_REMOVIDO, 
+	SITUACAO_LIGAR,
+} from '../helpers/constants'
 import { 
 	alterarProspectoNoAsyncStorage,
 	adicionarSituacoesAoAsyncStorage,
@@ -39,7 +42,7 @@ class PerguntasScreen extends React.Component {
 		this.setState(estados)
 	}
 
-    ajudadorDeSubmit() {
+	ajudadorDeSubmit() {
 		this.setState({carregando: true})
 		const { 
 			prospecto, 
@@ -50,39 +53,66 @@ class PerguntasScreen extends React.Component {
 		const { 
 			situacao_id_nova,
 			situacao_id_extra,
-			paraOndeNavegar,
+			paraOndeVoltar,
 			qualAba,
+			paraOndeNavegar,
 			alertTitulo,
 			alertMensagem,
 		} = this.state
-        prospecto.situacao_id = situacao_id_nova
-        alterarProspectoNoAsyncStorage(prospecto)
-			.then(() => {
-				let situacoes = []
-				const situacao = {
-					prospecto_id: prospecto.celular_id,
-					situacao_id: situacao_id_nova,
-					data_criacao: pegarDataEHoraAtual()[0],
-					hora_criacao: pegarDataEHoraAtual()[1],
-				}
-				situacoes.push(situacao)
-				if(situacao_id_extra){
-					const situacaoExtra = {
-						prospecto_id: prospecto.celular_id,
-						situacao_id: situacao_id_extra,
-						data_criacao: pegarDataEHoraAtual()[0],
-						hora_criacao: pegarDataEHoraAtual()[1],
+
+		prospecto.situacao_id = situacao_id_nova
+		let situacoes = []
+		const situacao = {
+			prospecto_id: prospecto.celular_id,
+			situacao_id: situacao_id_nova,
+			data_criacao: pegarDataEHoraAtual()[0],
+			hora_criacao: pegarDataEHoraAtual()[1],
+		}
+		situacoes.push(situacao)
+		if(situacao_id_extra){
+			const situacaoExtra = {
+				prospecto_id: prospecto.celular_id,
+				situacao_id: situacao_id_extra,
+				data_criacao: pegarDataEHoraAtual()[0],
+				hora_criacao: pegarDataEHoraAtual()[1],
+			}
+			situacoes.push(situacaoExtra)
+		}
+		if(
+			paraOndeNavegar === null ||
+			situacao_id_nova === SITUACAO_REMOVIDO
+		){
+			this.props.adicionarSituacoesAoAsyncStorage(situacoes)
+				.then(() => {
+					if(prospecto.situacao_id !== SITUACAO_LIGAR){
+						delete prospecto.local
+						delete prospecto.data
+						delete prospecto.hora
 					}
-					situacoes.push(situacaoExtra)
-				}
-				this.props.adicionarSituacoesAoAsyncStorage(situacoes)
-					.then(() => {
-						Alert.alert(alertTitulo, alertMensagem)
-						this.setState({carregando: false})
-						navigation.navigate(paraOndeNavegar, qualAba)
-					})
-			})
-    }
+					alterarProspectoNoAsyncStorage(prospecto)
+						.then(() => {
+							Alert.alert(alertTitulo, alertMensagem)
+							this.setState({carregando: false})
+							navigation.navigate(paraOndeVoltar, {qualAba})
+						})
+				})
+		}
+		if(
+			paraOndeNavegar &&
+			situacao_id_nova !== SITUACAO_REMOVIDO
+		){
+			dados = {
+				prospecto_id: prospecto._id,
+				situacao_id_nova,
+				situacoes,
+				paraOndeVoltar,
+				qualAba,
+				alertTitulo,
+				alertMensagem,
+			}
+			navigation.navigate(paraOndeNavegar, dados)
+		}
+	}
 
     render() {
 		const { 
@@ -94,9 +124,10 @@ class PerguntasScreen extends React.Component {
 		const {
 			carregando
 		} = estados
+		console.log(estados)
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-                <View style={{ flex: 1, padding: 20 }}>
+                <View style={{ flex: 1, padding: 0 }}>
 
 					{
 						carregando &&
@@ -116,10 +147,10 @@ class PerguntasScreen extends React.Component {
 							let resposta = <View key={pergunta.titulo}></View>
 							if(estados[[pergunta.mostrar]]){
 								resposta = 	
-									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 6, margin: 0 }}>
+									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0 }}>
 										<Text style={{
 											color: white, textAlign: 'center', fontWeight: 'bold',
-											paddingBottom: 8
+											paddingBottom: 1
 										}}>
 										{pergunta.titulo}
 										</Text>

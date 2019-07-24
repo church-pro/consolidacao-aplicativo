@@ -13,49 +13,50 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { white, dark, gold, lightdark, black, blue, gray } from '../helpers/colors'
 import { connect } from 'react-redux'
 import DatePicker from 'react-native-datepicker'
-import { alterarProspectoNoAsyncStorage } from '../actions'
+import { 
+	alterarProspectoNoAsyncStorage,
+	adicionarSituacoesAoAsyncStorage,
+} from '../actions'
 import { SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
 import { LinearGradient } from 'expo'
 
 class MarcarDataEHoraScreen extends React.Component {
 
-    alterarProspecto = () => {
-        this.setState({ carregando: true })
-        const { prospecto, alterarProspectoNoAsyncStorage, navigation, situacao_id } = this.props
-        if (this.state.dataParaOAgendamento === null ||
-            this.state.horaParaOAgendamento === null) {
-            Alert.alert('Erro', 'Selecione a data e hora')
-        } else {
-            prospecto.data = this.state.dataParaOAgendamento
-            prospecto.hora = this.state.horaParaOAgendamento
-            if (this.state.local) {
-                prospecto.local = this.state.local
-            }
-            prospecto.situacao_id = situacao_id
-            alterarProspectoNoAsyncStorage(prospecto)
-                .then(() => {
-                    let textoMarcouUmaApresentacao = ''
-                    let tab = ''
-                    switch (situacao_id) {
-                        case SITUACAO_APRESENTAR:
-                            textoMarcouUmaApresentacao = 'Você marcou uma apresentação, agora seu prospecto está na etapa "Apresentar"'
-                            tab = 'Convidar'
-                            break;
-                        case SITUACAO_ACOMPANHAR:
-                            textoMarcouUmaApresentacao = 'Você remarcou, agora seu prospecto está na etapa "Acompanhar"'
-                            tab = 'Apresentar'
-                            break;
-                        case SITUACAO_FECHAMENTO:
-                            textoMarcouUmaApresentacao = 'Você remarcou, agora seu prospecto está na etapa "Fechamento"'
-                            tab = 'Acompanhar'
-                            break;
-                    }
-                    Alert.alert('Sucesso', textoMarcouUmaApresentacao)
-                    this.setState({ carregando: false })
-                    navigation.navigate('Prospectos', { tab })
-                })
-        }
-    }
+	ajudadorDeSubmit = () => {
+		this.setState({ carregando: true })
+		const { 
+			prospecto, 
+			alterarProspectoNoAsyncStorage, 
+			adicionarSituacoesAoAsyncStorage,
+			navigation, 
+			situacao_id_nova,
+			situacoes,
+			paraOndeVoltar,
+			qualAba,
+			alertTitulo,
+			alertMensagem,
+		} = this.props
+		if (this.state.dataParaOAgendamento === null ||
+			this.state.horaParaOAgendamento === null) {
+			Alert.alert('Erro', 'Selecione a data e hora')
+		} else {
+			prospecto.data = this.state.dataParaOAgendamento
+			prospecto.hora = this.state.horaParaOAgendamento
+			if (this.state.local) {
+				prospecto.local = this.state.local
+			}
+			prospecto.situacao_id = situacao_id_nova
+			this.props.adicionarSituacoesAoAsyncStorage(situacoes)
+				.then(() => {
+					alterarProspectoNoAsyncStorage(prospecto)
+						.then(() => {
+							Alert.alert(alertTitulo, alertMensagem)
+							this.setState({carregando: false})
+							navigation.navigate(paraOndeVoltar, {qualAba})
+						})
+				})
+		}
+	}
 
     componentDidMount() {
         this.props.navigation.setParams({
@@ -199,7 +200,7 @@ class MarcarDataEHoraScreen extends React.Component {
                             <View style={styles.containerButton}>
                                 <TouchableOpacity
                                     style={styles.button}
-                                    onPress={() => this.alterarProspecto()}
+                                    onPress={() => this.ajudadorDeSubmit()}
                                 >
                                     <Text style={{ textAlign: "center", fontSize: 16, color: white }}>Marcar</Text>
                                 </TouchableOpacity>
@@ -214,16 +215,30 @@ class MarcarDataEHoraScreen extends React.Component {
 }
 
 function mapStateToProps({ prospectos }, { navigation }) {
-    const prospecto_id = navigation.state.params.prospecto_id
+	const {
+		prospecto_id,
+		situacao_id_nova,
+		situacoes,
+		paraOndeVoltar,
+		qualAba,
+		alertTitulo,
+		alertMensagem
+	} = navigation.state.params
     return {
         prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id),
-        situacao_id: navigation.state.params.situacao_id
+		situacao_id_nova,
+		situacoes,
+		paraOndeVoltar,
+		qualAba,
+		alertTitulo,
+		alertMensagem,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
+        adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
     }
 }
 

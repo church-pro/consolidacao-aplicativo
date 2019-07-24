@@ -147,12 +147,12 @@ class ProspectosScreen extends React.Component {
 			{
 				label: 'Mensagem',
 				tipo: SITUACAO_IMPORTAR,
-				icone: 'phone',
+				icone: 'envelope',
 			},
 			{
 				label: 'Ligar',
 				tipo: SITUACAO_MENSAGEM,
-				icone: 'calendar',
+				icone: 'phone',
 			},
 			{
 				label: 'Adicionar',
@@ -161,12 +161,12 @@ class ProspectosScreen extends React.Component {
 			{
 				label: 'Visita',
 				tipo: SITUACAO_LIGAR,
-				icone: 'info-circle',
+				icone: 'calendar',
 			},
 			{
 				label: 'Evento',
 				tipo: SITUACAO_VISITA,
-				icone: 'trophy',
+				icone: 'home',
 			},
 		]
 
@@ -205,14 +205,14 @@ class ProspectosScreen extends React.Component {
 			}
 		})
 
-		let tabInicial = 'Mensagem'
-		if (this.props.tabInicial) {
-			tabInicial = this.props.tabInicial
+		let qualAba = 'Mensagem'
+		if (this.props.qualAba) {
+			qualAba = this.props.qualAba
 		}
 		const Tabs = createBottomTabNavigator(
 			componentesDaTab,
 			{
-				initialRouteName: tabInicial,
+				initialRouteName: qualAba,
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,
@@ -243,7 +243,7 @@ class ProspectosScreen extends React.Component {
 						</TouchableOpacity>
 					</Left>
 					<Body style={{ flex: 1 }}>
-						<Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}>CHURCH PRO CONSOLIDAÇÃO</Title>
+						<Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}>CHURCH PRO</Title>
 					</Body>
 					<Right style={{ flex: 0 }}>
 						<TouchableOpacity
@@ -364,15 +364,15 @@ class ProspectosScreen extends React.Component {
 }
 
 function mapStateToProps({ prospectos, usuario, administracao, }, props) {
-	let tabInicial = null
-	if (props.navigation.state.params && props.navigation.state.params.tab) {
-		tabInicial = props.navigation.state.params.tab
+	let qualAba = null
+	if (props.navigation.state.params && props.navigation.state.params.qualAba) {
+		qualAba = props.navigation.state.params.qualAba
 	}
 	return {
 		prospectos,
 		usuario,
 		administracao,
-		tabInicial,
+		qualAba,
 	}
 }
 
