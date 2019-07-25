@@ -124,7 +124,6 @@ class PerguntasScreen extends React.Component {
 		const {
 			carregando
 		} = estados
-		console.log(estados)
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
                 <View style={{ flex: 1, padding: 0 }}>

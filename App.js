@@ -17,7 +17,7 @@ const logger = store => next => action => {
 	console.groupEnd(action.type)
 	return resultado
 }
-const store = createStore(rootReducer, applyMiddleware(logger, thunk))
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 function BarraDeEstado({ backgroundColor, ...props }) {
 	return (
