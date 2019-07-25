@@ -6,7 +6,7 @@ const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
 
 let api = 'http://192.168.0.14:8080'
-api = 'https://church-pro-consolidacao-api.herokuapp.com'
+api = 'https://api.churchpro.com.br'
 const headers = {
 	'Content-Type': 'application/json'
 }
