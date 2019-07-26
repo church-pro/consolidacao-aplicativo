@@ -31,12 +31,12 @@ class RegistroScreen extends React.Component {
 
 	state = {
 		carregando: false,
-		nome: 'leo',
-		ddd: '61',
-		telefone: '998510703',
-		email: 'falecomleonardopereira@gmail.com',
-		senha: '123',
-		rede_id: '5d23857fe2d10e0024046d61',
+		nome: '',
+		ddd: '',
+		telefone: '',
+		email: '',
+		senha: '',
+		rede_id: '',
 	}
 
 	ajudadorDeSubmissao = () => {
