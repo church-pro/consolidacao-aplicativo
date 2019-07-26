@@ -1,5 +1,5 @@
-import { 
-	Notifications, 
+import {
+	Notifications,
 	Permissions,
 	Platform,
 } from 'expo'
@@ -24,7 +24,7 @@ import {
 	SITUACAO_EVENTO_NAO_VEIO,
 } from '../helpers/constants'
 
-export function criarNotificacaoLocal(notificacao){
+export function criarNotificacaoLocal(notificacao) {
 	return {
 		title: notificacao.titulo,
 		body: notificacao.corpo,
@@ -40,10 +40,10 @@ export function criarNotificacaoLocal(notificacao){
 	}
 }
 
-export function setarNotificacaoLocal(notificacao){
+export function setarNotificacaoLocal(notificacao) {
 	Permissions.askAsync(Permissions.NOTIFICATIONS)
-		.then(({status}) => {
-			if(status === 'granted'){
+		.then(({ status }) => {
+			if (status === 'granted') {
 				console.log(notificacao.data)
 				let time = new Date(notificacao.data)
 				console.log('time', time)
@@ -60,20 +60,20 @@ export function setarNotificacaoLocal(notificacao){
 }
 
 export const sendNotificationImmediately = async () => {
-	if(Platform !== 'ios'){
+	if (Platform !== 'ios') {
 		let notificationId = await Notifications.presentLocalNotificationAsync({
 			title: 'This is crazy',
 			body: 'Your mind will blow after reading this',
 		});
 		console.log(notificationId); // can be saved in AsyncStorage or send to server
 	}
-	if(Platform === 'ios'){
+	if (Platform === 'ios') {
 		let localNotification = await NotificationsIOS.localNotification({
 			alertBody: "Local notificiation!",
 			alertTitle: "Local Notification Title",
 			silent: false,
 			category: "SOME_CATEGORY",
-			userInfo: { }
+			userInfo: {}
 		})
 		console.log(localNotification)
 	}
@@ -92,21 +92,21 @@ export const scheduleNotification = async () => {
 }
 
 export const cancelarTodasNotificacoes = () => {
-	Notifications.cancelAllScheduledNotificationsAsync() 
+	Notifications.cancelAllScheduledNotificationsAsync()
 		.then(resultado => console.log('cancelarTodasNotificacoes: ', resultado))
 }
 
-export function pegarDataEHoraAtual(){
+export function pegarDataEHoraAtual() {
 	let dados = []
 	const dataAtual = new Date()
 	const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
-	let mesParaDataDeCriacao = dataAtual.getMonth()+1
+	let mesParaDataDeCriacao = dataAtual.getMonth() + 1
 	mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
 	const anoParaDataDeCriacao = dataAtual.getFullYear()
 	const dataDeCriacao = diaParaDataDeCriacao + '/' + mesParaDataDeCriacao + '/' + anoParaDataDeCriacao
 	const horaDeCriacao = dataAtual.getHours().toString().padStart(2, '0')
-		+':'+dataAtual.getMinutes().toString().padStart(2, '0')
-		+':'+dataAtual.getSeconds().toString().padStart(2, '0')
+		+ ':' + dataAtual.getMinutes().toString().padStart(2, '0')
+		+ ':' + dataAtual.getSeconds().toString().padStart(2, '0')
 
 	dados.push(dataDeCriacao)
 	dados.push(horaDeCriacao)
@@ -125,7 +125,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 	const labelMensagemVoltar = 'Seu progresso foi salvo!'
 	const labelMensagemEvento = 'Você concluiu o processo'
 	let parametros = {}
-	if(situacao_id === SITUACAO_IMPORTAR){
+	if (situacao_id === SITUACAO_IMPORTAR) {
 		estados = {
 			enviouMensagem: false,
 			naoEnviouMensagem: false,
@@ -206,12 +206,12 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 				]
 			},
 		]
-		parametros ={
+		parametros = {
 			estados,
 			perguntas,
 		}
 	}
-	if(situacao_id === SITUACAO_MENSAGEM){
+	if (situacao_id === SITUACAO_MENSAGEM) {
 		estados = {
 			liguei: false,
 			naoTelefoneInvalido: false,
@@ -229,7 +229,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			situacao_id_extra: null,
 			paraOndeVoltar: 'Prospectos',
 			qualAba: 'Ligar',
-			paraOndeNavegar: 'MarcarDataEHora',	
+			paraOndeNavegar: 'MarcarDataEHora',
 			alertTitulo: labelParabens,
 			alertMensagem: labelMensagem + 'visita',
 		}
@@ -375,19 +375,19 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 				]
 			},
 		]
-		parametros ={
+		parametros = {
 			estados,
 			perguntas,
 		}
 	}
-	if(situacao_id === SITUACAO_LIGAR){
+	if (situacao_id === SITUACAO_LIGAR) {
 		estados = {
 			visitei: false,
 			naoVisitei: false,
 			mostrarBotaoConfirmar: false,
 			convidei: false,
 			naoConvidei: false,
-			desmarcou:false,
+			desmarcou: false,
 			naoFui: false,
 			remover: false,
 			recomecar: false,
@@ -418,7 +418,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							mostrarBotaoConfirmar: false,
 							convidei: false,
 							naoConvidei: false,
-							desmarcou:false,
+							desmarcou: false,
 							naoFui: false,
 							remover: false,
 							recomecar: false,
@@ -442,7 +442,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							mostrarBotaoConfirmar: false,
 							convidei: false,
 							naoConvidei: false,
-							desmarcou:false,
+							desmarcou: false,
 							naoFui: false,
 							remover: false,
 							recomecar: false,
@@ -468,7 +468,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							mostrarBotaoConfirmar: true,
 							convidei: true,
 							naoConvidei: false,
-							desmarcou:false,
+							desmarcou: false,
 							naoFui: false,
 							remover: false,
 							recomecar: false,
@@ -490,7 +490,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							mostrarBotaoConfirmar: false,
 							convidei: false,
 							naoConvidei: true,
-							desmarcou:false,
+							desmarcou: false,
 							naoFui: false,
 							remover: false,
 							recomecar: false,
@@ -589,12 +589,12 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 				]
 			},
 		]
-		parametros ={
+		parametros = {
 			estados,
 			perguntas,
 		}
 	}
-	if(situacao_id === SITUACAO_VISITA){
+	if (situacao_id === SITUACAO_VISITA) {
 		estados = {
 			veio: false,
 			naoVeio: false,
@@ -662,7 +662,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							mostrarBotaoConfirmar: true,
 							situacao_id_nova: SITUACAO_IMPORTAR,
 							alertTitulo: labelParabens,
-							alertMensagem: labelMensagem + 'ligar',
+							alertMensagem: labelMensagem + 'mensagem',
 						},
 					},
 					{
@@ -680,7 +680,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 				]
 			},
 		]
-		parametros ={
+		parametros = {
 			estados,
 			perguntas,
 		}
