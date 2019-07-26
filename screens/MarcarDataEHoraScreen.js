@@ -10,53 +10,53 @@ import {
 } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { white, dark, gold, lightdark, black, blue, gray } from '../helpers/colors'
+import { white, dark, gold, lightdark, black, primary, gray } from '../helpers/colors'
 import { connect } from 'react-redux'
 import DatePicker from 'react-native-datepicker'
-import { 
-	alterarProspectoNoAsyncStorage,
-	adicionarSituacoesAoAsyncStorage,
+import {
+    alterarProspectoNoAsyncStorage,
+    adicionarSituacoesAoAsyncStorage,
 } from '../actions'
 import { SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
 import { LinearGradient } from 'expo'
 
 class MarcarDataEHoraScreen extends React.Component {
 
-	ajudadorDeSubmit = () => {
-		this.setState({ carregando: true })
-		const { 
-			prospecto, 
-			alterarProspectoNoAsyncStorage, 
-			adicionarSituacoesAoAsyncStorage,
-			navigation, 
-			situacao_id_nova,
-			situacoes,
-			paraOndeVoltar,
-			qualAba,
-			alertTitulo,
-			alertMensagem,
-		} = this.props
-		if (this.state.dataParaOAgendamento === null ||
-			this.state.horaParaOAgendamento === null) {
-			Alert.alert('Erro', 'Selecione a data e hora')
-		} else {
-			prospecto.data = this.state.dataParaOAgendamento
-			prospecto.hora = this.state.horaParaOAgendamento
-			if (this.state.local) {
-				prospecto.local = this.state.local
-			}
-			prospecto.situacao_id = situacao_id_nova
-			this.props.adicionarSituacoesAoAsyncStorage(situacoes)
-				.then(() => {
-					alterarProspectoNoAsyncStorage(prospecto)
-						.then(() => {
-							Alert.alert(alertTitulo, alertMensagem)
-							this.setState({carregando: false})
-							navigation.navigate(paraOndeVoltar, {qualAba})
-						})
-				})
-		}
-	}
+    ajudadorDeSubmit = () => {
+        this.setState({ carregando: true })
+        const {
+            prospecto,
+            alterarProspectoNoAsyncStorage,
+            adicionarSituacoesAoAsyncStorage,
+            navigation,
+            situacao_id_nova,
+            situacoes,
+            paraOndeVoltar,
+            qualAba,
+            alertTitulo,
+            alertMensagem,
+        } = this.props
+        if (this.state.dataParaOAgendamento === null ||
+            this.state.horaParaOAgendamento === null) {
+            Alert.alert('Erro', 'Selecione a data e hora')
+        } else {
+            prospecto.data = this.state.dataParaOAgendamento
+            prospecto.hora = this.state.horaParaOAgendamento
+            if (this.state.local) {
+                prospecto.local = this.state.local
+            }
+            prospecto.situacao_id = situacao_id_nova
+            this.props.adicionarSituacoesAoAsyncStorage(situacoes)
+                .then(() => {
+                    alterarProspectoNoAsyncStorage(prospecto)
+                        .then(() => {
+                            Alert.alert(alertTitulo, alertMensagem)
+                            this.setState({ carregando: false })
+                            navigation.navigate(paraOndeVoltar, { qualAba })
+                        })
+                })
+        }
+    }
 
     componentDidMount() {
         this.props.navigation.setParams({
@@ -112,7 +112,7 @@ class MarcarDataEHoraScreen extends React.Component {
                         <View style={{ flex: 1, justifyContent: 'center' }}>
                             <ActivityIndicator
                                 size="large"
-                                color={blue}
+                                color={primary}
                             />
                         </View>
                     }
@@ -173,7 +173,7 @@ class MarcarDataEHoraScreen extends React.Component {
                                             dateText: {
                                                 color: white,
                                                 fontSize: 18,
-                                                marginLeft: 35,
+                                                marginLeft: 4,
                                             }
                                         }}
                                         onDateChange={(date) => {
@@ -215,23 +215,23 @@ class MarcarDataEHoraScreen extends React.Component {
 }
 
 function mapStateToProps({ prospectos }, { navigation }) {
-	const {
-		prospecto_id,
-		situacao_id_nova,
-		situacoes,
-		paraOndeVoltar,
-		qualAba,
-		alertTitulo,
-		alertMensagem
-	} = navigation.state.params
+    const {
+        prospecto_id,
+        situacao_id_nova,
+        situacoes,
+        paraOndeVoltar,
+        qualAba,
+        alertTitulo,
+        alertMensagem
+    } = navigation.state.params
     return {
         prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id),
-		situacao_id_nova,
-		situacoes,
-		paraOndeVoltar,
-		qualAba,
-		alertTitulo,
-		alertMensagem,
+        situacao_id_nova,
+        situacoes,
+        paraOndeVoltar,
+        qualAba,
+        alertTitulo,
+        alertMensagem,
     }
 }
 
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     button: {
-        backgroundColor: blue,
+        backgroundColor: primary,
         height: 45,
         borderRadius: 6,
         justifyContent: 'center',

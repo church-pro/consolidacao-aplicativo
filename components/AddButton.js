@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, Animated, Easing, View, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
-import { blue } from '../helpers/colors';
+import { primary } from '../helpers/colors';
 import { Icon } from 'react-native-elements';
 
 class AddButton extends React.Component {
@@ -47,7 +47,7 @@ const style = StyleSheet.create({
     bigBubble: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: blue,
+        backgroundColor: primary,
         height: 100,
         width: 100,
         borderRadius: 100 / 2,
@@ -56,7 +56,7 @@ const style = StyleSheet.create({
     smallBubble: {
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: blue,
+        backgroundColor: primary,
         height: 40,
         width: 40,
         borderRadius: 40 / 2,

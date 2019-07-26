@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { lightdark, gray, white, gold, dark, blue } from '../helpers/colors';
+import { lightdark, gray, white, gold, dark, primary } from '../helpers/colors';
 
 const styles = StyleSheet.create({
 
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         color: white
     },
     buttonImport: {
-        backgroundColor: blue,
+        backgroundColor: primary,
         borderWidth: 0,
         justifyContent: 'center',
         alignSelf: 'center',

@@ -7,7 +7,7 @@ import {
     StyleSheet
 } from 'react-native';
 
-import { blue, white } from '../helpers/colors'
+import { primary, white } from '../helpers/colors'
 
 const CPButton = ({ OnPress, title }) => (
     <View style={styles.containerButton}>
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     button: {
-        backgroundColor: blue,
+        backgroundColor: primary,
         height: 45,
         borderRadius: 6,
         justifyContent: 'center',

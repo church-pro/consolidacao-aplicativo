@@ -1,18 +1,18 @@
 import React from 'react';
 import {
-    View,
-    Text,
-    Alert,
+	View,
+	Text,
+	Alert,
 	ActivityIndicator,
 } from 'react-native';
 import { Button, Card, Icon, Input, CheckBox } from 'react-native-elements'
-import { white, red, gray, black, lightdark, dark, gold, blue } from '../helpers/colors'
+import { white, red, gray, black, lightdark, dark, gold, primary } from '../helpers/colors'
 import { connect } from 'react-redux'
-import { 
-	SITUACAO_REMOVIDO, 
+import {
+	SITUACAO_REMOVIDO,
 	SITUACAO_LIGAR,
 } from '../helpers/constants'
-import { 
+import {
 	alterarProspectoNoAsyncStorage,
 	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
@@ -24,18 +24,18 @@ import {
 
 class PerguntasScreen extends React.Component {
 
-    static navigationOptions = ({ navigation }) => {
-        return {
-            title: 'Perguntas',
-            headerTintColor: white,
-        }
-    }
+	static navigationOptions = ({ navigation }) => {
+		return {
+			title: 'Perguntas',
+			headerTintColor: white,
+		}
+	}
 
 	state = {
 		carregando: false,
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const {
 			estados
 		} = this.props
@@ -43,14 +43,14 @@ class PerguntasScreen extends React.Component {
 	}
 
 	ajudadorDeSubmit() {
-		this.setState({carregando: true})
-		const { 
-			prospecto, 
-			alterarProspectoNoAsyncStorage, 
+		this.setState({ carregando: true })
+		const {
+			prospecto,
+			alterarProspectoNoAsyncStorage,
 			adicionarSituacoesAoAsyncStorage,
 			navigation,
 		} = this.props
-		const { 
+		const {
 			situacao_id_nova,
 			situacao_id_extra,
 			paraOndeVoltar,
@@ -69,7 +69,7 @@ class PerguntasScreen extends React.Component {
 			hora_criacao: pegarDataEHoraAtual()[1],
 		}
 		situacoes.push(situacao)
-		if(situacao_id_extra){
+		if (situacao_id_extra) {
 			const situacaoExtra = {
 				prospecto_id: prospecto.celular_id,
 				situacao_id: situacao_id_extra,
@@ -78,13 +78,13 @@ class PerguntasScreen extends React.Component {
 			}
 			situacoes.push(situacaoExtra)
 		}
-		if(
+		if (
 			paraOndeNavegar === null ||
 			situacao_id_nova === SITUACAO_REMOVIDO
-		){
+		) {
 			this.props.adicionarSituacoesAoAsyncStorage(situacoes)
 				.then(() => {
-					if(prospecto.situacao_id !== SITUACAO_LIGAR){
+					if (prospecto.situacao_id !== SITUACAO_LIGAR) {
 						delete prospecto.local
 						delete prospecto.data
 						delete prospecto.hora
@@ -92,15 +92,15 @@ class PerguntasScreen extends React.Component {
 					alterarProspectoNoAsyncStorage(prospecto)
 						.then(() => {
 							Alert.alert(alertTitulo, alertMensagem)
-							this.setState({carregando: false})
-							navigation.navigate(paraOndeVoltar, {qualAba})
+							this.setState({ carregando: false })
+							navigation.navigate(paraOndeVoltar, { qualAba })
 						})
 				})
 		}
-		if(
+		if (
 			paraOndeNavegar &&
 			situacao_id_nova !== SITUACAO_REMOVIDO
-		){
+		) {
 			dados = {
 				prospecto_id: prospecto._id,
 				situacao_id_nova,
@@ -114,9 +114,9 @@ class PerguntasScreen extends React.Component {
 		}
 	}
 
-    render() {
-		const { 
-			prospecto, 
+	render() {
+		const {
+			prospecto,
 			navigation,
 			perguntas,
 		} = this.props
@@ -124,16 +124,16 @@ class PerguntasScreen extends React.Component {
 		const {
 			carregando
 		} = estados
-        return (
-            <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-                <View style={{ flex: 1, padding: 0 }}>
+		return (
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				<View style={{ flex: 1, padding: 20 }}>
 
 					{
 						carregando &&
 						<View style={{ flex: 1, justifyContent: 'center' }}>
 							<ActivityIndicator
 								size="large"
-								color={blue}
+								color={primary}
 							/>
 						</View>
 					}
@@ -144,16 +144,15 @@ class PerguntasScreen extends React.Component {
 						!carregando &&
 						perguntas.map(pergunta => {
 							let resposta = <View key={pergunta.titulo}></View>
-							if(estados[[pergunta.mostrar]]){
-								resposta = 	
-									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0 }}>
+							if (estados[[pergunta.mostrar]]) {
+								resposta =
+									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0, marginTop: 6 }}>
 										<Text style={{
-											color: white, textAlign: 'center', fontWeight: 'bold',
-											paddingBottom: 1
+											color: white, textAlign: 'center', fontWeight: 'bold', paddingBottom: 15
 										}}>
-										{pergunta.titulo}
+											{pergunta.titulo}
 										</Text>
-										<View style={{ backgroundColor: lightdark, height: 100, alignItems: 'center' }}>
+										<View style={{ backgroundColor: lightdark, alignItems: 'flex-start' }}>
 											{
 												pergunta.opcoes.map(opcao => {
 													return <CheckBox
@@ -163,11 +162,12 @@ class PerguntasScreen extends React.Component {
 														checked={estados[[opcao.estado]]}
 														onPress={() => this.setState(opcao.onPress)}
 														checkedIcon='dot-circle-o'
-														checkedColor={gold}
+														checkedColor={primary}
 														uncheckedIcon='circle-o'
 														containerStyle={{
 															backgroundColor: 'transparent',
-															padding: 0, borderColor: 'transparent'
+															padding: 0,
+															borderColor: 'transparent',
 														}}
 													/>
 												})
@@ -184,13 +184,13 @@ class PerguntasScreen extends React.Component {
 						!carregando &&
 						<CPButton
 							title='Confirmar'
-							OnPress={() => {this.ajudadorDeSubmit()}}
+							OnPress={() => { this.ajudadorDeSubmit() }}
 						/>
 					}
-                </View>
-            </LinearGradient>
-        )
-    }
+				</View>
+			</LinearGradient>
+		)
+	}
 
 }
 
@@ -201,18 +201,18 @@ function mapStateToProps({ prospectos }, { navigation }) {
 		estados,
 		perguntas,
 	} = params
-    return {
-        prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id),
+	return {
+		prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id),
 		estados,
 		perguntas,
-    }
+	}
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
-        adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
-    }
+	return {
+		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
+		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PerguntasScreen)

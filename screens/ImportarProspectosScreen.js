@@ -12,16 +12,16 @@ import { Icon } from 'react-native-elements'
 import { Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
 import { connect } from 'react-redux'
 import { Permissions, Contacts } from 'expo'
-import { white, gold, lightdark, gray, dark, black, blue } from '../helpers/colors'
+import { white, gold, lightdark, gray, dark, black, primary } from '../helpers/colors'
 import { LinearGradient } from 'expo'
-import { 
-	adicionarProspectosAoAsyncStorage,
-	adicionarSituacoesAoAsyncStorage,
+import {
+    adicionarProspectosAoAsyncStorage,
+    adicionarSituacoesAoAsyncStorage,
 } from '../actions'
 import { SITUACAO_IMPORTAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 import {
-	pegarDataEHoraAtual
+    pegarDataEHoraAtual
 } from '../helpers/helper'
 
 class MyListItem extends React.PureComponent {
@@ -30,7 +30,7 @@ class MyListItem extends React.PureComponent {
     };
 
     render() {
-        const textColor = this.props.selected ? blue : white;
+        const textColor = this.props.selected ? primary : white;
         return (
             <TouchableOpacity style={{ padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: 'transparent' }} onPress={this._onPress}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -105,72 +105,73 @@ class ImportarProspectosScreen extends React.Component {
         });
     };
 
-	componentDidMount(){
-		let contatosParaSelecionar = []
-		Permissions.askAsync(Permissions.CONTACTS)
-			.then(({status}) => {
-				if(status === 'granted'){
-					Contacts.getContactsAsync()
-						.then(data => {
-							data.data.map(contato => {
-								if(contato.phoneNumbers && contato.phoneNumbers.length){
-									let contatoNovo = {}
-									delete contatoNovo.selecionado
-									contatoNovo.situacao_id = SITUACAO_IMPORTAR
-									contatoNovo.id = Date.now() + contato.id
-									contatoNovo.nome = contato.name
-									contatoNovo.rating = null
-									contatoNovo.email = null
-									contatoNovo.online = false
-									contatoNovo.cadastroNaApi = false
-									contatoNovo.celular_id = contatoNovo.id
-									let contador = 1
-									contato.phoneNumbers.map(item => {
-										if(contador === 1){
-											let ddd = 61
-											let telefoneTexto = item.number.toString()
-											telefoneTexto = telefoneTexto.replace('-', '')
-											telefoneTexto = telefoneTexto.replace(' ', '')
-											telefoneTexto = telefoneTexto.replace('+', '')
-											telefoneTexto = telefoneTexto.replace('(', '')
-											telefoneTexto = telefoneTexto.replace(')', '')
-											let telefone = telefoneTexto
-											const tamanhoDoNumero = telefoneTexto.length
-											if(tamanhoDoNumero > 9){
-												telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
-												if(parseInt(telefone.substr(0, 1)) !== 9){
-													telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
-												}
-											}
-											if(tamanhoDoNumero >= 11){
-												let valorParaReduzir = 11
-												if(parseInt(telefoneTexto.substr(0, 1)) === 0){
-													valorParaReduzir = 10
-												}
-												ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
-												if(parseInt(ddd).toString().length !== 2){
-													ddd = '61'
-												}
-											}
-											contatoNovo.ddd = ddd
-											contatoNovo.telefone = telefone
-											contatoNovo.title = `${contatoNovo.nome} - (${contatoNovo.ddd}) ${contatoNovo.telefone}`
-											contatosParaSelecionar.push(contatoNovo)
-											contador++
-										}
-									})
-								}
-							})
-							if(contatosParaSelecionar.length){
-								this.setState({
-									contatosParaSelecionar,
-									carregando: false
-								})
-							}
-						})
-				}
-			})
-	}	
+    componentDidMount() {
+        let contatosParaSelecionar = []
+        Permissions.askAsync(Permissions.CONTACTS)
+            .then(({ status }) => {
+                if (status === 'granted') {
+                    Contacts.getContactsAsync()
+                        .then(data => {
+                            data.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+                            data.data.map(contato => {
+                                if (contato.phoneNumbers && contato.phoneNumbers.length) {
+                                    let contatoNovo = {}
+                                    delete contatoNovo.selecionado
+                                    contatoNovo.situacao_id = SITUACAO_IMPORTAR
+                                    contatoNovo.id = Date.now() + contato.id
+                                    contatoNovo.nome = contato.name
+                                    contatoNovo.rating = null
+                                    contatoNovo.email = null
+                                    contatoNovo.online = false
+                                    contatoNovo.cadastroNaApi = false
+                                    contatoNovo.celular_id = contatoNovo.id
+                                    let contador = 1
+                                    contato.phoneNumbers.map(item => {
+                                        if (contador === 1) {
+                                            let ddd = 61
+                                            let telefoneTexto = item.number.toString()
+                                            telefoneTexto = telefoneTexto.replace('-', '')
+                                            telefoneTexto = telefoneTexto.replace(' ', '')
+                                            telefoneTexto = telefoneTexto.replace('+', '')
+                                            telefoneTexto = telefoneTexto.replace('(', '')
+                                            telefoneTexto = telefoneTexto.replace(')', '')
+                                            let telefone = telefoneTexto
+                                            const tamanhoDoNumero = telefoneTexto.length
+                                            if (tamanhoDoNumero > 9) {
+                                                telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
+                                                if (parseInt(telefone.substr(0, 1)) !== 9) {
+                                                    telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
+                                                }
+                                            }
+                                            if (tamanhoDoNumero >= 11) {
+                                                let valorParaReduzir = 11
+                                                if (parseInt(telefoneTexto.substr(0, 1)) === 0) {
+                                                    valorParaReduzir = 10
+                                                }
+                                                ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
+                                                if (parseInt(ddd).toString().length !== 2) {
+                                                    ddd = '61'
+                                                }
+                                            }
+                                            contatoNovo.ddd = ddd
+                                            contatoNovo.telefone = telefone
+                                            contatoNovo.title = `${contatoNovo.nome} - (${contatoNovo.ddd}) ${contatoNovo.telefone}`
+                                            contatosParaSelecionar.push(contatoNovo)
+                                            contador++
+                                        }
+                                    })
+                                }
+                            })
+                            if (contatosParaSelecionar.length) {
+                                this.setState({
+                                    contatosParaSelecionar,
+                                    carregando: false
+                                })
+                            }
+                        })
+                }
+            })
+    }
 
     selecionarContato(indice) {
         let {
@@ -182,46 +183,46 @@ class ImportarProspectosScreen extends React.Component {
         this.setState({ contatosParaSelecionar })
     }
 
-	adicionarContatos(){
-		const {
-			contatosParaSelecionar,
-			selected,		
-			carregando,
-		} = this.state
-		const {
-			adicionarProspectosAoAsyncStorage,
-			adicionarSituacoesAoAsyncStorage,
-			navigation,
-		} = this.props
-		this.setState({carregando:true})
-		const contatosFiltrados = 
-			contatosParaSelecionar
-			.filter(contato => selected.get(contato.id))
-			.map(contato => {
-				contato._id = contato.id
-				return contato
-			})
-		adicionarProspectosAoAsyncStorage(contatosFiltrados)
-			.then(() => {
-				let situacoes = []
-				contatosFiltrados
-					.forEach(contato => {
-						const situacao = {
-							prospecto_id: contato.celular_id,
-							situacao_id: SITUACAO_IMPORTAR,
-							data_criacao: pegarDataEHoraAtual()[0],
-							hora_criacao: pegarDataEHoraAtual()[1],
-						}
-						situacoes.push(situacao)
-					})
-				adicionarSituacoesAoAsyncStorage(situacoes)
-					.then(() => {
-						this.setState({carregando:false})
-						Alert.alert('Importação', 'Importação concluida com sucesso!')
-						navigation.navigate('Prospectos', {qualAba: 'Mensagem'})
-					})
-			})
-	}
+    adicionarContatos() {
+        const {
+            contatosParaSelecionar,
+            selected,
+            carregando,
+        } = this.state
+        const {
+            adicionarProspectosAoAsyncStorage,
+            adicionarSituacoesAoAsyncStorage,
+            navigation,
+        } = this.props
+        this.setState({ carregando: true })
+        const contatosFiltrados =
+            contatosParaSelecionar
+                .filter(contato => selected.get(contato.id))
+                .map(contato => {
+                    contato._id = contato.id
+                    return contato
+                })
+        adicionarProspectosAoAsyncStorage(contatosFiltrados)
+            .then(() => {
+                let situacoes = []
+                contatosFiltrados
+                    .forEach(contato => {
+                        const situacao = {
+                            prospecto_id: contato.celular_id,
+                            situacao_id: SITUACAO_IMPORTAR,
+                            data_criacao: pegarDataEHoraAtual()[0],
+                            hora_criacao: pegarDataEHoraAtual()[1],
+                        }
+                        situacoes.push(situacao)
+                    })
+                adicionarSituacoesAoAsyncStorage(situacoes)
+                    .then(() => {
+                        this.setState({ carregando: false })
+                        Alert.alert('Importação', 'Importação concluida com sucesso!')
+                        navigation.navigate('Prospectos', { qualAba: 'Mensagem' })
+                    })
+            })
+    }
 
     render() {
         const { carregando } = this.state
@@ -241,7 +242,7 @@ class ImportarProspectosScreen extends React.Component {
                         </TouchableOpacity>
                     </Left>
                     <Body style={{ flex: 1 }}>
-                        <Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontSize: 16 }}>Importar Prospectos</Title>
+                        <Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontSize: 16 }}>Importar Contatos</Title>
                     </Body>
                     <Right style={{ flex: 0 }}>
                         <TouchableOpacity
@@ -257,7 +258,7 @@ class ImportarProspectosScreen extends React.Component {
                     <View style={{ flex: 1, justifyContent: 'center' }}>
                         <ActivityIndicator
                             size="large"
-                            color={blue}
+                            color={primary}
                         />
                     </View>
                 }
@@ -274,7 +275,7 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     !carregando && contatosParaSelecionar &&
-                    <View style={{ height: 70, backgroundColor: blue, justifyContent: 'center' }}>
+                    <View style={{ height: 70, backgroundColor: primary, justifyContent: 'center' }}>
                         <TouchableOpacity style={styles.buttonImport}
                             onPress={() => { this.adicionarContatos() }}
                         >
@@ -289,11 +290,11 @@ class ImportarProspectosScreen extends React.Component {
 
 }
 
-function mapDispatchToProps(dispatch){
-	return {
-		adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
-		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
-	}
+function mapDispatchToProps(dispatch) {
+    return {
+        adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
+        adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
+    }
 }
 
 export default connect(null, mapDispatchToProps)(ImportarProspectosScreen)

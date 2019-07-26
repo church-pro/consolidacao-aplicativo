@@ -5,7 +5,7 @@ import {
 	ActivityIndicator,
 	NetInfo,
 } from 'react-native';
-import { white, gold, dark, blue } from '../helpers/colors';
+import { white, gold, dark, primary } from '../helpers/colors';
 import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,
@@ -99,7 +99,7 @@ class SincronizacaoScreen extends React.Component {
 				<Text style={{ color: white, textAlign: 'center', fontSize: 22, marginBottom: 6 }}>Sincronizando</Text>
 				<ActivityIndicator
 					size="large"
-					color={blue}
+					color={primary}
 				/>
 			</View>
 		)

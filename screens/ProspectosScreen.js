@@ -14,7 +14,7 @@ import ActionButton from 'react-native-action-button';
 import SideBar from '../components/SideBar'
 import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation'
 import { LinearGradient } from 'expo'
-import { white, gold, dark, lightdark, black, blue } from '../helpers/colors'
+import { white, gold, dark, lightdark, black, primary } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
 import {
@@ -216,7 +216,7 @@ class ProspectosScreen extends React.Component {
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,
-					activeTintColor: gold,
+					activeTintColor: primary,
 					inactiveTintColor: '#eee',
 					style: {
 						backgroundColor: dark,
