@@ -50,7 +50,6 @@ class SincronizacaoScreen extends React.Component {
 										prospectos,
 										situacoes: retornoAsync.situacoes,
 									}
-									console.log('dados: ', dados)
 									sincronizarNaAPI(dados)
 										.then(retorno => {
 											if (retorno.ok) {
