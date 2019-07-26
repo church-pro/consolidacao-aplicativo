@@ -110,7 +110,6 @@ class PerguntasScreen extends React.Component {
 				alertTitulo,
 				alertMensagem,
 			}
-			this.setState({carregando: false})
 			navigation.navigate(paraOndeNavegar, dados)
 		}
 	}
@@ -127,7 +126,7 @@ class PerguntasScreen extends React.Component {
 		} = estados
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-				<View style={{ flex: 1, padding: 20 }}>
+				<View style={{ flex: 1, paddingHorizontal: 20 }}>
 
 					{
 						carregando &&
@@ -147,9 +146,9 @@ class PerguntasScreen extends React.Component {
 							let resposta = <View key={pergunta.titulo}></View>
 							if (estados[[pergunta.mostrar]]) {
 								resposta =
-									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0, marginTop: 6 }}>
+									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0, marginTop: 6, padding: 8 }}>
 										<Text style={{
-											color: white, textAlign: 'center', fontWeight: 'bold', paddingBottom: 15
+											color: white, textAlign: 'center', fontWeight: 'bold', padding: 0, paddingBottom: 8,
 										}}>
 											{pergunta.titulo}
 										</Text>

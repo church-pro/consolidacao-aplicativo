@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
 		height: Platform.OS === "ios" ? 115 : 105,
 	},
 	containerInput: {
-		backgroundColor: black,
+		backgroundColor: 'rgba(0, 0, 0, 0.3)',
 		height: 45,
 	},
 	inputText: {
