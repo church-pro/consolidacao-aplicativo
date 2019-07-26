@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'                                                                                                                                                              
 
-const versaoBanco = '0004'
+const versaoBanco = '0007'
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
@@ -142,4 +142,14 @@ export function submeterSituacoes(situacoes){
 			AsyncStorage.setItem(CHAVE_SITUACOES, JSON.stringify(dados))
 			return situacoes                 
 		})                                    
+}
+
+export const limparSituacoes = async () => {
+	try {
+		const dados = {situacoes: []}      
+		await 	AsyncStorage.setItem(CHAVE_SITUACOES, JSON.stringify(dados))
+		return true
+	} catch (error) {
+		// Error saving data
+	}
 }

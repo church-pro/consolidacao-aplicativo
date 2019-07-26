@@ -13,6 +13,7 @@ import {
 import {
 	sincronizarNaAPI,
 	recuperarSituacoes,
+	limparSituacoes,
 } from '../helpers/api'
 import { connect } from 'react-redux'
 
@@ -42,13 +43,14 @@ class SincronizacaoScreen extends React.Component {
 						} = this.props
 						if (usuario.email) {
 							recuperarSituacoes()
-								.then(situacoes => {
+								.then(retornoAsync => {
 									let dados = {
 										email: usuario.email,
 										senha: usuario.senha,
 										prospectos,
-										situacoes,
+										situacoes: retornoAsync.situacoes,
 									}
+									console.log('dados: ', dados)
 									sincronizarNaAPI(dados)
 										.then(retorno => {
 											if (retorno.ok) {
@@ -58,15 +60,17 @@ class SincronizacaoScreen extends React.Component {
 													dados.data_atualizacao = retorno.resultado.data_atualizacao
 													dados.hora_atualizacao = retorno.resultado.hora_atualizacao
 													delete dados.prospectos
+													delete dados.situacoes
 													alterarUsuarioNoAsyncStorage(dados)
 														.then(() => {
-															// pondo prospectos retornados da api com id correto
-															let prospectosFiltrados = retorno.resultado.prospectos
-																.filter(prospecto => prospecto)
-															this.props.porProspectoDaSincronizacao(prospectosFiltrados)
+															// pondo prospectos retornados da api com id da api
+															this.props.porProspectoDaSincronizacao(retorno.resultado.prospectos)
 																.then(() => {
-																	Alert.alert('Sincronização', 'Sincronizado com sucesso!')
-																	navigation.navigate(tela)
+																	limparSituacoes()
+																		.then(() => {
+																			Alert.alert('Sincronização', 'Sincronizado com sucesso!')
+																			navigation.navigate(tela)
+																		})
 																})
 																.catch(err => {
 																	console.log('err: ', err)
@@ -77,7 +81,6 @@ class SincronizacaoScreen extends React.Component {
 												if (tela === 'Login') {
 													alterarUsuarioNoAsyncStorage({})
 														.then(() => {
-
 															navigation.navigate(tela)
 														})
 												}
