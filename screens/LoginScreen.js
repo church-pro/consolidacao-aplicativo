@@ -21,6 +21,7 @@ import {
 import { connect } from 'react-redux'
 import CPButton from '../components/CPButton';
 import { LinearGradient } from 'expo'
+import logo from '../assets/images/churchpro_branco.png'
 
 class LoginScreen extends React.Component {
 
@@ -143,12 +144,13 @@ class LoginScreen extends React.Component {
 						<Fragment>
 
 							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-								<Text style={{ color: '#FFFFFF', fontSize: 26 }}>
+								{/* <Text style={{ color: '#FFFFFF', fontSize: 26 }}>
 									Church Pro
 								</Text>
 								<Text style={{ color: '#FFFFFF', fontSize: 20 }}>
 									Consolidação
-								</Text>
+								</Text> */}
+								<Image source={logo} style={{ height: 50, resizeMode: 'contain' }} />
 							</View>
 
 							<View style={{ flex: 1 }}>
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
 		color: white,
 		fontWeight: '400',
 		height: 45,
-		paddingHorizontal: 4
+		paddingHorizontal: 8
 	},
 	containerButton: {
 		marginBottom: 6,
