@@ -5,20 +5,19 @@ const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
 
-let api = 'http://192.168.0.14:8080'
-api = 'https://api.churchpro.com.br'
+const apiNova = 'https://api.churchpro.com.br'
 const headers = {
 	'Content-Type': 'application/json'
 }
 
 export const teste = () => 
-	fetch(`${api}/`)
+	fetch(`${apiNova}/`)
 		.then(resultado => resultado.json())
 		.then(json => json)
 
 export const registrarNaAPI = (dados) =>
 	fetch(
-		`${api}/no/registrarUsuario`,
+		`${apiNova}/no/registrarUsuario`,
 		{
 			headers,
 			method: "POST",
@@ -30,7 +29,7 @@ export const registrarNaAPI = (dados) =>
 
 export const logarNaApi = (dados) =>
 	fetch(
-		`${api}/no/logar`,
+		`${apiNova}/no/logar`,
 		{
 			headers,
 			method: "POST",
@@ -42,7 +41,7 @@ export const logarNaApi = (dados) =>
 
 export const sincronizarNaAPI = (dados) =>
 	fetch(
-		`${api}/no/sincronizar`,
+		`${apiNova}/no/sincronizar`,
 		{
 			headers,
 			method: "POST",

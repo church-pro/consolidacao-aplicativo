@@ -248,7 +248,7 @@ class ImportarProspectosScreen extends React.Component {
                         <TouchableOpacity
                             style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 6 }}
                             onPress={() => this.props.navigation.navigate('Prospecto')}>
-                            <Icon name='plus' type='font-awesome' color={white} />
+                            <Icon name='user-plus' type='font-awesome' color={white} />
                         </TouchableOpacity>
                     </Right>
                 </Header>
