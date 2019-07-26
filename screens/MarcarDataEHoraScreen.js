@@ -18,6 +18,9 @@ import {
     alterarProspectoNoAsyncStorage,
     adicionarSituacoesAoAsyncStorage,
 } from '../actions'
+import {
+	submeterSituacoes,
+} from '../helpers/api'
 import { SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
 import { LinearGradient } from 'expo'
 
@@ -28,7 +31,6 @@ class MarcarDataEHoraScreen extends React.Component {
         const {
             prospecto,
             alterarProspectoNoAsyncStorage,
-            adicionarSituacoesAoAsyncStorage,
             navigation,
             situacao_id_nova,
             situacoes,
@@ -47,7 +49,7 @@ class MarcarDataEHoraScreen extends React.Component {
                 prospecto.local = this.state.local
             }
             prospecto.situacao_id = situacao_id_nova
-            this.props.adicionarSituacoesAoAsyncStorage(situacoes)
+            submeterSituacoes(situacoes)
                 .then(() => {
                     alterarProspectoNoAsyncStorage(prospecto)
                         .then(() => {
@@ -228,7 +230,6 @@ function mapStateToProps({ prospectos }, { navigation }) {
 function mapDispatchToProps(dispatch) {
     return {
         alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
-        adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
     }
 }
 

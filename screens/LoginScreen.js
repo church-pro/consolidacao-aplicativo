@@ -76,7 +76,6 @@ class LoginScreen extends React.Component {
 				.fetch()
 				.then(isConnected => {
 					if (isConnected) {
-
 						this.setState({ carregando: true })
 						const dados = {
 							email,

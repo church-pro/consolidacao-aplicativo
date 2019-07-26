@@ -8,7 +8,7 @@ import {
 	ActivityIndicator,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { dark, white, gray, gold, lightdark, black } from '../helpers/colors';
+import { primary, dark, white, gray, gold, lightdark, black } from '../helpers/colors';
 import { Input } from 'react-native-elements'
 import { Icon } from 'native-base';
 import {

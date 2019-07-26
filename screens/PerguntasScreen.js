@@ -14,9 +14,11 @@ import {
 } from '../helpers/constants'
 import {
 	alterarProspectoNoAsyncStorage,
-	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
-import CPButton from '../components/CPButton';
+import {
+	submeterSituacoes,
+} from '../helpers/api'
+import CPButton from '../components/CPButton'
 import { LinearGradient } from 'expo'
 import {
 	pegarDataEHoraAtual
@@ -47,7 +49,6 @@ class PerguntasScreen extends React.Component {
 		const {
 			prospecto,
 			alterarProspectoNoAsyncStorage,
-			adicionarSituacoesAoAsyncStorage,
 			navigation,
 		} = this.props
 		const {
@@ -82,7 +83,7 @@ class PerguntasScreen extends React.Component {
 			paraOndeNavegar === null ||
 			situacao_id_nova === SITUACAO_REMOVIDO
 		) {
-			this.props.adicionarSituacoesAoAsyncStorage(situacoes)
+			submeterSituacoes(situacoes)
 				.then(() => {
 					if (prospecto.situacao_id !== SITUACAO_LIGAR) {
 						delete prospecto.local
@@ -211,7 +212,6 @@ function mapStateToProps({ prospectos }, { navigation }) {
 function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
-		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
 	}
 }
 
