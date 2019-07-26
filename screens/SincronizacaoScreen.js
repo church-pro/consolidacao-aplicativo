@@ -49,7 +49,6 @@ class SincronizacaoScreen extends React.Component {
 										prospectos,
 										situacoes,
 									}
-									console.log('situacoes: ', situacoes)
 									sincronizarNaAPI(dados)
 										.then(retorno => {
 											if (retorno.ok) {
