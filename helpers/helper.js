@@ -597,7 +597,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 	if(situacao_id === SITUACAO_VISITA){
 		estados = {
 			veio: false,
-			naoNao: false,
+			naoVeio: false,
 			mostrarBotaoConfirmar: false,
 			remover: false,
 			recomecar: false,
@@ -621,7 +621,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						titulo: 'Sim',
 						onPress: {
 							veio: true,
-							naoNao: false,
+							naoVeio: false,
 							mostrarBotaoConfirmar: true,
 							remover: false,
 							recomecar: false,
@@ -634,11 +634,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						},
 					},
 					{
-						estado: 'naoVisitei',
+						estado: 'naoVeio',
 						titulo: 'Não',
 						onPress: {
 							veio: false,
-							naoNao: true,
+							naoVeio: true,
 							mostrarBotaoConfirmar: false,
 							remover: false,
 							recomecar: false,

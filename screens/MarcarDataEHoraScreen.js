@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     StyleSheet,
     ActivityIndicator,
+	Header,
 } from 'react-native';
 import { Card, Icon, Input } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -58,12 +59,6 @@ class MarcarDataEHoraScreen extends React.Component {
 		}
 	}
 
-    componentDidMount() {
-        this.props.navigation.setParams({
-            alterarProspecto: this.alterarProspecto
-        })
-    }
-
     state = {
         carregando: false,
         selecionarDataMostrando: false,
@@ -75,26 +70,24 @@ class MarcarDataEHoraScreen extends React.Component {
     }
 
     static navigationOptions = ({ navigation }) => {
-        const { params = {} } = navigation.state
-        return {
-            title: 'Marcar Data e Hora',
-            headerStyle: {
-                backgroundColor: black,
-                borderBottomWidth: 0,
-            },
-            headerTitleStyle: {
-                flex: 1,
-                textAlign: 'center',
-                alignSelf: 'center',
-                color: white,
-            },
-            headerTintColor: white,
-            headerLeftContainerStyle: {
-                padding: 10,
-            },
-        }
+		return {
+			title: 'Marcar Data e Hora',
+			headerStyle: {
+				backgroundColor: black,
+				borderBottomWidth: 0,
+			},
+			headerTitleStyle: {
+				flex: 1,
+				textAlign: 'center',
+				alignSelf: 'center',
+				color: white,
+			},
+			headerTintColor: white,
+			headerLeftContainerStyle: {
+				padding: 10,
+			},
+		}
     }
-
 
     render() {
         const { prospecto } = this.props
@@ -102,7 +95,7 @@ class MarcarDataEHoraScreen extends React.Component {
 
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-                <KeyboardAwareScrollView
+               <KeyboardAwareScrollView
                     contentContainerStyle={styles.container}
                     keyboardShoulfPersistTaps='always'
                     enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
@@ -120,8 +113,6 @@ class MarcarDataEHoraScreen extends React.Component {
                     {
                         !carregando &&
                         <View>
-                            {/* <Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}> */}
-
                             <View style={{ paddingHorizontal: 10, borderWidth: 1, borderColor: gray, borderRadius: 6 }}>
                                 <Text style={{ fontSize: 16, color: white, fontWeight: "bold", marginTop: 6 }}>DATA</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -195,7 +186,6 @@ class MarcarDataEHoraScreen extends React.Component {
                                     />
                                 </View>
                             </View>
-                            {/* </Card> */}
 
                             <View style={styles.containerButton}>
                                 <TouchableOpacity
