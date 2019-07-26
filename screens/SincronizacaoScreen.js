@@ -12,6 +12,7 @@ import {
 } from '../actions'
 import {
 	sincronizarNaAPI,
+	recuperarSituacoes,
 } from '../helpers/api'
 import { connect } from 'react-redux'
 
@@ -40,45 +41,50 @@ class SincronizacaoScreen extends React.Component {
 							prospectos,
 						} = this.props
 						if (usuario.email) {
-							let dados = {
-								email: usuario.email,
-								senha: usuario.senha,
-								prospectos: prospectos,
-							}
-							sincronizarNaAPI(dados)
-								.then(retorno => {
-									if (retorno.ok) {
-										// nao apertei sair
-										if (tela !== 'Login') {
-											dados.no_id = retorno.resultado.no_id
-											dados.data_atualizacao = retorno.resultado.data_atualizacao
-											dados.hora_atualizacao = retorno.resultado.hora_atualizacao
-											delete dados.prospectos
-											alterarUsuarioNoAsyncStorage(dados)
-												.then(() => {
-													// pondo prospectos retornados da api com id correto
-													let prospectosFiltrados = retorno.resultado.prospectos
-														.filter(prospecto => prospecto)
-													this.props.porProspectoDaSincronizacao(prospectosFiltrados)
+							recuperarSituacoes()
+								.then(situacoes => {
+									let dados = {
+										email: usuario.email,
+										senha: usuario.senha,
+										prospectos,
+										situacoes,
+									}
+									console.log('situacoes: ', situacoes)
+									sincronizarNaAPI(dados)
+										.then(retorno => {
+											if (retorno.ok) {
+												// nao apertei sair
+												if (tela !== 'Login') {
+													dados.no_id = retorno.resultado.no_id
+													dados.data_atualizacao = retorno.resultado.data_atualizacao
+													dados.hora_atualizacao = retorno.resultado.hora_atualizacao
+													delete dados.prospectos
+													alterarUsuarioNoAsyncStorage(dados)
 														.then(() => {
-															Alert.alert('Sincronização', 'Sincronizado com sucesso!')
+															// pondo prospectos retornados da api com id correto
+															let prospectosFiltrados = retorno.resultado.prospectos
+																.filter(prospecto => prospecto)
+															this.props.porProspectoDaSincronizacao(prospectosFiltrados)
+																.then(() => {
+																	Alert.alert('Sincronização', 'Sincronizado com sucesso!')
+																	navigation.navigate(tela)
+																})
+																.catch(err => {
+																	console.log('err: ', err)
+																})
+														})
+												}
+												// apertei sair
+												if (tela === 'Login') {
+													alterarUsuarioNoAsyncStorage({})
+														.then(() => {
+
 															navigation.navigate(tela)
 														})
-														.catch(err => {
-															console.log('err: ', err)
-														})
-												})
-										}
-										// apertei sair
-										if (tela === 'Login') {
-											alterarUsuarioNoAsyncStorage({})
-												.then(() => {
+												}
 
-													navigation.navigate(tela)
-												})
-										}
-
-									}
+											}
+										})
 								})
 								.catch(err => console.log('err: ', err))
 						} else {
