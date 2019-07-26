@@ -146,9 +146,9 @@ class PerguntasScreen extends React.Component {
 							let resposta = <View key={pergunta.titulo}></View>
 							if (estados[[pergunta.mostrar]]) {
 								resposta =
-									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0, marginTop: 6, padding: 8 }}>
+									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0, marginTop: 0, padding: 8 }}>
 										<Text style={{
-											color: white, textAlign: 'center', fontWeight: 'bold', padding: 0, paddingBottom: 8,
+											color: white, textAlign: 'center', fontWeight: 'bold', padding: 0, paddingBottom: 4,
 										}}>
 											{pergunta.titulo}
 										</Text>
