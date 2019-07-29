@@ -1,7 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { lightdark, gray, white, gold, dark, primary } from '../helpers/colors';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
 
     container: {
         flex: 1,
@@ -31,13 +31,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start",
         alignItems: 'center',
     },
-    rating: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        paddingTop: 5,
-        paddingRight: 5,
-    },
+
     date: {
         paddingTop: 6,
         paddingLeft: 6,
@@ -48,50 +42,6 @@ const styles = StyleSheet.create({
         backgroundColor: gold,
     },
 
-
-    // STYLES FOOTER
-    subFooter: {
-        flexDirection: 'row',
-        backgroundColor: white,
-        height: 35,
-    },
-    footerRating: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
-    footerQualificar: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
-    footerConvidar: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
-    footerAPN: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "flex-end",
-        paddingHorizontal: 6,
-    },
-    footerAcompanhar: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
-    footerFechamento: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
 
     //STYLE BUTTON
     button: {
@@ -135,7 +85,7 @@ const styles = StyleSheet.create({
     },
     textMenu: {
         color: white,
-        fontSize: 32,
+        fontSize: 28,
         fontWeight: '200',
         paddingVertical: 30,
         marginLeft: 20
@@ -143,4 +93,83 @@ const styles = StyleSheet.create({
 
 })
 
-export default styles;
+export const stylesLogin = StyleSheet.create({
+
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        padding: 20,
+    },
+    containerLogo: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    logo: {
+        height: 50,
+        resizeMode: 'contain',
+    },
+    containerInputEmail: {
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        height: 45,
+        borderBottomWidth: 1,
+        borderBottomColor: gray,
+        borderTopLeftRadius: 6,
+        borderTopRightRadius: 6
+    },
+    containerInputSenha: {
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        height: 45,
+        borderBottomLeftRadius: 6,
+        borderBottomRightRadius: 6
+    },
+    inputText: {
+        fontSize: 16,
+        color: white,
+        fontWeight: '400',
+        height: 45,
+        paddingHorizontal: 8
+    },
+    containerButton: {
+        marginBottom: 6,
+    },
+    button: {
+        backgroundColor: gold,
+        height: 45,
+        borderRadius: 10,
+        justifyContent: 'center',
+        marginHorizontal: 12,
+    },
+    textButton: {
+        fontSize: 16,
+        color: white,
+        fontWeight: '200',
+        textAlign: 'center',
+    },
+
+})
+
+export const stylesRegistro = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 20,
+    },
+    containerInputRegistro: {
+        borderWidth: 1,
+        borderColor: gray,
+        borderRadius: 6,
+        height: 60,
+        marginTop: 6,
+    },
+    inputRegistro: {
+        color: white,
+        marginLeft: 5
+    },
+    labelRegistro: {
+        marginTop: 5,
+        color: white
+    }
+
+})

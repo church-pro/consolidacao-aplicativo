@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'native-base'
 import { Alert, View, Text, Image } from 'react-native'
-import styles from './ProspectoStyle'
+import { styles } from './Styles'
 import { connect } from 'react-redux'
 import {
 	sendNotificationImmediately,

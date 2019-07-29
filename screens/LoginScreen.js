@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import {
 	Alert, Text, View, Image, TextInput,
 	TouchableOpacity,
-	ActivityIndicator,
 	NetInfo,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { dark, white, gray, gold, lightdark, black } from '../helpers/colors';
+import { dark, white, lightdark, black } from '../helpers/colors';
 import {
 	alterarUsuarioNoAsyncStorage,
 	pegarUsuarioNoAsyncStorage,
@@ -22,6 +21,8 @@ import { connect } from 'react-redux'
 import CPButton from '../components/CPButton';
 import { LinearGradient } from 'expo'
 import logo from '../assets/images/churchpro_branco.png'
+import { stylesLogin } from '../components/Styles'
+import Loading from '../components/Loading';
 
 class LoginScreen extends React.Component {
 
@@ -122,39 +123,27 @@ class LoginScreen extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#404040']}>
 				<KeyboardAwareScrollView
-					contentContainerStyle={styles.container}
+					contentContainerStyle={stylesLogin.container}
 					enableOnAndroid enableAutomaticScroll={true}
 					keyboardShoulfPersistTaps='always'
 					extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
 					{
 						carregando &&
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<Text style={{ color: white, textAlign: 'center', fontSize: 22, marginBottom: 6 }}>Entrando no Church Pro</Text>
-							<ActivityIndicator
-								size="large"
-								color={gold}
-							/>
-						</View>
+						<Loading title="Entrando no Church Pro" />
 					}
 
 					{
 						!carregando &&
 						<Fragment>
 
-							<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-								{/* <Text style={{ color: '#FFFFFF', fontSize: 26 }}>
-									Church Pro
-								</Text>
-								<Text style={{ color: '#FFFFFF', fontSize: 20 }}>
-									Consolidação
-								</Text> */}
-								<Image source={logo} style={{ height: 50, resizeMode: 'contain' }} />
+							<View style={stylesLogin.containerLogo}>
+								<Image source={logo} style={stylesLogin.logo} />
 							</View>
 
 							<View style={{ flex: 1 }}>
-								<View style={[styles.containerInput, { borderBottomWidth: 1, borderBottomColor: gray, borderTopLeftRadius: 6, borderTopRightRadius: 6 }]}>
-									<TextInput style={styles.inputText}
+								<View style={[stylesLogin.containerInputEmail]}>
+									<TextInput style={stylesLogin.inputText}
 										keyboardAppearance='dark'
 										autoCapitalize="none"
 										placeholderTextColor="#d3d3d3"
@@ -167,8 +156,8 @@ class LoginScreen extends React.Component {
 										onSubmitEditing={() => this.inputSenha.focus()}
 									/>
 								</View>
-								<View style={[styles.containerInput, { borderBottomLeftRadius: 6, borderBottomRightRadius: 6 }]}>
-									<TextInput style={styles.inputText}
+								<View style={[stylesLogin.containerInputSenha]}>
+									<TextInput style={stylesLogin.inputText}
 										ref={(input) => { this.inputSenha = input; }}
 										keyboardAppearance='dark'
 										placeholderTextColor="#d3d3d3"
@@ -191,13 +180,14 @@ class LoginScreen extends React.Component {
 							</View>
 
 
-							<View style={styles.containerButton}>
+							<View style={stylesLogin.containerButton}>
 
 								<TouchableOpacity
-									style={[styles.button, style = { backgroundColor: 'transparent' }]}
+									style={[stylesLogin.button, style = { backgroundColor: 'transparent' }]}
 									onPress={() => this.props.navigation.navigate('Registro')}>
-									<Text style={[styles.textButton, style = { color: white, fontWeight: '200' }]}>Ainda não tem uma conta? Crie aqui!</Text>
+									<Text style={[stylesLogin.textButton]}>Ainda não tem uma conta? Crie aqui!</Text>
 								</TouchableOpacity>
+
 							</View>
 
 						</Fragment>
@@ -229,45 +219,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'space-between',
-		alignItems: 'stretch',
-		padding: 20,
-	},
-	logo: {
-		alignSelf: 'center',
-		width: Platform.OS === "ios" ? 200 : 180,
-		height: Platform.OS === "ios" ? 115 : 105,
-	},
-	containerInput: {
-		backgroundColor: 'rgba(0, 0, 0, 0.3)',
-		height: 45,
-	},
-	inputText: {
-		fontSize: 16,
-		color: white,
-		fontWeight: '400',
-		height: 45,
-		paddingHorizontal: 8
-	},
-	containerButton: {
-		marginBottom: 6,
-	},
-	button: {
-		backgroundColor: gold,
-		height: 45,
-		borderRadius: 10,
-		justifyContent: 'center',
-		marginHorizontal: 12,
-	},
-	textButton: {
-		fontSize: 16,
-		color: dark,
-		textAlign: 'center',
-	},
-})
-
