@@ -130,69 +130,69 @@ class LoginScreen extends React.Component {
 
 					{
 						carregando &&
-							<Loading title="Entrando no Church Pro" />
+						<Loading title="Entrando no Church Pro" />
 					}
 
 					{
 						!carregando &&
-							<Fragment>
+						<Fragment>
 
-								<View style={stylesLogin.containerLogo}>
-									<Image source={logo} style={stylesLogin.logo} />
+							<View style={stylesLogin.containerLogo}>
+								<Image source={logo} style={stylesLogin.logo} />
+							</View>
+
+							<View style={{ flex: 1 }}>
+								<View style={[stylesLogin.containerInputEmail]}>
+									<TextInput style={stylesLogin.inputText}
+										keyboardAppearance='dark'
+										autoCapitalize="none"
+										placeholderTextColor="#d3d3d3"
+										placeholder="Seu Email"
+										selectionColor="#fff"
+										keyboardType="email-address"
+										value={email}
+										onChangeText={texto => this.setState({ email: texto })}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputSenha.focus()}
+									/>
 								</View>
-
-								<View style={{ flex: 1 }}>
-									<View style={[stylesLogin.containerInputEmail]}>
-										<TextInput style={stylesLogin.inputText}
-											keyboardAppearance='dark'
-											autoCapitalize="none"
-											placeholderTextColor="#d3d3d3"
-											placeholder="Seu Email"
-											selectionColor="#fff"
-											keyboardType="email-address"
-											value={email}
-											onChangeText={texto => this.setState({ email: texto })}
-											returnKeyType={'next'}
-											onSubmitEditing={() => this.inputSenha.focus()}
-										/>
-									</View>
-									<View style={[stylesLogin.containerInputSenha]}>
-										<TextInput style={stylesLogin.inputText}
-											ref={(input) => { this.inputSenha = input; }}
-											keyboardAppearance='dark'
-											placeholderTextColor="#d3d3d3"
-											placeholder="Senha"
-											selectionColor="#fff"
-											keyboardType='default'
-											secureTextEntry={true}
-											value={senha}
-											onChangeText={texto => this.setState({ senha: texto })}
-											returnKeyType={'go'}
-											onSubmitEditing={() => this.ajudadorDeSubmissao()}
-										/>
-									</View>
-									<View>
-										<CPButton
-											title="Entrar"
-											OnPress={() => this.ajudadorDeSubmissao()}
-										/>
-									</View>
+								<View style={[stylesLogin.containerInputSenha]}>
+									<TextInput style={stylesLogin.inputText}
+										ref={(input) => { this.inputSenha = input; }}
+										keyboardAppearance='dark'
+										placeholderTextColor="#d3d3d3"
+										placeholder="Senha"
+										selectionColor="#fff"
+										keyboardType='default'
+										secureTextEntry={true}
+										value={senha}
+										onChangeText={texto => this.setState({ senha: texto })}
+										returnKeyType={'go'}
+										onSubmitEditing={() => this.ajudadorDeSubmissao()}
+									/>
 								</View>
+								<View>
+									<CPButton
+										title="Entrar"
+										OnPress={() => this.ajudadorDeSubmissao()}
+									/>
+								</View>
+							</View>
 
 
-							</Fragment>
+						</Fragment>
 					}
 				</KeyboardAwareScrollView>
 
-				<View style={stylesLogin.containerButton}>
-
-					<TouchableOpacity
-						style={[stylesLogin.button, style = { backgroundColor: 'transparent' }]}
-						onPress={() => this.props.navigation.navigate('Registro')}>
-						<Text style={[stylesLogin.textButton]}>Ainda não tem uma conta? Crie aqui!</Text>
-					</TouchableOpacity>
-
-				</View>
+				{!carregando &&
+					<View style={stylesLogin.containerButton}>
+						<TouchableOpacity
+							style={[stylesLogin.button]}
+							onPress={() => this.props.navigation.navigate('Registro')}>
+							<Text style={[stylesLogin.textButton]}>Ainda não tem uma conta? Crie aqui!</Text>
+						</TouchableOpacity>
+					</View>
+				}
 
 			</LinearGradient>
 		)

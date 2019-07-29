@@ -57,7 +57,7 @@ class Prospecto extends React.Component {
 				</View>
 				<View style={styles.name_phone}>
 					<View style={styles.content}>
-						<Text style={[styles.text, style = { fontWeight: 'bold' }]}>{prospecto.nome}</Text>
+						<Text style={[styles.text]}>{prospecto.nome}</Text>
 					</View>
 					<View style={{ backgroundColor: 'transparent', marginLeft: 3, flexDirection: 'row', alignItems: 'center' }}>
 						<TouchableOpacity

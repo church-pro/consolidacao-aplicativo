@@ -1,15 +1,10 @@
 import React from 'react'
 import { Button } from 'native-base'
 import { Alert, View, Text, Image } from 'react-native'
-import { styles } from './Styles'
-import { connect } from 'react-redux'
-import {
-	sendNotificationImmediately,
-	scheduleNotification,
-	cancelarTodasNotificacoes,
-} from '../helpers/helper'
+import { stylesSideMenu, styles } from './Styles'
 import { LinearGradient } from 'expo'
-import { black, dark, lightdark, white } from '../helpers/colors';
+import { black, dark, lightdark } from '../helpers/colors';
+import logo from '../assets/images/churchpro_branco.png'
 
 class SideBar extends React.Component {
 
@@ -33,15 +28,14 @@ class SideBar extends React.Component {
 	render() {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#404040']}>
-				<View style={styles.sideMenu}>
-					<View style={{ marginTop: 25, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-						<Text style={{ fontSize: 22, color: white, textAlign: "center", fontWeight: "bold" }}>CHURCH PRO</Text>
-						<Text style={{ fontSize: 18, color: white, textAlign: "center" }}>CONSOLIDAÇÃO</Text>
+				<View style={styles.container}>
+					<View style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }}>
+						<Image source={logo} style={stylesSideMenu.imgLogo} />
 					</View>
 					<Button
 						style={{ backgroundColor: 'transparent', height: 80 }}
 						onPress={() => this.sair()}>
-						<Text style={styles.textMenu}>
+						<Text style={stylesSideMenu.textMenu}>
 							Sair
 					</Text>
 					</Button>
