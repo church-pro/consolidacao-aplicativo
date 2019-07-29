@@ -126,10 +126,10 @@ class ProspectoScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		const { params = {} } = navigation.state
 		return {
-			title: 'Novo Prospecto',
+			title: 'Novo Contato',
 			headerTitleStyle: {
 				flex: 1,
-				textAlign: 'center',
+				// textAlign: 'center',
 				alignSelf: 'center',
 				color: white,
 			},
