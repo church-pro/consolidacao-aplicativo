@@ -1,11 +1,12 @@
 import { StyleSheet, Platform } from 'react-native';
 import { lightdark, gray, white, gold, dark, primary, black } from '../helpers/colors';
 
+// GLOBAL
 export const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: lightdark,
+        paddingHorizontal: 20,
     },
     containerCard: {
         backgroundColor: 'transparent',
