@@ -228,7 +228,7 @@ class ProspectoScreen extends React.Component {
 
 						</View>
 						<Input
-							containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+							containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
 							inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 							keyboardType='email-address'
 							keyboardAppearance='dark'

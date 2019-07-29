@@ -266,3 +266,31 @@ export const stylesMarcar = StyleSheet.create({
 
     },
 })
+
+// TELA DE PERGUNTAS
+export const stylesPerguntas = StyleSheet.create({
+    card: {
+        backgroundColor: dark,
+        borderColor: 'transparent',
+        borderRadius: 1,
+        margin: 0,
+        marginTop: 0,
+        padding: 8
+    },
+    perguntaTitulo: {
+        color: white,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        padding: 0,
+        paddingBottom: 4,
+    },
+    containerRespostas: {
+        backgroundColor: lightdark,
+        alignItems: 'flex-start'
+    },
+    containerCheckbox: {
+        backgroundColor: 'transparent',
+        padding: 0,
+        borderColor: 'transparent'
+    },
+})
