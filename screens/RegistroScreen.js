@@ -5,6 +5,8 @@ import {
 	NetInfo,
 	Platform,
 	ActivityIndicator,
+	Text,
+	TextInput
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { primary, dark, white, gray, lightdark, black } from '../helpers/colors';
@@ -178,130 +180,126 @@ class RegistroScreen extends React.Component {
 					{
 						!carregando &&
 						<Fragment>
-							<Input
-								containerStyle={stylesRegistro.containerInputRegistro}
-								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-								underlineColorAndroid="transparent"
-								keyboardAppearance='dark'
-								onSubmitEditing={() => this.inputDDD.focus()}
-								returnKeyType="next"
-								placeholder=""
-								placeholderTextColor={'#ddd'}
-								autoCorrect={false}
-								label="NOME"
-								inputStyle={stylesRegistro.inputRegistro}
-								labelStyle={stylesRegistro.labelRegistro}
-								value={nome}
-								onChangeText={texto => this.setState({ nome: texto })}
-								returnKeyType={'next'}
-								onSubmitEditing={() => this.inputDDD.focus()}
 
-							/>
-
-							<View style={{ flexDirection: "row" }}>
-
-								<View style={{ marginRight: 6 }}>
-									<Input
-										containerStyle={[stylesRegistro.containerInputRegistro, { paddingHorizontal: 15 }]}
-										inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-										underlineColorAndroid="transparent"
-										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
+							<View style={stylesRegistro.containerInputRegistro}>
+								<Text style={stylesRegistro.labelRegistro}>NOME</Text>
+								<View style={stylesRegistro.inputContainerStyle}>
+									<TextInput
 										keyboardAppearance='dark'
-										placeholder=""
-										placeholderTextColor={'#ddd'}
-										autoCorrect={false}
-										label="DDD"
-										maxLength={2}
-										inputStyle={stylesRegistro.inputRegistro}
-										labelStyle={stylesRegistro.labelRegistro}
-										value={ddd}
-										onChangeText={texto => this.setState({ ddd: texto })}
-										ref={(input) => { this.inputDDD = input; }}
-										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputTelefone.focus()}
-									/>
-								</View>
-
-								<View style={{ flex: 1 }}>
-									<Input
-										containerStyle={stylesRegistro.containerInputRegistro}
-										inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+										returnKeyType="next"
 										underlineColorAndroid="transparent"
-										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
-										keyboardAppearance='dark'
 										placeholder=""
-										placeholderTextColor={'#ddd'}
+										style={stylesRegistro.inputRegistro}
 										autoCorrect={false}
-										label="TELEFONE"
-										inputStyle={stylesRegistro.inputRegistro}
-										labelStyle={stylesRegistro.labelRegistro}
-										value={telefone}
-										onChangeText={texto => this.setState({ telefone: texto })}
-										ref={(input) => { this.inputTelefone = input; }}
+										value={nome}
+										onChangeText={texto => this.setState({ nome: texto })}
 										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputEmail.focus()}
+										onSubmitEditing={() => this.inputDDD.focus()}
 									/>
 								</View>
 							</View>
 
-							<Input
-								containerStyle={stylesRegistro.containerInputRegistro}
-								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-								underlineColorAndroid="transparent"
-								keyboardType='email-address'
-								keyboardAppearance='dark'
-								autoCapitalize="none"
-								placeholder=""
-								placeholderTextColor={'#ddd'}
-								autoCorrect={false}
-								label="EMAIL"
-								inputStyle={stylesRegistro.inputRegistro}
-								labelStyle={stylesRegistro.labelRegistro}
-								value={email}
-								onChangeText={texto => this.setState({ email: texto })}
-								ref={(input) => { this.inputEmail = input; }}
-								returnKeyType={'next'}
-								onSubmitEditing={() => this.inputSenha.focus()}
-							/>
+							<View style={{ flexDirection: "row" }}>
 
-							<Input
-								containerStyle={stylesRegistro.containerInputRegistro}
-								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-								underlineColorAndroid="transparent"
-								keyboardType='visible-password'
-								secureTextEntry={true}
-								keyboardAppearance='dark'
-								placeholder=""
-								placeholderTextColor={'#ddd'}
-								autoCorrect={false}
-								label="SENHA"
-								inputStyle={stylesRegistro.inputRegistro}
-								labelStyle={stylesRegistro.labelRegistro}
-								value={senha}
-								onChangeText={texto => this.setState({ senha: texto })}
-								ref={(input) => { this.inputSenha = input; }}
-								returnKeyType={'go'}
-								onSubmitEditing={() => this.ajudadorDeSubmissao()}
-							/>
+								<View style={[stylesRegistro.containerInputRegistro, { marginRight: 6 }]}>
+									<Text style={stylesRegistro.labelRegistro}>DDD</Text>
+									<View style={[stylesRegistro.inputContainerStyle]}>
+										<TextInput
+											keyboardAppearance='dark'
+											returnKeyType="next"
+											underlineColorAndroid="transparent"
+											placeholder=""
+											style={stylesRegistro.inputRegistro}
+											autoCorrect={false}
+											maxLength={2}
+											value={ddd}
+											onChangeText={texto => this.setState({ ddd: texto })}
+											returnKeyType={'next'}
+											onSubmitEditing={() => this.inputTelefone.focus()}
+											ref={(input) => { this.inputDDD = input; }}
+										/>
+									</View>
+								</View>
 
-							<Input
-								containerStyle={stylesRegistro.containerInputRegistro}
-								inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-								underlineColorAndroid="transparent"
-								keyboardAppearance='dark'
-								placeholder=""
-								placeholderTextColor={'#ddd'}
-								autoCorrect={false}
-								label="IDENTIFICAÇÃO DA REDE"
-								inputStyle={stylesRegistro.inputRegistro}
-								labelStyle={stylesRegistro.labelRegistro}
-								value={rede_id}
-								onChangeText={texto => this.setState({ rede_id: texto })}
-								ref={(input) => { this.inputSenha = input; }}
-								returnKeyType={'go'}
-								onSubmitEditing={() => this.ajudadorDeSubmissao()}
-							/>
+								<View style={{ flex: 1 }}>
+									<View style={[stylesRegistro.containerInputRegistro]}>
+										<Text style={stylesRegistro.labelRegistro}>TELEFONE</Text>
+										<View style={[stylesRegistro.inputContainerStyle]}>
+											<TextInput
+												keyboardAppearance='dark'
+												returnKeyType="next"
+												underlineColorAndroid="transparent"
+												placeholder=""
+												style={stylesRegistro.inputRegistro}
+												autoCorrect={false}
+												value={telefone}
+												onChangeText={texto => this.setState({ telefone: texto })}
+												ref={(input) => { this.inputTelefone = input; }}
+												returnKeyType={'next'}
+												onSubmitEditing={() => this.inputEmail.focus()}
+											/>
+										</View>
+									</View>
 
+								</View>
+							</View>
+
+							<View style={[stylesRegistro.containerInputRegistro]}>
+								<Text style={stylesRegistro.labelRegistro}>EMAIL</Text>
+								<View style={[stylesRegistro.inputContainerStyle]}>
+									<TextInput
+										keyboardAppearance='dark'
+										returnKeyType="next"
+										underlineColorAndroid="transparent"
+										placeholder=""
+										style={stylesRegistro.inputRegistro}
+										autoCorrect={false}
+										value={email}
+										onChangeText={texto => this.setState({ email: texto })}
+										ref={(input) => { this.inputEmail = input; }}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputSenha.focus()}
+									/>
+								</View>
+							</View>
+
+							<View style={[stylesRegistro.containerInputRegistro]}>
+								<Text style={stylesRegistro.labelRegistro}>SENHA</Text>
+								<View style={[stylesRegistro.inputContainerStyle]}>
+									<TextInput
+										keyboardAppearance='dark'
+										returnKeyType="next"
+										underlineColorAndroid="transparent"
+										placeholder=""
+										style={stylesRegistro.inputRegistro}
+										autoCorrect={false}
+										value={senha}
+										onChangeText={texto => this.setState({ senha: texto })}
+										ref={(input) => { this.inputSenha = input; }}
+										returnKeyType={'go'}
+										onSubmitEditing={() => this.ajudadorDeSubmissao()}
+									/>
+								</View>
+							</View>
+
+							<View style={[stylesRegistro.containerInputRegistro]}>
+								<Text style={stylesRegistro.labelRegistro}>IDENTIFICAÇÃO DA REDE</Text>
+								<View style={[stylesRegistro.inputContainerStyle]}>
+									<TextInput
+										keyboardAppearance='dark'
+										returnKeyType="next"
+										underlineColorAndroid="transparent"
+										placeholder=""
+										style={stylesRegistro.inputRegistro}
+										autoCorrect={false}
+										value={rede_id}
+										onChangeText={texto => this.setState({ rede_id: texto })}
+										ref={(input) => { this.inputSenha = input; }}
+										returnKeyType={'go'}
+										onSubmitEditing={() => this.ajudadorDeSubmissao()}
+									/>
+								</View>
+							</View>
 
 							<CPButton
 								title='Registrar'

@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
-import { lightdark, gray, white, gold, dark, primary } from '../helpers/colors';
+import { lightdark, gray, white, gold, dark, primary, black } from '../helpers/colors';
 
 export const styles = StyleSheet.create({
 
@@ -56,20 +56,6 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         color: white
     },
-    buttonImport: {
-        backgroundColor: primary,
-        borderWidth: 0,
-        justifyContent: 'center',
-        alignSelf: 'center',
-        width: '100%',
-        height: '100%',
-    },
-    textButtonImport: {
-        textAlign: 'center',
-        color: white,
-        fontSize: 17,
-        fontWeight: "bold"
-    },
 
     //SIDE MENU
     sideMenu: {
@@ -93,6 +79,7 @@ export const styles = StyleSheet.create({
 
 })
 
+// TELA DE LOGIN
 export const stylesLogin = StyleSheet.create({
 
     container: {
@@ -151,6 +138,7 @@ export const stylesLogin = StyleSheet.create({
 
 })
 
+// TELA DE REGISTRO
 export const stylesRegistro = StyleSheet.create({
     container: {
         flex: 1,
@@ -162,14 +150,73 @@ export const stylesRegistro = StyleSheet.create({
         borderRadius: 6,
         height: 60,
         marginTop: 6,
+        paddingTop: 3,
+        paddingHorizontal: 5
     },
     inputRegistro: {
         color: white,
-        marginLeft: 5
+        fontSize: 18,
+        marginLeft: 6,
+        paddingTop: 2,
+        flex: 1
     },
     labelRegistro: {
-        marginTop: 5,
-        color: white
+        fontSize: 16,
+        color: white,
+        fontWeight: "bold",
+        marginTop: 6
+    },
+    inputContainerStyle: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     }
 
+})
+
+// TELA DE IMPORTAR
+export const stylesImportar = StyleSheet.create({
+    buttonImport: {
+        backgroundColor: primary,
+        borderWidth: 0,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: '100%',
+        height: '100%',
+    },
+    textButtonImport: {
+        textAlign: 'center',
+        color: white,
+        fontSize: 17,
+        fontWeight: "bold"
+    },
+    containerButton: {
+        height: 70,
+        backgroundColor: primary,
+        justifyContent: 'center',
+    },
+    header: {
+        backgroundColor: black,
+        borderBottomWidth: 0,
+        paddingTop: 20
+    },
+    headerTitle: {
+        textAlign: 'center',
+        alignSelf: 'center',
+        justifyContent: "center",
+        color: white,
+        fontSize: 16
+    },
+    containerIcon: {
+        backgroundColor: 'transparent',
+        margin: 0,
+        borderWidth: 0,
+        paddingHorizontal: 6
+    },
+    containerContato: {
+        padding: 20,
+        borderBottomWidth: 1,
+        borderColor: gray,
+        backgroundColor: 'transparent'
+    }
 })
