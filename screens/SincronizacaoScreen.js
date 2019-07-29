@@ -1,11 +1,9 @@
-import React, { Fragment } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import React from 'react';
 import {
-	Alert, Text, View, Image, TextInput,
-	ActivityIndicator,
+	Alert,
 	NetInfo,
 } from 'react-native';
-import { white, gold, dark, primary, lightdark } from '../helpers/colors';
+import { white, lightdark } from '../helpers/colors';
 import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,

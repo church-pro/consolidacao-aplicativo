@@ -6,12 +6,9 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
-    ActivityIndicator,
-	Header,
 } from 'react-native';
-import { Card, Icon, Input } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { white, dark, gold, lightdark, black, primary, gray } from '../helpers/colors'
+import { white, dark, lightdark, black, primary, gray } from '../helpers/colors'
 import { connect } from 'react-redux'
 import DatePicker from 'react-native-datepicker'
 import {
@@ -19,10 +16,12 @@ import {
     adicionarSituacoesAoAsyncStorage,
 } from '../actions'
 import {
-	submeterSituacoes,
+    submeterSituacoes,
 } from '../helpers/api'
-import { SITUACAO_APRESENTAR, SITUACAO_ACOMPANHAR, SITUACAO_FECHAMENTO } from '../helpers/constants'
 import { LinearGradient } from 'expo'
+import Loading from '../components/Loading';
+import { stylesMarcar } from '../components/Styles'
+import CPButton from '../components/CPButton';
 
 class MarcarDataEHoraScreen extends React.Component {
 
@@ -41,6 +40,7 @@ class MarcarDataEHoraScreen extends React.Component {
         } = this.props
         if (this.state.dataParaOAgendamento === null ||
             this.state.horaParaOAgendamento === null) {
+            this.setState({ carregando: false })
             Alert.alert('Erro', 'Selecione a data e hora')
         } else {
             prospecto.data = this.state.dataParaOAgendamento
@@ -72,23 +72,23 @@ class MarcarDataEHoraScreen extends React.Component {
     }
 
     static navigationOptions = ({ navigation }) => {
-		return {
-			title: 'Marcar Data e Hora',
-			headerStyle: {
-				backgroundColor: black,
-				borderBottomWidth: 0,
-			},
-			headerTitleStyle: {
-				flex: 1,
-				textAlign: 'center',
-				alignSelf: 'center',
-				color: white,
-			},
-			headerTintColor: white,
-			headerLeftContainerStyle: {
-				padding: 10,
-			},
-		}
+        return {
+            title: 'Marcar Data e Hora',
+            headerStyle: {
+                backgroundColor: black,
+                borderBottomWidth: 0,
+            },
+            headerTitleStyle: {
+                flex: 1,
+                textAlign: 'center',
+                alignSelf: 'center',
+                color: white,
+            },
+            headerTintColor: white,
+            headerLeftContainerStyle: {
+                padding: 10,
+            },
+        }
     }
 
     render() {
@@ -97,27 +97,22 @@ class MarcarDataEHoraScreen extends React.Component {
 
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-               <KeyboardAwareScrollView
-                    contentContainerStyle={styles.container}
+                <KeyboardAwareScrollView
+                    contentContainerStyle={stylesMarcar.container}
                     keyboardShoulfPersistTaps='always'
                     enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 
                     {
                         carregando &&
-                        <View style={{ flex: 1, justifyContent: 'center' }}>
-                            <ActivityIndicator
-                                size="large"
-                                color={primary}
-                            />
-                        </View>
+                        <Loading />
                     }
 
                     {
                         !carregando &&
                         <View>
-                            <View style={{ paddingHorizontal: 10, borderWidth: 1, borderColor: gray, borderRadius: 6 }}>
-                                <Text style={{ fontSize: 16, color: white, fontWeight: "bold", marginTop: 6 }}>DATA</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={stylesMarcar.containerInput}>
+                                <Text style={stylesMarcar.labelMarcar}>DATA</Text>
+                                <View style={stylesMarcar.inputContainerStyle}>
                                     <DatePicker
                                         style={{ flex: 1, }}
                                         date={this.state.dataParaOAgendamento}
@@ -129,16 +124,8 @@ class MarcarDataEHoraScreen extends React.Component {
                                         confirmBtnText="Confirmar"
                                         cancelBtnText="Cancelar"
                                         customStyles={{
-                                            dateInput: {
-                                                borderWidth: 0,
-                                                alignItems: "flex-start",
-
-                                            },
-                                            dateText: {
-                                                color: white,
-                                                fontSize: 18,
-                                                marginLeft: 4,
-                                            }
+                                            dateInput: stylesMarcar.dateInput,
+                                            dateText: stylesMarcar.dateText
                                         }}
                                         onDateChange={(date) => {
                                             this.setState({ dataParaOAgendamento: date })
@@ -146,9 +133,9 @@ class MarcarDataEHoraScreen extends React.Component {
                                     />
                                 </View>
                             </View>
-                            <View style={{ paddingHorizontal: 10, borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}>
-                                <Text style={{ fontSize: 16, color: white, fontWeight: "bold", marginTop: 6 }}>HORA</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <View style={[stylesMarcar.containerInput, { marginVertical: 10 }]}>
+                                <Text style={stylesMarcar.labelMarcar}>HORA</Text>
+                                <View style={stylesMarcar.inputContainerStyle}>
                                     <DatePicker
                                         style={{ flex: 1 }}
                                         date={this.state.horaParaOAgendamento}
@@ -159,15 +146,8 @@ class MarcarDataEHoraScreen extends React.Component {
                                         confirmBtnText="Confirmar"
                                         cancelBtnText="Cancelar"
                                         customStyles={{
-                                            dateInput: {
-                                                borderWidth: 0,
-                                                alignItems: 'flex-start',
-                                            },
-                                            dateText: {
-                                                color: white,
-                                                fontSize: 18,
-                                                marginLeft: 4,
-                                            }
+                                            dateInput: stylesMarcar.dateInput,
+                                            dateText: stylesMarcar.dateText
                                         }}
                                         onDateChange={(date) => {
                                             this.setState({ horaParaOAgendamento: date })
@@ -176,27 +156,21 @@ class MarcarDataEHoraScreen extends React.Component {
                                 </View>
                             </View>
 
-                            <View style={{ paddingHorizontal: 10, borderWidth: 1, borderColor: gray, borderRadius: 6 }}>
-                                <Text style={{ fontSize: 16, color: white, fontWeight: "bold", marginTop: 6 }}>LOCAL</Text>
-                                <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
+                            <View style={stylesMarcar.containerInput}>
+                                <Text style={stylesMarcar.labelMarcar}>LOCAL</Text>
+                                <View style={stylesMarcar.inputContainerStyle}>
                                     <TextInput
                                         keyboardAppearance='dark'
                                         placeholder=""
-                                        style={{ color: white, fontSize: 18, marginLeft: 6, minHeight: 40, flex: 1 }}
+                                        style={stylesMarcar.inputMarcar}
                                         value={this.local}
                                         onChangeText={(text) => this.setState({ local: text })}
                                     />
                                 </View>
                             </View>
 
-                            <View style={styles.containerButton}>
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    onPress={() => this.ajudadorDeSubmit()}
-                                >
-                                    <Text style={{ textAlign: "center", fontSize: 16, color: white }}>Marcar</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <CPButton OnPress={() => this.ajudadorDeSubmit()} title="Confirmar" />
+
                         </View>
                     }
                 </KeyboardAwareScrollView>
@@ -234,23 +208,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MarcarDataEHoraScreen)
-
-const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        padding: 20,
-    },
-    containerButton: {
-        paddingVertical: 10,
-        marginTop: 10,
-    },
-    button: {
-        backgroundColor: primary,
-        height: 45,
-        borderRadius: 6,
-        justifyContent: 'center',
-        shadowOffset: { width: 5, height: 5, },
-        shadowColor: 'rgba(0,0,0,0.3)',
-        shadowOpacity: 1.0,
-    },
-})

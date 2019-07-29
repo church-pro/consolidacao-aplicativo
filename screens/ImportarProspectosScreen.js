@@ -1,18 +1,16 @@
 import React from 'react';
 import {
     Alert,
-    ScrollView,
     TouchableOpacity,
     Text,
     View,
-    ActivityIndicator,
     FlatList,
 } from 'react-native';
 import { Icon } from 'react-native-elements'
-import { Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
+import { Header, Title, Left, Body, Right } from 'native-base'
 import { connect } from 'react-redux'
 import { Permissions, Contacts } from 'expo'
-import { white, gold, lightdark, gray, dark, black, primary } from '../helpers/colors'
+import { white, lightdark, dark, black, primary } from '../helpers/colors'
 import { LinearGradient } from 'expo'
 import {
     adicionarProspectosAoAsyncStorage,
@@ -36,7 +34,7 @@ class MyListItem extends React.PureComponent {
         const textColor = this.props.selected ? primary : white;
         return (
             <TouchableOpacity style={stylesImportar.containerContato} onPress={this._onPress}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={stylesImportar.containerContent}>
                     <Text style={{ color: white }}>{this.props.title}</Text>
                     <Icon name="check" color={textColor} />
                 </View>

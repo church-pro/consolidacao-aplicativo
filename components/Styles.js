@@ -218,5 +218,51 @@ export const stylesImportar = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: gray,
         backgroundColor: 'transparent'
+    },
+    containerContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
+})
+
+// TELA MARCAR DATA E HORA
+export const stylesMarcar = StyleSheet.create({
+    container: {
+        flexGrow: 1,
+        padding: 20,
+    },
+    containerInput: {
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: gray,
+        borderRadius: 6
+    },
+    inputMarcar: {
+        color: white,
+        fontSize: 18,
+        marginLeft: 6,
+        minHeight: 40,
+        flex: 1,
+    },
+    labelMarcar: {
+        fontSize: 16,
+        color: white,
+        fontWeight: "bold",
+        marginTop: 6
+    },
+    inputContainerStyle: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+    dateText: {
+        color: white,
+        fontSize: 18,
+        marginLeft: 4,
+    },
+    dateInput: {
+        borderWidth: 0,
+        alignItems: "flex-start",
+
+    },
 })
