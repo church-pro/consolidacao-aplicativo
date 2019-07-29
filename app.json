@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "Consolidação",
-    "description": "Church Pro Consolidação",
-    "slug": "church-pro-consolidacao",
+    "name": "Church Pro",
+    "description": "Church Pro",
+    "slug": "church-pro",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "1.0.2",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {

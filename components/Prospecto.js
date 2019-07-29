@@ -13,7 +13,7 @@ import {
 	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
-import styles from './ProspectoStyle';
+import { styles } from './Styles';
 import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,

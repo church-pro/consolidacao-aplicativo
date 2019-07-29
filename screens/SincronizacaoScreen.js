@@ -1,11 +1,9 @@
-import React, { Fragment } from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import React from 'react';
 import {
-	Alert, Text, View, Image, TextInput,
-	ActivityIndicator,
+	Alert,
 	NetInfo,
 } from 'react-native';
-import { white, gold, dark, primary } from '../helpers/colors';
+import { white, lightdark } from '../helpers/colors';
 import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,
@@ -16,6 +14,7 @@ import {
 	limparSituacoes,
 } from '../helpers/api'
 import { connect } from 'react-redux'
+import Loading from '../components/Loading';
 
 class SincronizacaoScreen extends React.Component {
 
@@ -102,13 +101,7 @@ class SincronizacaoScreen extends React.Component {
 
 	render() {
 		return (
-			<View style={{ flex: 1, justifyContent: 'center', backgroundColor: dark }}>
-				<Text style={{ color: white, textAlign: 'center', fontSize: 22, marginBottom: 6 }}>Sincronizando</Text>
-				<ActivityIndicator
-					size="large"
-					color={primary}
-				/>
-			</View>
+			<Loading title="Sincronizando" background={lightdark} />
 		)
 	}
 }

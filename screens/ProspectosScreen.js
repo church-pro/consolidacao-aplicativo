@@ -24,7 +24,7 @@ import {
 	SITUACAO_LIGAR,
 	SITUACAO_VISITA,
 } from '../helpers/constants'
-import styles from '../components/ProspectoStyle';
+import styles from '../components/Styles';
 import {
 	alterarProspectoNoAsyncStorage,
 	alterarAdministracao,
