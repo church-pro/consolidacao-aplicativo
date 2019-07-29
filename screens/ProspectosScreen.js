@@ -26,30 +26,17 @@ import {
 } from '../helpers/constants'
 import styles from '../components/Styles';
 import {
-	alterarProspectoNoAsyncStorage,
-	alterarAdministracao,
-	alterarUsuarioNoAsyncStorage,
-	pegarUsuarioNoAsyncStorage,
-	adicionarProspectosAoAsyncStorage,
-} from '../actions'
-import {
 	sincronizarNaAPI,
 	recuperarHistoricoNaoSincronizado,
 	limparHistoricos,
 } from '../helpers/api'
 import AddButton from '../components/AddButton';
-import ImportarProspectosScreen from './ImportarProspectosScreen';
-import ProspectoScreen from './ProspectoScreen';
+import ImportarProspectosScreen from './ImportarProspectosScreen'
 
 class ProspectosScreen extends React.Component {
 
 	state = {
 		carregando: true,
-		quer: false,
-		naoQuer: false,
-		pendente: false,
-		active: false,
-		sincronizando: false,
 	}
 
 	closeDrawer = () => {
@@ -65,65 +52,6 @@ class ProspectosScreen extends React.Component {
 		}
 	}
 
-	novoProspecto = () => {
-		this.props.navigation.navigate('NovoProspecto')
-		this.setState(state => ({ active: state.active = false }))
-	}
-	importarProspecto = () => {
-		this.props.navigation.navigate('ImportarProspectos')
-		this.setState(state => ({ active: state.active = false }))
-	}
-
-	alterarProspecto = (tipo) => {
-		const {
-			alterarProspectoNoAsyncStorage,
-			alterarAdministracao,
-			administracao,
-		} = this.props
-		let prospecto = administracao.prospectoSelecionado
-
-		administracao.ligueiParaAlguem = false
-		administracao.prospectoSelecionado = null
-		alterarAdministracao(administracao)
-
-		if (tipo === 'remover') {
-			prospecto.situacao_id = SITUACAO_REMOVIDO
-		}
-		prospecto.ligueiParaAlguem = false
-		alterarProspectoNoAsyncStorage(prospecto)
-
-		if (tipo === 'remover') {
-			Alert.alert('Removido', 'Prospecto removido!')
-		} else {
-			Alert.alert('Pendente', 'Prospecto pendete!')
-		}
-	}
-
-	marcarDataEHora = () => {
-		const {
-			alterarProspectoNoAsyncStorage,
-			alterarAdministracao,
-			administracao,
-			navigation,
-		} = this.props
-		let prospecto = administracao.prospectoSelecionado
-
-		administracao.ligueiParaAlguem = false
-		administracao.prospectoSelecionado = null
-		alterarAdministracao(administracao)
-
-		prospecto.ligueiParaAlguem = false
-		alterarProspectoNoAsyncStorage(prospecto)
-
-		this.setState({
-			quer: false,
-			naoQuer: false,
-			pendente: false,
-		})
-
-		navigation.navigate('MarcarDataEHora', { prospecto_id: prospecto._id, situacao_id: SITUACAO_APRESENTAR })
-	}
-
 	static navigationOptions = () => {
 		return {
 			header: null,
@@ -134,14 +62,10 @@ class ProspectosScreen extends React.Component {
 	render() {
 		const {
 			prospectos,
-			administracao,
 			navigation,
 		} = this.props
 		const {
 			carregando,
-			quer,
-			naoQuer,
-			pendente,
 		} = this.state
 
 		const dadosListagem = [
@@ -275,123 +199,29 @@ class ProspectosScreen extends React.Component {
 
 					{
 						!carregando &&
-						!administracao.ligueiParaAlguem &&
 						<Tabs />
 					}
 
-					{
-						!carregando &&
-						administracao.ligueiParaAlguem &&
-						<Card containerStyle={{ backgroundColor: dark, borderColor: gold, borderRadius: 6 }}>
-							<Text style={{
-								color: white, textAlign: 'center', fontWeight: 'bold',
-								paddingBottom: 8
-							}}
-							>
-								Prospecto mostrou interesse?
-								</Text>
-							<View style={{ backgroundColor: lightdark, height: 180, marginTop: 20, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-								<CheckBox
-									title='Quer'
-									checked={this.state.quer}
-									onPress={() => this.setState({
-										quer: true,
-										naoQuer: false,
-										pendente: false,
-									})}
-									checkedIcon='dot-circle-o'
-									uncheckedIcon='circle-o'
-									checkedColor={gold}
-									textStyle={{ color: white }}
-									containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
-								/>
-								<CheckBox
-									title='Não quer'
-									checked={this.state.naoQuer}
-									onPress={() => this.setState({
-										quer: false,
-										naoQuer: true,
-										pendente: false,
-									})}
-									checkedIcon='dot-circle-o'
-									uncheckedIcon='circle-o'
-									checkedColor={gold}
-									textStyle={{ color: white }}
-									containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
-								/>
-								<CheckBox
-									title='Ligar depois'
-									checked={this.state.pendente}
-									onPress={() => this.setState({
-										quer: false,
-										naoQuer: false,
-										pendente: true,
-									})}
-									checkedIcon='dot-circle-o'
-									uncheckedIcon='circle-o'
-									checkedColor={gold}
-									textStyle={{ color: white }}
-									containerStyle={{ backgroundColor: 'transparent', borderWidth: 0 }}
-								/>
-							</View>
-
-							<View style={{ backgroundColor: dark, height: 40, marginTop: 20, justifyContent: 'flex-end', marginLeft: -15, marginRight: -15, marginBottom: -15 }}>
-								{
-									this.state.quer &&
-									<TouchableOpacity
-										style={[styles.button, style = { height: 40, borderRadius: 0, backgroundColor: gold }]}
-										onPress={() => { this.marcarDataEHora() }}>
-										<Text style={styles.textButton}>Marcar Apresentação</Text>
-									</TouchableOpacity>
-								}
-								{
-									this.state.naoQuer &&
-									<TouchableOpacity
-										style={[styles.button, style = { height: 40, borderRadius: 0, backgroundColor: gold }]}
-										onPress={() => { this.alterarProspecto('remover') }}>
-										<Text style={styles.textButton}>Remover</Text>
-									</TouchableOpacity>
-								}
-								{
-									this.state.pendente &&
-									<TouchableOpacity
-										style={[styles.button, style = { height: 40, borderRadius: 0, backgroundColor: gold }]}
-										onPress={() => { this.alterarProspecto() }}>
-										<Text style={styles.textButton}>Deixar Pendente</Text>
-									</TouchableOpacity>
-								}
-							</View>
-
-						</Card>
-					}
 				</LinearGradient>
 			</Drawer>
 		)
 	}
 }
 
-function mapStateToProps({ prospectos, usuario, administracao, }, props) {
+function mapStateToProps({ prospectos, }, props) {
 	let qualAba = null
 	if (props.navigation.state.params && props.navigation.state.params.qualAba) {
 		qualAba = props.navigation.state.params.qualAba
 	}
 	return {
 		prospectos,
-		usuario,
-		administracao,
 		qualAba,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
-		alterarAdministracao: (administracao) => dispatch(alterarAdministracao(administracao)),
-		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
-		pegarProspectosNoAsyncStorage: () => dispatch(pegarProspectosNoAsyncStorage()),
-		pegarUsuarioNoAsyncStorage: () => dispatch(pegarUsuarioNoAsyncStorage()),
-		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
-	}
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProspectosScreen)

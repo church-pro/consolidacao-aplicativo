@@ -34,10 +34,7 @@ function prospectos(state = [], action){
 	}
 }
 
-const estadoDaAdministracao = {
-	ligueiParaAlguem: false,
-	prospectoSelecionado: null,
-}
+const estadoDaAdministracao = {}
 
 function administracao(state = estadoDaAdministracao, action){
 	switch(action.type){
