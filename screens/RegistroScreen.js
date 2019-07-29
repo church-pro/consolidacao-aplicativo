@@ -178,7 +178,7 @@ class RegistroScreen extends React.Component {
 						<View>
 							<View style={styles.containerLogin}>
 								<Input
-									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, height: 60 }}
 									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 									underlineColorAndroid="transparent"
 									keyboardAppearance='dark'
@@ -197,11 +197,11 @@ class RegistroScreen extends React.Component {
 
 								/>
 
-								<View style={{ marginTop: 8, flexDirection: "row" }}>
+								<View style={{ marginTop: 5, flexDirection: "row" }}>
 
 									<View style={{ marginRight: 6 }}>
 										<Input
-											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10, paddingHorizontal: 15 }}
+											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 5, paddingHorizontal: 15, height: 60 }}
 											inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 											underlineColorAndroid="transparent"
 											keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
@@ -223,7 +223,7 @@ class RegistroScreen extends React.Component {
 
 									<View style={{ flex: 1 }}>
 										<Input
-											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
+											containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 5, height: 60 }}
 											inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 											underlineColorAndroid="transparent"
 											keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
@@ -245,7 +245,7 @@ class RegistroScreen extends React.Component {
 
 								<View style={{ marginTop: 8 }}>
 									<Input
-										containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+										containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 5, height: 60 }}
 										inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 										underlineColorAndroid="transparent"
 										keyboardType='email-address'
@@ -266,7 +266,7 @@ class RegistroScreen extends React.Component {
 								</View>
 
 								<Input
-									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 5, height: 60 }}
 									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 									underlineColorAndroid="transparent"
 									keyboardType='visible-password'
@@ -286,7 +286,7 @@ class RegistroScreen extends React.Component {
 								/>
 
 								<Input
-									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 10 }}
+									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginVertical: 5, height: 60 }}
 									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
 									underlineColorAndroid="transparent"
 									keyboardAppearance='dark'
