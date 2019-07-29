@@ -205,6 +205,7 @@ class RegistroScreen extends React.Component {
 									<Text style={stylesRegistro.labelRegistro}>DDD</Text>
 									<View style={[stylesRegistro.inputContainerStyle]}>
 										<TextInput
+											keyboardType="numbers-and-punctuation"
 											keyboardAppearance='dark'
 											returnKeyType="next"
 											underlineColorAndroid="transparent"
@@ -228,6 +229,7 @@ class RegistroScreen extends React.Component {
 											<TextInput
 												keyboardAppearance='dark'
 												returnKeyType="next"
+												keyboardType="numbers-and-punctuation"
 												underlineColorAndroid="transparent"
 												placeholder=""
 												style={stylesRegistro.inputRegistro}
@@ -276,8 +278,7 @@ class RegistroScreen extends React.Component {
 										value={senha}
 										onChangeText={texto => this.setState({ senha: texto })}
 										ref={(input) => { this.inputSenha = input; }}
-										returnKeyType={'go'}
-										onSubmitEditing={() => this.ajudadorDeSubmissao()}
+										onSubmitEditing={() => this.inputIdentificacao.focus()}
 									/>
 								</View>
 							</View>
@@ -294,7 +295,7 @@ class RegistroScreen extends React.Component {
 										autoCorrect={false}
 										value={rede_id}
 										onChangeText={texto => this.setState({ rede_id: texto })}
-										ref={(input) => { this.inputSenha = input; }}
+										ref={(input) => { this.inputIdentificacao = input; }}
 										returnKeyType={'go'}
 										onSubmitEditing={() => this.ajudadorDeSubmissao()}
 									/>
