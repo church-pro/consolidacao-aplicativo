@@ -22,6 +22,7 @@ import {
 	SITUACAO_VISITEI_MAS_NAO_CONVIDEI,
 	SITUACAO_VISITA_NAO_FUI,
 	SITUACAO_EVENTO_NAO_VEIO,
+	SITUACAO_CADASTRO,
 } from '../helpers/constants'
 
 export function criarNotificacaoLocal(notificacao) {
@@ -121,11 +122,14 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 	const labelMensagem = 'Pessoa está agora na aba para '
 	const labelRemover = 'Remover'
 	const labelMensgemRemovido = 'Pessoa Removida'
-	const labelVolta = labelParabens
-	const labelMensagemVoltar = 'Seu progresso foi salvo!'
+	const labelVolta = 'É isso ai'
+	const labelMensagemVoltar = 'A persistência é o caminho do sucesso!'
 	const labelMensagemEvento = 'Você concluiu o processo'
 	let parametros = {}
-	if (situacao_id === SITUACAO_IMPORTAR) {
+	if (
+		situacao_id === SITUACAO_IMPORTAR ||
+		situacao_id === SITUACAO_CADASTRO
+	) {
 		estados = {
 			enviouMensagem: false,
 			naoEnviouMensagem: false,
@@ -557,8 +561,8 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							recomecar: true,
 							avancar: false,
 							situacao_id_nova: SITUACAO_IMPORTAR,
-							alertTitulo: labelParabens,
-							alertMensagem: labelMensagem + 'mensagem'
+							alertTitulo: labelVolta,
+							alertMensagem: labelMensagemVoltar
 						},
 					},
 					{

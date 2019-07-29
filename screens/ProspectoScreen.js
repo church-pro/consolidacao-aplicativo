@@ -10,10 +10,9 @@ import { Button, Card, Icon, Input } from 'react-native-elements'
 import { white, lightdark, dark, primary, gray, black } from '../helpers/colors'
 import {
 	alterarProspectoNoAsyncStorage,
-	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
 import {
-	SITUACAO_IMPORTAR
+	SITUACAO_CADASTRO,
 } from '../helpers/constants'
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
@@ -21,6 +20,9 @@ import CPButton from '../components/CPButton';
 import {
 	pegarDataEHoraAtual
 } from '../helpers/helper'
+import {
+	submeterSituacoes
+} from '../helpers/api'
 
 class ProspectoScreen extends React.Component {
 
@@ -97,7 +99,7 @@ class ProspectoScreen extends React.Component {
 				prospecto.rating = null
 				prospecto.online = false
 				prospecto.cadastroNaApi = false
-				prospecto.situacao_id = SITUACAO_IMPORTAR
+				prospecto.situacao_id = SITUACAO_CADASTRO
 				prospecto.celular_id = prospecto._id
 			}
 			prospecto.nome = nome
@@ -107,11 +109,11 @@ class ProspectoScreen extends React.Component {
 
 			const situacao = {
 				prospecto_id: prospecto.celular_id,
-				situacao_id: SITUACAO_IMPORTAR,
+				situacao_id: SITUACAO_CADASTRO,
 				data_criacao: pegarDataEHoraAtual()[0],
 				hora_criacao: pegarDataEHoraAtual()[1],
 			}
-			this.props.adicionarSituacoesAoAsyncStorage([situacao])
+			submeterSituacoes([situacao])
 				.then(() => {
 					this.props.alterarProspectoNoAsyncStorage(prospecto)
 						.then(() => {
@@ -274,7 +276,6 @@ const mapStateToProps = ({ prospectos }, { navigation }) => {
 const mapDispatchToProps = dispatch => {
 	return {
 		alterarProspectoNoAsyncStorage: prospecto => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
-		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
 	}
 }
 

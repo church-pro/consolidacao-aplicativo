@@ -19,6 +19,7 @@ import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
 import {
 	SITUACAO_IMPORTAR,
+	SITUACAO_CADASTRO,
 	SITUACAO_MENSAGEM,
 	SITUACAO_LIGAR,
 	SITUACAO_VISITA,
@@ -175,10 +176,16 @@ class ProspectosScreen extends React.Component {
 
 			if (item.tipo) {
 
+				let prospectosFiltrados = prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)
+
+				if(item.tipo === SITUACAO_IMPORTAR){
+					prospectosFiltrados = prospectosFiltrados.concat(prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CADASTRO))	
+				}
+
 				const componenteLista = (props) => (
 					<ListaDeProspectos
 						title={item.label}
-						prospectos={prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)}
+						prospectos={prospectosFiltrados}
 						navigation={navigation}
 					/>)
 
