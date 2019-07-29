@@ -21,10 +21,11 @@ import {
     submeterSituacoes
 } from '../helpers/api'
 import { SITUACAO_IMPORTAR } from '../helpers/constants'
-import { styles } from '../components/Styles';
+import { stylesImportar } from '../components/Styles';
 import {
     pegarDataEHoraAtual
 } from '../helpers/helper'
+import Loading from '../components/Loading'
 
 class MyListItem extends React.PureComponent {
     _onPress = () => {
@@ -34,7 +35,7 @@ class MyListItem extends React.PureComponent {
     render() {
         const textColor = this.props.selected ? primary : white;
         return (
-            <TouchableOpacity style={{ padding: 20, borderBottomWidth: 1, borderColor: gray, backgroundColor: 'transparent' }} onPress={this._onPress}>
+            <TouchableOpacity style={stylesImportar.containerContato} onPress={this._onPress}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Text style={{ color: white }}>{this.props.title}</Text>
                     <Icon name="check" color={textColor} />
@@ -234,20 +235,20 @@ class ImportarProspectosScreen extends React.Component {
 
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-                <Header style={{ backgroundColor: black, borderBottomWidth: 0, paddingTop: 20 }} iosBarStyle="light-content">
+                <Header style={stylesImportar.header} iosBarStyle="light-content">
                     <Left style={{ flex: 0 }}>
                         <TouchableOpacity
-                            style={{ backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal: 6 }}
+                            style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.goBack()}>
                             <Icon type="font-awesome" name="angle-left" color={white} size={36} />
                         </TouchableOpacity>
                     </Left>
                     <Body style={{ flex: 1 }}>
-                        <Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontSize: 16 }}>Importar Contatos</Title>
+                        <Title style={stylesImportar.headerTitle}>Importar Contatos</Title>
                     </Body>
                     <Right style={{ flex: 0 }}>
                         <TouchableOpacity
-                            style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 6 }}
+                            style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.navigate('Prospecto')}>
                             <Icon name='user-plus' type='font-awesome' color={white} />
                         </TouchableOpacity>
@@ -256,12 +257,7 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     carregando &&
-                    <View style={{ flex: 1, justifyContent: 'center' }}>
-                        <ActivityIndicator
-                            size="large"
-                            color={primary}
-                        />
-                    </View>
+                    <Loading />
                 }
 
                 {
@@ -276,11 +272,11 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     !carregando && contatosParaSelecionar &&
-                    <View style={{ height: 70, backgroundColor: primary, justifyContent: 'center' }}>
-                        <TouchableOpacity style={styles.buttonImport}
+                    <View style={stylesImportar.containerButton}>
+                        <TouchableOpacity style={stylesImportar.buttonImport}
                             onPress={() => { this.adicionarContatos() }}
                         >
-                            <Text style={styles.textButtonImport}>Importar</Text>
+                            <Text style={stylesImportar.textButtonImport}>Importar</Text>
                         </TouchableOpacity>
                     </View>
                 }
