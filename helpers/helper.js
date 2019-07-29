@@ -251,6 +251,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							mostrarPerguntaDois: true,
 							mostrarPerguntaTres: false,
 							situacao_id_extra: null,
+							situacao_id_nova: SITUACAO_LIGAR,
 							alertTitulo: labelParabens,
 							alertMensagem: labelMensagem + 'visita',
 						},

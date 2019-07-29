@@ -31,8 +31,8 @@ class LoginScreen extends React.Component {
 	}
 
 	state = {
-		email: 'falecomleonardopereira@gmail.com',
-		senha: '123',
+		email: '',
+		senha: '',
 		carregando: false,
 	}
 
@@ -76,7 +76,6 @@ class LoginScreen extends React.Component {
 				.fetch()
 				.then(isConnected => {
 					if (isConnected) {
-
 						this.setState({ carregando: true })
 						const dados = {
 							email,

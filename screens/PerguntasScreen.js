@@ -14,9 +14,11 @@ import {
 } from '../helpers/constants'
 import {
 	alterarProspectoNoAsyncStorage,
-	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
-import CPButton from '../components/CPButton';
+import {
+	submeterSituacoes,
+} from '../helpers/api'
+import CPButton from '../components/CPButton'
 import { LinearGradient } from 'expo'
 import {
 	pegarDataEHoraAtual
@@ -47,7 +49,6 @@ class PerguntasScreen extends React.Component {
 		const {
 			prospecto,
 			alterarProspectoNoAsyncStorage,
-			adicionarSituacoesAoAsyncStorage,
 			navigation,
 		} = this.props
 		const {
@@ -78,39 +79,43 @@ class PerguntasScreen extends React.Component {
 			}
 			situacoes.push(situacaoExtra)
 		}
-		if (
-			paraOndeNavegar === null ||
-			situacao_id_nova === SITUACAO_REMOVIDO
-		) {
-			this.props.adicionarSituacoesAoAsyncStorage(situacoes)
-				.then(() => {
-					if (prospecto.situacao_id !== SITUACAO_LIGAR) {
-						delete prospecto.local
-						delete prospecto.data
-						delete prospecto.hora
-					}
-					alterarProspectoNoAsyncStorage(prospecto)
-						.then(() => {
-							Alert.alert(alertTitulo, alertMensagem)
-							this.setState({ carregando: false })
-							navigation.navigate(paraOndeVoltar, { qualAba })
-						})
-				})
-		}
-		if (
-			paraOndeNavegar &&
-			situacao_id_nova !== SITUACAO_REMOVIDO
-		) {
-			dados = {
-				prospecto_id: prospecto._id,
-				situacao_id_nova,
-				situacoes,
-				paraOndeVoltar,
-				qualAba,
-				alertTitulo,
-				alertMensagem,
+		if(situacao_id_nova === null){
+			navigation.goBack()
+		}else{
+			if (
+				paraOndeNavegar === null ||
+				situacao_id_nova === SITUACAO_REMOVIDO
+			) {
+				submeterSituacoes(situacoes)
+					.then(() => {
+						if (prospecto.situacao_id !== SITUACAO_LIGAR) {
+							delete prospecto.local
+							delete prospecto.data
+							delete prospecto.hora
+						}
+						alterarProspectoNoAsyncStorage(prospecto)
+							.then(() => {
+								Alert.alert(alertTitulo, alertMensagem)
+								this.setState({ carregando: false })
+								navigation.navigate(paraOndeVoltar, { qualAba })
+							})
+					})
 			}
-			navigation.navigate(paraOndeNavegar, dados)
+			if (
+				paraOndeNavegar &&
+				situacao_id_nova !== SITUACAO_REMOVIDO
+			) {
+				dados = {
+					prospecto_id: prospecto._id,
+					situacao_id_nova,
+					situacoes,
+					paraOndeVoltar,
+					qualAba,
+					alertTitulo,
+					alertMensagem,
+				}
+				navigation.navigate(paraOndeNavegar, dados)
+			}
 		}
 	}
 
@@ -211,7 +216,6 @@ function mapStateToProps({ prospectos }, { navigation }) {
 function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
-		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
 	}
 }
 

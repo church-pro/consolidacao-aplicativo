@@ -16,8 +16,10 @@ import { white, gold, lightdark, gray, dark, black, primary } from '../helpers/c
 import { LinearGradient } from 'expo'
 import {
     adicionarProspectosAoAsyncStorage,
-    adicionarSituacoesAoAsyncStorage,
 } from '../actions'
+import {
+	submeterSituacoes
+} from '../helpers/api'
 import { SITUACAO_IMPORTAR } from '../helpers/constants'
 import styles from '../components/ProspectoStyle';
 import {
@@ -191,7 +193,6 @@ class ImportarProspectosScreen extends React.Component {
         } = this.state
         const {
             adicionarProspectosAoAsyncStorage,
-            adicionarSituacoesAoAsyncStorage,
             navigation,
         } = this.props
         this.setState({ carregando: true })
@@ -215,7 +216,7 @@ class ImportarProspectosScreen extends React.Component {
                         }
                         situacoes.push(situacao)
                     })
-                adicionarSituacoesAoAsyncStorage(situacoes)
+                submeterSituacoes(situacoes)
                     .then(() => {
                         this.setState({ carregando: false })
                         Alert.alert('Importação', 'Importação concluida com sucesso!')
@@ -293,7 +294,6 @@ class ImportarProspectosScreen extends React.Component {
 function mapDispatchToProps(dispatch) {
     return {
         adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
-        adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
     }
 }
 
