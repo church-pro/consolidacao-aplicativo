@@ -53,6 +53,7 @@ class SincronizacaoScreen extends React.Component {
 									}
 									sincronizarNaAPI(dados)
 										.then(retorno => {
+											console.log('retorno: ', retorno)
 											if (retorno.ok) {
 												// nao apertei sair
 												if (tela !== 'Login') {
