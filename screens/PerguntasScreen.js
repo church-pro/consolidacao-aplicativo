@@ -5,8 +5,8 @@ import {
 	Alert,
 	ActivityIndicator,
 } from 'react-native';
-import { Button, Card, Icon, Input, CheckBox } from 'react-native-elements'
-import { white, red, gray, black, lightdark, dark, gold, primary } from '../helpers/colors'
+import { Card, CheckBox } from 'react-native-elements'
+import { white, black, lightdark, dark, primary } from '../helpers/colors'
 import { connect } from 'react-redux'
 import {
 	SITUACAO_REMOVIDO,
@@ -23,6 +23,7 @@ import { LinearGradient } from 'expo'
 import {
 	pegarDataEHoraAtual
 } from '../helpers/helper'
+import { stylesPerguntas } from '../components/Styles';
 
 class PerguntasScreen extends React.Component {
 
@@ -79,9 +80,9 @@ class PerguntasScreen extends React.Component {
 			}
 			situacoes.push(situacaoExtra)
 		}
-		if(situacao_id_nova === null){
+		if (situacao_id_nova === null) {
 			navigation.goBack()
-		}else{
+		} else {
 			if (
 				paraOndeNavegar === null ||
 				situacao_id_nova === SITUACAO_REMOVIDO
@@ -151,13 +152,11 @@ class PerguntasScreen extends React.Component {
 							let resposta = <View key={pergunta.titulo}></View>
 							if (estados[[pergunta.mostrar]]) {
 								resposta =
-									<Card key={pergunta.titulo} containerStyle={{ backgroundColor: dark, borderColor: 'transparent', borderRadius: 1, margin: 0, marginTop: 0, padding: 8 }}>
-										<Text style={{
-											color: white, textAlign: 'center', fontWeight: 'bold', padding: 0, paddingBottom: 4,
-										}}>
+									<Card key={pergunta.titulo} containerStyle={stylesPerguntas.card}>
+										<Text style={stylesPerguntas.perguntaTitulo}>
 											{pergunta.titulo}
 										</Text>
-										<View style={{ backgroundColor: lightdark, alignItems: 'flex-start' }}>
+										<View style={stylesPerguntas.containerRespostas}>
 											{
 												pergunta.opcoes.map(opcao => {
 													return <CheckBox
@@ -169,11 +168,7 @@ class PerguntasScreen extends React.Component {
 														checkedIcon='dot-circle-o'
 														checkedColor={primary}
 														uncheckedIcon='circle-o'
-														containerStyle={{
-															backgroundColor: 'transparent',
-															padding: 0,
-															borderColor: 'transparent',
-														}}
+														containerStyle={stylesPerguntas.containerCheckbox}
 													/>
 												})
 											}
