@@ -18,10 +18,10 @@ import {
     adicionarProspectosAoAsyncStorage,
 } from '../actions'
 import {
-	submeterSituacoes
+    submeterSituacoes
 } from '../helpers/api'
 import { SITUACAO_IMPORTAR } from '../helpers/constants'
-import styles from '../components/ProspectoStyle';
+import { styles } from '../components/Styles';
 import {
     pegarDataEHoraAtual
 } from '../helpers/helper'
