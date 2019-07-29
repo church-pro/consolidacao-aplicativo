@@ -1,11 +1,12 @@
 import { StyleSheet, Platform } from 'react-native';
 import { lightdark, gray, white, gold, dark, primary, black } from '../helpers/colors';
 
+// GLOBAL
 export const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        backgroundColor: lightdark,
+        paddingHorizontal: 20,
     },
     containerCard: {
         backgroundColor: 'transparent',
@@ -24,7 +25,8 @@ export const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     text: {
-        color: white
+        color: white,
+        fontWeight: 'bold'
     },
     content: {
         flexDirection: "row",
@@ -39,42 +41,7 @@ export const styles = StyleSheet.create({
         justifyContent: "flex-start"
     },
     badgeDate: {
-        backgroundColor: gold,
-    },
-
-
-    //STYLE BUTTON
-    button: {
-        backgroundColor: lightdark,
-        borderWidth: 0,
-        borderRadius: 5,
-        justifyContent: 'center',
-        height: 28,
-        paddingHorizontal: 8,
-    },
-    textButton: {
-        textAlign: 'center',
-        color: white
-    },
-
-    //SIDE MENU
-    sideMenu: {
-        flex: 1,
-        alignItems: 'flex-start',
-    },
-    imgLogo: {
-        height: 85,
-        width: 90,
-        marginBottom: 20,
-        marginLeft: 20,
-        marginTop: 50,
-    },
-    textMenu: {
-        color: white,
-        fontSize: 28,
-        fontWeight: '200',
-        paddingVertical: 30,
-        marginLeft: 20
+        backgroundColor: primary,
     },
 
 })
@@ -123,7 +90,7 @@ export const stylesLogin = StyleSheet.create({
         marginBottom: 6,
     },
     button: {
-        backgroundColor: gold,
+        backgroundColor: 'transparent',
         height: 45,
         borderRadius: 10,
         justifyContent: 'center',
@@ -292,5 +259,19 @@ export const stylesPerguntas = StyleSheet.create({
         backgroundColor: 'transparent',
         padding: 0,
         borderColor: 'transparent'
+    },
+})
+
+//SIDE MENU
+export const stylesSideMenu = StyleSheet.create({
+    imgLogo: {
+        height: 35,
+        width: 205,
+    },
+    textMenu: {
+        color: white,
+        fontSize: 28,
+        fontWeight: '200',
+        paddingVertical: 30,
     },
 })

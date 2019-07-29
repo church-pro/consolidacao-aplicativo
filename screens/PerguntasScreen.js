@@ -23,7 +23,8 @@ import { LinearGradient } from 'expo'
 import {
 	pegarDataEHoraAtual
 } from '../helpers/helper'
-import { stylesPerguntas } from '../components/Styles';
+import { stylesPerguntas, styles } from '../components/Styles';
+import Loading from '../components/Loading';
 
 class PerguntasScreen extends React.Component {
 
@@ -132,16 +133,11 @@ class PerguntasScreen extends React.Component {
 		} = estados
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-				<View style={{ flex: 1, paddingHorizontal: 20 }}>
+				<View style={styles.container}>
 
 					{
 						carregando &&
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<ActivityIndicator
-								size="large"
-								color={primary}
-							/>
-						</View>
+						<Loading />
 					}
 
 					{

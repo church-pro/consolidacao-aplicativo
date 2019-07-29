@@ -129,60 +129,60 @@ class LoginScreen extends React.Component {
 
 				{
 					!carregando &&
-							<KeyboardAwareScrollView
-								contentContainerStyle={stylesLogin.container}
-								enableOnAndroid enableAutomaticScroll={true}
-								keyboardShoulfPersistTaps='always'
-								extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
+						<KeyboardAwareScrollView
+							contentContainerStyle={stylesLogin.container}
+							enableOnAndroid enableAutomaticScroll={true}
+							keyboardShoulfPersistTaps='always'
+							extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
 
-								<Fragment>
+							<Fragment>
 
-									<View style={stylesLogin.containerLogo}>
-										<Image source={logo} style={stylesLogin.logo} />
+								<View style={stylesLogin.containerLogo}>
+									<Image source={logo} style={stylesLogin.logo} />
+								</View>
+
+								<View style={{ flex: 1 }}>
+									<View style={[stylesLogin.containerInputEmail]}>
+										<TextInput style={stylesLogin.inputText}
+											keyboardAppearance='dark'
+											autoCapitalize="none"
+											placeholderTextColor="#d3d3d3"
+											placeholder="Seu Email"
+											selectionColor="#fff"
+											keyboardType="email-address"
+											value={email}
+											onChangeText={texto => this.setState({ email: texto })}
+											returnKeyType={'next'}
+											onSubmitEditing={() => this.inputSenha.focus()}
+										/>
 									</View>
-
-									<View style={{ flex: 1 }}>
-										<View style={[stylesLogin.containerInputEmail]}>
-											<TextInput style={stylesLogin.inputText}
-												keyboardAppearance='dark'
-												autoCapitalize="none"
-												placeholderTextColor="#d3d3d3"
-												placeholder="Seu Email"
-												selectionColor="#fff"
-												keyboardType="email-address"
-												value={email}
-												onChangeText={texto => this.setState({ email: texto })}
-												returnKeyType={'next'}
-												onSubmitEditing={() => this.inputSenha.focus()}
-											/>
-										</View>
-										<View style={[stylesLogin.containerInputSenha]}>
-											<TextInput style={stylesLogin.inputText}
-												ref={(input) => { this.inputSenha = input; }}
-												keyboardAppearance='dark'
-												placeholderTextColor="#d3d3d3"
-												placeholder="Senha"
-												selectionColor="#fff"
-												keyboardType='default'
-												secureTextEntry={true}
-												value={senha}
-												onChangeText={texto => this.setState({ senha: texto })}
-												returnKeyType={'go'}
-												onSubmitEditing={() => this.ajudadorDeSubmissao()}
-											/>
-										</View>
-										<View>
-											<CPButton
-												title="Entrar"
-												OnPress={() => this.ajudadorDeSubmissao()}
-											/>
-										</View>
+									<View style={[stylesLogin.containerInputSenha]}>
+										<TextInput style={stylesLogin.inputText}
+											ref={(input) => { this.inputSenha = input; }}
+											keyboardAppearance='dark'
+											placeholderTextColor="#d3d3d3"
+											placeholder="Senha"
+											selectionColor="#fff"
+											keyboardType='default'
+											secureTextEntry={true}
+											value={senha}
+											onChangeText={texto => this.setState({ senha: texto })}
+											returnKeyType={'go'}
+											onSubmitEditing={() => this.ajudadorDeSubmissao()}
+										/>
 									</View>
+									<View>
+										<CPButton
+											title="Entrar"
+											OnPress={() => this.ajudadorDeSubmissao()}
+										/>
+									</View>
+								</View>
 
 
-								</Fragment>
-							</KeyboardAwareScrollView>
+							</Fragment>
+						</KeyboardAwareScrollView>
 
 				}
 
@@ -190,16 +190,14 @@ class LoginScreen extends React.Component {
 				{
 					!carregando &&
 						<View style={stylesLogin.containerButton}>
-
 							<TouchableOpacity
 								style={[stylesLogin.button, style = { backgroundColor: 'transparent' }]}
 								onPress={() => this.props.navigation.navigate('Registro')}>
 								<Text style={[stylesLogin.textButton]}>Ainda não tem uma conta? Crie aqui!</Text>
 							</TouchableOpacity>
-
 						</View>
 				}
-					
+
 			</LinearGradient>
 		)}
 }
