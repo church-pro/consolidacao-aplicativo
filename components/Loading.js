@@ -2,7 +2,7 @@ import React from 'react';
 
 import { View, ActivityIndicator, Text, StyleSheet } from 'react-native';
 
-import { white, primary, lightdark } from '../helpers/colors';
+import { white, primary } from '../helpers/colors';
 
 const Loading = ({ title, background }) => (
     <View style={[styles.containerLoading, { backgroundColor: background }]}>
