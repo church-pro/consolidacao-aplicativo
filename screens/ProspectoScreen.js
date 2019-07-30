@@ -11,7 +11,7 @@ import {
 	alterarProspectoNoAsyncStorage,
 } from '../actions'
 import {
-	SITUACAO_CADASTRO, SALVAR, NOME, DDD, TELEFONE, LABEL_EMAIL,
+	SITUACAO_CADASTRO, SALVAR, NOME, DDD, TELEFONE, LABEL_EMAIL, NOVO_CONTATO,
 } from '../helpers/constants'
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
@@ -129,7 +129,7 @@ class ProspectoScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		const { params = {} } = navigation.state
 		return {
-			title: 'Novo Contato',
+			title: NOVO_CONTATO,
 			headerTitleStyle: {
 				flex: 1,
 				// textAlign: 'center',

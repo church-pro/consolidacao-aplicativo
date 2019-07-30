@@ -26,6 +26,7 @@ export const TITULO_TAB_EVENTO = "Evento"
 // TELAS
 export const MARCAR_DATA_E_HORA = "Marcar Data e Hora"
 export const REGISTRO = "Registro"
+export const NOVO_CONTATO = "Novo Contato"
 
 // LOADING
 export const ENTRANDO = "Entrando no ChurchPro"
