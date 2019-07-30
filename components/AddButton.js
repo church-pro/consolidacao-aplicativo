@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Animated, Easing, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import { primary } from '../helpers/colors';
@@ -8,36 +8,26 @@ import { Icon } from 'react-native-elements';
 class AddButton extends React.Component {
 
     render() {
-
-
         return (
-            <View>
-                <View
-                    style={[style.bigBubble,]}
+            <View
+                style={[style.bigBubble,]}
+            >
+                <TouchableOpacity
+                    hitSlop={{
+                        left: 20,
+                        right: 20,
+                        top: 20,
+                        bottom: 20,
+                    }}
+                    onPress={() => this.props.navigation.navigate('ImportarProspectos')}
                 >
-                    <TouchableOpacity
-                        hitSlop={{
-                            left: 20,
-                            right: 20,
-                            top: 20,
-                            bottom: 20,
-                        }}
-                        onPress={() => this.props.navigation.navigate('ImportarProspectos')}
-                    >
-                        <View
-
-                        >
-                            <Icon
-                                name="plus"
-                                size={35}
-                                color="#FFF"
-                                type="font-awesome"
-                            />
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-
+                    <Icon
+                        name="plus"
+                        size={35}
+                        color="#FFF"
+                        type="font-awesome"
+                    />
+                </TouchableOpacity>
             </View>
         );
     }

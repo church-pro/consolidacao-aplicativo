@@ -1,18 +1,13 @@
 import React from 'react';
 import {
-	StyleSheet,
-	Text,
 	View,
 	TouchableOpacity,
-	Alert,
 	ActivityIndicator,
-	NetInfo,
 } from 'react-native';
-import { Icon, Card, CheckBox } from 'react-native-elements'
-import { Drawer, Header, Title, Left, Body, Right, Fab, Button } from 'native-base'
-import ActionButton from 'react-native-action-button';
+import { Icon } from 'react-native-elements'
+import { Drawer, Header, Title, Left, Body, Right, } from 'native-base'
 import SideBar from '../components/SideBar'
-import { createMaterialTopTabNavigator, createBottomTabNavigator } from 'react-navigation'
+import { createBottomTabNavigator } from 'react-navigation'
 import { LinearGradient } from 'expo'
 import { white, gold, dark, lightdark, black, primary } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
@@ -23,8 +18,8 @@ import {
 	SITUACAO_MENSAGEM,
 	SITUACAO_LIGAR,
 	SITUACAO_VISITA,
+	CHURCH_PRO,
 } from '../helpers/constants'
-import styles from '../components/Styles';
 import {
 	sincronizarNaAPI,
 	recuperarHistoricoNaoSincronizado,
@@ -102,8 +97,8 @@ class ProspectosScreen extends React.Component {
 
 				let prospectosFiltrados = prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)
 
-				if(item.tipo === SITUACAO_IMPORTAR){
-					prospectosFiltrados = prospectosFiltrados.concat(prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CADASTRO))	
+				if (item.tipo === SITUACAO_IMPORTAR) {
+					prospectosFiltrados = prospectosFiltrados.concat(prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CADASTRO))
 				}
 
 				const componenteLista = (props) => (
@@ -174,7 +169,7 @@ class ProspectosScreen extends React.Component {
 						</TouchableOpacity>
 					</Left>
 					<Body style={{ flex: 1 }}>
-						<Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}>CHURCH PRO</Title>
+						<Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}> {CHURCH_PRO} </Title>
 					</Body>
 					<Right style={{ flex: 0 }}>
 						<TouchableOpacity
@@ -221,7 +216,7 @@ function mapStateToProps({ prospectos, }, props) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-}
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProspectosScreen)

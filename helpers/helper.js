@@ -23,6 +23,34 @@ import {
 	SITUACAO_VISITA_NAO_FUI,
 	SITUACAO_EVENTO_NAO_VEIO,
 	SITUACAO_CADASTRO,
+	PARABENS,
+	PESSOA_ESTA_NA_ABA,
+	REMOVER,
+	PESSOA_REMOVIDA,
+	ISSO_AI,
+	PERSISTENCIA,
+	CONCLUIU,
+	ENVIOU_MENSAGEM,
+	SIM,
+	NUMERO_INVALIDO,
+	O_QUE_DESEJA_FAZER,
+	AVANCAR,
+	CONSEGUIU_LIGAR,
+	NUMERO_INEXISTENTE,
+	APENAS_TOCOU,
+	MARCOU_VISITA,
+	NAO,
+	AGENDAR_VISITA,
+	TENTAR_NOVAMENTE,
+	CONSEGUIU_VISITAR,
+	CONVIDOU,
+	ACEITOU_CONVITE,
+	O_QUE_ACONTECEU,
+	PESSOA_DESMARCOU,
+	EU_NAO_FUI,
+	AVANCAR_PARA_EVENTO,
+	PESSOA_VEIO,
+	RECOMECAR,
 } from '../helpers/constants'
 
 export function criarNotificacaoLocal(notificacao) {
@@ -118,13 +146,13 @@ export function pegarDataEHoraAtual() {
 export const montarObjetoParaPerguntas = (situacao_id) => {
 	let estados = {}
 	let perguntas = {}
-	const labelParabens = 'Parabéns'
-	const labelMensagem = 'Pessoa está agora na aba para '
-	const labelRemover = 'Remover'
-	const labelMensgemRemovido = 'Pessoa Removida'
-	const labelVolta = 'É isso ai'
-	const labelMensagemVoltar = 'A persistência é o caminho do sucesso!'
-	const labelMensagemEvento = 'Você concluiu o processo'
+	const labelParabens = PARABENS
+	const labelMensagem = PESSOA_ESTA_NA_ABA
+	const labelRemover = REMOVER
+	const labelMensgemRemovido = PESSOA_REMOVIDA
+	const labelVolta = ISSO_AI
+	const labelMensagemVoltar = PERSISTENCIA
+	const labelMensagemEvento = CONCLUIU
 	let parametros = {}
 	if (
 		situacao_id === SITUACAO_IMPORTAR ||
@@ -149,11 +177,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		perguntas = [
 			{
 				mostrar: 'mostrarPerguntaUm',
-				titulo: 'Conseguiu Enviar a Mensagem?',
+				titulo: ENVIOU_MENSAGEM,
 				opcoes: [
 					{
 						estado: 'enviouMensagem',
-						titulo: 'Sim',
+						titulo: SIM,
 						onPress: {
 							enviouMensagem: true,
 							naoEnviouMensagem: false,
@@ -166,7 +194,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoEnviouMensagem',
-						titulo: 'Não - Número Inválido/ Sem Whatsapp',
+						titulo: NUMERO_INVALIDO,
 						onPress: {
 							enviouMensagem: false,
 							naoEnviouMensagem: true,
@@ -181,11 +209,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			},
 			{
 				mostrar: 'mostrarPerguntaDois',
-				titulo: 'O que deseja fazer?',
+				titulo: O_QUE_DESEJA_FAZER,
 				opcoes: [
 					{
 						estado: 'avancar',
-						titulo: 'Avançar',
+						titulo: AVANCAR,
 						onPress: {
 							remover: false,
 							avancar: true,
@@ -197,14 +225,14 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'remover',
-						titulo: 'Remover',
+						titulo: REMOVER,
 						onPress: {
 							remover: true,
 							avancar: false,
 							mostrarBotaoConfirmar: true,
 							situacao_id_nova: SITUACAO_REMOVIDO,
-							alertTitulo: 'Remover',
-							alertMensagem: 'Pessoa removida!',
+							alertTitulo: REMOVER,
+							alertMensagem: PESSOA_REMOVIDA,
 						},
 					},
 				]
@@ -240,11 +268,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		perguntas = [
 			{
 				mostrar: 'mostrarPerguntaUm',
-				titulo: 'Conseguiu Ligar?',
+				titulo: CONSEGUIU_LIGAR,
 				opcoes: [
 					{
 						estado: 'liguei',
-						titulo: 'Sim',
+						titulo: SIM,
 						onPress: {
 							liguei: true,
 							naoTelefoneInvalido: false,
@@ -262,7 +290,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoTelefoneInvalido',
-						titulo: 'Não - Número Inválido/Inexistente',
+						titulo: NUMERO_INEXISTENTE,
 						onPress: {
 							liguei: false,
 							naoTelefoneInvalido: true,
@@ -280,7 +308,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoApenasTocou',
-						titulo: 'Não - Apenas Tocou',
+						titulo: APENAS_TOCOU,
 						onPress: {
 							liguei: false,
 							naoTelefoneInvalido: false,
@@ -300,11 +328,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			},
 			{
 				mostrar: 'mostrarPerguntaDois',
-				titulo: 'Marcou Visita?',
+				titulo: MARCOU_VISITA,
 				opcoes: [
 					{
 						estado: 'marcouVisita',
-						titulo: 'Sim',
+						titulo: SIM,
 						onPress: {
 							marcouVisita: true,
 							naoMarcouVisita: false,
@@ -319,7 +347,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoMarcouVisita',
-						titulo: 'Não',
+						titulo: NAO,
 						onPress: {
 							marcouVisita: false,
 							naoMarcouVisita: true,
@@ -335,11 +363,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			},
 			{
 				mostrar: 'mostrarPerguntaTres',
-				titulo: 'O que deseja fazer?',
+				titulo: O_QUE_DESEJA_FAZER,
 				opcoes: [
 					{
 						estado: 'avancar',
-						titulo: 'Agendar visita mesmo assim',
+						titulo: AGENDAR_VISITA,
 						onPress: {
 							remover: false,
 							avancar: true,
@@ -353,7 +381,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'voltar',
-						titulo: 'Tentar Novamente',
+						titulo: TENTAR_NOVAMENTE,
 						onPress: {
 							remover: false,
 							avancar: false,
@@ -366,7 +394,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'remover',
-						titulo: 'Remover',
+						titulo: REMOVER,
 						onPress: {
 							remover: true,
 							avancar: false,
@@ -412,11 +440,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		perguntas = [
 			{
 				mostrar: 'mostrarPerguntaUm',
-				titulo: 'Conseguiu Visitar?',
+				titulo: CONSEGUIU_VISITAR,
 				opcoes: [
 					{
 						estado: 'visitei',
-						titulo: 'Sim',
+						titulo: SIM,
 						onPress: {
 							visitei: true,
 							naoVisitei: false,
@@ -440,7 +468,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoVisitei',
-						titulo: 'Não',
+						titulo: NAO,
 						onPress: {
 							visitei: false,
 							naoVisitei: true,
@@ -464,11 +492,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			},
 			{
 				mostrar: 'mostrarPerguntaDois',
-				titulo: 'Convidou?',
+				titulo: CONVIDOU,
 				opcoes: [
 					{
 						estado: 'convidei',
-						titulo: 'Sim - Aceitou Convite',
+						titulo: ACEITOU_CONVITE,
 						onPress: {
 							mostrarBotaoConfirmar: true,
 							convidei: true,
@@ -490,7 +518,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoConvidei',
-						titulo: 'Não',
+						titulo: NAO,
 						onPress: {
 							mostrarBotaoConfirmar: false,
 							convidei: false,
@@ -512,11 +540,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			},
 			{
 				mostrar: 'mostrarPerguntaTres',
-				titulo: 'O que aconteceu?',
+				titulo: O_QUE_ACONTECEU,
 				opcoes: [
 					{
 						estado: 'desmarcou',
-						titulo: 'Pessoa Desmarcou',
+						titulo: PESSOA_DESMARCOU,
 						onPress: {
 							mostrarBotaoConfirmar: false,
 							desmarcou: true,
@@ -532,7 +560,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoFui',
-						titulo: 'Eu não fui',
+						titulo: EU_NAO_FUI,
 						onPress: {
 							mostrarBotaoConfirmar: false,
 							desmarcou: false,
@@ -550,11 +578,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			},
 			{
 				mostrar: 'mostrarPerguntaQuatro',
-				titulo: 'O que deseja fazer?',
+				titulo: O_QUE_DESEJA_FAZER,
 				opcoes: [
 					{
 						estado: 'recomecar',
-						titulo: 'Recomeçar o processo com a pessoa',
+						titulo: RECOMECAR,
 						onPress: {
 							mostrarBotaoConfirmar: true,
 							remover: false,
@@ -567,7 +595,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'avancar',
-						titulo: 'Avançar para etapa evento',
+						titulo: AVANCAR_PARA_EVENTO,
 						onPress: {
 							mostrarBotaoConfirmar: true,
 							remover: false,
@@ -580,7 +608,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'remover',
-						titulo: 'Remover',
+						titulo: REMOVER,
 						onPress: {
 							mostrarBotaoConfirmar: true,
 							remover: true,
@@ -619,11 +647,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		perguntas = [
 			{
 				mostrar: 'mostrarPerguntaUm',
-				titulo: 'A pessoa veio?',
+				titulo: PESSOA_VEIO,
 				opcoes: [
 					{
 						estado: 'veio',
-						titulo: 'Sim',
+						titulo: SIM,
 						onPress: {
 							veio: true,
 							naoVeio: false,
@@ -640,7 +668,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'naoVeio',
-						titulo: 'Não',
+						titulo: NAO,
 						onPress: {
 							veio: false,
 							naoVeio: true,
@@ -656,11 +684,11 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 			},
 			{
 				mostrar: 'mostrarPerguntaDois',
-				titulo: 'O que deseja fazer?',
+				titulo: O_QUE_DESEJA_FAZER,
 				opcoes: [
 					{
 						estado: 'recomecar',
-						titulo: 'Recomeçar o processo com a pessoa',
+						titulo: RECOMECAR,
 						onPress: {
 							remover: false,
 							recomecar: true,
@@ -672,7 +700,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 					},
 					{
 						estado: 'remover',
-						titulo: 'Remover',
+						titulo: REMOVER,
 						onPress: {
 							remover: true,
 							recomecar: false,

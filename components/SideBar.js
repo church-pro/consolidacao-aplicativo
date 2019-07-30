@@ -5,20 +5,21 @@ import { stylesSideMenu, styles } from './Styles'
 import { LinearGradient } from 'expo'
 import { black, dark, lightdark } from '../helpers/colors';
 import logo from '../assets/images/churchpro_branco.png'
+import { SAIR, DESEJA_SAIR, NAO, SIM } from '../helpers/constants';
 
 class SideBar extends React.Component {
 
 	sair = () => {
 		Alert.alert(
-			'Sair',
-			'Reamente deseja sair?',
+			SAIR,
+			DESEJA_SAIR,
 			[
 				{
-					text: 'Não',
+					text: NAO,
 					onPress: () => console.log('Cancel Pressed'),
 					style: 'cancel',
 				},
-				{ text: 'Sim', onPress: () => this.props.navigation.navigate('Sincronizacao', { tela: 'Login' }) },
+				{ text: SIM, onPress: () => this.props.navigation.navigate('Sincronizacao', { tela: 'Login' }) },
 			],
 			{ cancelable: false },
 		)
@@ -29,15 +30,13 @@ class SideBar extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#404040']}>
 				<View style={styles.container}>
-					<View style={{ marginTop: 30, justifyContent: 'center', alignItems: 'center' }}>
+					<View style={stylesSideMenu.containerImg}>
 						<Image source={logo} style={stylesSideMenu.imgLogo} />
 					</View>
 					<Button
-						style={{ backgroundColor: 'transparent', height: 80 }}
+						style={stylesSideMenu.button}
 						onPress={() => this.sair()}>
-						<Text style={stylesSideMenu.textMenu}>
-							Sair
-					</Text>
+						<Text style={stylesSideMenu.textMenu}> {SAIR} </Text>
 					</Button>
 				</View>
 			</LinearGradient>

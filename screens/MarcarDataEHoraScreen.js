@@ -22,6 +22,7 @@ import { LinearGradient } from 'expo'
 import Loading from '../components/Loading';
 import { stylesMarcar } from '../components/Styles'
 import CPButton from '../components/CPButton';
+import { DATA, HORA, LOCAL, CONFIRMAR, MARCAR_DATA_E_HORA } from '../helpers/constants';
 
 class MarcarDataEHoraScreen extends React.Component {
 
@@ -73,7 +74,7 @@ class MarcarDataEHoraScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            title: 'Marcar Data e Hora',
+            title: MARCAR_DATA_E_HORA,
             headerStyle: {
                 backgroundColor: black,
                 borderBottomWidth: 0,
@@ -111,7 +112,7 @@ class MarcarDataEHoraScreen extends React.Component {
                         !carregando &&
                         <View>
                             <View style={stylesMarcar.containerInput}>
-                                <Text style={stylesMarcar.labelMarcar}>DATA</Text>
+                                <Text style={stylesMarcar.labelMarcar}>{DATA}</Text>
                                 <View style={stylesMarcar.inputContainerStyle}>
                                     <DatePicker
                                         style={{ flex: 1, }}
@@ -134,7 +135,7 @@ class MarcarDataEHoraScreen extends React.Component {
                                 </View>
                             </View>
                             <View style={[stylesMarcar.containerInput, { marginVertical: 10 }]}>
-                                <Text style={stylesMarcar.labelMarcar}>HORA</Text>
+                                <Text style={stylesMarcar.labelMarcar}>{HORA}</Text>
                                 <View style={stylesMarcar.inputContainerStyle}>
                                     <DatePicker
                                         style={{ flex: 1 }}
@@ -157,7 +158,7 @@ class MarcarDataEHoraScreen extends React.Component {
                             </View>
 
                             <View style={stylesMarcar.containerInput}>
-                                <Text style={stylesMarcar.labelMarcar}>LOCAL</Text>
+                                <Text style={stylesMarcar.labelMarcar}>{LOCAL}</Text>
                                 <View style={stylesMarcar.inputContainerStyle}>
                                     <TextInput
                                         keyboardAppearance='dark'
@@ -169,7 +170,7 @@ class MarcarDataEHoraScreen extends React.Component {
                                 </View>
                             </View>
 
-                            <CPButton OnPress={() => this.ajudadorDeSubmit()} title="Confirmar" />
+                            <CPButton OnPress={() => this.ajudadorDeSubmit()} title={CONFIRMAR} />
 
                         </View>
                     }

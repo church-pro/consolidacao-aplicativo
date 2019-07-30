@@ -8,41 +8,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
     },
-    containerCard: {
-        backgroundColor: 'transparent',
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
-        borderColor: gray,
-        padding: 0,
-        margin: 0,
-        flexDirection: 'column',
-    },
-    name_phone: {
-        flexDirection: 'row',
-        padding: 15,
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-    },
-    text: {
-        color: white,
-        fontWeight: 'bold'
-    },
-    content: {
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: 'center',
-    },
-
-    date: {
-        paddingTop: 6,
-        paddingLeft: 6,
-        flexDirection: "row",
-        justifyContent: "flex-start"
-    },
-    badgeDate: {
-        backgroundColor: primary,
-    },
     containerInput: {
         paddingHorizontal: 10,
         borderWidth: 1,
@@ -63,7 +28,65 @@ export const styles = StyleSheet.create({
         color: white
     },
 
+    titleList: {
+        textAlign: 'center',
+        color: '#AAA',
+        padding: 10,
+    },
+})
 
+// TELA DE PROSPECTO
+export const stylesProspecto = StyleSheet.create({
+    containerCard: {
+        backgroundColor: 'transparent',
+        borderTopWidth: 0,
+        borderLeftWidth: 0,
+        borderRightWidth: 0,
+        borderColor: gray,
+        padding: 0,
+        margin: 0,
+        flexDirection: 'column',
+    },
+    containerProspecto: {
+        flexDirection: 'row',
+        padding: 15,
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+    },
+    text: {
+        color: white,
+        fontWeight: 'bold'
+    },
+    containerName: {
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: 'center',
+    },
+    containerActions: {
+        backgroundColor: 'transparent',
+        marginLeft: 3,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    containerBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap'
+    },
+    badge: {
+        backgroundColor: primary,
+        marginTop: 6,
+        borderRadius: 9,
+        borderWidth: 0,
+        paddingHorizontal: 4,
+        paddingVertical: 2
+    },
+    textBadge: {
+        color: white,
+        fontSize: 12,
+        fontWeight: 'bold'
+    },
 })
 
 // TELA DE LOGIN
@@ -106,9 +129,6 @@ export const stylesLogin = StyleSheet.create({
         height: 45,
         paddingHorizontal: 8
     },
-    containerButton: {
-        marginBottom: 6,
-    },
     button: {
         backgroundColor: 'transparent',
         height: 45,
@@ -122,42 +142,6 @@ export const stylesLogin = StyleSheet.create({
         fontWeight: '200',
         textAlign: 'center',
     },
-
-})
-
-// TELA DE REGISTRO
-export const stylesRegistro = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-    containerInputRegistro: {
-        borderWidth: 1,
-        borderColor: gray,
-        borderRadius: 6,
-        height: 60,
-        marginTop: 6,
-        paddingTop: 3,
-        paddingHorizontal: 5
-    },
-    inputRegistro: {
-        color: white,
-        fontSize: 18,
-        marginLeft: 6,
-        paddingTop: 2,
-        flex: 1
-    },
-    labelRegistro: {
-        fontSize: 16,
-        color: white,
-        fontWeight: "bold",
-        marginTop: 6
-    },
-    inputContainerStyle: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    }
 
 })
 
@@ -284,14 +268,22 @@ export const stylesPerguntas = StyleSheet.create({
 
 //SIDE MENU
 export const stylesSideMenu = StyleSheet.create({
+    containerImg: {
+        marginTop: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     imgLogo: {
         height: 35,
         width: 205,
     },
+    button: {
+        marginVertical: 10,
+        backgroundColor: 'transparent'
+    },
     textMenu: {
         color: white,
-        fontSize: 28,
+        fontSize: 26,
         fontWeight: '200',
-        paddingVertical: 30,
     },
 })

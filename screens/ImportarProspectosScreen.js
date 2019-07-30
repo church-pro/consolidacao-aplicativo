@@ -18,7 +18,7 @@ import {
 import {
     submeterSituacoes
 } from '../helpers/api'
-import { SITUACAO_IMPORTAR } from '../helpers/constants'
+import { SITUACAO_IMPORTAR, IMPORTAR_CONTATOS, CONFIRMAR } from '../helpers/constants'
 import { stylesImportar } from '../components/Styles';
 import {
     pegarDataEHoraAtual
@@ -242,7 +242,7 @@ class ImportarProspectosScreen extends React.Component {
                         </TouchableOpacity>
                     </Left>
                     <Body style={{ flex: 1 }}>
-                        <Title style={stylesImportar.headerTitle}>Importar Contatos</Title>
+                        <Title style={stylesImportar.headerTitle}>{IMPORTAR_CONTATOS}</Title>
                     </Body>
                     <Right style={{ flex: 0 }}>
                         <TouchableOpacity
@@ -274,7 +274,7 @@ class ImportarProspectosScreen extends React.Component {
                         <TouchableOpacity style={stylesImportar.buttonImport}
                             onPress={() => { this.adicionarContatos() }}
                         >
-                            <Text style={stylesImportar.textButtonImport}>Importar</Text>
+                            <Text style={stylesImportar.textButtonImport}>{CONFIRMAR}</Text>
                         </TouchableOpacity>
                     </View>
                 }

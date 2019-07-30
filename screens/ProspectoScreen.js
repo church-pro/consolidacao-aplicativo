@@ -3,16 +3,15 @@ import {
 	Alert,
 	Platform,
 	View,
-	ActivityIndicator,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Button, Card, Icon, Input } from 'react-native-elements'
-import { white, lightdark, dark, primary, gray, black } from '../helpers/colors'
+import { Input } from 'react-native-elements'
+import { white, lightdark, dark, black } from '../helpers/colors'
 import {
 	alterarProspectoNoAsyncStorage,
 } from '../actions'
 import {
-	SITUACAO_CADASTRO,
+	SITUACAO_CADASTRO, SALVAR, NOME, DDD, TELEFONE, LABEL_EMAIL,
 } from '../helpers/constants'
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
@@ -173,7 +172,7 @@ class ProspectoScreen extends React.Component {
 							placeholder=""
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
-							label="NOME"
+							label={NOME}
 							inputStyle={styles.input}
 							labelStyle={styles.label}
 							value={nome}
@@ -192,7 +191,7 @@ class ProspectoScreen extends React.Component {
 									placeholder=""
 									placeholderTextColor={'#ddd'}
 									autoCorrect={false}
-									label="DDD"
+									label={DDD}
 									maxLength={2}
 									inputStyle={styles.input}
 									labelStyle={styles.label}
@@ -214,7 +213,7 @@ class ProspectoScreen extends React.Component {
 									placeholder=""
 									placeholderTextColor={'#ddd'}
 									autoCorrect={false}
-									label="TELEFONE"
+									label={TELEFONE}
 									inputStyle={styles.input}
 									labelStyle={styles.label}
 									value={telefone}
@@ -234,7 +233,7 @@ class ProspectoScreen extends React.Component {
 							placeholder=""
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
-							label="EMAIL"
+							label={LABEL_EMAIL}
 							inputStyle={styles.input}
 							labelStyle={styles.label}
 							value={email}
@@ -245,7 +244,7 @@ class ProspectoScreen extends React.Component {
 						/>
 
 						<CPButton
-							title='Salvar'
+							title={SALVAR}
 							OnPress={() => { this.ajudadorDeSubmissao() }}
 						/>
 
