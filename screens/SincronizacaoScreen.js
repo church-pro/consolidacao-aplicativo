@@ -80,7 +80,10 @@ class SincronizacaoScreen extends React.Component {
 												if (tela === 'Login') {
 													alterarUsuarioNoAsyncStorage({})
 														.then(() => {
-															navigation.navigate(tela)
+															.then(() => {
+																limparSituacoes()
+																navigation.navigate(tela)
+															})
 														})
 												}
 
