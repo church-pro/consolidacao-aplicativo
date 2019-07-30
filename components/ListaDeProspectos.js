@@ -13,6 +13,7 @@ import {
 	recuperarHistoricoNaoSincronizado,
 	limparHistoricos,
 } from '../helpers/api'
+import { styles } from './Styles';
 
 class ListaDeProspectos extends React.Component {
 
@@ -22,8 +23,8 @@ class ListaDeProspectos extends React.Component {
 	}
 
 	_handleRefresh = () => {
-		this.setState({refreshing: true})
-		this.props.navigation.navigate('Sincronizacao', {tela: 'Prospectos'})
+		this.setState({ refreshing: true })
+		this.props.navigation.navigate('Sincronizacao', { tela: 'Prospectos' })
 	}
 
 	_keyExtractor = (item, index) => item._id;
@@ -40,7 +41,7 @@ class ListaDeProspectos extends React.Component {
 		const { title, prospectos, navigation } = this.props
 		return (
 			<View style={{ flex: 1 }}>
-				<Text style={{ textAlign: 'center', color: '#AAA', padding: 10, }}>{title}</Text>
+				<Text style={styles.titleList}>{title}</Text>
 				{
 					prospectos &&
 					<FlatList

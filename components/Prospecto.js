@@ -13,7 +13,7 @@ import {
 	adicionarSituacoesAoAsyncStorage,
 } from '../actions'
 import { connect } from 'react-redux'
-import { styles } from './Styles';
+import { styles, stylesProspecto } from './Styles';
 import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,
@@ -38,28 +38,23 @@ class Prospecto extends React.Component {
 		const funcaoOnPressDoIconeList = () => navigation.navigate('Perguntas', parametros)
 
 		return (
-			<Card containerStyle={styles.containerCard} key={prospecto.id}>
-				<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id}>
+				<View style={stylesProspecto.containerBadge}>
 					{
 						prospecto.data &&
-						<View style={styles.date}>
-							<View style={{
-								borderRadius: 9, backgroundColor: primary, borderWidth: 0,
-								paddingHorizontal: 4, paddingVertical: 2
-							}}>
-								<Text style={{ color: white, fontSize: 12 }}>
-									{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
-								</Text>
-							</View>
+						<View style={stylesProspecto.badge}>
+							<Text style={stylesProspecto.textBadge}>
+								{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
+							</Text>
 						</View>
 					}
 
 				</View>
-				<View style={styles.name_phone}>
-					<View style={styles.content}>
-						<Text style={[styles.text]}>{prospecto.nome}</Text>
+				<View style={stylesProspecto.containerProspecto}>
+					<View style={stylesProspecto.containerName}>
+						<Text style={[stylesProspecto.text]}>{prospecto.nome}</Text>
 					</View>
-					<View style={{ backgroundColor: 'transparent', marginLeft: 3, flexDirection: 'row', alignItems: 'center' }}>
+					<View style={stylesProspecto.containerActions}>
 						<TouchableOpacity
 							style={{ padding: 5 }} onPress={() => { this.chamarOTelefoneDoCelular() }}
 							hitSlop={{ top: 15, right: 0, bottom: 15, left: 15 }}

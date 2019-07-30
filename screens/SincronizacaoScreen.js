@@ -15,6 +15,7 @@ import {
 } from '../helpers/api'
 import { connect } from 'react-redux'
 import Loading from '../components/Loading';
+import { SINCRONIZANDO } from '../helpers/constants';
 
 class SincronizacaoScreen extends React.Component {
 
@@ -101,7 +102,7 @@ class SincronizacaoScreen extends React.Component {
 
 	render() {
 		return (
-			<Loading title="Sincronizando" background={lightdark} />
+			<Loading title={SINCRONIZANDO} background={lightdark} />
 		)
 	}
 }

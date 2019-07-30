@@ -23,6 +23,7 @@ import { LinearGradient } from 'expo'
 import logo from '../assets/images/churchpro_branco.png'
 import { stylesLogin } from '../components/Styles'
 import Loading from '../components/Loading';
+import { BOTAO_CRIAR_CONTA, EMAIL, SENHA, ENTRAR, ENTRANDO } from '../helpers/constants';
 
 class LoginScreen extends React.Component {
 
@@ -124,82 +125,79 @@ class LoginScreen extends React.Component {
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#404040']}>
 				{
 					carregando &&
-					<Loading title="Entrando no Church Pro" />
+					<Loading title={ENTRANDO} />
 				}
 
 				{
 					!carregando &&
-						<KeyboardAwareScrollView
-							contentContainerStyle={stylesLogin.container}
-							enableOnAndroid enableAutomaticScroll={true}
-							keyboardShoulfPersistTaps='always'
-							extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
+					<KeyboardAwareScrollView
+						contentContainerStyle={stylesLogin.container}
+						enableOnAndroid enableAutomaticScroll={true}
+						keyboardShoulfPersistTaps='always'
+						extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
 
+						<Fragment>
 
-							<Fragment>
+							<View style={stylesLogin.containerLogo}>
+								<Image source={logo} style={stylesLogin.logo} />
+							</View>
 
-								<View style={stylesLogin.containerLogo}>
-									<Image source={logo} style={stylesLogin.logo} />
+							<View style={{ flex: 1 }}>
+								<View style={[stylesLogin.containerInputEmail]}>
+									<TextInput style={stylesLogin.inputText}
+										keyboardAppearance='dark'
+										autoCapitalize="none"
+										placeholderTextColor="#d3d3d3"
+										placeholder={EMAIL}
+										selectionColor="#fff"
+										keyboardType="email-address"
+										value={email}
+										onChangeText={texto => this.setState({ email: texto })}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputSenha.focus()}
+									/>
 								</View>
-
-								<View style={{ flex: 1 }}>
-									<View style={[stylesLogin.containerInputEmail]}>
-										<TextInput style={stylesLogin.inputText}
-											keyboardAppearance='dark'
-											autoCapitalize="none"
-											placeholderTextColor="#d3d3d3"
-											placeholder="Seu Email"
-											selectionColor="#fff"
-											keyboardType="email-address"
-											value={email}
-											onChangeText={texto => this.setState({ email: texto })}
-											returnKeyType={'next'}
-											onSubmitEditing={() => this.inputSenha.focus()}
-										/>
-									</View>
-									<View style={[stylesLogin.containerInputSenha]}>
-										<TextInput style={stylesLogin.inputText}
-											ref={(input) => { this.inputSenha = input; }}
-											keyboardAppearance='dark'
-											placeholderTextColor="#d3d3d3"
-											placeholder="Senha"
-											selectionColor="#fff"
-											keyboardType='default'
-											secureTextEntry={true}
-											value={senha}
-											onChangeText={texto => this.setState({ senha: texto })}
-											returnKeyType={'go'}
-											onSubmitEditing={() => this.ajudadorDeSubmissao()}
-										/>
-									</View>
-									<View>
-										<CPButton
-											title="Entrar"
-											OnPress={() => this.ajudadorDeSubmissao()}
-										/>
-									</View>
+								<View style={[stylesLogin.containerInputSenha]}>
+									<TextInput style={stylesLogin.inputText}
+										ref={(input) => { this.inputSenha = input; }}
+										keyboardAppearance='dark'
+										placeholderTextColor="#d3d3d3"
+										placeholder={SENHA}
+										selectionColor="#fff"
+										keyboardType='default'
+										secureTextEntry={true}
+										value={senha}
+										onChangeText={texto => this.setState({ senha: texto })}
+										returnKeyType={'go'}
+										onSubmitEditing={() => this.ajudadorDeSubmissao()}
+									/>
 								</View>
+								<View>
+									<CPButton
+										title={ENTRAR}
+										OnPress={() => this.ajudadorDeSubmissao()}
+									/>
+								</View>
+							</View>
 
-
-							</Fragment>
-						</KeyboardAwareScrollView>
+						</Fragment>
+					</KeyboardAwareScrollView>
 
 				}
 
 
 				{
 					!carregando &&
-						<View style={stylesLogin.containerButton}>
-							<TouchableOpacity
-								style={[stylesLogin.button, style = { backgroundColor: 'transparent' }]}
-								onPress={() => this.props.navigation.navigate('Registro')}>
-								<Text style={[stylesLogin.textButton]}>Ainda não tem uma conta? Crie aqui!</Text>
-							</TouchableOpacity>
-						</View>
+					<TouchableOpacity
+						style={[stylesLogin.button, style = { backgroundColor: 'transparent' }]}
+						onPress={() => this.props.navigation.navigate('Registro')}>
+						<Text style={[stylesLogin.textButton]}> {BOTAO_CRIAR_CONTA} </Text>
+					</TouchableOpacity>
 				}
 
 			</LinearGradient>
-		)}
+		)
+	}
 }
 
 const mapStateToProps = (state, props) => {

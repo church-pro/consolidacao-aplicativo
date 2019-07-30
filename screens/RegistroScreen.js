@@ -4,9 +4,6 @@ import {
 	View,
 	NetInfo,
 	Platform,
-	ActivityIndicator,
-	Text,
-	TextInput
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { primary, dark, white, gray, lightdark, black } from '../helpers/colors';
@@ -21,13 +18,14 @@ import {
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
 import CPButton from '../components/CPButton';
-import { stylesRegistro, stylesLogin } from '../components/Styles'
+import { styles } from '../components/Styles'
 import Loading from '../components/Loading';
+import { NOME, DDD, TELEFONE, LABEL_EMAIL, LABEL_SENHA, IDENTIFICACAO_REDE, SALVAR, ENTRANDO, REGISTRO } from '../helpers/constants';
 
 class RegistroScreen extends React.Component {
 
 	static navigationOptions = {
-		headerTitle: 'Registro',
+		headerTitle: REGISTRO,
 		headerTintColor: white,
 	}
 
@@ -149,6 +147,7 @@ class RegistroScreen extends React.Component {
 	}
 
 	render() {
+
 		const {
 			nome,
 			ddd,
@@ -163,28 +162,28 @@ class RegistroScreen extends React.Component {
 
 				{
 					carregando &&
-					<Loading title="Entrando no Church Pro" />
+					<Loading title={ENTRANDO} />
 				}
 
 				{
 					!carregando &&
-						<KeyboardAwareScrollView style={{ flex: 1, padding: 20 }}
-							enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
-							keyboardShoulfPersistTaps='always'
-						>
+					<KeyboardAwareScrollView style={styles.container}
+						enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
+						keyboardShoulfPersistTaps='always'
+					>
 
 						<Input
-							containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6 }}
-							inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
 							keyboardAppearance='dark'
 							onSubmitEditing={() => this.inputDDD.focus()}
 							returnKeyType="next"
 							placeholder=""
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
-							label="NOME"
-							inputStyle={{ color: white, marginLeft: 5 }}
-							labelStyle={{ marginTop: 5, color: white }}
+							label={NOME}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
 							value={nome}
 							onChangeText={texto => this.setState({ nome: texto })}
 							returnKeyType={'next'}
@@ -193,18 +192,18 @@ class RegistroScreen extends React.Component {
 						<View style={{ flexDirection: 'row', flex: 1 }}>
 							<View style={{ marginRight: 6 }}>
 								<Input
-									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, paddingHorizontal: 15 }}
-									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
+									inputContainerStyle={styles.inputContainerStyle}
 									underlineColorAndroid="transparent"
 									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
 									keyboardAppearance='dark'
 									placeholder=""
 									placeholderTextColor={'#ddd'}
 									autoCorrect={false}
-									label="DDD"
+									label={DDD}
 									maxLength={2}
-									inputStyle={{ color: white, marginLeft: 5 }}
-									labelStyle={{ marginTop: 5, color: white }}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
 									value={ddd}
 									onChangeText={texto => this.setState({ ddd: texto })}
 									ref={(input) => { this.inputDDD = input; }}
@@ -215,17 +214,17 @@ class RegistroScreen extends React.Component {
 
 							<View style={{ flex: 1 }}>
 								<Input
-									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, }}
-									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
 									underlineColorAndroid="transparent"
 									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
 									keyboardAppearance='dark'
 									placeholder=""
 									placeholderTextColor={'#ddd'}
 									autoCorrect={false}
-									label="TELEFONE"
-									inputStyle={{ color: white, marginLeft: 5 }}
-									labelStyle={{ marginTop: 5, color: white }}
+									label={TELEFONE}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
 									value={telefone}
 									onChangeText={texto => this.setState({ telefone: texto })}
 									ref={(input) => { this.inputTelefone = input; }}
@@ -236,16 +235,16 @@ class RegistroScreen extends React.Component {
 
 						</View>
 						<Input
-							containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, }}
-							inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
 							keyboardType='email-address'
 							keyboardAppearance='dark'
 							placeholder=""
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
-							label="EMAIL"
-							inputStyle={{ color: white, marginLeft: 5 }}
-							labelStyle={{ marginTop: 5, color: white }}
+							label={LABEL_EMAIL}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
 							value={email}
 							onChangeText={texto => this.setState({ email: texto })}
 							ref={(input) => { this.inputEmail = input; }}
@@ -253,16 +252,16 @@ class RegistroScreen extends React.Component {
 							onSubmitEditing={() => this.inputSenha.focus()}
 						/>
 						<Input
-							containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, }}
-							inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
 							keyboardType='visible-password'
 							keyboardAppearance='dark'
 							placeholder=""
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
-							label="SENHA"
-							inputStyle={{ color: white, marginLeft: 5 }}
-							labelStyle={{ marginTop: 5, color: white }}
+							label={LABEL_SENHA}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
 							value={senha}
 							onChangeText={texto => this.setState({ senha: texto })}
 							ref={(input) => { this.inputSenha = input; }}
@@ -270,29 +269,29 @@ class RegistroScreen extends React.Component {
 							onSubmitEditing={() => this.inputRede.focus()}
 						/>
 
-					<Input
-						containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, }}
-						inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
-						keyboardAppearance='dark'
-						placeholder=""
-						placeholderTextColor={'#ddd'}
-						autoCorrect={false}
-						label="IDENTIFICAÇÃO DA REDE"
-						inputStyle={{ color: white, marginLeft: 5 }}
-						labelStyle={{ marginTop: 5, color: white }}
-						value={rede_id}
-						onChangeText={texto => this.setState({ rede_id: texto })}
-						ref={(input) => { this.inputRede = input; }}
-						returnKeyType={'go'}
-						onSubmitEditing={() => this.ajudadorDeSubmissao()}
-					/>
+						<Input
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
+							keyboardAppearance='dark'
+							placeholder=""
+							placeholderTextColor={'#ddd'}
+							autoCorrect={false}
+							label={IDENTIFICACAO_REDE}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
+							value={rede_id}
+							onChangeText={texto => this.setState({ rede_id: texto })}
+							ref={(input) => { this.inputRede = input; }}
+							returnKeyType={'go'}
+							onSubmitEditing={() => this.ajudadorDeSubmissao()}
+						/>
 
-				<CPButton
-					title='Salvar'
-					OnPress={() => { this.ajudadorDeSubmissao() }}
-				/>
+						<CPButton
+							title={SALVAR}
+							OnPress={() => { this.ajudadorDeSubmissao() }}
+						/>
 
-		</KeyboardAwareScrollView>
+					</KeyboardAwareScrollView>
 				}
 			</LinearGradient>
 		)
