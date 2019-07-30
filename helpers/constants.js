@@ -40,11 +40,13 @@ export const IMPORTAR_CONTATOS = "Importar Contatos"
 
 // ACOES
 export const CONFIRMAR = "Confirmar"
+export const CANCELAR = "Cancelar"
 export const SALVAR = "Salvar"
 export const ENTRAR = "Entrar"
 export const SAIR = "Sair"
 export const SINCRONIZANDO = "Sincronizando"
 export const AVANCAR = "Avançar"
+
 
 export const DESEJA_SAIR = "Reamente deseja sair?"
 export const SIM = "Sim"

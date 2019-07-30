@@ -22,7 +22,7 @@ import { LinearGradient } from 'expo'
 import Loading from '../components/Loading';
 import { stylesMarcar } from '../components/Styles'
 import CPButton from '../components/CPButton';
-import { DATA, HORA, LOCAL, CONFIRMAR, MARCAR_DATA_E_HORA } from '../helpers/constants';
+import { DATA, HORA, LOCAL, CONFIRMAR, MARCAR_DATA_E_HORA, CANCELAR } from '../helpers/constants';
 
 class MarcarDataEHoraScreen extends React.Component {
 
@@ -122,8 +122,8 @@ class MarcarDataEHoraScreen extends React.Component {
                                         format="DD/MM/YYYY"
                                         minDate={this.state.date}
                                         showIcon={false}
-                                        confirmBtnText="Confirmar"
-                                        cancelBtnText="Cancelar"
+                                        confirmBtnText={CONFIRMAR}
+                                        cancelBtnText={CANCELAR}
                                         customStyles={{
                                             dateInput: stylesMarcar.dateInput,
                                             dateText: stylesMarcar.dateText
@@ -144,8 +144,8 @@ class MarcarDataEHoraScreen extends React.Component {
                                         placeholder=" "
                                         is24Hour={true}
                                         showIcon={false}
-                                        confirmBtnText="Confirmar"
-                                        cancelBtnText="Cancelar"
+                                        confirmBtnText={CONFIRMAR}
+                                        cancelBtnText={CANCELAR}
                                         customStyles={{
                                             dateInput: stylesMarcar.dateInput,
                                             dateText: stylesMarcar.dateText
