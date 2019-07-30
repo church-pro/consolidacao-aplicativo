@@ -23,6 +23,8 @@ import {
 import {
 	submeterSituacoes
 } from '../helpers/api'
+import Loading from '../components/Loading'
+import { styles } from '../components/Styles';
 
 class ProspectoScreen extends React.Component {
 
@@ -152,24 +154,19 @@ class ProspectoScreen extends React.Component {
 
 				{
 					carregando &&
-					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<ActivityIndicator
-							size="large"
-							color={primary}
-						/>
-					</View>
+					<Loading />
 				}
 
 				{
 					!carregando &&
-					<KeyboardAwareScrollView style={{ flex: 1, padding: 20 }}
+					<KeyboardAwareScrollView style={styles.container}
 						enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
 						keyboardShoulfPersistTaps='always'
 					>
 
 						<Input
-							containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6 }}
-							inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
 							keyboardAppearance='dark'
 							onSubmitEditing={() => this.inputDDD.focus()}
 							returnKeyType="next"
@@ -177,8 +174,8 @@ class ProspectoScreen extends React.Component {
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
 							label="NOME"
-							inputStyle={{ color: white, marginLeft: 5 }}
-							labelStyle={{ marginTop: 5, color: white }}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
 							value={nome}
 							onChangeText={texto => this.setState({ nome: texto })}
 							returnKeyType={'next'}
@@ -187,8 +184,8 @@ class ProspectoScreen extends React.Component {
 						<View style={{ flexDirection: 'row', flex: 1 }}>
 							<View style={{ marginRight: 6 }}>
 								<Input
-									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10, paddingHorizontal: 15 }}
-									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
+									inputContainerStyle={styles.inputContainerStyle}
 									underlineColorAndroid="transparent"
 									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
 									keyboardAppearance='dark'
@@ -197,8 +194,8 @@ class ProspectoScreen extends React.Component {
 									autoCorrect={false}
 									label="DDD"
 									maxLength={2}
-									inputStyle={{ color: white, marginLeft: 5 }}
-									labelStyle={{ marginTop: 5, color: white }}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
 									value={ddd}
 									onChangeText={texto => this.setState({ ddd: texto })}
 									ref={(input) => { this.inputDDD = input; }}
@@ -209,8 +206,8 @@ class ProspectoScreen extends React.Component {
 
 							<View style={{ flex: 1 }}>
 								<Input
-									containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
-									inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
 									underlineColorAndroid="transparent"
 									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
 									keyboardAppearance='dark'
@@ -218,8 +215,8 @@ class ProspectoScreen extends React.Component {
 									placeholderTextColor={'#ddd'}
 									autoCorrect={false}
 									label="TELEFONE"
-									inputStyle={{ color: white, marginLeft: 5 }}
-									labelStyle={{ marginTop: 5, color: white }}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
 									value={telefone}
 									onChangeText={texto => this.setState({ telefone: texto })}
 									ref={(input) => { this.inputTelefone = input; }}
@@ -230,16 +227,16 @@ class ProspectoScreen extends React.Component {
 
 						</View>
 						<Input
-							containerStyle={{ borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}
-							inputContainerStyle={{ borderWidth: 0, borderColor: 'transparent' }}
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
 							keyboardType='email-address'
 							keyboardAppearance='dark'
 							placeholder=""
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
 							label="EMAIL"
-							inputStyle={{ color: white, marginLeft: 5 }}
-							labelStyle={{ marginTop: 5, color: white }}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
 							value={email}
 							onChangeText={texto => this.setState({ email: texto })}
 							ref={(input) => { this.inputEmail = input; }}

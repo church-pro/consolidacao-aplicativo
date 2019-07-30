@@ -43,6 +43,26 @@ export const styles = StyleSheet.create({
     badgeDate: {
         backgroundColor: primary,
     },
+    containerInput: {
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderColor: gray,
+        borderRadius: 6,
+        marginTop: 5,
+    },
+    input: {
+        color: white,
+        marginLeft: 6,
+    },
+    inputContainerStyle: {
+        borderWidth: 0,
+        borderColor: 'transparent'
+    },
+    label: {
+        marginTop: 5,
+        color: white
+    },
+
 
 })
 
@@ -165,7 +185,7 @@ export const stylesImportar = StyleSheet.create({
     header: {
         backgroundColor: black,
         borderBottomWidth: 0,
-        paddingTop: 20
+        paddingTop: 10
     },
     headerTitle: {
         textAlign: 'center',
