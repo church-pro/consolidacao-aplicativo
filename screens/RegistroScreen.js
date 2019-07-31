@@ -5,6 +5,9 @@ import {
 	NetInfo,
 	Platform,
 	Picker,
+	Text,
+	TextInput,
+	TouchableOpacity
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { primary, dark, white, gray, lightdark, black } from '../helpers/colors';
@@ -19,9 +22,10 @@ import {
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
 import CPButton from '../components/CPButton';
-import { styles } from '../components/Styles'
+import { styles, stylesMarcar } from '../components/Styles'
 import Loading from '../components/Loading';
 import { NOME, DDD, TELEFONE, LABEL_EMAIL, LABEL_SENHA, IDENTIFICACAO_REDE, SALVAR, ENTRANDO, REGISTRO } from '../helpers/constants';
+import RNPickerSelect from 'react-native-picker-select';
 
 class RegistroScreen extends React.Component {
 
@@ -105,7 +109,7 @@ class RegistroScreen extends React.Component {
 			camposComErro += 'Email'
 		}
 
-		if (repetirEmail !== email){
+		if (repetirEmail !== email) {
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
@@ -121,7 +125,7 @@ class RegistroScreen extends React.Component {
 			camposComErro += 'Senha'
 		}
 
-		if (repetirSenha !== senha){
+		if (repetirSenha !== senha) {
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
@@ -202,97 +206,117 @@ class RegistroScreen extends React.Component {
 
 				{
 					!carregando &&
-						<KeyboardAwareScrollView style={styles.container}
-							enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
-							keyboardShoulfPersistTaps='always'
-						>
-							<Input
-								containerStyle={styles.containerInput}
-								inputContainerStyle={styles.inputContainerStyle}
-								keyboardAppearance='dark'
-								onSubmitEditing={() => this.inputDDD.focus()}
-								returnKeyType="next"
-								placeholder=""
-								placeholderTextColor={'#ddd'}
-								autoCorrect={false}
-								label={NOME}
-								inputStyle={styles.input}
-								labelStyle={styles.label}
-								value={nome}
-								onChangeText={texto => this.setState({ nome: texto })}
-								returnKeyType={'next'}
-								onSubmitEditing={() => this.inputDDD.focus()}
-							/>
-							<View style={{ flexDirection: 'row', flex: 1 }}>
-								<View style={{ marginRight: 6 }}>
-									<Input
-										containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
-										inputContainerStyle={styles.inputContainerStyle}
-										underlineColorAndroid="transparent"
-										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
-										keyboardAppearance='dark'
-										placeholder=""
-										placeholderTextColor={'#ddd'}
-										autoCorrect={false}
-										label={DDD}
-										maxLength={2}
-										inputStyle={styles.input}
-										labelStyle={styles.label}
-										value={ddd}
-										onChangeText={texto => this.setState({ ddd: texto })}
-										ref={(input) => { this.inputDDD = input; }}
-										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputTelefone.focus()}
-									/>
-								</View>
+					<KeyboardAwareScrollView style={styles.container}
+						enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
+						keyboardShoulfPersistTaps='always'
+					>
+						<Input
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
+							keyboardAppearance='dark'
+							onSubmitEditing={() => this.inputDDD.focus()}
+							returnKeyType="next"
+							placeholder=""
+							placeholderTextColor={'#ddd'}
+							autoCorrect={false}
+							label={NOME}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
+							value={nome}
+							onChangeText={texto => this.setState({ nome: texto })}
+							returnKeyType={'next'}
+							onSubmitEditing={() => this.inputDDD.focus()}
+						/>
+						<View style={{ flexDirection: 'row', flex: 1 }}>
+							<View style={{ marginRight: 6 }}>
+								<Input
+									containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
+									inputContainerStyle={styles.inputContainerStyle}
+									underlineColorAndroid="transparent"
+									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label={DDD}
+									maxLength={2}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									value={ddd}
+									onChangeText={texto => this.setState({ ddd: texto })}
+									ref={(input) => { this.inputDDD = input; }}
+									returnKeyType={'next'}
+									onSubmitEditing={() => this.inputTelefone.focus()}
+								/>
+							</View>
 
-								<View style={{ flex: 1 }}>
-									<Input
-										containerStyle={styles.containerInput}
-										inputContainerStyle={styles.inputContainerStyle}
-										underlineColorAndroid="transparent"
-										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
-										keyboardAppearance='dark'
-										placeholder=""
-										placeholderTextColor={'#ddd'}
-										autoCorrect={false}
-										label={TELEFONE}
-										inputStyle={styles.input}
-										labelStyle={styles.label}
-										value={telefone}
-										onChangeText={texto => this.setState({ telefone: texto })}
-										ref={(input) => { this.inputTelefone = input; }}
-										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputNomeIgreja.focus()}
-									/>
-								</View>
+							<View style={{ flex: 1 }}>
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									underlineColorAndroid="transparent"
+									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label={TELEFONE}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									value={telefone}
+									onChangeText={texto => this.setState({ telefone: texto })}
+									ref={(input) => { this.inputTelefone = input; }}
+									returnKeyType={'next'}
+									onSubmitEditing={() => this.inputNomeIgreja.focus()}
+								/>
+							</View>
+
+						</View>
+						<Input
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
+							keyboardAppearance='dark'
+							returnKeyType="next"
+							placeholder=""
+							placeholderTextColor={'#ddd'}
+							autoCorrect={false}
+							label={'NOME DA IGREJA'}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
+							value={nome_igreja}
+							onChangeText={texto => this.setState({ nome_igreja: texto })}
+							ref={(input) => { this.inputNomeIgreja = input; }}
+							returnKeyType={'next'}
+						/>
+
+						<View style={[stylesMarcar.containerInput, { marginTop: 6 }]}>
+							<Text style={stylesMarcar.labelMarcar}>DENOMINAÇÃO</Text>
+							<View style={stylesMarcar.inputContainerStyle}>
+
+								<RNPickerSelect
+									placeholder={{ label: 'Selecione', value: 0 }}
+									onValueChange={value => this.setState({ denominacao: value })}
+									items={[
+										{ label: 'G12', value: '1' },
+										{ label: 'MDA', value: '2' },
+									]}
+									value={denominacao}
+									style={{
+										inputIOS: {
+											color: white,
+											fontSize: 16,
+											paddingVertical: 8,
+										},
+										inputAndroid: {
+											color: white,
+											fontSize: 16,
+											paddingVertical: 8,
+										}
+									}}
+								/>
 
 							</View>
-							<Input
-								containerStyle={styles.containerInput}
-								inputContainerStyle={styles.inputContainerStyle}
-								keyboardAppearance='dark'
-								returnKeyType="next"
-								placeholder=""
-								placeholderTextColor={'#ddd'}
-								autoCorrect={false}
-								label={'NOME DA IGREJA'}
-								inputStyle={styles.input}
-								labelStyle={styles.label}
-								value={nome_igreja}
-								onChangeText={texto => this.setState({ nome_igreja: texto })}
-								ref={(input) => { this.inputNomeIgreja = input; }}
-								returnKeyType={'next'}
-							/>
-
-						<Picker
-							selectedValue={denominacao}
-							onValueChange={valor => this.setState({ denominacao: valor })}
-							>
-							<Picker.Item label="Selecione" value="0" />
-							<Picker.Item label="G12" value="1" />
-							<Picker.Item label="MDA" value="2" />
-						</Picker>
+						</View>
 
 						<Input
 							containerStyle={styles.containerInput}
@@ -367,7 +391,7 @@ class RegistroScreen extends React.Component {
 							OnPress={() => { this.ajudadorDeSubmissao() }}
 						/>
 
-				</KeyboardAwareScrollView>
+					</KeyboardAwareScrollView>
 				}
 			</LinearGradient>
 		)
