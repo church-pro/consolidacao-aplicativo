@@ -296,8 +296,8 @@ class RegistroScreen extends React.Component {
 									placeholder={{ label: 'Selecione', value: 0 }}
 									onValueChange={value => this.setState({ denominacao: value })}
 									items={[
-										{ label: 'G12', value: '1', color: Platform.OS === "ios" ? dark : white },
-										{ label: 'MDA', value: '2', color: Platform.OS === "ios" ? dark : white },
+										{ label: 'G12', value: '1' },
+										{ label: 'MDA', value: '2' },
 									]}
 									value={denominacao}
 									style={{
