@@ -4,7 +4,6 @@ import {
 	View,
 	NetInfo,
 	Platform,
-	Picker,
 	Text,
 	TextInput,
 	TouchableOpacity
