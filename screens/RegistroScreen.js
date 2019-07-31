@@ -4,6 +4,7 @@ import {
 	View,
 	NetInfo,
 	Platform,
+	Picker,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { primary, dark, white, gray, lightdark, black } from '../helpers/colors';
@@ -34,9 +35,12 @@ class RegistroScreen extends React.Component {
 		nome: '',
 		ddd: '',
 		telefone: '',
+		nome_igreja: '',
+		denominacao: 0,
 		email: '',
+		repetirEmail: '',
 		senha: '',
-		rede_id: '',
+		repetirSenha: '',
 	}
 
 	ajudadorDeSubmissao = () => {
@@ -44,9 +48,12 @@ class RegistroScreen extends React.Component {
 			nome,
 			ddd,
 			telefone,
+			nome_igreja,
+			denominacao,
 			email,
+			repetirEmail,
 			senha,
-			rede_id,
+			repetirSenha,
 		} = this.state
 		let camposComErro = ''
 		let mostrarMensagemDeErro = false
@@ -74,12 +81,36 @@ class RegistroScreen extends React.Component {
 			camposComErro += 'Telefone'
 		}
 
+		if (nome_igreja === '') {
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Nome da Igreja'
+		}
+
+		if (parseInt(denominacao) === 0) {
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Denominação'
+		}
+
 		if (email === '') {
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
 			camposComErro += 'Email'
+		}
+
+		if (repetirEmail !== email){
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Repetir Email'
 		}
 
 		if (senha === '') {
@@ -90,12 +121,12 @@ class RegistroScreen extends React.Component {
 			camposComErro += 'Senha'
 		}
 
-		if (rede_id === '') {
+		if (repetirSenha !== senha){
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
-			camposComErro += 'Identificação da Rede'
+			camposComErro += 'Repetir Senha'
 		}
 
 		if (mostrarMensagemDeErro) {
@@ -113,7 +144,8 @@ class RegistroScreen extends React.Component {
 								telefone,
 								email,
 								senha,
-								rede_id,
+								nome_igreja,
+								denominacao,
 							}
 							registrarNaAPI(dados)
 								.then(resposta => {
@@ -152,9 +184,12 @@ class RegistroScreen extends React.Component {
 			nome,
 			ddd,
 			telefone,
+			nome_igreja,
+			denominacao,
 			email,
+			repetirEmail,
 			senha,
-			rede_id,
+			repetirSenha,
 			carregando,
 		} = this.state
 		return (
@@ -167,73 +202,98 @@ class RegistroScreen extends React.Component {
 
 				{
 					!carregando &&
-					<KeyboardAwareScrollView style={styles.container}
-						enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
-						keyboardShoulfPersistTaps='always'
-					>
+						<KeyboardAwareScrollView style={styles.container}
+							enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
+							keyboardShoulfPersistTaps='always'
+						>
+							<Input
+								containerStyle={styles.containerInput}
+								inputContainerStyle={styles.inputContainerStyle}
+								keyboardAppearance='dark'
+								onSubmitEditing={() => this.inputDDD.focus()}
+								returnKeyType="next"
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label={NOME}
+								inputStyle={styles.input}
+								labelStyle={styles.label}
+								value={nome}
+								onChangeText={texto => this.setState({ nome: texto })}
+								returnKeyType={'next'}
+								onSubmitEditing={() => this.inputDDD.focus()}
+							/>
+							<View style={{ flexDirection: 'row', flex: 1 }}>
+								<View style={{ marginRight: 6 }}>
+									<Input
+										containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
+										inputContainerStyle={styles.inputContainerStyle}
+										underlineColorAndroid="transparent"
+										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
+										keyboardAppearance='dark'
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label={DDD}
+										maxLength={2}
+										inputStyle={styles.input}
+										labelStyle={styles.label}
+										value={ddd}
+										onChangeText={texto => this.setState({ ddd: texto })}
+										ref={(input) => { this.inputDDD = input; }}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputTelefone.focus()}
+									/>
+								</View>
 
-						<Input
-							containerStyle={styles.containerInput}
-							inputContainerStyle={styles.inputContainerStyle}
-							keyboardAppearance='dark'
-							onSubmitEditing={() => this.inputDDD.focus()}
-							returnKeyType="next"
-							placeholder=""
-							placeholderTextColor={'#ddd'}
-							autoCorrect={false}
-							label={NOME}
-							inputStyle={styles.input}
-							labelStyle={styles.label}
-							value={nome}
-							onChangeText={texto => this.setState({ nome: texto })}
-							returnKeyType={'next'}
-							onSubmitEditing={() => this.inputDDD.focus()}
-						/>
-						<View style={{ flexDirection: 'row', flex: 1 }}>
-							<View style={{ marginRight: 6 }}>
-								<Input
-									containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
-									inputContainerStyle={styles.inputContainerStyle}
-									underlineColorAndroid="transparent"
-									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label={DDD}
-									maxLength={2}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									value={ddd}
-									onChangeText={texto => this.setState({ ddd: texto })}
-									ref={(input) => { this.inputDDD = input; }}
-									returnKeyType={'next'}
-									onSubmitEditing={() => this.inputTelefone.focus()}
-								/>
+								<View style={{ flex: 1 }}>
+									<Input
+										containerStyle={styles.containerInput}
+										inputContainerStyle={styles.inputContainerStyle}
+										underlineColorAndroid="transparent"
+										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
+										keyboardAppearance='dark'
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label={TELEFONE}
+										inputStyle={styles.input}
+										labelStyle={styles.label}
+										value={telefone}
+										onChangeText={texto => this.setState({ telefone: texto })}
+										ref={(input) => { this.inputTelefone = input; }}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputNomeIgreja.focus()}
+									/>
+								</View>
+
 							</View>
+							<Input
+								containerStyle={styles.containerInput}
+								inputContainerStyle={styles.inputContainerStyle}
+								keyboardAppearance='dark'
+								returnKeyType="next"
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label={'NOME DA IGREJA'}
+								inputStyle={styles.input}
+								labelStyle={styles.label}
+								value={nome_igreja}
+								onChangeText={texto => this.setState({ nome_igreja: texto })}
+								ref={(input) => { this.inputNomeIgreja = input; }}
+								returnKeyType={'next'}
+							/>
 
-							<View style={{ flex: 1 }}>
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									underlineColorAndroid="transparent"
-									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label={TELEFONE}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									value={telefone}
-									onChangeText={texto => this.setState({ telefone: texto })}
-									ref={(input) => { this.inputTelefone = input; }}
-									returnKeyType={'next'}
-									onSubmitEditing={() => this.inputEmail.focus()}
-								/>
-							</View>
+						<Picker
+							selectedValue={denominacao}
+							onValueChange={valor => this.setState({ denominacao: valor })}
+							>
+							<Picker.Item label="Selecione" value="0" />
+							<Picker.Item label="G12" value="1" />
+							<Picker.Item label="MDA" value="2" />
+						</Picker>
 
-						</View>
 						<Input
 							containerStyle={styles.containerInput}
 							inputContainerStyle={styles.inputContainerStyle}
@@ -248,6 +308,23 @@ class RegistroScreen extends React.Component {
 							value={email}
 							onChangeText={texto => this.setState({ email: texto })}
 							ref={(input) => { this.inputEmail = input; }}
+							returnKeyType={'next'}
+							onSubmitEditing={() => this.inputRepetirEmail.focus()}
+						/>
+						<Input
+							containerStyle={styles.containerInput}
+							inputContainerStyle={styles.inputContainerStyle}
+							keyboardType='email-address'
+							keyboardAppearance='dark'
+							placeholder=""
+							placeholderTextColor={'#ddd'}
+							autoCorrect={false}
+							label={'REPETIR EMAIL'}
+							inputStyle={styles.input}
+							labelStyle={styles.label}
+							value={repetirEmail}
+							onChangeText={texto => this.setState({ repetirEmail: texto })}
+							ref={(input) => { this.inputRepetirEmail = input; }}
 							returnKeyType={'next'}
 							onSubmitEditing={() => this.inputSenha.focus()}
 						/>
@@ -266,32 +343,31 @@ class RegistroScreen extends React.Component {
 							onChangeText={texto => this.setState({ senha: texto })}
 							ref={(input) => { this.inputSenha = input; }}
 							returnKeyType={'next'}
-							onSubmitEditing={() => this.inputRede.focus()}
+							onSubmitEditing={() => this.inputRedeSenha.focus()}
 						/>
-
 						<Input
 							containerStyle={styles.containerInput}
 							inputContainerStyle={styles.inputContainerStyle}
+							keyboardType='visible-password'
 							keyboardAppearance='dark'
 							placeholder=""
 							placeholderTextColor={'#ddd'}
 							autoCorrect={false}
-							label={IDENTIFICACAO_REDE}
+							label={'REPETIR SENHA'}
 							inputStyle={styles.input}
 							labelStyle={styles.label}
-							value={rede_id}
-							onChangeText={texto => this.setState({ rede_id: texto })}
-							ref={(input) => { this.inputRede = input; }}
+							value={repetirSenha}
+							onChangeText={texto => this.setState({ repetirSenha: texto })}
+							ref={(input) => { this.inputRedeSenha = input; }}
 							returnKeyType={'go'}
 							onSubmitEditing={() => this.ajudadorDeSubmissao()}
 						/>
-
 						<CPButton
 							title={SALVAR}
 							OnPress={() => { this.ajudadorDeSubmissao() }}
 						/>
 
-					</KeyboardAwareScrollView>
+				</KeyboardAwareScrollView>
 				}
 			</LinearGradient>
 		)

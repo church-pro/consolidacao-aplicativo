@@ -17,7 +17,7 @@ export const teste = () =>
 
 export const registrarNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/no/registrarUsuario`,
+		`${apiNova}/no/registrar`,
 		{
 			headers,
 			method: "POST",
