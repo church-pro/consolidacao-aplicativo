@@ -305,11 +305,6 @@ class RegistroScreen extends React.Component {
 											color: white,
 											fontSize: 16,
 											paddingVertical: 8,
-										},
-										inputAndroid: {
-											color: white,
-											fontSize: 16,
-											paddingVertical: 8,
 										}
 									}}
 								/>
