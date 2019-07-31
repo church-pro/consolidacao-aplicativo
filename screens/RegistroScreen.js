@@ -307,6 +307,8 @@ class RegistroScreen extends React.Component {
 											paddingVertical: 8,
 										}
 									}}
+									doneText="Feito"
+									useNativeAndroidPickerStyle={false}
 								/>
 
 							</View>
