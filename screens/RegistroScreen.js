@@ -290,18 +290,23 @@ class RegistroScreen extends React.Component {
 
 						<View style={[stylesMarcar.containerInput, { marginTop: 6 }]}>
 							<Text style={stylesMarcar.labelMarcar}>DENOMINAÇÃO</Text>
-							<View style={stylesMarcar.inputContainerStyle}>
-
+							{/* <View style={stylesMarcar.inputContainerStyle}> */}
+							<View style={{ flex: 1 }}>
 								<RNPickerSelect
 									placeholder={{ label: 'Selecione', value: 0 }}
 									onValueChange={value => this.setState({ denominacao: value })}
 									items={[
-										{ label: 'G12', value: '1' },
-										{ label: 'MDA', value: '2' },
+										{ label: 'G12', value: '1', color: Platform.OS === "ios" ? dark : white },
+										{ label: 'MDA', value: '2', color: Platform.OS === "ios" ? dark : white },
 									]}
 									value={denominacao}
 									style={{
 										inputIOS: {
+											color: white,
+											fontSize: 16,
+											paddingVertical: 8,
+										},
+										inputAndroid: {
 											color: white,
 											fontSize: 16,
 											paddingVertical: 8,
