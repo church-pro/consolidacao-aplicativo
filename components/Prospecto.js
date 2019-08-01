@@ -19,7 +19,6 @@ import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,
 } from '../helpers/helper'
-import ProgressBarAnimated from 'react-native-progress-bar-animated'
 
 class Prospecto extends React.Component {
 
@@ -83,14 +82,6 @@ class Prospecto extends React.Component {
 							</Text>
 						</View>
 					}
-				</View>
-
-				<View style={{ paddingHorizontal: 5 }}>
-					<ProgressBarAnimated
-						width={barWidth}
-						value={this.state.tamanhoBarra}
-						backgroundColorOnComplete="#6CC644"
-					/>
 				</View>
 
 				<View style={stylesProspecto.containerProspecto}>
