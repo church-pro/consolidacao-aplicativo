@@ -69,7 +69,7 @@ export const stylesProspecto = StyleSheet.create({
     containerBadge: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         flexWrap: 'wrap',
         padding: 5
     },

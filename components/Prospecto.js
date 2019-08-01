@@ -74,7 +74,7 @@ class Prospecto extends React.Component {
 		const barWidth = Dimensions.get('screen').width - 30;
 		return (
 			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id}>
-				<View style={stylesProspecto.containerBadge}>
+				<View style={[stylesProspecto.containerBadge, { justifyContent: 'flex-start' }]}>
 					{
 						prospecto.data &&
 						<View style={stylesProspecto.badge}>
