@@ -20,11 +20,6 @@ import {
 	SITUACAO_VISITA,
 	CHURCH_PRO,
 } from '../helpers/constants'
-import {
-	sincronizarNaAPI,
-	recuperarHistoricoNaoSincronizado,
-	limparHistoricos,
-} from '../helpers/api'
 import AddButton from '../components/AddButton';
 import ImportarProspectosScreen from './ImportarProspectosScreen'
 
@@ -50,7 +45,6 @@ class ProspectosScreen extends React.Component {
 	static navigationOptions = () => {
 		return {
 			header: null,
-			gesturesEnabled: false,
 		}
 	}
 
@@ -62,97 +56,6 @@ class ProspectosScreen extends React.Component {
 		const {
 			carregando,
 		} = this.state
-
-		const dadosListagem = [
-			{
-				label: 'Mensagem',
-				tipo: SITUACAO_IMPORTAR,
-				icone: 'envelope',
-			},
-			{
-				label: 'Ligar',
-				tipo: SITUACAO_MENSAGEM,
-				icone: 'phone',
-			},
-			{
-				label: 'Adicionar',
-				tipo: null,
-			},
-			{
-				label: 'Visita',
-				tipo: SITUACAO_LIGAR,
-				icone: 'calendar',
-			},
-			{
-				label: 'Evento',
-				tipo: SITUACAO_VISITA,
-				icone: 'home',
-			},
-		]
-
-		let componentesDaTab = {}
-		dadosListagem.forEach(item => {
-
-			if (item.tipo) {
-
-				let prospectosFiltrados = prospectos.filter(prospecto => prospecto.situacao_id === item.tipo)
-
-				if (item.tipo === SITUACAO_IMPORTAR) {
-					prospectosFiltrados = prospectosFiltrados.concat(prospectos.filter(prospecto => prospecto.situacao_id === SITUACAO_CADASTRO))
-				}
-
-				const componenteLista = (props) => (
-					<ListaDeProspectos
-						title={item.label}
-						prospectos={prospectosFiltrados}
-						navigation={navigation}
-					/>)
-
-				componentesDaTab[[item.label]] = {
-					screen: componenteLista,
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (<Icon name={item.icone} type='font-awesome' color={tintColor} />),
-					}
-				}
-
-			}
-
-			if (item.tipo === null) {
-
-				componentesDaTab.adicionar = {
-					screen: ImportarProspectosScreen,
-					navigationOptions: () => ({
-						tabBarButtonComponent: () => (
-							<AddButton />
-						),
-					}),
-				}
-
-			}
-		})
-
-		let qualAba = 'Mensagem'
-		if (this.props.qualAba) {
-			qualAba = this.props.qualAba
-		}
-		const Tabs = createBottomTabNavigator(
-			componentesDaTab,
-			{
-				initialRouteName: qualAba,
-				tabBarOptions: {
-					showIcon: true,
-					showLabel: false,
-					activeTintColor: primary,
-					inactiveTintColor: '#eee',
-					style: {
-						backgroundColor: dark,
-					},
-					indicatorStyle: {
-						backgroundColor: gold,
-					},
-				}
-			}
-		)
 
 		return (
 			<Drawer
@@ -177,6 +80,11 @@ class ProspectosScreen extends React.Component {
 							onPress={() => navigation.navigate('Sincronizacao', { tela: 'Prospectos' })}>
 							<Icon name='retweet' type='font-awesome' color={white} />
 						</TouchableOpacity>
+						<TouchableOpacity
+							style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8 }}
+							onPress={() => navigation.navigate('ImportarProspectos')}>
+							<Icon name='user' type='font-awesome' color={white} />
+						</TouchableOpacity>
 					</Right>
 				</Header>
 
@@ -194,7 +102,11 @@ class ProspectosScreen extends React.Component {
 
 					{
 						!carregando &&
-						<Tabs />
+							<ListaDeProspectos
+								title='Pessoas'
+								prospectos={prospectos}
+								navigation={navigation}
+							/>
 					}
 
 				</LinearGradient>
@@ -208,8 +120,15 @@ function mapStateToProps({ prospectos, }, props) {
 	if (props.navigation.state.params && props.navigation.state.params.qualAba) {
 		qualAba = props.navigation.state.params.qualAba
 	}
+	const prospectosFiltrados = prospectos.filter(prospecto => 
+		prospecto.situacao_id === SITUACAO_IMPORTAR ||
+		prospecto.situacao_id === SITUACAO_CADASTRO ||
+		prospecto.situacao_id === SITUACAO_MENSAGEM ||
+		prospecto.situacao_id === SITUACAO_LIGAR ||
+		prospecto.situacao_id === SITUACAO_VISITA
+	)
 	return {
-		prospectos,
+		prospectos: prospectosFiltrados,
 		qualAba,
 	}
 }

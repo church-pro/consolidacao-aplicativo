@@ -3,7 +3,8 @@ import {
 	Text,
 	View,
 	TouchableOpacity,
-	Linking
+	Linking,
+	Dimensions,
 } from 'react-native';
 import { Card, Icon, } from 'react-native-elements'
 import { white, gray, primary, yellow, gold } from '../helpers/colors'
@@ -18,8 +19,13 @@ import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,
 } from '../helpers/helper'
+import ProgressBarAnimated from 'react-native-progress-bar-animated'
 
 class Prospecto extends React.Component {
+
+	state = {
+		tamanhoBarra: 10,
+	}
 
 	chamarOTelefoneDoCelular() {
 		const { prospecto } = this.props
@@ -28,6 +34,18 @@ class Prospecto extends React.Component {
 	whatsapp() {
 		const { prospecto } = this.props
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
+	}
+
+	componentDidMount(){
+		let {
+			tamanhoBarra
+		} = this.state
+		this.interval = setInterval(() => {
+			if(tamanhoBarra < 100){
+				tamanhoBarra+= 10
+				this.setState({tamanhoBarra})
+			}
+		}, 5000)
 	}
 
 	render() {
@@ -52,6 +70,8 @@ class Prospecto extends React.Component {
 			}
 			listaDeMedalhas.push(medalha)
 		}
+
+		const barWidth = Dimensions.get('screen').width - 30;
 		return (
 			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id}>
 				<View style={stylesProspecto.containerBadge}>
@@ -63,6 +83,14 @@ class Prospecto extends React.Component {
 							</Text>
 						</View>
 					}
+				</View>
+
+				<View>
+					<ProgressBarAnimated
+						width={barWidth}
+						value={this.state.tamanhoBarra}
+						backgroundColorOnComplete="#6CC644"
+					/>
 				</View>
 
 				<View style={stylesProspecto.containerProspecto}>
@@ -93,10 +121,6 @@ class Prospecto extends React.Component {
 
 
 				<View style={stylesProspecto.containerBadge}>
-					{/* <TouchableOpacity
-						style={{ padding: 5 }} 
-						hitSlop={{ top: 15, right: 15, bottom: 15, left: 0 }}
-					> */}
 					{
 						listaDeMedalhas.map(medalha =>
 							<Icon
@@ -110,7 +134,6 @@ class Prospecto extends React.Component {
 							/>
 						)
 					}
-					{/* </TouchableOpacity> */}
 				</View>
 
 			</Card>
