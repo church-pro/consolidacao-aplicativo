@@ -41,13 +41,13 @@ export const stylesProspecto = StyleSheet.create({
         backgroundColor: 'transparent',
         borderColor: gray,
         borderRadius: 6,
-        padding: 8,
+        padding: 0,
         margin: 8,
         flexDirection: 'column',
     },
     containerProspecto: {
         flexDirection: 'row',
-        // padding: 8,
+        padding: 5,
         justifyContent: 'space-between',
         flexWrap: 'wrap',
     },
@@ -70,7 +70,8 @@ export const stylesProspecto = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        padding: 5
     },
     badge: {
         backgroundColor: primary,
@@ -85,6 +86,12 @@ export const stylesProspecto = StyleSheet.create({
         fontSize: 12,
         fontWeight: 'bold'
     },
+    containerBadgeIcons: {
+        backgroundColor: '#333',
+        marginRight: 10,
+        padding: 4,
+        borderRadius: 5,
+    }
 })
 
 // TELA DE LOGIN

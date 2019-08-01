@@ -7,7 +7,7 @@ import {
 	Dimensions,
 } from 'react-native';
 import { Card, Icon, } from 'react-native-elements'
-import { white, gray, primary, yellow, gold } from '../helpers/colors'
+import { white, gray, primary, yellow, gold, lightdark } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import {
 	alterarProspectoNoAsyncStorage,
@@ -36,14 +36,14 @@ class Prospecto extends React.Component {
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		let {
 			tamanhoBarra
 		} = this.state
 		this.interval = setInterval(() => {
-			if(tamanhoBarra < 100){
-				tamanhoBarra+= 10
-				this.setState({tamanhoBarra})
+			if (tamanhoBarra < 100) {
+				tamanhoBarra += 10
+				this.setState({ tamanhoBarra })
 			}
 		}, 5000)
 	}
@@ -85,7 +85,7 @@ class Prospecto extends React.Component {
 					}
 				</View>
 
-				<View>
+				<View style={{ paddingHorizontal: 5 }}>
 					<ProgressBarAnimated
 						width={barWidth}
 						value={this.state.tamanhoBarra}
@@ -120,18 +120,21 @@ class Prospecto extends React.Component {
 				</View>
 
 
-				<View style={stylesProspecto.containerBadge}>
+				<View style={[stylesProspecto.containerBadge, { borderTopWidth: 1, borderColor: gray }]}>
 					{
 						listaDeMedalhas.map(medalha =>
-							<Icon
+							<View
 								key={prospecto._id + medalha.icone}
-								name={medalha.icone}
-								containerStyle={{ marginRight: 5 }}
-								type='font-awesome'
-								color={medalha.cor}
-								size={medalha.icone === 'envelope' || medalha.icone === 'calendar' ? 22 : 24}
+								style={stylesProspecto.containerBadgeIcons}
+							>
+								<Icon
+									name={medalha.icone}
+									type='font-awesome'
+									color={medalha.cor}
+									size={medalha.icone === 'envelope' || medalha.icone === 'calendar' ? 22 : 24}
 
-							/>
+								/>
+							</View>
 						)
 					}
 				</View>
