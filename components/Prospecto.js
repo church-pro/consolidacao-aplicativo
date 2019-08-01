@@ -6,7 +6,7 @@ import {
 	Linking
 } from 'react-native';
 import { Card, Icon, } from 'react-native-elements'
-import { white, gray, primary } from '../helpers/colors'
+import { white, gray, primary, yellow, gold } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import {
 	alterarProspectoNoAsyncStorage,
@@ -38,9 +38,9 @@ class Prospecto extends React.Component {
 		const funcaoOnPressDoIconeList = () => navigation.navigate('Perguntas', parametros)
 
 		let listaDeMedalhas = []
-		for(let x = 1;x <= 4;x++){
+		for (let x = 1; x <= 4; x++) {
 			let icone = ''
-			switch(x){
+			switch (x) {
 				case 1: icone = 'envelope'; break;
 				case 2: icone = 'phone'; break;
 				case 3: icone = 'calendar'; break;
@@ -48,7 +48,7 @@ class Prospecto extends React.Component {
 			}
 			const medalha = {
 				icone,
-				cor: prospecto.situacao_id >= x ? '#FFFFFF' : '#AAAAAA',
+				cor: prospecto.situacao_id >= x ? gold : '#AAAAAA',
 			}
 			listaDeMedalhas.push(medalha)
 		}
@@ -93,14 +93,24 @@ class Prospecto extends React.Component {
 
 
 				<View style={stylesProspecto.containerBadge}>
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						style={{ padding: 5 }} 
 						hitSlop={{ top: 15, right: 15, bottom: 15, left: 0 }}
-					>
-						{
-							listaDeMedalhas.map(medalha => <Icon name={medalha.icone} type='font-awesome' color={medalha.cor} type='font-awesome' />)
-						}
-					</TouchableOpacity>
+					> */}
+					{
+						listaDeMedalhas.map(medalha =>
+							<Icon
+								key={prospecto._id + medalha.icone}
+								name={medalha.icone}
+								containerStyle={{ marginRight: 5 }}
+								type='font-awesome'
+								color={medalha.cor}
+								size={medalha.icone === 'envelope' || medalha.icone === 'calendar' ? 22 : 24}
+
+							/>
+						)
+					}
+					{/* </TouchableOpacity> */}
 				</View>
 
 			</Card>

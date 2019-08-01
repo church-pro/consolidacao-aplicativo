@@ -39,17 +39,15 @@ export const styles = StyleSheet.create({
 export const stylesProspecto = StyleSheet.create({
     containerCard: {
         backgroundColor: 'transparent',
-        borderTopWidth: 0,
-        borderLeftWidth: 0,
-        borderRightWidth: 0,
         borderColor: gray,
-        padding: 0,
-        margin: 0,
+        borderRadius: 6,
+        padding: 8,
+        margin: 8,
         flexDirection: 'column',
     },
     containerProspecto: {
         flexDirection: 'row',
-        padding: 15,
+        // padding: 8,
         justifyContent: 'space-between',
         flexWrap: 'wrap',
     },
@@ -71,7 +69,7 @@ export const stylesProspecto = StyleSheet.create({
     containerBadge: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         flexWrap: 'wrap'
     },
     badge: {

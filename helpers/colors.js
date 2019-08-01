@@ -9,6 +9,7 @@ export const pink = '#b93fb3'
 export const green = '#008000'
 export const dark = "#202020"
 export const lightdark = "#303030"
+export const gold = "#B6832D"
 export const yellow = "#F0D570"
 export const black = "#000000"
 
