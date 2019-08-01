@@ -37,6 +37,21 @@ class Prospecto extends React.Component {
 		parametros.prospecto_id = prospecto._id
 		const funcaoOnPressDoIconeList = () => navigation.navigate('Perguntas', parametros)
 
+		let listaDeMedalhas = []
+		for(let x = 1;x <= 4;x++){
+			let icone = ''
+			switch(x){
+				case 1: icone = 'envelope'; break;
+				case 2: icone = 'phone'; break;
+				case 3: icone = 'calendar'; break;
+				case 4: icone = 'home'; break;
+			}
+			const medalha = {
+				icone,
+				cor: prospecto.situacao_id >= x ? '#FFFFFF' : '#AAAAAA',
+			}
+			listaDeMedalhas.push(medalha)
+		}
 		return (
 			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id}>
 				<View style={stylesProspecto.containerBadge}>
@@ -48,8 +63,8 @@ class Prospecto extends React.Component {
 							</Text>
 						</View>
 					}
-
 				</View>
+
 				<View style={stylesProspecto.containerProspecto}>
 					<View style={stylesProspecto.containerName}>
 						<Text style={[stylesProspecto.text]}>{prospecto.nome}</Text>
@@ -74,8 +89,20 @@ class Prospecto extends React.Component {
 							<Icon name='list' type='font-awesome' color={white} type='font-awesome' />
 						</TouchableOpacity>
 					</View>
-
 				</View>
+
+
+				<View style={stylesProspecto.containerBadge}>
+					<TouchableOpacity
+						style={{ padding: 5 }} 
+						hitSlop={{ top: 15, right: 15, bottom: 15, left: 0 }}
+					>
+						{
+							listaDeMedalhas.map(medalha => <Icon name={medalha.icone} type='font-awesome' color={medalha.cor} type='font-awesome' />)
+						}
+					</TouchableOpacity>
+				</View>
+
 			</Card>
 		)
 	}
