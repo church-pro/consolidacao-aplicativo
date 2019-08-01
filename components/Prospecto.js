@@ -86,6 +86,9 @@ class Prospecto extends React.Component {
 
 				<View style={stylesProspecto.containerProspecto}>
 					<View style={stylesProspecto.containerName}>
+						<View style={{ backgroundColor: lightdark, padding: 5, marginRight: 5 }}>
+							<Icon name="user" type="font-awesome" color={white} />
+						</View>
 						<Text style={[stylesProspecto.text]}>{prospecto.nome}</Text>
 					</View>
 					<View style={stylesProspecto.containerActions}>
@@ -116,13 +119,13 @@ class Prospecto extends React.Component {
 						listaDeMedalhas.map(medalha =>
 							<View
 								key={prospecto._id + medalha.icone}
-								style={stylesProspecto.containerBadgeIcons}
+								style={[stylesProspecto.containerBadgeIcons]}
 							>
 								<Icon
 									name={medalha.icone}
 									type='font-awesome'
 									color={medalha.cor}
-									size={medalha.icone === 'envelope' || medalha.icone === 'calendar' ? 22 : 24}
+									size={medalha.icone === 'envelope' || medalha.icone === 'calendar' ? 26 : 28}
 
 								/>
 							</View>
