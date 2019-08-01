@@ -64,6 +64,18 @@ class PerguntasScreen extends React.Component {
 		} = this.state
 
 		prospecto.situacao_id = situacao_id_nova
+		let numeroDeDiasParaTerminar = 1
+		if(situacao_id_nova === SITUACAO_MENSAGEM){
+			numeroDeDiasParaTerminar = 2
+		}
+		if(situacao_id_nova === SITUACAO_LIGAR){
+			numeroDeDiasParaTerminar = 3
+		}
+		prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
+		if(situacao_id_nova === SITUACAO_VISITA){
+			delete prospecto.dataParaFinalizarAAcao
+		}
+
 		let situacoes = []
 		const situacao = {
 			prospecto_id: prospecto.celular_id,

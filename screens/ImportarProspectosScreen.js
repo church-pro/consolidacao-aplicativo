@@ -126,6 +126,7 @@ class ImportarProspectosScreen extends React.Component {
                                     contatoNovo.online = false
                                     contatoNovo.cadastroNaApi = false
                                     contatoNovo.celular_id = contatoNovo.id
+									contatoNovo.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
                                     let contador = 1
                                     contato.phoneNumbers.map(item => {
                                         if (contador === 1) {

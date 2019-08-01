@@ -29,12 +29,6 @@ import {
 
 class Prospecto extends React.Component {
 
-	state = {
-		horas: 0,
-		minutos: 0,
-		segundos: 0,
-	}
-
 	chamarOTelefoneDoCelular() {
 		const { prospecto } = this.props
 		call({ number: prospecto.telefone, prompt: false }).catch(console.error)
@@ -44,75 +38,6 @@ class Prospecto extends React.Component {
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
    
-	dateDiffInDays(a, b) {
-		const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-		const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-		return Math.floor((utc2 - utc1) / 1000 * 60 * 60);
-	}
-
-	componentDidMount() {
-		let {
-			horas,
-			minutos,
-			segundos,
-		} = this.state
-		const {
-			prospecto
-		} = this.props
-
-		let temDataDeMudanca = false
-		if(prospecto.dataMudancaDeSituacao){
-			temDataDeMudanca = true
-
-			const splitData = prospecto.dataMudancaDeSituacao.split('/')
-			const dataMudancaDeSituacao = new Date(`${splitData[2]}-${splitData[1]}-${splitData[0]}`)
-			const dataAtual = new Date()
-			const resposta = this.dateDiffInDays(dataAtual, dataMudancaDeSituacao)
-			console.log(resposta)
-		}
-
-		if(!temDataDeMudanca){
-			minutos = 59
-			segundos = 59
-			if(prospecto.situacao_id === SITUACAO_IMPORTAR ||
-				prospecto.situacao_id === SITUACAO_CADASTRO){
-				horas = 23
-			}
-			if(prospecto.situacao_id === SITUACAO_MENSAGEM){
-				horas = 47
-			}
-			if(prospecto.situacao_id === SITUACAO_LIGAR){
-				horas = 71
-			}
-		}
-
-		this.interval = setInterval(() => {
-			if(segundos > 0){
-				segundos--
-			}
-
-			if(segundos === 0){
-				segundos = 59
-				if(minutos > 0){
-					minutos--
-				}
-				if(minutos === 0){
-					minutos = 59
-					if(horas > 0){
-						horas--
-					}
-				}
-
-			}
-			this.setState({
-				horas,
-				minutos,
-				segundos,
-			})
-		}, 1000)
-	}
-
 	render() {
 		const { prospecto, navigation } = this.props
 
@@ -136,11 +61,6 @@ class Prospecto extends React.Component {
 			listaDeMedalhas.push(medalha)
 		}
 
-		const {
-			horas,
-			minutos,
-			segundos,
-		} = this.state
 		return (
 			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id}>
 				<View style={[stylesProspecto.containerBadge, { justifyContent: 'flex-start' }]}>
@@ -155,30 +75,29 @@ class Prospecto extends React.Component {
 				</View>
 
 				{
-					(prospecto.situacao_id === SITUACAO_IMPORTAR ||
-						prospecto.situacao_id === SITUACAO_CADASTRO ||
-						prospecto.situacao_id === SITUACAO_MENSAGEM ||
-						prospecto.situacao_id === SITUACAO_LIGAR) &&
-
+					prospecto.dataParaFinalizarAAcao &&
+						(prospecto.situacao_id === SITUACAO_IMPORTAR ||
+							prospecto.situacao_id === SITUACAO_CADASTRO ||
+							prospecto.situacao_id === SITUACAO_MENSAGEM ||
+							prospecto.situacao_id === SITUACAO_LIGAR) &&
 						<View>
 							<Text style={{color: '#FFFFFF'}}>
-								{horas}:{minutos}:{segundos}
 								{
 									(prospecto.situacao_id === SITUACAO_IMPORTAR ||
 										prospecto.situacao_id === SITUACAO_CADASTRO) &&
-										' para enviar uma mensagem'
+									'Voce precisa enviar uma mensagem ate '
 								}
 								{
 									prospecto.situacao_id === SITUACAO_MENSAGEM &&
-										' para fazer uma ligação'
+										'Voce precisa ligar ate '
 								}
 								{
 									prospecto.situacao_id === SITUACAO_LIGAR &&
-										' para fazer uma visita'
+										'Voce tem que visitar ate '
 								}
+								{prospecto.dataParaFinalizarAAcao}
 							</Text>
 						</View>
-
 				}
 				
 				<View style={stylesProspecto.containerProspecto}>

@@ -107,6 +107,7 @@ class ProspectoScreen extends React.Component {
 			prospecto.ddd = ddd
 			prospecto.telefone = telefone
 			prospecto.email = email
+			prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
 
 			const situacao = {
 				prospecto_id: prospecto.celular_id,

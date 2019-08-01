@@ -50,7 +50,8 @@ class MarcarDataEHoraScreen extends React.Component {
                 prospecto.local = this.state.local
             }
             prospecto.situacao_id = situacao_id_nova
-            submeterSituacoes(situacoes)
+			prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(3)[0]
+			submeterSituacoes(situacoes)
                 .then(() => {
                     alterarProspectoNoAsyncStorage(prospecto)
                         .then(() => {

@@ -125,9 +125,12 @@ export const cancelarTodasNotificacoes = () => {
 		.then(resultado => console.log('cancelarTodasNotificacoes: ', resultado))
 }
 
-export function pegarDataEHoraAtual() {
+export function pegarDataEHoraAtual(acrescimo = null) {
 	let dados = []
-	const dataAtual = new Date()
+	let dataAtual = new Date()
+	if(acrescimo !== null){
+		dataAtual.setDate(dataAtual.getDate() + acrescimo)
+	}
 	const diaParaDataDeCriacao = dataAtual.getDate().toString().padStart(2, '0')
 	let mesParaDataDeCriacao = dataAtual.getMonth() + 1
 	mesParaDataDeCriacao = mesParaDataDeCriacao.toString().padStart(2, '0')
