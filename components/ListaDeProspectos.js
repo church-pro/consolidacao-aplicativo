@@ -5,7 +5,8 @@ import {
 	FlatList,
 	RefreshControl,
 	NetInfo,
-	Alert
+	Alert,
+	TouchableOpacity,
 } from 'react-native';
 import Prospecto from '../components/Prospecto'
 import {
@@ -14,6 +15,7 @@ import {
 	limparHistoricos,
 } from '../helpers/api'
 import { styles } from './Styles';
+import { primary } from '../helpers/colors';
 
 class ListaDeProspectos extends React.Component {
 

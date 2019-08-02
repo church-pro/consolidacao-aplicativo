@@ -11,6 +11,8 @@ import { connect } from 'react-redux'
 import {
 	SITUACAO_REMOVIDO,
 	SITUACAO_LIGAR,
+	SITUACAO_MENSAGEM,
+	SITUACAO_VISITA
 } from '../helpers/constants'
 import {
 	alterarProspectoNoAsyncStorage,
@@ -65,14 +67,14 @@ class PerguntasScreen extends React.Component {
 
 		prospecto.situacao_id = situacao_id_nova
 		let numeroDeDiasParaTerminar = 1
-		if(situacao_id_nova === SITUACAO_MENSAGEM){
+		if (situacao_id_nova === SITUACAO_MENSAGEM) {
 			numeroDeDiasParaTerminar = 2
 		}
-		if(situacao_id_nova === SITUACAO_LIGAR){
+		if (situacao_id_nova === SITUACAO_LIGAR) {
 			numeroDeDiasParaTerminar = 3
 		}
 		prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
-		if(situacao_id_nova === SITUACAO_VISITA){
+		if (situacao_id_nova === SITUACAO_VISITA) {
 			delete prospecto.dataParaFinalizarAAcao
 		}
 
