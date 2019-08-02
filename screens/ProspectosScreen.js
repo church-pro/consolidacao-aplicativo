@@ -58,59 +58,28 @@ class ProspectosScreen extends React.Component {
 		} = this.state
 
 		return (
-			<Drawer
-				ref={(ref) => { this.drawer = ref; }}
-				content={<SideBar closeDrawer={this.closeDrawer} navigation={this.props.navigation} />}
-				onClose={() => this.closeDrawer()}
-			>
-				<Header style={{ backgroundColor: black, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10 }} iosBarStyle="light-content">
-					<Left style={{ flex: 0 }}>
-						<TouchableOpacity
-							style={{ backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal: 8 }}
-							onPress={() => this.openDrawer()}>
-							<Icon type="font-awesome" name="bars" color={white} />
-						</TouchableOpacity>
-					</Left>
-					<Body style={{ flex: 1 }}>
-						<Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}> {CHURCH_PRO} </Title>
-					</Body>
-					<Right style={{ flex: 0 }}>
-						<TouchableOpacity
-							style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8 }}
-							onPress={() => navigation.navigate('Sincronizacao', { tela: 'Prospectos' })}>
-							<Icon name='retweet' type='font-awesome' color={white} />
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8 }}
-							onPress={() => navigation.navigate('ImportarProspectos')}>
-							<Icon name='user' type='font-awesome' color={white} />
-						</TouchableOpacity>
-					</Right>
-				</Header>
+			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 
-				<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				{
+					carregando &&
+					<View style={{ flex: 1, justifyContent: 'center' }}>
+						<ActivityIndicator
+							size="large"
+							color={gold}
+						/>
+					</View>
+				}
 
-					{
-						carregando &&
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<ActivityIndicator
-								size="large"
-								color={gold}
-							/>
-						</View>
-					}
+				{
+					!carregando &&
+						<ListaDeProspectos
+							title='Pessoas'
+							prospectos={prospectos}
+							navigation={navigation}
+						/>
+				}
 
-					{
-						!carregando &&
-							<ListaDeProspectos
-								title='Pessoas'
-								prospectos={prospectos}
-								navigation={navigation}
-							/>
-					}
-
-				</LinearGradient>
-			</Drawer>
+			</LinearGradient>
 		)
 	}
 }

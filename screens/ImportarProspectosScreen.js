@@ -14,6 +14,7 @@ import { white, lightdark, dark, black, primary } from '../helpers/colors'
 import { LinearGradient } from 'expo'
 import {
     adicionarProspectosAoAsyncStorage,
+	alterarUsuarioNoAsyncStorage,
 } from '../actions'
 import {
     submeterSituacoes
@@ -185,45 +186,57 @@ class ImportarProspectosScreen extends React.Component {
         this.setState({ contatosParaSelecionar })
     }
 
-    adicionarContatos() {
-        const {
-            contatosParaSelecionar,
-            selected,
-            carregando,
-        } = this.state
-        const {
-            adicionarProspectosAoAsyncStorage,
-            navigation,
-        } = this.props
-        this.setState({ carregando: true })
-        const contatosFiltrados =
-            contatosParaSelecionar
-                .filter(contato => selected.get(contato.id))
-                .map(contato => {
-                    contato._id = contato.id
-                    return contato
-                })
-        adicionarProspectosAoAsyncStorage(contatosFiltrados)
-            .then(() => {
-                let situacoes = []
-                contatosFiltrados
-                    .forEach(contato => {
-                        const situacao = {
-                            prospecto_id: contato.celular_id,
-                            situacao_id: SITUACAO_IMPORTAR,
-                            data_criacao: pegarDataEHoraAtual()[0],
-                            hora_criacao: pegarDataEHoraAtual()[1],
-                        }
-                        situacoes.push(situacao)
-                    })
-                submeterSituacoes(situacoes)
-                    .then(() => {
-                        this.setState({ carregando: false })
-                        Alert.alert('Importação', 'Importação concluida com sucesso!')
-                        navigation.navigate('Prospectos', { qualAba: 'Mensagem' })
-                    })
-            })
-    }
+	adicionarContatos() {
+		const {
+			contatosParaSelecionar,
+			selected,
+			carregando,
+		} = this.state
+		const {
+			adicionarProspectosAoAsyncStorage,
+			navigation,
+			usuario,
+			alterarUsuarioNoAsyncStorage,
+		} = this.props
+		this.setState({ carregando: true })
+		const contatosFiltrados =
+			contatosParaSelecionar
+			.filter(contato => selected.get(contato.id))
+			.map(contato => {
+				contato._id = contato.id
+				return contato
+			})
+		adicionarProspectosAoAsyncStorage(contatosFiltrados)
+			.then(() => {
+				let situacoes = []
+				contatosFiltrados
+					.forEach(contato => {
+						const situacao = {
+							prospecto_id: contato.celular_id,
+							situacao_id: SITUACAO_IMPORTAR,
+							data_criacao: pegarDataEHoraAtual()[0],
+							hora_criacao: pegarDataEHoraAtual()[1],
+						}
+						situacoes.push(situacao)
+					})
+				submeterSituacoes(situacoes)
+					.then(() => {
+
+						if(usuario.importacoes){
+							usuario.importacoes+= contatosFiltrados.length
+						}else{
+							usuario.importacoes = contatosFiltrados.length
+						}
+
+						alterarUsuarioNoAsyncStorage(usuario)
+							.then(() => {
+								this.setState({ carregando: false })
+								Alert.alert('Importação', 'Importação concluida com sucesso!')
+								navigation.navigate('Prospectos', { qualAba: 'Mensagem' })
+							})
+					})
+			})
+	}
 
     render() {
         const { carregando } = this.state
@@ -286,10 +299,17 @@ class ImportarProspectosScreen extends React.Component {
 
 }
 
+function mapStateToProps({usuario}) {
+	return {
+		usuario
+	}
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         adicionarProspectosAoAsyncStorage: (contatos) => dispatch(adicionarProspectosAoAsyncStorage(contatos)),
+        alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
     }
 }
 
-export default connect(null, mapDispatchToProps)(ImportarProspectosScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(ImportarProspectosScreen)
