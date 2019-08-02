@@ -61,14 +61,34 @@ class ProspectosScreen extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 
+				<Header style={{ backgroundColor: black, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10 }} iosBarStyle="light-content">
+					<Left style={{ flex: 0 }}>
+						<TouchableOpacity
+							style={{ backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal: 8 }}
+							onPress={() => this.openDrawer()}>
+							<Icon type="font-awesome" name="bars" color={white} />
+						</TouchableOpacity>
+					</Left>
+					<Body style={{ flex: 1 }}>
+						<Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}> {CHURCH_PRO} </Title>
+					</Body>
+					<Right style={{ flex: 0 }}>
+						<TouchableOpacity
+							style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8 }}
+							onPress={() => navigation.navigate('Sincronizacao', { tela: 'Prospectos' })}>
+							<Icon name='retweet' type='font-awesome' color={white} />
+						</TouchableOpacity>
+					</Right>
+				</Header>
+
 				{
 					carregando &&
-					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<ActivityIndicator
-							size="large"
-							color={gold}
-						/>
-					</View>
+						<View style={{ flex: 1, justifyContent: 'center' }}>
+							<ActivityIndicator
+								size="large"
+								color={gold}
+							/>
+						</View>
 				}
 
 				{
@@ -104,11 +124,7 @@ class ProspectosScreen extends React.Component {
 	}
 }
 
-function mapStateToProps({ prospectos, }, props) {
-	let qualAba = null
-	if (props.navigation.state.params && props.navigation.state.params.qualAba) {
-		qualAba = props.navigation.state.params.qualAba
-	}
+function mapStateToProps({ prospectos, }) {
 	const prospectosFiltrados = prospectos.filter(prospecto =>
 		prospecto.situacao_id === SITUACAO_IMPORTAR ||
 		prospecto.situacao_id === SITUACAO_CADASTRO ||
@@ -118,7 +134,6 @@ function mapStateToProps({ prospectos, }, props) {
 	)
 	return {
 		prospectos: prospectosFiltrados,
-		qualAba,
 	}
 }
 

@@ -164,6 +164,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		estados = {
 			enviouMensagem: false,
 			naoEnviouMensagem: false,
+			removerDireto: false,
 			mostrarBotaoConfirmar: false,
 			remover: false,
 			avancar: false,
@@ -188,6 +189,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						onPress: {
 							enviouMensagem: true,
 							naoEnviouMensagem: false,
+							removerDireto: false,
 							mostrarBotaoConfirmar: true,
 							mostrarPerguntaDois: false,
 							situacao_id_extra: null,
@@ -201,9 +203,27 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						onPress: {
 							enviouMensagem: false,
 							naoEnviouMensagem: true,
+							removerDireto: false,
 							mostrarBotaoConfirmar: false,
 							mostrarPerguntaDois: true,
 							situacao_id_extra: SITUACAO_MENSAGEM_NUMERO_INVALIDO,
+							remover: false,
+							avancar: false,
+						},
+					},
+					{
+						estado: 'removerDireto',
+						titulo: REMOVER,
+						onPress: {
+							enviouMensagem: false,
+							naoEnviouMensagem: false,
+							removerDireto: true,
+							mostrarBotaoConfirmar: true,
+							mostrarPerguntaDois: false,
+							situacao_id_nova: SITUACAO_REMOVIDO,
+							situacao_id_extra: null,
+							alertTitulo: REMOVER,
+							alertMensagem: PESSOA_REMOVIDA,
 							remover: false,
 							avancar: false,
 						},

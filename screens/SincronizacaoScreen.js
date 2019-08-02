@@ -49,6 +49,7 @@ class SincronizacaoScreen extends React.Component {
 										senha: usuario.senha,
 										prospectos,
 										situacoes: retornoAsync.situacoes,
+										usuario,
 									}
 									sincronizarNaAPI(dados)
 										.then(retorno => {
@@ -60,6 +61,7 @@ class SincronizacaoScreen extends React.Component {
 													dados.hora_atualizacao = retorno.resultado.hora_atualizacao
 													delete dados.prospectos
 													delete dados.situacoes
+													delete dados.usuario
 													alterarUsuarioNoAsyncStorage(dados)
 														.then(() => {
 															// pondo prospectos retornados da api com id da api
