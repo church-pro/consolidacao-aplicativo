@@ -3,6 +3,7 @@ import {
 	View,
 	TouchableOpacity,
 	ActivityIndicator,
+	Text,
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { Drawer, Header, Title, Left, Body, Right, } from 'native-base'
@@ -102,11 +103,30 @@ class ProspectosScreen extends React.Component {
 
 					{
 						!carregando &&
+						<React.Fragment>
+
 							<ListaDeProspectos
 								title='Pessoas'
 								prospectos={prospectos}
 								navigation={navigation}
 							/>
+							<TouchableOpacity style={{
+								backgroundColor: primary,
+								borderRadius: '50%',
+								height: 50,
+								width: 50,
+								justifyContent: 'center',
+								alignItems: 'center',
+								position: 'absolute',
+								bottom: 20,
+								right: 20,
+							}}
+								onPress={() => navigation.navigate('ImportarProspectos')}
+								hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+							>
+								<Text style={{ fontSize: 22, fontWeight: 'bold', color: white }}>+</Text>
+							</TouchableOpacity>
+						</React.Fragment>
 					}
 
 				</LinearGradient>
@@ -120,7 +140,7 @@ function mapStateToProps({ prospectos, }, props) {
 	if (props.navigation.state.params && props.navigation.state.params.qualAba) {
 		qualAba = props.navigation.state.params.qualAba
 	}
-	const prospectosFiltrados = prospectos.filter(prospecto => 
+	const prospectosFiltrados = prospectos.filter(prospecto =>
 		prospecto.situacao_id === SITUACAO_IMPORTAR ||
 		prospecto.situacao_id === SITUACAO_CADASTRO ||
 		prospecto.situacao_id === SITUACAO_MENSAGEM ||
