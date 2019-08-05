@@ -82,7 +82,7 @@ class LoginScreen extends React.Component {
 						const dados = {
 							email,
 							senha,
-							prospectos: null,
+							baixando: true,
 						}
 						sincronizarNaAPI(dados)
 							.then(retorno => {
