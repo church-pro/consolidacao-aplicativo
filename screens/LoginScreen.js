@@ -36,6 +36,7 @@ class LoginScreen extends React.Component {
 		email: '',
 		senha: '',
 		carregando: false,
+		encaminhamento: 'Principal',
 	}
 
 	componentDidMount() {
@@ -47,7 +48,7 @@ class LoginScreen extends React.Component {
 					this.props.pegarProspectosNoAsyncStorage()
 						.then(() => {
 							this.setState({ carregando: false })
-							this.props.navigation.navigate('Prospectos')
+							this.props.navigation.navigate(this.state.encaminhamento)
 						})
 				} else {
 					this.setState({ carregando: false })
@@ -96,11 +97,11 @@ class LoginScreen extends React.Component {
 												this.props.porProspectoDaSincronizacao(retorno.resultado.prospectos)
 													.then(() => {
 														this.setState({ carregando: false })
-														this.props.navigation.navigate('Prospectos')
+														this.props.navigation.navigate(this.state.encaminhamento)
 													})
 											}
 											this.setState({ carregando: false })
-											this.props.navigation.navigate('Prospectos')
+											this.props.navigation.navigate(this.state.encaminhamento)
 										})
 								} else {
 									this.setState({ carregando: false })

@@ -5,7 +5,6 @@ import {
 	View,
 	Text,
 } from 'react-native';
-import { Icon } from 'react-native-elements'
 
 class InicioScreen extends React.Component {
 
@@ -16,9 +15,18 @@ class InicioScreen extends React.Component {
 
 	render() {
 		return (
-			<View>
-				<Text style={{color: '#000000'}}>
+			<View style={{color: '#000000'}}>
+				<Text>
 					InicioScreen
+				</Text>
+				<Text>
+					Atualizacoes
+				</Text>
+				<Text>
+				1 Novas abas: Inicio e Perfil
+				</Text>
+				<Text>
+				2 Medalhas das pessoas: Na aba de pessoas pessoas divididas por medalhas 
 				</Text>
 			</View>
 		)
