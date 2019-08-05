@@ -37,7 +37,7 @@ class Prospecto extends React.Component {
 		const { prospecto } = this.props
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
-   
+
 	render() {
 		const { prospecto, navigation } = this.props
 
@@ -56,7 +56,7 @@ class Prospecto extends React.Component {
 			}
 			const medalha = {
 				icone,
-				cor: prospecto.situacao_id >= x ? gold : '#AAAAAA',
+				cor: prospecto.situacao_id >= x ? primary : '#AAAAAA',
 			}
 			listaDeMedalhas.push(medalha)
 		}
@@ -76,30 +76,30 @@ class Prospecto extends React.Component {
 
 				{
 					prospecto.dataParaFinalizarAAcao &&
-						(prospecto.situacao_id === SITUACAO_IMPORTAR ||
-							prospecto.situacao_id === SITUACAO_CADASTRO ||
-							prospecto.situacao_id === SITUACAO_MENSAGEM ||
-							prospecto.situacao_id === SITUACAO_LIGAR) &&
-						<View>
-							<Text style={{color: '#FFFFFF'}}>
-								{
-									(prospecto.situacao_id === SITUACAO_IMPORTAR ||
-										prospecto.situacao_id === SITUACAO_CADASTRO) &&
-									'Voce precisa enviar uma mensagem ate '
-								}
-								{
-									prospecto.situacao_id === SITUACAO_MENSAGEM &&
-										'Voce precisa ligar ate '
-								}
-								{
-									prospecto.situacao_id === SITUACAO_LIGAR &&
-										'Voce tem que visitar ate '
-								}
-								{prospecto.dataParaFinalizarAAcao}
-							</Text>
-						</View>
+					(prospecto.situacao_id === SITUACAO_IMPORTAR ||
+						prospecto.situacao_id === SITUACAO_CADASTRO ||
+						prospecto.situacao_id === SITUACAO_MENSAGEM ||
+						prospecto.situacao_id === SITUACAO_LIGAR) &&
+					<View>
+						<Text style={{ color: '#FFFFFF' }}>
+							{
+								(prospecto.situacao_id === SITUACAO_IMPORTAR ||
+									prospecto.situacao_id === SITUACAO_CADASTRO) &&
+								'Voce precisa enviar uma mensagem ate '
+							}
+							{
+								prospecto.situacao_id === SITUACAO_MENSAGEM &&
+								'Voce precisa ligar ate '
+							}
+							{
+								prospecto.situacao_id === SITUACAO_LIGAR &&
+								'Voce tem que visitar ate '
+							}
+							{prospecto.dataParaFinalizarAAcao}
+						</Text>
+					</View>
 				}
-				
+
 				<View style={stylesProspecto.containerProspecto}>
 					<View style={stylesProspecto.containerName}>
 						<View style={{ backgroundColor: lightdark, padding: 5, marginRight: 5 }}>
@@ -142,7 +142,6 @@ class Prospecto extends React.Component {
 									type='font-awesome'
 									color={medalha.cor}
 									size={medalha.icone === 'envelope' || medalha.icone === 'calendar' ? 26 : 28}
-
 								/>
 							</View>
 						)

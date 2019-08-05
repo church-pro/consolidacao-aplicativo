@@ -8,11 +8,11 @@ import {
 import { Icon } from 'react-native-elements'
 import { Drawer, Header, Title, Left, Body, Right, } from 'native-base'
 import SideBar from '../components/SideBar'
-import { createBottomTabNavigator } from 'react-navigation'
 import { LinearGradient } from 'expo'
-import { white, gold, dark, lightdark, black, primary } from '../helpers/colors'
+import { white, gold, dark, lightdark, black, primary, gray } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
+import { stylesProspecto } from '../components/Styles'
 import {
 	SITUACAO_IMPORTAR,
 	SITUACAO_CADASTRO,
@@ -28,6 +28,11 @@ class ProspectosScreen extends React.Component {
 
 	state = {
 		carregando: true,
+		busca: null,
+		buscaMensagem: false,
+		buscaTelefone: false,
+		buscaVisita: false,
+		buscaEvento: false,
 	}
 
 	closeDrawer = () => {
@@ -50,13 +55,36 @@ class ProspectosScreen extends React.Component {
 	}
 
 	render() {
-		const {
+		let {
 			prospectos,
 			navigation,
 		} = this.props
 		const {
 			carregando,
 		} = this.state
+		let { busca, buscaMensagem, buscaTelefone, buscaVisita, buscaEvento } = this.state
+
+		if (buscaMensagem !== false || buscaTelefone !== false || buscaVisita !== false || buscaEvento !== false) {
+
+			prospectos = prospectos.filter(item => {
+				const itemData = item.situacao_id.toString()
+				let textData = ''
+				if (buscaMensagem === true) {
+					textData = '1'
+				}
+				if (buscaTelefone === true) {
+					textData = '2'
+				}
+				if (buscaVisita === true) {
+					textData = '3'
+				}
+				if (buscaEvento === true) {
+					textData = '4'
+				}
+
+				return itemData.indexOf(textData) > -1
+			})
+		}
 
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
@@ -94,9 +122,72 @@ class ProspectosScreen extends React.Component {
 				{
 					!carregando &&
 					<React.Fragment>
+						<View style={[stylesProspecto.containerBadge]}>
 
+							<View style={[stylesProspecto.containerBadgeIcons]}>
+								<Icon
+									onPress={() => {
+										this.setState({
+											buscaMensagem: !buscaMensagem,
+											buscaTelefone: false,
+											buscaVisita: false,
+											buscaEvento: false
+										})
+									}}
+									name="envelope"
+									type="font-awesome"
+									color={buscaMensagem === true ? primary : gray}
+								/>
+							</View>
+							<View style={[stylesProspecto.containerBadgeIcons]}>
+								<Icon
+									onPress={() => {
+										this.setState({
+											buscaMensagem: false,
+											buscaTelefone: !buscaTelefone,
+											buscaVisita: false,
+											buscaEvento: false,
+										})
+									}}
+									name="phone"
+									type="font-awesome"
+									color={buscaTelefone === true ? primary : gray}
+								/>
+							</View>
+							<View style={[stylesProspecto.containerBadgeIcons]}>
+								<Icon
+									onPress={() => {
+										this.setState({
+											buscaMensagem: false,
+											buscaTelefone: false,
+											buscaVisita: !buscaVisita,
+											buscaEvento: false,
+										})
+									}}
+									name="calendar"
+									type="font-awesome"
+									color={buscaVisita === true ? primary : gray}
+								/>
+							</View>
+							<View style={[stylesProspecto.containerBadgeIcons]}>
+								<Icon
+									onPress={() => {
+										this.setState({
+											buscaMensagem: false,
+											buscaTelefone: false,
+											buscaVisita: false,
+											buscaEvento: !buscaEvento,
+										})
+									}}
+									name="home"
+									type="font-awesome"
+									color={buscaEvento === true ? primary : gray}
+								/>
+							</View>
+
+						</View>
 						<ListaDeProspectos
-							title='Pessoas'
+							// title='Pessoas'
 							prospectos={prospectos}
 							navigation={navigation}
 						/>
