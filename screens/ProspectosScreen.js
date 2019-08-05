@@ -35,13 +35,6 @@ class ProspectosScreen extends React.Component {
 		buscaEvento: false,
 	}
 
-	closeDrawer = () => {
-		this.drawer._root.close()
-	};
-	openDrawer = () => {
-		this.drawer._root.open()
-	};
-
 	componentDidMount() {
 		if (this.props.prospectos) {
 			this.setState({ carregando: false })
@@ -90,16 +83,6 @@ class ProspectosScreen extends React.Component {
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 
 				<Header style={{ backgroundColor: black, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10 }} iosBarStyle="light-content">
-					<Left style={{ flex: 0 }}>
-						<TouchableOpacity
-							style={{ backgroundColor: 'transparent', margin: 0, borderWidth: 0, paddingHorizontal: 8 }}
-							onPress={() => this.openDrawer()}>
-							<Icon type="font-awesome" name="bars" color={white} />
-						</TouchableOpacity>
-					</Left>
-					<Body style={{ flex: 1 }}>
-						<Title style={{ textAlign: 'center', alignSelf: 'center', justifyContent: "center", color: white, fontWeight: '200', fontSize: 16 }}> {CHURCH_PRO} </Title>
-					</Body>
 					<Right style={{ flex: 0 }}>
 						<TouchableOpacity
 							style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8 }}

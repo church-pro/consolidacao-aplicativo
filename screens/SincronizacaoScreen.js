@@ -54,13 +54,14 @@ class SincronizacaoScreen extends React.Component {
 									}
 									sincronizarNaAPI(dados)
 										.then(retorno => {
-											console.log('retorno: ', retorno)
 											if (retorno.ok) {
 												// nao apertei sair
 												if (tela !== 'Login') {
 													dados.no_id = retorno.resultado.no_id
 													dados.data_atualizacao = retorno.resultado.data_atualizacao
 													dados.hora_atualizacao = retorno.resultado.hora_atualizacao
+													let usuario = retorno.resultado.usuario
+													usuario.senha = dados.senha
 													alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
 														.then(() => {
 															// pondo prospectos retornados da api com id da api
