@@ -190,7 +190,7 @@ export const stylesImportar = StyleSheet.create({
         paddingHorizontal: 6
     },
     containerContato: {
-        padding: 20,
+        padding: 12,
         borderBottomWidth: 1,
         borderColor: gray,
         backgroundColor: 'transparent'
@@ -198,6 +198,9 @@ export const stylesImportar = StyleSheet.create({
     containerContent: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+    containerIcon: {
+        justifyContent: 'center'
     }
 })
 

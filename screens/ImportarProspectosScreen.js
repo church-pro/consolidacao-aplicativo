@@ -5,16 +5,17 @@ import {
     Text,
     View,
     FlatList,
+    TextInput
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { Header, Title, Left, Body, Right } from 'native-base'
 import { connect } from 'react-redux'
 import { Permissions, Contacts } from 'expo'
-import { white, lightdark, dark, black, primary } from '../helpers/colors'
+import { white, lightdark, dark, black, primary, gray } from '../helpers/colors'
 import { LinearGradient } from 'expo'
 import {
     adicionarProspectosAoAsyncStorage,
-	alterarUsuarioNoAsyncStorage,
+    alterarUsuarioNoAsyncStorage,
 } from '../actions'
 import {
     submeterSituacoes
@@ -36,8 +37,13 @@ class MyListItem extends React.PureComponent {
         return (
             <TouchableOpacity style={stylesImportar.containerContato} onPress={this._onPress}>
                 <View style={stylesImportar.containerContent}>
-                    <Text style={{ color: white }}>{this.props.title}</Text>
-                    <Icon name="check" color={textColor} />
+                    <View>
+                        <Text style={{ color: white }}>{this.props.title}</Text>
+                        <Text style={{ color: gray }}>{this.props.subTitle}</Text>
+                    </View>
+                    <View style={stylesImportar.containerIcon}>
+                        <Icon name="check" color={textColor} />
+                    </View>
                 </View>
             </TouchableOpacity>
         );
@@ -70,6 +76,7 @@ class MultiSelectList extends React.PureComponent {
             onPressItem={this._onPressItem}
             selected={!!this.state.selected.get(item.id)}
             title={item.title}
+            subTitle={item.subTitle}
         />
     );
 
@@ -94,6 +101,7 @@ class ImportarProspectosScreen extends React.Component {
     state = {
         carregando: true,
         contatosParaSelecionar: null,
+        busca: '',
         selected: (new Map(): Map<string, boolean>)
     }
 
@@ -109,72 +117,79 @@ class ImportarProspectosScreen extends React.Component {
 
     componentDidMount() {
         let contatosParaSelecionar = []
-        Permissions.askAsync(Permissions.CONTACTS)
-            .then(({ status }) => {
-                if (status === 'granted') {
-                    Contacts.getContactsAsync()
-                        .then(data => {
-                            data.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
-                            data.data.map(contato => {
-                                if (contato.phoneNumbers && contato.phoneNumbers.length) {
-                                    let contatoNovo = {}
-                                    delete contatoNovo.selecionado
-                                    contatoNovo.situacao_id = SITUACAO_IMPORTAR
-                                    contatoNovo.id = Date.now() + contato.id
-                                    contatoNovo.nome = contato.name
-                                    contatoNovo.rating = null
-                                    contatoNovo.email = null
-                                    contatoNovo.online = false
-                                    contatoNovo.cadastroNaApi = false
-                                    contatoNovo.celular_id = contatoNovo.id
-									contatoNovo.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
-                                    let contador = 1
-                                    contato.phoneNumbers.map(item => {
-                                        if (contador === 1) {
-                                            let ddd = 61
-                                            let telefoneTexto = item.number.toString()
-                                            telefoneTexto = telefoneTexto.replace('-', '')
-                                            telefoneTexto = telefoneTexto.replace(' ', '')
-                                            telefoneTexto = telefoneTexto.replace('+', '')
-                                            telefoneTexto = telefoneTexto.replace('(', '')
-                                            telefoneTexto = telefoneTexto.replace(')', '')
-                                            let telefone = telefoneTexto
-                                            const tamanhoDoNumero = telefoneTexto.length
-                                            if (tamanhoDoNumero > 9) {
-                                                telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
-                                                if (parseInt(telefone.substr(0, 1)) !== 9) {
-                                                    telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
+        try {
+            Permissions.askAsync(Permissions.CONTACTS)
+                .then(({ status }) => {
+
+                    if (status === 'granted') {
+                        Contacts.getContactsAsync()
+                            .then(data => {
+                                data.data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+                                data.data.map(contato => {
+                                    if (contato.phoneNumbers && contato.phoneNumbers.length) {
+                                        let contatoNovo = {}
+                                        delete contatoNovo.selecionado
+                                        contatoNovo.situacao_id = SITUACAO_IMPORTAR
+                                        contatoNovo.id = Date.now() + contato.id
+                                        contatoNovo.nome = contato.name
+                                        contatoNovo.rating = null
+                                        contatoNovo.email = null
+                                        contatoNovo.online = false
+                                        contatoNovo.cadastroNaApi = false
+                                        contatoNovo.celular_id = contatoNovo.id
+                                        contatoNovo.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
+                                        let contador = 1
+                                        contato.phoneNumbers.map(item => {
+                                            if (contador === 1) {
+                                                let ddd = 61
+                                                let telefoneTexto = item.number.toString()
+                                                telefoneTexto = telefoneTexto.replace('-', '')
+                                                telefoneTexto = telefoneTexto.replace(' ', '')
+                                                telefoneTexto = telefoneTexto.replace('+', '')
+                                                telefoneTexto = telefoneTexto.replace('(', '')
+                                                telefoneTexto = telefoneTexto.replace(')', '')
+                                                let telefone = telefoneTexto
+                                                const tamanhoDoNumero = telefoneTexto.length
+                                                if (tamanhoDoNumero > 9) {
+                                                    telefone = telefoneTexto.substr(tamanhoDoNumero - 9)
+                                                    if (parseInt(telefone.substr(0, 1)) !== 9) {
+                                                        telefone = telefoneTexto.substr(tamanhoDoNumero - 8)
+                                                    }
                                                 }
+                                                if (tamanhoDoNumero >= 11) {
+                                                    let valorParaReduzir = 11
+                                                    if (parseInt(telefoneTexto.substr(0, 1)) === 0) {
+                                                        valorParaReduzir = 10
+                                                    }
+                                                    ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
+                                                    if (parseInt(ddd).toString().length !== 2) {
+                                                        ddd = '61'
+                                                    }
+                                                }
+                                                contatoNovo.ddd = ddd
+                                                contatoNovo.telefone = telefone
+                                                contatoNovo.title = `${contatoNovo.nome}`
+                                                contatoNovo.subTitle = `(${contatoNovo.ddd}) ${contatoNovo.telefone}`
+                                                contatosParaSelecionar.push(contatoNovo)
+                                                contador++
                                             }
-                                            if (tamanhoDoNumero >= 11) {
-                                                let valorParaReduzir = 11
-                                                if (parseInt(telefoneTexto.substr(0, 1)) === 0) {
-                                                    valorParaReduzir = 10
-                                                }
-                                                ddd = telefoneTexto.substr(tamanhoDoNumero - valorParaReduzir, 2)
-                                                if (parseInt(ddd).toString().length !== 2) {
-                                                    ddd = '61'
-                                                }
-                                            }
-                                            contatoNovo.ddd = ddd
-                                            contatoNovo.telefone = telefone
-                                            contatoNovo.title = `${contatoNovo.nome} - (${contatoNovo.ddd}) ${contatoNovo.telefone}`
-                                            contatosParaSelecionar.push(contatoNovo)
-                                            contador++
-                                        }
+                                        })
+                                    }
+                                })
+                                if (contatosParaSelecionar.length) {
+                                    this.setState({
+                                        contatosParaSelecionar,
+                                        carregando: false
                                     })
                                 }
-                            })
-                            if (contatosParaSelecionar.length) {
-                                this.setState({
-                                    contatosParaSelecionar,
-                                    carregando: false
-                                })
-                            }
-                        })
-                }
-            })
+                            }).catch(error => console.log(error))
+                    }
+                })
+        } catch (err) {
+            console.log(err)
+        }
     }
+
 
     selecionarContato(indice) {
         let {
@@ -186,64 +201,75 @@ class ImportarProspectosScreen extends React.Component {
         this.setState({ contatosParaSelecionar })
     }
 
-	adicionarContatos() {
-		const {
-			contatosParaSelecionar,
-			selected,
-			carregando,
-		} = this.state
-		const {
-			adicionarProspectosAoAsyncStorage,
-			navigation,
-			usuario,
-			alterarUsuarioNoAsyncStorage,
-		} = this.props
-		this.setState({ carregando: true })
-		const contatosFiltrados =
-			contatosParaSelecionar
-			.filter(contato => selected.get(contato.id))
-			.map(contato => {
-				contato._id = contato.id
-				return contato
-			})
-		adicionarProspectosAoAsyncStorage(contatosFiltrados)
-			.then(() => {
-				let situacoes = []
-				contatosFiltrados
-					.forEach(contato => {
-						const situacao = {
-							prospecto_id: contato.celular_id,
-							situacao_id: SITUACAO_IMPORTAR,
-							data_criacao: pegarDataEHoraAtual()[0],
-							hora_criacao: pegarDataEHoraAtual()[1],
-						}
-						situacoes.push(situacao)
-					})
-				submeterSituacoes(situacoes)
-					.then(() => {
+    adicionarContatos() {
+        const {
+            contatosParaSelecionar,
+            selected,
+            carregando,
+        } = this.state
+        const {
+            adicionarProspectosAoAsyncStorage,
+            navigation,
+            usuario,
+            alterarUsuarioNoAsyncStorage,
+        } = this.props
+        this.setState({ carregando: true })
+        const contatosFiltrados =
+            contatosParaSelecionar
+                .filter(contato => selected.get(contato.id))
+                .map(contato => {
+                    contato._id = contato.id
+                    return contato
+                })
+        adicionarProspectosAoAsyncStorage(contatosFiltrados)
+            .then(() => {
+                let situacoes = []
+                contatosFiltrados
+                    .forEach(contato => {
+                        const situacao = {
+                            prospecto_id: contato.celular_id,
+                            situacao_id: SITUACAO_IMPORTAR,
+                            data_criacao: pegarDataEHoraAtual()[0],
+                            hora_criacao: pegarDataEHoraAtual()[1],
+                        }
+                        situacoes.push(situacao)
+                    })
+                submeterSituacoes(situacoes)
+                    .then(() => {
 
-						if(usuario.importacoes){
-							usuario.importacoes+= contatosFiltrados.length
-						}else{
-							usuario.importacoes = contatosFiltrados.length
-						}
+                        if (usuario.importacoes) {
+                            usuario.importacoes += contatosFiltrados.length
+                        } else {
+                            usuario.importacoes = contatosFiltrados.length
+                        }
 
-						alterarUsuarioNoAsyncStorage(usuario)
-							.then(() => {
-								this.setState({ carregando: false })
-								Alert.alert('Importação', 'Importação concluida com sucesso!')
-								navigation.navigate('Prospectos', { qualAba: 'Mensagem' })
-							})
-					})
-			})
-	}
+                        alterarUsuarioNoAsyncStorage(usuario)
+                            .then(() => {
+                                this.setState({ carregando: false })
+                                Alert.alert('Importação', 'Importação concluida com sucesso!')
+                                navigation.navigate('Prospectos', { qualAba: 'Mensagem' })
+                            })
+                    })
+            })
+    }
 
     render() {
         const { carregando } = this.state
         let {
             contatosParaSelecionar,
             selected,
+            busca
         } = this.state
+
+        if (busca != '') {
+
+            contatosParaSelecionar = contatosParaSelecionar.filter(item => {
+                const itemData = item.nome
+                const textData = busca
+
+                return itemData.indexOf(textData) > -1
+            })
+        }
 
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
@@ -274,12 +300,24 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     !carregando && contatosParaSelecionar &&
-                    <MultiSelectList
-                        data={contatosParaSelecionar}
-                        selected={selected}
-                        _onPressItem={this._onPressItem}
-                    >
-                    </MultiSelectList>
+                    <>
+                        <View style={{ height: 40, borderWidth: 1, borderColor: gray, borderRadius: 6, marginHorizontal: 10 }}>
+                            <TextInput
+                                placeholder="Buscar"
+                                placeholderTextColor={gray}
+                                style={{ flex: 1, paddingHorizontal: 5, color: white }}
+                                onChangeText={texto => this.setState({ busca: texto })}
+                                value={busca}
+                                autoCorrect={false}
+                            />
+                        </View>
+                        <MultiSelectList
+                            data={contatosParaSelecionar}
+                            selected={selected}
+                            _onPressItem={this._onPressItem}
+                        >
+                        </MultiSelectList>
+                    </>
                 }
 
                 {
@@ -299,10 +337,10 @@ class ImportarProspectosScreen extends React.Component {
 
 }
 
-function mapStateToProps({usuario}) {
-	return {
-		usuario
-	}
+function mapStateToProps({ usuario }) {
+    return {
+        usuario
+    }
 }
 
 function mapDispatchToProps(dispatch) {

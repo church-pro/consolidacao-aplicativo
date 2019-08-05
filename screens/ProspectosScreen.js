@@ -83,38 +83,38 @@ class ProspectosScreen extends React.Component {
 
 				{
 					carregando &&
-						<View style={{ flex: 1, justifyContent: 'center' }}>
-							<ActivityIndicator
-								size="large"
-								color={gold}
-							/>
-						</View>
+					<View style={{ flex: 1, justifyContent: 'center' }}>
+						<ActivityIndicator
+							size="large"
+							color={gold}
+						/>
+					</View>
 				}
 
 				{
 					!carregando &&
-						<React.Fragment>
+					<React.Fragment>
 
-							<ListaDeProspectos
-								title='Pessoas'
-								prospectos={prospectos}
-								navigation={navigation}
-							/>
-							<TouchableOpacity style={{
-								backgroundColor: primary,
-								borderRadius: 50/2,
-								height: 50,
-								width: 50,
-								justifyContent: 'center',
-								alignItems: 'center',
-								position: 'absolute',
-								bottom: 20,
-								right: 20,
-							}}
+						<ListaDeProspectos
+							title='Pessoas'
+							prospectos={prospectos}
+							navigation={navigation}
+						/>
+						<TouchableOpacity style={{
+							backgroundColor: primary,
+							borderRadius: 50 / 2,
+							height: 50,
+							width: 50,
+							justifyContent: 'center',
+							alignItems: 'center',
+							position: 'absolute',
+							bottom: 20,
+							right: 20,
+						}}
 							onPress={() => navigation.navigate('ImportarProspectos')}
 							hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
 						>
-							<Text style={{ fontSize: 22, fontWeight: 'bold', color: white }}>+</Text>
+							<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
 						</TouchableOpacity>
 					</React.Fragment>
 				}
