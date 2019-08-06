@@ -63,6 +63,20 @@ export const clubesNaAPI = (dados) =>
 		.then(resultado => resultado.json())
 		.then(json => json)
 
+export const buscarClubesNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/buscar`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+
+
 export function recuperarProspectos() {
 	return AsyncStorage.getItem(CHAVE_PROSPECTOS)
 		.then(JSON.parse)

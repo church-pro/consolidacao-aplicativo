@@ -40,6 +40,11 @@ class PrincipalScreen extends React.Component {
 			},
 			{
 				initialRouteName: 'Prospectos',
+				headerStyle: {
+					backgroundColor: black,
+					borderBottomColor: black
+				},
+				headerBackTitle: null
 			}
 		)
 		const ClubeStack = createStackNavigator(
@@ -49,6 +54,11 @@ class PrincipalScreen extends React.Component {
 			},
 			{
 				initialRouteName: 'Clubes',
+				headerStyle: {
+					backgroundColor: black,
+					borderBottomColor: black
+				},
+				headerBackTitle: null
 			}
 		)
 
