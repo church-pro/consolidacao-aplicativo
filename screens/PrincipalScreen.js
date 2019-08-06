@@ -16,6 +16,8 @@ import MarcarDataEHoraScreen from '../screens/MarcarDataEHoraScreen';
 import PerguntasScreen from '../screens/PerguntasScreen';
 import ProspectoScreen from '../screens/ProspectoScreen';
 import SincronizacaoScreen from '../screens/SincronizacaoScreen';
+import ClubesScreen from '../screens/ClubesScreen';
+import ClubeScreen from '../screens/ClubeScreen';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 class PrincipalScreen extends React.Component {
@@ -38,13 +40,15 @@ class PrincipalScreen extends React.Component {
 			},
 			{
 				initialRouteName: 'Prospectos',
-				navigationOptions: {
-					headerStyle: {
-						backgroundColor: black,
-						borderBottomColor: black
-					},
-					headerBackTitle: null
-				},
+			}
+		)
+		const ClubeStack = createStackNavigator(
+			{
+				Clubes: ClubesScreen,
+				Clube: ClubeScreen,
+			},
+			{
+				initialRouteName: 'Clubes',
 			}
 		)
 
@@ -68,9 +72,16 @@ class PrincipalScreen extends React.Component {
 						tabBarIcon: ({ tintColor }) => (<Icon name='user' type='font-awesome' color={tintColor} />),
 					},
 				},
+				Clubes: {
+					screen: ClubeStack,
+					navigationOptions: {
+						tabBarIcon: ({ tintColor }) => (<Icon name='shield' type='font-awesome' color={tintColor} />),
+					},
+				},
 			},
 			{
-				initialRouteName: 'Inicio',
+				//initialRouteName: 'Inicio',
+				initialRouteName: 'Clubes',
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,

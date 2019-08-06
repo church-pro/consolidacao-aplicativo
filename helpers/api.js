@@ -51,6 +51,18 @@ export const sincronizarNaAPI = (dados) =>
 		.then(resultado => resultado.json())
 		.then(json => json)
 
+export const clubesNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/listaDeClubes`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
 export function recuperarProspectos() {
 	return AsyncStorage.getItem(CHAVE_PROSPECTOS)
 		.then(JSON.parse)
