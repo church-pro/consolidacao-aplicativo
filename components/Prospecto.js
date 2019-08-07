@@ -67,6 +67,21 @@ class Prospecto extends React.Component {
 			listaDeMedalhas.push(medalha)
 		}
 
+		let valorDaBarra = 0
+		if(
+			prospecto.situacao_id === SITUACAO_IMPORTAR ||
+			prospecto.situacao_id === SITUACAO_CADASTRO
+		){
+			valorDaBarra = 0.1
+		}
+
+		if( prospecto.situacao_id === SITUACAO_MENSAGEM){
+			valorDaBarra = 0.25
+		}
+		if( prospecto.situacao_id === SITUACAO_LIGAR){
+			valorDaBarra = 0.50
+		}
+
 		return (
 			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id} >
 				<View>
@@ -102,7 +117,7 @@ class Prospecto extends React.Component {
 							</View>
 
 							<View style={{ flex: 1 }}>
-								<ProgressBar progress={0.5} color={primary} style={{ paddingVertical: 0 }} />
+								<ProgressBar progress={valorDaBarra} color={primary} style={{ paddingVertical: 0 }} />
 							</View>
 						</View>
 					}

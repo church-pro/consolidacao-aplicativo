@@ -43,8 +43,7 @@ class PerguntasScreen extends React.Component {
 
 	static navigationOptions = ({ navigation }) => {
 		return {
-			title: 'Perguntas',
-			headerTintColor: white,
+			header: null,
 		}
 	}
 
