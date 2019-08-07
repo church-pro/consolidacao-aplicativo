@@ -4,15 +4,11 @@ import { black, white, lightdark } from '../helpers/colors';
 import {
 	View,
 	Text,
+	TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux'
 
 class ClubeScreen extends React.Component {
-
-	static navigationOptions = {
-		headerTintColor: white,
-		header: null,
-	}
 
 	render() {
 		const {
@@ -21,17 +17,31 @@ class ClubeScreen extends React.Component {
 		return (
 			<View style={{color: '#000000'}}>
 				<Text>
+					Clube:
 					{clube.nome}
 				</Text>
+				<Text>
+					Participantes
+				</Text>
 				{
-					clube.nos &&
-						clube.nos.map(mo => {
+					clube.nos.length > 0 &&
+						clube.nos.map(no => {
 							return (
-								<Text>
-									{no.nome}
-								</Text>
+								<TouchableOpacity
+									key={no._id}
+									onPress={() => this.props.navigation.navigate('PerfilClube', {no})}>
+									<Text>
+										{no.nome}
+									</Text>	
+								</TouchableOpacity>
 							)
 						})
+				}
+				{
+					clube.nos.length === 0 && 
+					<Text>
+						Clube sem participantes	
+					</Text>
 				}
 			</View>
 		)

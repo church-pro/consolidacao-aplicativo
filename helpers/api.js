@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-const versaoBanco = '0026'
+const versaoBanco = '0030'
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
@@ -66,6 +66,30 @@ export const clubesNaAPI = (dados) =>
 export const buscarClubesNaAPI = (dados) =>
 	fetch(
 		`${apiNova}/clube/buscar`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const participarDeClubeNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/participar`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const criarClubeNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/criar`,
 		{
 			headers,
 			method: "POST",

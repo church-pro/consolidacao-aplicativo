@@ -11,17 +11,23 @@ import { LinearGradient } from 'expo'
 
 class PerfilScreen extends React.Component {
 
-	static navigationOptions = {
-		headerTintColor: white,
-		header: null,
+	static navigationOptions = ({ navigation }) => {
+		if(navigation.state && navigation.state.params && navigation.state.params.no){
+			return {
+
+			}
+		}else{
+			return			{
+				headerTintColor: white,
+				header: null,
+			}
+		}
 	}
 
 	render() {
 		const {
 			usuario
 		} = this.props
-		let keys = Object.keys(usuario);
-
 
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
@@ -29,6 +35,9 @@ class PerfilScreen extends React.Component {
 				<View style={{}}>
 					<Text style={{ color: white, textAlign: "right" }}> Progresso </Text>
 				</View>
+				<Text style={{color: white}}>
+					{usuario.nome}	
+				</Text>
 
 				<View style={{ alignItems: 'center' }}>
 					<View style={{ height: 60, width: 60, borderWidth: 1, borderColor: gray, borderRadius: 60 / 2, alignItems: "center", justifyContent: "center" }}>
@@ -39,7 +48,7 @@ class PerfilScreen extends React.Component {
 				<View style={{ marginTop: 10, padding: 10 }}>
 
 					{/* LAYOUT 1 */}
-					{/* <View style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}>
+					<View style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}>
 						<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Nome </Text>
 						<Text style={{ color: white, flexWrap: "wrap" }}> testando </Text>
 					</View>
@@ -50,7 +59,7 @@ class PerfilScreen extends React.Component {
 					<View style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}>
 						<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Patente </Text>
 						<Text style={{ color: white, flexWrap: "wrap" }}> rei </Text>
-					</View> */}
+					</View>
 
 
 					{/* LAYOUT 2 */}
@@ -96,22 +105,19 @@ class PerfilScreen extends React.Component {
 
 				</View>
 
-				{/* 
-				{
-					keys.map(item => (
-
-						<View>
-							<Text style={{ color: white }}> {item} </Text>
-							<Text style={{ color: white }}> {usuario[item]} </Text>
-						</View>
-					))
-				} */}
-
 			</LinearGradient>
 		)
 	}
 }
 
-const mapStateToProps = ({ usuario }) => { return { usuario } }
+const mapStateToProps = ({ usuario }, navigation) => { 
+	let no = null
+	if(navigation.state && navigation.state.params && navigation.state.params.no){
+		no = navigation,state,params,no
+	}
+	return { 
+		usuario: no ? no : usuario
+	}
+}
 
 export default connect(mapStateToProps, null)(PerfilScreen)

@@ -88,10 +88,9 @@ class LoginScreen extends React.Component {
 						sincronizarNaAPI(dados)
 							.then(retorno => {
 								if (retorno.ok) {
-									dados.no_id = retorno.resultado.no_id
-									dados.data_atualizacao = retorno.resultado.data_atualizacao ? retorno.resultado.data_atualizacao : null
-									dados.hora_atualizacao = retorno.resultado.hora_atualizacao ? retorno.resultado.hora_atualizacao : null
-									this.props.alterarUsuarioNoAsyncStorage(dados)
+									let usuario = retorno.resultado.usuario
+									delete usuario.prospectos
+									this.props.alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
 										.then(() => {
 											if (retorno.resultado.prospectos) {
 												this.props.porProspectoDaSincronizacao(retorno.resultado.prospectos)

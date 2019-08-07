@@ -7,10 +7,13 @@ import {
 	NetInfo,
 	TouchableOpacity,
 	TextInput,
+	Alert,
 } from 'react-native';
 import {
 	clubesNaAPI,
 	buscarClubesNaAPI,
+	participarDeClubeNaAPI,
+	criarClubeNaAPI,
 } from '../helpers/api'
 import { connect } from 'react-redux'
 
@@ -23,26 +26,66 @@ class ClubesScreen extends React.Component {
 
 	state = {
 		clubes: [],
+		clubesQueParticipo: [],
 		mostrarBuscar: false,
 		mostrarCriar: false,
 		nome: '',
 		busca: '',
-		mensagemDeError: '',
 		clubesBuscados: [],
 		carregando: false,
 	}
 
-	ajudadorDeSubmissao(){
-
+	criarClube(){
+		const {
+			nome,
+		} = this.state
+		const {
+			usuario,
+		} = this.props
+		if(nome === ''){
+			return Alert.alert('Aviso', 'Preencha o nome do clube')
+		}
+		this.setState({carregando: true})
+		try {
+			NetInfo.isConnected
+				.fetch()
+				.then(isConnected => {
+					if(isConnected){
+						criarClubeNaAPI({nome, no_id: usuario._id})
+							.then(retorno => {
+								if(retorno.ok){
+									Alert.alert('Sucesso', 'Clube cadastrado com sucesso')
+									this.setState({
+										mostrarCriar: false,
+										nome: '',
+									})
+									this.buscarMeusClubes()
+								}
+								if(!retorno.ok){
+									Alert.alert('Aviso', retorno.mensagem)
+									this.setState({carregando:false})
+								}
+							})
+					} else {
+						this.setState({
+							carregando: false,
+						})
+					}
+				})
+		} catch (err) {
+			Alert.alert('Internet', 'Verifique sua internet!')
+		}
 	}
 
 	buscarClubes(){
 		const {
 			busca,
-			mensagemDeError,
 		} = this.state
-		this.setState({carregando: true})
+		if(busca === ''){
+			return Alert.alert('Aviso', 'Preencha o campo de busca')
+		}
 
+		this.setState({carregando: true})
 		try {
 			NetInfo.isConnected
 				.fetch()
@@ -53,12 +96,6 @@ class ClubesScreen extends React.Component {
 								if(retorno.ok){
 									this.setState({
 										clubesBuscados: retorno.resultado.clubes,
-										mensagemDeError: '',
-									})
-								}
-								if(!retorno.ok){
-									this.setState({
-										mensagemDeError: 'Clubes não encontrados',
 									})
 								}
 								this.setState({carregando:false})
@@ -74,7 +111,64 @@ class ClubesScreen extends React.Component {
 		}
 	}
 
+	selecionarClube(clube_id){
+		Alert.alert(
+			'Participar do Clube',
+			'Realmente deseja participar desse clube?',
+			[
+				{
+					text: 'Não',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{text: 'Sim', onPress: () => this.participarDoClube(clube_id)},
+			],
+			{cancelable: false},
+		)
+	}
+
+	participarDoClube(clube_id){
+		const {
+			usuario,
+		} = this.props
+		try {
+			NetInfo.isConnected
+				.fetch()
+				.then(isConnected => {
+					this.setState({carregando: true})
+					if(isConnected){
+						const dados = {
+							clube_id,
+							no_id: usuario._id,
+						}
+						participarDeClubeNaAPI(dados)
+							.then(retorno => {
+								if(retorno.ok){
+									this.buscarMeusClubes()
+								}
+								this.setState({
+									carregando:false,
+									mostrarBuscar: false,
+									clubesBuscados: [],
+									busca: '',
+								})
+							})
+					} else {
+						this.setState({
+							carregando: false,
+						})
+					}
+				})
+		} catch (err) {
+			Alert.alert('Internet', 'Verifique sua internet!')
+		}
+	}
+
 	componentDidMount(){
+		this.buscarMeusClubes()
+	}
+
+	buscarMeusClubes(){
 		const {
 			usuario
 		} = this.props
@@ -83,9 +177,17 @@ class ClubesScreen extends React.Component {
 				.fetch()
 				.then(isConnected => {
 					if(isConnected){
+						this.setState({carregando: true})
 						clubesNaAPI({no_id: usuario._id})
 							.then(retorno => {
-								this.setState({clubes: retorno.resultado.clubes})
+								if(retorno.ok){
+									console.log('retorno: ', retorno)
+									this.setState({
+										clubes: retorno.resultado.clubes,
+										clubesQueParticipo: retorno.resultado.clubesQueParticipo,
+										carregando: false,
+									})
+								}
 							})
 					} else {
 						Alert.alert('Internet', 'Verifique sua internet!')
@@ -101,19 +203,67 @@ class ClubesScreen extends React.Component {
 	render() {
 		const {
 			clubes,
+			clubesQueParticipo,
 			mostrarCriar,
 			mostrarBuscar,
 			nome,
 			busca,
-			mensagemDeError,
 			carregando,
 			clubesBuscados,
 		} = this.state
 		return (
 			<View style={{color: '#000000'}}>
-				<Text>
-					Meus Clubes
-				</Text>
+				{
+					!carregando &&
+					!mostrarBuscar &&
+					!mostrarCriar &&
+					<View>
+						<Text>
+							Meus Clubes
+						</Text>
+						{
+							clubes &&
+								clubes.map(clube => 
+									<TouchableOpacity
+										key={clube._id}
+										onPress={() => this.props.navigation.navigate('Clube', {clube})}>
+										<Text>
+											{clube.nome}
+										</Text>
+									</TouchableOpacity>
+								)
+						}
+
+						<Text>
+							Clubes que participo
+						</Text>
+						{
+							clubesQueParticipo &&
+								clubesQueParticipo.map(clube => 
+									<TouchableOpacity
+										key={clube._id}
+										onPress={() => this.props.navigation.navigate('Clube', {clube})}>
+										<Text>
+											{clube.nome}
+										</Text>
+									</TouchableOpacity>
+								)
+						}
+
+						<TouchableOpacity
+							onPress={() => this.setState({mostrarCriar: true})}>
+							<Text>
+								Criar
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							onPress={() => this.setState({mostrarBuscar: true})}>
+							<Text>
+								Participar
+							</Text>
+						</TouchableOpacity>
+					</View>
+				}
 				{
 					mostrarCriar &&
 						!mostrarBuscar &&
@@ -124,16 +274,17 @@ class ClubesScreen extends React.Component {
 							<TextInput
 								value={nome} 
 								onChangeText={texto => this.setState({nome: texto})}/>
-							<TouchableOpacity
-								onPress={() => this.ajudadorDeSubmissao()}
-							>
+							<TouchableOpacity onPress={() => this.criarClube()}>
 								<Text>
 									Criar
 								</Text>	
 							</TouchableOpacity>
-							<Text>
-								{mensagemDeError}	
-							</Text>
+							<TouchableOpacity
+								onPress={() => this.setState({mostrarCriar: false,})}>
+								<Text>
+									Voltar
+								</Text>	
+							</TouchableOpacity>
 						</View>
 				}
 				{
@@ -155,6 +306,12 @@ class ClubesScreen extends React.Component {
 												Buscar
 											</Text>	
 										</TouchableOpacity>
+										<TouchableOpacity
+											onPress={() => this.setState({mostrarBuscar: false,})}>
+											<Text>
+												Voltar
+											</Text>	
+										</TouchableOpacity>
 									</View>
 							}
 							{
@@ -163,63 +320,30 @@ class ClubesScreen extends React.Component {
 							}
 							{
 								!carregando &&
-									clubesBuscados &&
-									clubesBuscados.map(clube => {
-										return 
-											<View>
-												<Text>
-													{clube.id}
-												</Text>
-												<Text>
-													{clube.nome}
-												</Text>
-												<Text>
-													{clube.no.nome}
-												</Text>
-												<TouchableOpacity
-													onPress={() => this.ajudadorDeSubmissao()}
-												>
-													<Text>
-														Criar
-													</Text>	
-												</TouchableOpacity>
-											</View>
-									})
-							}
-						</View>
-				}
-				{
-					!carregando &&
-						!mostrarBuscar &&
-						!mostrarCriar &&
-						<View>
-							{
-								clubes &&
-									clubes.map(clube => 
-										<TouchableOpacity
-											key={clube._id}
-											onPress={() => this.props.navigation.navigate('Clube', {clube})}>
+									clubesBuscados.length > 0 &&
+									clubesBuscados.map(clube => 
+										<View key={clube._id} style={{color: black}}>
+											<Text>
+												{clube._id}
+											</Text>
 											<Text>
 												{clube.nome}
 											</Text>
-										</TouchableOpacity>
+											<Text>
+												{clube.no.nome}
+											</Text>
+											<TouchableOpacity
+												onPress={() => this.selecionarClube(clube._id)} >
+												<Text>
+													Selecionar
+												</Text>	
+											</TouchableOpacity>
+										</View>
 									)
 							}
-
-							<TouchableOpacity
-								onPress={() => this.setState({mostrarCriar: true})}>
-								<Text>
-									Criar
-								</Text>
-							</TouchableOpacity>
-							<TouchableOpacity
-								onPress={() => this.setState({mostrarBuscar: true})}>
-								<Text>
-									Participar
-								</Text>
-							</TouchableOpacity>
 						</View>
 				}
+
 			</View>
 		)
 	}

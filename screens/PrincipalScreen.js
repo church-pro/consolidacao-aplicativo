@@ -51,6 +51,7 @@ class PrincipalScreen extends React.Component {
 			{
 				Clubes: ClubesScreen,
 				Clube: ClubeScreen,
+				PerfilClube: PerfilScreen,
 			},
 			{
 				initialRouteName: 'Clubes',
@@ -85,13 +86,12 @@ class PrincipalScreen extends React.Component {
 				Inicio: {
 					screen: InicioScreen,
 					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (<Icon name='home' type='font-awesome' color={tintColor} />),
+						tabBarIcon: ({ tintColor }) => (<Icon name='info' type='font-awesome' color={tintColor} />),
 					},
 				},
 			},
 			{
-				initialRouteName: 'Pessoas',
-				// initialRouteName: 'Clubes',
+				initialRouteName: 'Clubes',
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,
