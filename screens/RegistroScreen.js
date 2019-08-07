@@ -209,23 +209,29 @@ class RegistroScreen extends React.Component {
 						enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
 						keyboardShoulfPersistTaps='always'
 					>
-						<Input
-							containerStyle={styles.containerInput}
-							inputContainerStyle={styles.inputContainerStyle}
-							keyboardAppearance='dark'
-							onSubmitEditing={() => this.inputDDD.focus()}
-							returnKeyType="next"
-							placeholder=""
-							placeholderTextColor={'#ddd'}
-							autoCorrect={false}
-							label={NOME}
-							inputStyle={styles.input}
-							labelStyle={styles.label}
-							value={nome}
-							onChangeText={texto => this.setState({ nome: texto })}
-							returnKeyType={'next'}
-							onSubmitEditing={() => this.inputDDD.focus()}
-						/>
+						<TouchableOpacity
+							activeOpacity={1}
+							onPress={() => this.inputNome.focus()}
+						>
+							<Input
+								containerStyle={styles.containerInput}
+								inputContainerStyle={styles.inputContainerStyle}
+								keyboardAppearance='dark'
+								onSubmitEditing={() => this.inputDDD.focus()}
+								returnKeyType="next"
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label={NOME}
+								inputStyle={styles.input}
+								labelStyle={styles.label}
+								value={nome}
+								onChangeText={texto => this.setState({ nome: texto })}
+								returnKeyType={'next'}
+								ref={(input) => this.inputNome = input}
+							/>
+						</TouchableOpacity>
+
 						<View style={{ flexDirection: 'row', flex: 1 }}>
 							<View style={{ marginRight: 6 }}>
 								<Input

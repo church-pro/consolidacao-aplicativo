@@ -47,8 +47,8 @@ export const stylesProspecto = StyleSheet.create({
     },
     containerProspecto: {
         flexDirection: 'row',
-        padding: 30,
-        paddingVertical: 12,
+        paddingVertical: 10,
+        marginHorizontal: 20,
         justifyContent: 'space-between',
         // flexWrap: 'wrap',
         alignItems: 'center'
@@ -58,6 +58,7 @@ export const stylesProspecto = StyleSheet.create({
         fontWeight: 'bold'
     },
     containerName: {
+        flex: 1,
         justifyContent: "flex-start",
         alignItems: 'flex-start',
     },
@@ -265,7 +266,7 @@ export const stylesPerguntas = StyleSheet.create({
     },
     containerCheckbox: {
         backgroundColor: 'transparent',
-        padding: 0,
+        padding: 5,
         borderColor: 'transparent'
     },
 })

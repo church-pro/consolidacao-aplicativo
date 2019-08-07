@@ -94,7 +94,7 @@ class PrincipalScreen extends React.Component {
 				initialRouteName: 'Clubes',
 				tabBarOptions: {
 					showIcon: true,
-					showLabel: false,
+					showLabel: true,
 					activeTintColor: primary,
 					inactiveTintColor: '#eee',
 					style: {

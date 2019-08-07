@@ -82,35 +82,35 @@ class PerguntasScreen extends React.Component {
 		let numeroDeDiasParaTerminar = 1
 		if (situacao_id_nova === SITUACAO_MENSAGEM) {
 			numeroDeDiasParaTerminar = 2
-			if(usuario.mensagens){
-				usuario.mensagens+= 1 
-			}else{
-				usuario.mensagens = 1 
+			if (usuario.mensagens) {
+				usuario.mensagens += 1
+			} else {
+				usuario.mensagens = 1
 			}
 		}
 		if (situacao_id_nova === SITUACAO_LIGAR) {
 			numeroDeDiasParaTerminar = 3
-			if(usuario.ligacoes){
-				usuario.ligacoes+= 1 
-			}else{
-				usuario.ligacoes = 1 
+			if (usuario.ligacoes) {
+				usuario.ligacoes += 1
+			} else {
+				usuario.ligacoes = 1
 			}
 		}
 		if (situacao_id_nova === SITUACAO_VISITA) {
-			if(usuario.visitas){
-				usuario.visitas+= 1 
-			}else{
-				usuario.visitas = 1 
+			if (usuario.visitas) {
+				usuario.visitas += 1
+			} else {
+				usuario.visitas = 1
 			}
 		}
 		if (situacao_id_nova === SITUACAO_EVENTO) {
-			if(usuario.eventos){
-				usuario.eventos+= 1 
-			}else{
-				usuario.eventos = 1 
+			if (usuario.eventos) {
+				usuario.eventos += 1
+			} else {
+				usuario.eventos = 1
 			}
 		}
-	
+
 		prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
 		if (situacao_id_nova === SITUACAO_VISITA) {
 			delete prospecto.dataParaFinalizarAAcao
@@ -133,74 +133,74 @@ class PerguntasScreen extends React.Component {
 			}
 			situacoes.push(situacaoExtra)
 
-			if(
+			if (
 				situacao_id_extra === SITUACAO_MENSAGEM_NUMERO_INVALIDO ||
 				situacao_id_extra === SITUACAO_LIGAR_NUMERO_INVALIDO
-			){
-				if(usuario.numeros_invalidos){
-					usuario.numeros_invalidos+= 1 
-				}else{
-					usuario.numeros_invalidos = 1 
+			) {
+				if (usuario.numeros_invalidos) {
+					usuario.numeros_invalidos += 1
+				} else {
+					usuario.numeros_invalidos = 1
 				}
 			}
-			if(situacao_id_extra === SITUACAO_LIGAR_APENAS_TOCOU){
-				if(usuario.ligacoes_nao_atendidas){
-					usuario.ligacoes_nao_atendidas+= 1 
-				}else{
-					usuario.ligacoes_nao_atendidas = 1 
+			if (situacao_id_extra === SITUACAO_LIGAR_APENAS_TOCOU) {
+				if (usuario.ligacoes_nao_atendidas) {
+					usuario.ligacoes_nao_atendidas += 1
+				} else {
+					usuario.ligacoes_nao_atendidas = 1
 				}
 			}
-			if(situacao_id_extra === SITUACAO_LIGAR_MARCOU_VISITA_SEM_FALAR){
-				if(usuario.visitas_sem_ligar){
-					usuario.visitas_sem_ligar+= 1 
-				}else{
-					usuario.visitas_sem_ligar = 1 
+			if (situacao_id_extra === SITUACAO_LIGAR_MARCOU_VISITA_SEM_FALAR) {
+				if (usuario.visitas_sem_ligar) {
+					usuario.visitas_sem_ligar += 1
+				} else {
+					usuario.visitas_sem_ligar = 1
 				}
 			}
-			if(situacao_id_extra === SITUACAO_LIGAR_FALEI_MAS_NAO_MARQUEI){
-				if(usuario.ligacoes_sem_visita){
-					usuario.ligacoes_sem_visita+= 1 
-				}else{
-					usuario.ligacoes_sem_visita = 1 
+			if (situacao_id_extra === SITUACAO_LIGAR_FALEI_MAS_NAO_MARQUEI) {
+				if (usuario.ligacoes_sem_visita) {
+					usuario.ligacoes_sem_visita += 1
+				} else {
+					usuario.ligacoes_sem_visita = 1
 				}
 			}
-			if(situacao_id_extra === SITUACAO_VISITA_DESMARCOU){
-				if(usuario.visitas_desmarcadas){
-					usuario.visitas_desmarcadas+= 1 
-				}else{
-					usuario.visitas_desmarcadas = 1 
+			if (situacao_id_extra === SITUACAO_VISITA_DESMARCOU) {
+				if (usuario.visitas_desmarcadas) {
+					usuario.visitas_desmarcadas += 1
+				} else {
+					usuario.visitas_desmarcadas = 1
 				}
 			}
-			if(situacao_id_extra === SITUACAO_VISITA_NAO_FUI){
-				if(usuario.marquei_mas_nao_visitei){
-					usuario.marquei_mas_nao_visitei+= 1 
-				}else{
-					usuario.marquei_mas_nao_visitei = 1 
+			if (situacao_id_extra === SITUACAO_VISITA_NAO_FUI) {
+				if (usuario.marquei_mas_nao_visitei) {
+					usuario.marquei_mas_nao_visitei += 1
+				} else {
+					usuario.marquei_mas_nao_visitei = 1
 				}
 			}
-			if(situacao_id_extra === SITUACAO_VISITEI_MAS_NAO_CONVIDEI){
-				if(usuario.visitas_sem_convite){
-					usuario.visitas_sem_convite+= 1 
-				}else{
-					usuario.visitas_sem_convite = 1 
+			if (situacao_id_extra === SITUACAO_VISITEI_MAS_NAO_CONVIDEI) {
+				if (usuario.visitas_sem_convite) {
+					usuario.visitas_sem_convite += 1
+				} else {
+					usuario.visitas_sem_convite = 1
 				}
 			}
-			if(situacao_id_extra === SITUACAO_EVENTO_NAO_VEIO){
-				if(usuario.nao_vieram){
-					usuario.nao_vieram+= 1 
-				}else{
-					usuario.nao_vieram = 1 
+			if (situacao_id_extra === SITUACAO_EVENTO_NAO_VEIO) {
+				if (usuario.nao_vieram) {
+					usuario.nao_vieram += 1
+				} else {
+					usuario.nao_vieram = 1
 				}
 			}
 		}
 		if (situacao_id_nova === null) {
 			navigation.goBack()
 		} else {
-			if(situacao_id_nova === SITUACAO_REMOVIDO){
-				if(usuario.removidos){
-					usuario.removidos+= 1 
-				}else{
-					usuario.removidos = 1 
+			if (situacao_id_nova === SITUACAO_REMOVIDO) {
+				if (usuario.removidos) {
+					usuario.removidos += 1
+				} else {
+					usuario.removidos = 1
 				}
 			}
 			if (
@@ -286,6 +286,7 @@ class PerguntasScreen extends React.Component {
 														checkedIcon='dot-circle-o'
 														checkedColor={primary}
 														uncheckedIcon='circle-o'
+														size={25}
 														containerStyle={stylesPerguntas.containerCheckbox}
 													/>
 												})

@@ -181,7 +181,6 @@ class ClubesScreen extends React.Component {
 						clubesNaAPI({no_id: usuario._id})
 							.then(retorno => {
 								if(retorno.ok){
-									console.log('retorno: ', retorno)
 									this.setState({
 										clubes: retorno.resultado.clubes,
 										clubesQueParticipo: retorno.resultado.clubesQueParticipo,
