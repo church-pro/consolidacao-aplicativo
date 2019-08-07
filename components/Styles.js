@@ -47,38 +47,34 @@ export const stylesProspecto = StyleSheet.create({
     },
     containerProspecto: {
         flexDirection: 'row',
-        padding: 5,
+        padding: 30,
+        paddingVertical: 12,
         justifyContent: 'space-between',
-        flexWrap: 'wrap',
+        // flexWrap: 'wrap',
+        alignItems: 'center'
     },
     text: {
         color: white,
         fontWeight: 'bold'
     },
     containerName: {
-        flexDirection: "row",
         justifyContent: "flex-start",
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
     containerActions: {
-        backgroundColor: 'transparent',
-        marginLeft: 3,
+        // backgroundColor: primary,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     containerBadge: {
+        paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-around',
         flexWrap: 'wrap',
-        padding: 5
     },
     badge: {
-        backgroundColor: primary,
-        marginTop: 6,
-        borderRadius: 9,
         borderWidth: 0,
-        paddingHorizontal: 4,
         paddingVertical: 2
     },
     textBadge: {
@@ -87,7 +83,7 @@ export const stylesProspecto = StyleSheet.create({
         fontWeight: 'bold'
     },
     containerBadgeIcons: {
-        backgroundColor: '#333',
+        // backgroundColor: '#333',
         marginRight: 10,
         padding: 4,
         borderRadius: 5,

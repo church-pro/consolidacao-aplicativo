@@ -11,8 +11,8 @@ const MainStack = createStackNavigator(
     {
         Login: LoginScreen,
         Registro: RegistroScreen,
-		Principal: PrincipalScreen,
-		Inicio: InicioScreen,
+        Principal: PrincipalScreen,
+        Inicio: InicioScreen,
     },
     {
         initialRouteName: 'Login',

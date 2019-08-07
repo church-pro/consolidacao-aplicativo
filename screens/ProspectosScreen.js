@@ -29,7 +29,7 @@ class ProspectosScreen extends React.Component {
 	state = {
 		carregando: true,
 		busca: null,
-		buscaMensagem: false,
+		buscaMensagem: true,
 		buscaTelefone: false,
 		buscaVisita: false,
 		buscaEvento: false,
@@ -55,6 +55,8 @@ class ProspectosScreen extends React.Component {
 		const {
 			carregando,
 		} = this.state
+
+		console.log(prospectos)
 		let { busca, buscaMensagem, buscaTelefone, buscaVisita, buscaEvento } = this.state
 
 		if (buscaMensagem !== false || buscaTelefone !== false || buscaVisita !== false || buscaEvento !== false) {
@@ -82,7 +84,7 @@ class ProspectosScreen extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 
-				<Header style={{ backgroundColor: black, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10 }} iosBarStyle="light-content">
+				{/* <Header style={{ backgroundColor: black, borderBottomWidth: 0, paddingTop: 0, paddingLeft: 10 }} iosBarStyle="light-content">
 					<Right style={{ flex: 0 }}>
 						<TouchableOpacity
 							style={{ backgroundColor: 'transparent', borderWidth: 0, paddingHorizontal: 8 }}
@@ -90,7 +92,7 @@ class ProspectosScreen extends React.Component {
 							<Icon name='retweet' type='font-awesome' color={white} />
 						</TouchableOpacity>
 					</Right>
-				</Header>
+				</Header> */}
 
 				{
 					carregando &&
@@ -107,8 +109,12 @@ class ProspectosScreen extends React.Component {
 					<React.Fragment>
 						<View style={[stylesProspecto.containerBadge]}>
 
-							<View style={[stylesProspecto.containerBadgeIcons]}>
-								<Icon
+							<View style={[stylesProspecto.containerBadgeIcons, {
+								borderBottomWidth: buscaMensagem ? 2 : 0,
+								borderBottomColor: buscaMensagem ? primary : null,
+							}]}>
+
+								<Text
 									onPress={() => {
 										this.setState({
 											buscaMensagem: !buscaMensagem,
@@ -117,13 +123,18 @@ class ProspectosScreen extends React.Component {
 											buscaEvento: false
 										})
 									}}
-									name="envelope"
-									type="font-awesome"
-									color={buscaMensagem === true ? primary : gray}
-								/>
+									// name="envelope"
+									// type="font-awesome"
+									style={{ color: buscaMensagem === true ? primary : white, fontSize: 12 }}
+								>
+									Mensagem
+								</Text>
 							</View>
-							<View style={[stylesProspecto.containerBadgeIcons]}>
-								<Icon
+							<View style={[stylesProspecto.containerBadgeIcons, {
+								borderBottomWidth: buscaTelefone ? 2 : 0,
+								borderBottomColor: buscaTelefone ? primary : null
+							}]}>
+								<Text
 									onPress={() => {
 										this.setState({
 											buscaMensagem: false,
@@ -132,13 +143,18 @@ class ProspectosScreen extends React.Component {
 											buscaEvento: false,
 										})
 									}}
-									name="phone"
-									type="font-awesome"
-									color={buscaTelefone === true ? primary : gray}
-								/>
+									// name="phone"
+									// type="font-awesome"
+									style={{ color: buscaTelefone === true ? primary : white, fontSize: 12 }}
+								>
+									Ligar
+								</Text>
 							</View>
-							<View style={[stylesProspecto.containerBadgeIcons]}>
-								<Icon
+							<View style={[stylesProspecto.containerBadgeIcons, {
+								borderBottomWidth: buscaVisita ? 2 : 0,
+								borderBottomColor: buscaVisita ? primary : null
+							}]}>
+								<Text
 									onPress={() => {
 										this.setState({
 											buscaMensagem: false,
@@ -147,13 +163,15 @@ class ProspectosScreen extends React.Component {
 											buscaEvento: false,
 										})
 									}}
-									name="calendar"
-									type="font-awesome"
-									color={buscaVisita === true ? primary : gray}
-								/>
+									// name="calendar"
+									// type="font-awesome"
+									style={{ color: buscaVisita === true ? primary : white, fontSize: 12 }}
+								>
+									Visitar
+								</Text>
 							</View>
-							<View style={[stylesProspecto.containerBadgeIcons]}>
-								<Icon
+							{/* <View style={[stylesProspecto.containerBadgeIcons]}>
+								<Text
 									onPress={() => {
 										this.setState({
 											buscaMensagem: false,
@@ -162,11 +180,13 @@ class ProspectosScreen extends React.Component {
 											buscaEvento: !buscaEvento,
 										})
 									}}
-									name="home"
-									type="font-awesome"
-									color={buscaEvento === true ? primary : gray}
-								/>
-							</View>
+									// name="home"
+									// type="font-awesome"
+									style={{ color: buscaEvento === true ? primary : gray, fontSize: 12 }}
+								>
+									Igreja
+								</Text>
+							</View> */}
 
 						</View>
 						<ListaDeProspectos
@@ -174,6 +194,7 @@ class ProspectosScreen extends React.Component {
 							prospectos={prospectos}
 							navigation={navigation}
 						/>
+
 						<TouchableOpacity style={{
 							backgroundColor: primary,
 							borderRadius: 50 / 2,
@@ -182,8 +203,8 @@ class ProspectosScreen extends React.Component {
 							justifyContent: 'center',
 							alignItems: 'center',
 							position: 'absolute',
-							bottom: 20,
-							right: 20,
+							bottom: 10,
+							right: 10,
 						}}
 							onPress={() => navigation.navigate('ImportarProspectos')}
 							hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}

@@ -64,12 +64,6 @@ class PrincipalScreen extends React.Component {
 
 		const Tabs = createBottomTabNavigator(
 			{
-				Inicio: {
-					screen: InicioScreen,
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (<Icon name='home' type='font-awesome' color={tintColor} />),
-					},
-				},
 				Pessoas: {
 					screen: ProspectosStack,
 					navigationOptions: {
@@ -88,10 +82,16 @@ class PrincipalScreen extends React.Component {
 						tabBarIcon: ({ tintColor }) => (<Icon name='shield' type='font-awesome' color={tintColor} />),
 					},
 				},
+				Inicio: {
+					screen: InicioScreen,
+					navigationOptions: {
+						tabBarIcon: ({ tintColor }) => (<Icon name='home' type='font-awesome' color={tintColor} />),
+					},
+				},
 			},
 			{
-				//initialRouteName: 'Inicio',
-				initialRouteName: 'Clubes',
+				initialRouteName: 'Pessoas',
+				// initialRouteName: 'Clubes',
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: false,
