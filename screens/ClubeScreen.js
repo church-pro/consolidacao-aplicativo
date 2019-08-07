@@ -24,7 +24,7 @@ class ClubeScreen extends React.Component {
 					Participantes
 				</Text>
 				{
-					clube.nos.length > 0 &&
+					clube.nos && clube.nos.length > 0 &&
 						clube.nos.map(no => {
 							return (
 								<TouchableOpacity
@@ -38,7 +38,7 @@ class ClubeScreen extends React.Component {
 						})
 				}
 				{
-					clube.nos.length === 0 && 
+					clube.nos && clube.nos.length === 0 && 
 					<Text>
 						Clube sem participantes	
 					</Text>
