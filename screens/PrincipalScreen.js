@@ -91,7 +91,7 @@ class PrincipalScreen extends React.Component {
 				},
 			},
 			{
-				initialRouteName: 'Clubes',
+				initialRouteName: 'Pessoas',
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: true,

@@ -26,7 +26,7 @@ class ListaDeProspectos extends React.Component {
 
 	_handleRefresh = () => {
 		this.setState({ refreshing: true })
-		this.props.navigation.navigate('Sincronizacao', { tela: 'Prospectos' })
+		this.props.navigation.navigate('Sincronizacao', { tela: 'Pessoas' })
 	}
 
 	_keyExtractor = (item, index) => item._id;
@@ -43,7 +43,6 @@ class ListaDeProspectos extends React.Component {
 		const { title, prospectos, navigation } = this.props
 		return (
 			<View style={{ flex: 1 }}>
-				{/* <Text style={styles.titleList}>{title}</Text> */}
 				{
 					prospectos &&
 					<FlatList

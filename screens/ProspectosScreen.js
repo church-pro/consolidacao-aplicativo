@@ -188,7 +188,6 @@ class ProspectosScreen extends React.Component {
 						{
 							prospectos &&
 							<ListaDeProspectos
-								// title='Pessoas'
 								prospectos={prospectos}
 								navigation={navigation}
 							/>
