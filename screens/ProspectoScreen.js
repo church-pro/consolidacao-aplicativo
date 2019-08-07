@@ -3,6 +3,7 @@ import {
 	Alert,
 	Platform,
 	View,
+	TouchableOpacity
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Input } from 'react-native-elements'
@@ -163,86 +164,107 @@ class ProspectoScreen extends React.Component {
 						enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
 						keyboardShoulfPersistTaps='always'
 					>
+						<TouchableOpacity
+							activeOpacity={1}
+							onPress={() => this.inputNome.focus()}
+						>
+							<Input
+								containerStyle={styles.containerInput}
+								inputContainerStyle={styles.inputContainerStyle}
+								keyboardAppearance='dark'
+								onSubmitEditing={() => this.inputDDD.focus()}
+								returnKeyType="next"
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label={NOME}
+								inputStyle={styles.input}
+								labelStyle={styles.label}
+								value={nome}
+								onChangeText={texto => this.setState({ nome: texto })}
+								returnKeyType={'next'}
+								ref={(input) => { this.inputNome = input }}
+							/>
+						</TouchableOpacity>
 
-						<Input
-							containerStyle={styles.containerInput}
-							inputContainerStyle={styles.inputContainerStyle}
-							keyboardAppearance='dark'
-							onSubmitEditing={() => this.inputDDD.focus()}
-							returnKeyType="next"
-							placeholder=""
-							placeholderTextColor={'#ddd'}
-							autoCorrect={false}
-							label={NOME}
-							inputStyle={styles.input}
-							labelStyle={styles.label}
-							value={nome}
-							onChangeText={texto => this.setState({ nome: texto })}
-							returnKeyType={'next'}
-							onSubmitEditing={() => this.inputDDD.focus()}
-						/>
 						<View style={{ flexDirection: 'row', flex: 1 }}>
 							<View style={{ marginRight: 6 }}>
-								<Input
-									containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
-									inputContainerStyle={styles.inputContainerStyle}
-									underlineColorAndroid="transparent"
-									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label={DDD}
-									maxLength={2}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									value={ddd}
-									onChangeText={texto => this.setState({ ddd: texto })}
-									ref={(input) => { this.inputDDD = input; }}
-									returnKeyType={'next'}
-									onSubmitEditing={() => this.inputTelefone.focus()}
-								/>
+								<TouchableOpacity
+									activeOpacity={1}
+									onPress={() => this.inputDDD.focus()}
+								>
+									<Input
+										containerStyle={[styles.containerInput, { paddingHorizontal: 15 }]}
+										inputContainerStyle={styles.inputContainerStyle}
+										underlineColorAndroid="transparent"
+										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
+										keyboardAppearance='dark'
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label={DDD}
+										maxLength={2}
+										inputStyle={styles.input}
+										labelStyle={styles.label}
+										value={ddd}
+										onChangeText={texto => this.setState({ ddd: texto })}
+										ref={(input) => { this.inputDDD = input; }}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputTelefone.focus()}
+									/>
+								</TouchableOpacity>
 							</View>
 
 							<View style={{ flex: 1 }}>
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									underlineColorAndroid="transparent"
-									keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label={TELEFONE}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									value={telefone}
-									onChangeText={texto => this.setState({ telefone: texto })}
-									ref={(input) => { this.inputTelefone = input; }}
-									returnKeyType={'next'}
-									onSubmitEditing={() => this.inputEmail.focus()}
-								/>
+								<TouchableOpacity
+									activeOpacity={1}
+									onPress={() => this.inputTelefone.focus()}
+								>
+									<Input
+										containerStyle={styles.containerInput}
+										inputContainerStyle={styles.inputContainerStyle}
+										underlineColorAndroid="transparent"
+										keyboardType={Platform.OS === "android" ? 'number-pad' : "numbers-and-punctuation"}
+										keyboardAppearance='dark'
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label={TELEFONE}
+										inputStyle={styles.input}
+										labelStyle={styles.label}
+										value={telefone}
+										onChangeText={texto => this.setState({ telefone: texto })}
+										ref={(input) => { this.inputTelefone = input; }}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputEmail.focus()}
+									/>
+								</TouchableOpacity>
 							</View>
 
 						</View>
-						<Input
-							containerStyle={styles.containerInput}
-							inputContainerStyle={styles.inputContainerStyle}
-							keyboardType='email-address'
-							keyboardAppearance='dark'
-							placeholder=""
-							placeholderTextColor={'#ddd'}
-							autoCorrect={false}
-							label={LABEL_EMAIL}
-							inputStyle={styles.input}
-							labelStyle={styles.label}
-							value={email}
-							onChangeText={texto => this.setState({ email: texto })}
-							ref={(input) => { this.inputEmail = input; }}
-							returnKeyType={'go'}
-							onSubmitEditing={() => this.ajudadorDeSubmissao()}
-						/>
+						<TouchableOpacity
+							activeOpacity={1}
+							onPress={() => this.inputEmail.focus()}
+						>
+							<Input
+								containerStyle={styles.containerInput}
+								inputContainerStyle={styles.inputContainerStyle}
+								keyboardType='email-address'
+								keyboardAppearance='dark'
+								placeholder=""
+								placeholderTextColor={'#ddd'}
+								autoCorrect={false}
+								label={LABEL_EMAIL}
+								inputStyle={styles.input}
+								labelStyle={styles.label}
+								value={email}
+								onChangeText={texto => this.setState({ email: texto })}
+								ref={(input) => { this.inputEmail = input; }}
+								returnKeyType={'go'}
+								onSubmitEditing={() => this.ajudadorDeSubmissao()}
+							/>
+						</TouchableOpacity>
+
 
 						<CPButton
 							title={SALVAR}

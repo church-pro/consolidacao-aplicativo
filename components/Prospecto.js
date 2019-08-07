@@ -26,6 +26,7 @@ import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,
 } from '../helpers/helper'
+import { ProgressBar, Colors } from 'react-native-paper'
 
 class Prospecto extends React.Component {
 
@@ -67,54 +68,42 @@ class Prospecto extends React.Component {
 		}
 
 		return (
-			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id}>
-
+			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id} >
 				{
 					prospecto.dataParaFinalizarAAcao &&
 					(prospecto.situacao_id === SITUACAO_IMPORTAR ||
 						prospecto.situacao_id === SITUACAO_CADASTRO ||
 						prospecto.situacao_id === SITUACAO_MENSAGEM ||
 						prospecto.situacao_id === SITUACAO_LIGAR) &&
-					<View style={{
-						backgroundColor: black, borderTopStartRadius: 6, borderTopEndRadius: 6,
-						flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-						paddingVertical: 6,
-					}}>
-						<Text style={{ textAlign: 'center', color: '#FFFFFF' }}>
-							{
-								(prospecto.situacao_id === SITUACAO_IMPORTAR ||
-									prospecto.situacao_id === SITUACAO_CADASTRO) &&
-								'Mensagem até '
-							}
-							{
-								prospecto.situacao_id === SITUACAO_MENSAGEM &&
-								'Ligar até '
-							}
-							{
-								prospecto.situacao_id === SITUACAO_LIGAR &&
-								'Visitar até '
-							}
-							{prospecto.dataParaFinalizarAAcao}
-						</Text>
-						<View style={{ flexDirection: 'row' }}>
-							{/* <View style={{ borderRightWidth: 1, borderRightColor: gray, paddingHorizontal: 6 }}>
-								<TouchableOpacity
-									onPress={() => { this.chamarOTelefoneDoCelular() }}
-									hitSlop={{ top: 15, right: 0, bottom: 15, left: 15 }}
-								>
-									<Icon name="phone" size={20} color={white} />
-								</TouchableOpacity>
-							</View> */}
-							{/* <View style={{ paddingHorizontal: 6 }}>
-								<TouchableOpacity
-									onPress={() => { this.whatsapp() }}
-									hitSlop={{ top: 15, right: 5, bottom: 15, left: 0 }}
-								>
-									<Icon name="whatsapp" size={20} color={white} type='font-awesome' />
-								</TouchableOpacity>
-							</View> */}
+					<>
+						<View style={{
+							backgroundColor: black, borderTopStartRadius: 6, borderTopEndRadius: 6,
+							flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+							paddingVertical: 6, flexWrap: 'wrap'
+						}}>
+							<Text style={{ textAlign: 'center', color: '#FFFFFF' }}>
+								{
+									(prospecto.situacao_id === SITUACAO_IMPORTAR ||
+										prospecto.situacao_id === SITUACAO_CADASTRO) &&
+									'Mensagem até '
+								}
+								{
+									prospecto.situacao_id === SITUACAO_MENSAGEM &&
+									'Ligar até '
+								}
+								{
+									prospecto.situacao_id === SITUACAO_LIGAR &&
+									'Visitar até '
+								}
+								{prospecto.dataParaFinalizarAAcao}
+							</Text>
+
 						</View>
-					</View>
+
+						<View style={{ flex: 1 }}>
+							<ProgressBar progress={0.5} color={primary} style={{ paddingVertical: 0 }} />
+						</View>
+					</>
 				}
 
 				{/* <View style={stylesProspecto.containerProspecto}> */}
@@ -123,10 +112,10 @@ class Prospecto extends React.Component {
 						style={stylesProspecto.containerProspecto}
 						onPress={() => { this.setState({ mostrarOpcoes: !mostrarOpcoes }) }}
 					>
-
 						<View style={stylesProspecto.containerName}>
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 								<Text numberOfLines={1} style={[stylesProspecto.text]}>{prospecto.nome}</Text>
+
 							</View>
 							{
 								prospecto.data &&
@@ -163,37 +152,48 @@ class Prospecto extends React.Component {
 				{
 					mostrarOpcoes &&
 					<View style={[stylesProspecto.containerBadge, { borderTopWidth: 1, borderColor: gray, padding: 10 }]}>
-						<View style={{ paddingHorizontal: 6, backgroundColor: lightdark }}>
+						<View>
 							<TouchableOpacity
+								style={{ backgroundColor: lightdark, padding: 6, }}
 								onPress={() => { }}
-								hitSlop={{ top: 15, right: 5, bottom: 15, left: 0 }}
+								hitSlop={{ top: 10, right: 5, bottom: 10, left: 10 }}
 							>
 								<Icon name="trash" size={24} color={red} type='font-awesome' />
 							</TouchableOpacity>
+							<Text style={{ color: white }}>Excluir</Text>
 						</View>
-						<View style={{ paddingHorizontal: 6, backgroundColor: lightdark }}>
+
+						<View>
 							<TouchableOpacity
+								style={{ backgroundColor: lightdark, padding: 6, }}
 								onPress={() => { this.chamarOTelefoneDoCelular() }}
-								hitSlop={{ top: 15, right: 0, bottom: 15, left: 15 }}
+								hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }}
 							>
 								<Icon name="phone" size={24} color={white} />
 							</TouchableOpacity>
+							<Text style={{ color: white }}>Ligar</Text>
 						</View>
-						<View style={{ paddingHorizontal: 6, backgroundColor: lightdark }}>
+
+						<View>
 							<TouchableOpacity
+								style={{ backgroundColor: lightdark, padding: 6, }}
 								onPress={() => { this.whatsapp() }}
-								hitSlop={{ top: 15, right: 5, bottom: 15, left: 0 }}
+								hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }}
 							>
 								<Icon name="whatsapp" size={24} color={white} type='font-awesome' />
 							</TouchableOpacity>
+							<Text style={{ color: white }}>Mensagem</Text>
 						</View>
-						<View style={{ paddingHorizontal: 6, backgroundColor: lightdark }}>
+
+						<View>
 							<TouchableOpacity
+								style={{ backgroundColor: lightdark, padding: 6, }}
 								onPress={() => funcaoOnPressDoIconeList()}
-								hitSlop={{ top: 15, right: 5, bottom: 15, left: 0 }}
+								hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }}
 							>
-								<Icon name="list" size={24} color={white} type='font-awesome' />
+								<Icon name="play" size={24} color={white} type='font-awesome' />
 							</TouchableOpacity>
+							<Text style={{ color: white }}>Prosseguir</Text>
 						</View>
 					</View>
 				}

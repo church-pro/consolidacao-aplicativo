@@ -14,7 +14,7 @@ import DatePicker from 'react-native-datepicker'
 import {
     alterarProspectoNoAsyncStorage,
     adicionarSituacoesAoAsyncStorage,
-	alterarUsuarioNoAsyncStorage
+    alterarUsuarioNoAsyncStorage
 } from '../actions'
 import {
     submeterSituacoes,
@@ -42,8 +42,8 @@ class MarcarDataEHoraScreen extends React.Component {
             qualAba,
             alertTitulo,
             alertMensagem,
-			usuario,
-			alterarUsuarioNoAsyncStorage,
+            usuario,
+            alterarUsuarioNoAsyncStorage,
         } = this.props
         if (this.state.dataParaOAgendamento === null ||
             this.state.horaParaOAgendamento === null) {
@@ -56,26 +56,26 @@ class MarcarDataEHoraScreen extends React.Component {
                 prospecto.local = this.state.local
             }
             prospecto.situacao_id = situacao_id_nova
-			prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(3)[0]
+            prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(3)[0]
 
-			if(usuario.ligacoes){
-				usuario.ligacoes+= 1 
-			}else{
-				usuario.ligacoes = 1 
-			}
+            if (usuario.ligacoes) {
+                usuario.ligacoes += 1
+            } else {
+                usuario.ligacoes = 1
+            }
 
-			alterarUsuarioNoAsyncStorage(usuario)
-				.then(() => {
-					submeterSituacoes(situacoes)
-						.then(() => {
-							alterarProspectoNoAsyncStorage(prospecto)
-								.then(() => {
-									Alert.alert(alertTitulo, alertMensagem)
-									this.setState({ carregando: false })
-									navigation.navigate(paraOndeVoltar, { qualAba })
-								})
-						})
-				})
+            alterarUsuarioNoAsyncStorage(usuario)
+                .then(() => {
+                    submeterSituacoes(situacoes)
+                        .then(() => {
+                            alterarProspectoNoAsyncStorage(prospecto)
+                                .then(() => {
+                                    Alert.alert(alertTitulo, alertMensagem)
+                                    this.setState({ carregando: false })
+                                    navigation.navigate(paraOndeVoltar, { qualAba })
+                                })
+                        })
+                })
         }
     }
 
@@ -175,9 +175,15 @@ class MarcarDataEHoraScreen extends React.Component {
                             </View>
 
                             <View style={stylesMarcar.containerInput}>
-                                <Text style={stylesMarcar.labelMarcar}>{LOCAL}</Text>
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    onPress={() => this.inputLocal.focus()}
+                                >
+                                    <Text style={stylesMarcar.labelMarcar}>{LOCAL}</Text>
+                                </TouchableOpacity>
                                 <View style={stylesMarcar.inputContainerStyle}>
                                     <TextInput
+                                        ref={(input) => { this.inputLocal = input; }}
                                         keyboardAppearance='dark'
                                         placeholder=""
                                         style={stylesMarcar.inputMarcar}
@@ -216,7 +222,7 @@ function mapStateToProps({ prospectos, usuario, }, { navigation }) {
         qualAba,
         alertTitulo,
         alertMensagem,
-		usuario,
+        usuario,
     }
 }
 
