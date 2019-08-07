@@ -15,7 +15,7 @@ class ClubeScreen extends React.Component {
 			clube
 		} = this.props
 		return (
-			<View style={{color: '#000000'}}>
+			<View style={{ color: '#000000' }}>
 				<Text>
 					Clube:
 					{clube.nome}
@@ -24,23 +24,23 @@ class ClubeScreen extends React.Component {
 					Participantes
 				</Text>
 				{
-					clube.nos.length > 0 &&
-						clube.nos.map(no => {
-							return (
-								<TouchableOpacity
-									key={no._id}
-									onPress={() => this.props.navigation.navigate('PerfilClube', {no})}>
-									<Text>
-										{no.nome}
-									</Text>	
-								</TouchableOpacity>
-							)
-						})
+					clube.nos && clube.nos.length > 0 &&
+					clube.nos.map(no => {
+						return (
+							<TouchableOpacity
+								key={no._id}
+								onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
+								<Text>
+									{no.nome}
+								</Text>
+							</TouchableOpacity>
+						)
+					})
 				}
 				{
-					clube.nos.length === 0 && 
+					clube.nos && clube.nos.length === 0 &&
 					<Text>
-						Clube sem participantes	
+						Clube sem participantes
 					</Text>
 				}
 			</View>
@@ -48,7 +48,7 @@ class ClubeScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, {navigation}) => {
+const mapStateToProps = (state, { navigation }) => {
 	const {
 		clube
 	} = navigation.state.params
