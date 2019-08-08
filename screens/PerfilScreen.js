@@ -12,12 +12,12 @@ import { LinearGradient } from 'expo'
 class PerfilScreen extends React.Component {
 
 	static navigationOptions = ({ navigation }) => {
-		if(navigation.state && navigation.state.params && navigation.state.params.no){
+		if (navigation.state && navigation.state.params && navigation.state.params.no) {
 			return {
 
 			}
-		}else{
-			return			{
+		} else {
+			return {
 				headerTintColor: white,
 				header: null,
 			}
@@ -35,8 +35,8 @@ class PerfilScreen extends React.Component {
 				<View style={{}}>
 					<Text style={{ color: white, textAlign: "right" }}> Progresso </Text>
 				</View>
-				<Text style={{color: white}}>
-					{usuario.nome}	
+				<Text style={{ color: white }}>
+					{usuario.nome}
 				</Text>
 
 				<View style={{ alignItems: 'center' }}>
@@ -110,12 +110,12 @@ class PerfilScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ usuario }, navigation) => { 
+const mapStateToProps = ({ usuario }, navigation) => {
 	let no = null
-	if(navigation.state && navigation.state.params && navigation.state.params.no){
-		no = navigation,state,params,no
+	if (navigation.state && navigation.state.params && navigation.state.params.no) {
+		no = navigation, state, params, no
 	}
-	return { 
+	return {
 		usuario: no ? no : usuario
 	}
 }

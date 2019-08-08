@@ -172,25 +172,24 @@ class ProspectosScreen extends React.Component {
 							</TouchableOpacity>
 						</View>
 						{
-							!prospectos.length &&
-							<View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
-								<Text style={{ color: gray, fontSize: 20 }}>Você não possui</Text>
-								<Text style={{ color: gray, fontSize: 20 }}>consolidações!</Text>
-								<Image source={consolidacao} style={{ marginTop: 15, width: 120, height: 120, resizeMode: "contain", }} />
-								<Text style={{ color: gray, fontSize: 14, padding: 15 }}>Para incluir, basta cadastrar ou importar </Text>
+							prospectos.length === 0 ?
+								<View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
+									<Text style={{ color: gray, fontSize: 20 }}>Você não possui</Text>
+									<Text style={{ color: gray, fontSize: 20 }}>consolidações!</Text>
+									<Image source={consolidacao} style={{ marginTop: 15, width: 120, height: 120, resizeMode: "contain", }} />
+									<Text style={{ color: gray, fontSize: 14, padding: 15 }}>Para incluir, basta cadastrar ou importar </Text>
 
-								<Image source={seta} style={{
-									width: 100, height: 100, resizeMode: "contain",
-									position: 'absolute', bottom: -120, right: -20
-								}} />
-							</View>
-						}
-						{
-							prospectos &&
-							<ListaDeProspectos
-								prospectos={prospectos}
-								navigation={navigation}
-							/>
+									<Image source={seta} style={{
+										width: 100, height: 100, resizeMode: "contain",
+										position: 'absolute', bottom: -120, right: -20
+									}} />
+								</View>
+								:
+								prospectos &&
+								<ListaDeProspectos
+									prospectos={prospectos}
+									navigation={navigation}
+								/>
 						}
 
 						<TouchableOpacity style={{
