@@ -145,7 +145,6 @@ class PerfilScreen extends React.Component {
 
 const mapStateToProps = ({ usuario }, navigation) => { 
 	let no = null
-	console.log('navigation: ', navigation)
 	if(navigation.state && navigation.state.params && navigation.state.params.no){
 		no = navigation.state.params.no
 	}

@@ -5,14 +5,19 @@ import {
 	TouchableOpacity,
 	Linking,
 	Dimensions,
+	Alert,
 } from 'react-native';
 import { Card, Icon, } from 'react-native-elements'
-import { white, gray, primary, yellow, gold, lightdark, black, red } from '../helpers/colors'
+import { white, gray, primary, black, red } from '../helpers/colors'
 import call from 'react-native-phone-call'
 import {
 	alterarProspectoNoAsyncStorage,
-	adicionarSituacoesAoAsyncStorage,
+	alterarUsuarioNoAsyncStorage,
 } from '../actions'
+import {
+	submeterSituacoes,
+} from '../helpers/api'
+
 import { connect } from 'react-redux'
 import { styles, stylesProspecto } from './Styles';
 import {
@@ -20,7 +25,7 @@ import {
 	SITUACAO_CADASTRO,
 	SITUACAO_MENSAGEM,
 	SITUACAO_LIGAR,
-	SITUACAO_VISITA,
+	SITUACAO_REMOVIDO,
 } from '../helpers/constants'
 import {
 	pegarDataEHoraAtual,
@@ -43,6 +48,47 @@ class Prospecto extends React.Component {
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
 
+	perguntarSeQuerRemover(){
+		Alert.alert(
+			'Remover',
+			'Realmente deseja remover essa pessoa?',
+			[
+				{
+					text: 'Não',
+					style: 'cancel',
+				},
+				{ text: 'Sim', onPress: () => this.removerPessoa() },
+			],
+			{ cancelable: false },
+		)
+	}
+
+	removerPessoa = async () => {
+		const { 
+			prospecto,
+			usuario,
+			navigation,
+			alterarUsuarioNoAsyncStorage,
+			alterarProspectoNoAsyncStorage,
+		} = this.props
+		prospecto.situacao_id = SITUACAO_REMOVIDO
+		const situacao = {
+			prospecto_id: prospecto.celular_id,
+			situacao_id: SITUACAO_REMOVIDO,
+			data_criacao: pegarDataEHoraAtual()[0],
+			hora_criacao: pegarDataEHoraAtual()[1],
+		}
+		if (usuario.removidos) {
+			usuario.removidos += 1
+		} else {
+			usuario.removidos = 1
+		}
+		await alterarUsuarioNoAsyncStorage(usuario)
+		await submeterSituacoes([situacao])
+		await alterarProspectoNoAsyncStorage(prospecto)
+		Alert.alert('Removido', 'Pessoa removida com sucesso')
+	}
+
 	render() {
 		const { prospecto, navigation } = this.props
 		const { mostrarOpcoes } = this.state
@@ -50,22 +96,6 @@ class Prospecto extends React.Component {
 		let parametros = montarObjetoParaPerguntas(prospecto.situacao_id)
 		parametros.prospecto_id = prospecto._id
 		const funcaoOnPressDoIconeList = () => navigation.navigate('Perguntas', parametros)
-
-		let listaDeMedalhas = []
-		for (let x = 1; x <= 4; x++) {
-			let icone = ''
-			switch (x) {
-				case 1: icone = 'envelope'; break;
-				case 2: icone = 'phone'; break;
-				case 3: icone = 'calendar'; break;
-				case 4: icone = 'home'; break;
-			}
-			const medalha = {
-				icone,
-				cor: prospecto.situacao_id >= x ? gold : '#AAAAAA',
-			}
-			listaDeMedalhas.push(medalha)
-		}
 
 		let valorDaBarra = 0
 		if(
@@ -162,9 +192,8 @@ class Prospecto extends React.Component {
 							<View>
 								<TouchableOpacity
 									style={{ padding: 6, }}
-									onPress={() => { }}
-									hitSlop={{ top: 10, right: 5, bottom: 10, left: 10 }}
-								>
+									onPress={() => this.perguntarSeQuerRemover()}
+									hitSlop={{ top: 10, right: 5, bottom: 10, left: 10 }} >
 									<Icon name="trash" size={24} color={red} type='font-awesome' />
 								</TouchableOpacity>
 								<Text style={{ color: white }}>Excluir</Text>
@@ -174,8 +203,7 @@ class Prospecto extends React.Component {
 								<TouchableOpacity
 									style={{ padding: 6, }}
 									onPress={() => { this.chamarOTelefoneDoCelular() }}
-									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }}
-								>
+									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
 									<Icon name="phone" size={24} color={white} />
 								</TouchableOpacity>
 								<Text style={{ color: white }}>Ligar</Text>
@@ -185,8 +213,7 @@ class Prospecto extends React.Component {
 								<TouchableOpacity
 									style={{ padding: 6, }}
 									onPress={() => { this.whatsapp() }}
-									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }}
-								>
+									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
 									<Icon name="whatsapp" size={24} color={white} type='font-awesome' />
 								</TouchableOpacity>
 								<Text style={{ color: white }}>Mensagem</Text>
@@ -196,8 +223,7 @@ class Prospecto extends React.Component {
 								<TouchableOpacity
 									style={{ padding: 6, }}
 									onPress={() => funcaoOnPressDoIconeList()}
-									hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }}
-								>
+									hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }} >
 									<Icon name="play" size={24} color={white} type='font-awesome' />
 								</TouchableOpacity>
 								<Text style={{ color: white }}>Prosseguir</Text>
@@ -211,11 +237,17 @@ class Prospecto extends React.Component {
 	}
 }
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps({usuario}){
 	return {
-		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
-		adicionarSituacoesAoAsyncStorage: (situacoes) => dispatch(adicionarSituacoesAoAsyncStorage(situacoes)),
+		usuario,
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Prospecto)
+function mapDispatchToProps(dispatch) {
+	return {
+		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
+		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Prospecto)
