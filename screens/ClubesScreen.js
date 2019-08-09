@@ -412,6 +412,7 @@ class ClubesScreen extends React.Component {
 											<TextInput
 												ref={(input) => { this.inputBusca = input; }}
 												keyboardAppearance='dark'
+												autoCorrect={false}
 												placeholder="Nome do Clube"
 												placeholderTextColor={gray}
 												style={stylesMarcar.inputMarcar}
@@ -495,7 +496,7 @@ class ClubesScreen extends React.Component {
 										</View>
 
 										<TouchableOpacity
-											style={{ backgroundColor: primary }}
+											hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
 											onPress={() => this.selecionarClube(clube._id)} >
 											<Text style={{ color: white, textAlign: 'center' }}>
 												Selecionar
