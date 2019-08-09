@@ -26,85 +26,118 @@ class PerfilScreen extends React.Component {
 
 	render() {
 		const {
-			usuario
+			usuario,
+			navigation,
 		} = this.props
 
+		const container =  {
+			padding: 10, 
+			borderWidth: 1, 
+			borderColor: gray, 
+			borderRadius: 6, 
+			marginTop: 10
+		}
+
+		const linha = {
+			paddingVertical: 5,
+			flexDirection: 'row',
+			alignItems: 'center',
+			justifyContent: 'space-between',
+			flexWrap: 'wrap',
+		}
+
+		const texto = {
+			color: white,
+		}
+
+		const items = [
+			{
+				label: 'Nome',
+				valor: usuario.nome,
+			},
+			{
+				label: 'Email',
+				valor: usuario.email,
+			},
+			{
+				label: 'Importações',
+				valor: usuario.importacoes ? usuario.importacoes : 0,
+			},
+			{
+				label: 'Cadastros Novos',
+				valor: usuario.cadastros ? usuario.cadastros : 0,
+			},
+			{
+				label: 'Mensagens Enviadas',
+				valor: usuario.mensagens ? usuario.mensagens : 0,
+			},
+			{
+				label: 'Ligações Atendidas',
+				valor: usuario.ligacoes ? usuario.ligacoes : 0,
+			},
+			{
+				label: 'Visitas Feitas',
+				valor: usuario.visitas ? usuario.visitas : 0,
+			},
+			{
+				label: 'Removidos',
+				valor: usuario.removidos ? usuario.removidos : 0,
+			},
+			{
+				label: 'Números Inválidos',
+				valor: usuario.numeros_invalidos ? usuario.numeros_invalidos : 0,
+			},
+			{
+				label: 'Ligações não atendidas',
+				valor: usuario.ligacoes_nao_atendidas ? usuario.ligacoes_nao_atendidas : 0,
+			},
+			{
+				label: 'Visitas marcadas sem ligar',
+				valor: usuario.visitas_sem_ligar ? usuario.visitas_sem_ligar : 0,
+			},
+			{
+				label: 'Falei mas não marquei',
+				valor: usuario.ligacoes_sem_visita ? usuario.ligacoes_sem_visita : 0,
+			},
+			{
+				label: 'Visitas Desmarcadas',
+				valor: usuario.visitas_desmarcadas ? usuario.visitas_desmarcadas : 0,
+			},
+			{
+				label: 'Marquei visita mas não fui',
+				valor: usuario.marquei_mas_nao_visitei ? usuario.marquei_mas_nao_visitei : 0,
+			},
+			{
+				label: 'Visitei mas não convidei',
+				valor: usuario.visitas_sem_convite ? usuario.visitas_sem_convite : 0,
+			},
+		]
+
+		let estouVendoMeuPerfil = true
+		if(navigation.state && navigation.state.params && navigation.state.params.no){
+			estouVendoMeuPerfil = false
+		}
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-
-				<View style={{}}>
-					<Text style={{ color: white, textAlign: "right" }}> Progresso </Text>
+				<View>
+					<Text style={{ padding: 10, color: white}}>
+						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
+					</Text>
 				</View>
-				<Text style={{ color: white }}>
-					{usuario.nome}
-				</Text>
-
-				<View style={{ alignItems: 'center' }}>
-					<View style={{ height: 60, width: 60, borderWidth: 1, borderColor: gray, borderRadius: 60 / 2, alignItems: "center", justifyContent: "center" }}>
-						<Text style={{ color: white }}>Avatar</Text>
-					</View>
+				<View style={container}>
+					{
+						items.map(item => 
+							<View key={item.label} style={linha}>
+								<Text style={texto}>
+									{item.label}
+								</Text>
+								<Text style={texto}>
+									{item.valor}
+								</Text>
+							</View>
+						)
+					}
 				</View>
-
-				<View style={{ marginTop: 10, padding: 10 }}>
-
-					{/* LAYOUT 1 */}
-					<View style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}>
-						<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Nome </Text>
-						<Text style={{ color: white, flexWrap: "wrap" }}> testando </Text>
-					</View>
-					<View style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}>
-						<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Email </Text>
-						<Text style={{ color: white, flexWrap: "wrap" }}> testando </Text>
-					</View>
-					<View style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, marginTop: 10 }}>
-						<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Patente </Text>
-						<Text style={{ color: white, flexWrap: "wrap" }}> rei </Text>
-					</View>
-
-
-					{/* LAYOUT 2 */}
-					<View style={{ borderWidth: 1, borderColor: gray, flexDirection: 'row' }}>
-						<View style={{ flex: 1, borderRightWidth: 1, borderRightColor: gray }}>
-							<View style={{ borderBottomWidth: 1, borderBottomColor: gray, padding: 5, }}>
-								<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Nome </Text>
-							</View>
-							<View style={{ padding: 5 }}>
-								<Text style={{ color: white, flexWrap: "wrap" }}> Teste </Text>
-							</View>
-						</View>
-
-						<View style={{ flex: 1 }}>
-							<View style={{ borderBottomWidth: 1, borderBottomColor: gray, padding: 5, }}>
-								<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Email </Text>
-							</View>
-							<View style={{ padding: 5 }}>
-								<Text style={{ color: white, }}> email@email.com </Text>
-							</View>
-						</View>
-					</View>
-
-					<View style={{ borderWidth: 1, borderColor: gray, flexDirection: 'row', marginTop: 10 }}>
-						<View style={{ flex: 1, borderRightWidth: 1, borderRightColor: gray }}>
-							<View style={{ borderBottomWidth: 1, borderBottomColor: gray, padding: 5, }}>
-								<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Patente </Text>
-							</View>
-							<View style={{ padding: 5 }}>
-								<Text style={{ color: white, flexWrap: "wrap" }}> Judson </Text>
-							</View>
-						</View>
-
-						<View style={{ flex: 1 }}>
-							<View style={{ borderBottomWidth: 1, borderBottomColor: gray, padding: 5, }}>
-								<Text style={{ color: white, flexWrap: "wrap", paddingBottom: 5, fontWeight: 'bold' }}> Nucleo </Text>
-							</View>
-							<View style={{ padding: 5 }}>
-								<Text style={{ color: white, flexWrap: "wrap" }}> teste </Text>
-							</View>
-						</View>
-					</View>
-
-				</View>
-
 			</LinearGradient>
 		)
 	}
@@ -112,11 +145,11 @@ class PerfilScreen extends React.Component {
 
 const mapStateToProps = ({ usuario }, navigation) => {
 	let no = null
-	if (navigation.state && navigation.state.params && navigation.state.params.no) {
-		no = navigation, state, params, no
+	if(navigation.state && navigation.state.params && navigation.state.params.no){
+		no = navigation.state.params.no
 	}
-	return {
-		usuario: no ? no : usuario
+	return { 
+		usuario: no ? no : usuario,
 	}
 }
 
