@@ -1,4 +1,6 @@
 import React from 'react';
+import { FlatList, ScrollView } from 'react-native'
+import Loading from '../components/Loading';
 import { black, white, lightdark, dark, gray } from '../helpers/colors';
 import {
 	View,
@@ -12,7 +14,13 @@ class PerfilScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		if (navigation.state && navigation.state.params && navigation.state.params.no) {
 			return {
-
+				title: navigation.state.params.no.nome,
+				headerTintColor: white,
+				headerStyle: {
+					backgroundColor: black,
+					borderBottomWidth: 0,
+				},
+				headerBackTitle: null
 			}
 		} else {
 			return {
@@ -28,11 +36,11 @@ class PerfilScreen extends React.Component {
 			navigation,
 		} = this.props
 
-		const container =  {
-			padding: 10, 
-			borderWidth: 1, 
-			borderColor: gray, 
-			borderRadius: 6, 
+		const container = {
+			padding: 10,
+			borderWidth: 1,
+			borderColor: gray,
+			borderRadius: 6,
 			marginTop: 10
 		}
 
@@ -112,13 +120,13 @@ class PerfilScreen extends React.Component {
 		]
 
 		let estouVendoMeuPerfil = true
-		if(navigation.state && navigation.state.params && navigation.state.params.no){
+		if (navigation.state && navigation.state.params && navigation.state.params.no) {
 			estouVendoMeuPerfil = false
 		}
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				<View>
-					<Text style={{ padding: 10, color: white}}>
+					<Text style={{ padding: 10, color: white }}>
 						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
 					</Text>
 				</View>
@@ -127,20 +135,22 @@ class PerfilScreen extends React.Component {
 						Última Atualização: {usuario.ultima_sincronizacao_data}-{usuario.ultima_sincronizacao_hora}
 					</Text>
 				</View>
-				<View style={container}>
-					{
-						items.map(item => 
-							<View key={item.label} style={linha}>
-								<Text style={texto}>
-									{item.label}
-								</Text>
-								<Text style={texto}>
-									{item.valor}
-								</Text>
-							</View>
-						)
-					}
-				</View>
+				<ScrollView style={{ paddingHorizontal: 20 }}>
+					<View style={container}>
+						{
+							items.map(item =>
+								<View key={item.label} style={linha}>
+									<Text style={texto}>
+										{item.label}
+									</Text>
+									<Text style={texto}>
+										{item.valor}
+									</Text>
+								</View>
+							)
+						}
+					</View>
+				</ScrollView>
 			</LinearGradient>
 		)
 	}

@@ -48,7 +48,7 @@ class Prospecto extends React.Component {
 		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
 	}
 
-	perguntarSeQuerRemover(){
+	perguntarSeQuerRemover() {
 		Alert.alert(
 			'Remover',
 			'Realmente deseja remover essa pessoa?',
@@ -64,7 +64,7 @@ class Prospecto extends React.Component {
 	}
 
 	removerPessoa = async () => {
-		const { 
+		const {
 			prospecto,
 			usuario,
 			navigation,
@@ -98,17 +98,17 @@ class Prospecto extends React.Component {
 		const funcaoOnPressDoIconeList = () => navigation.navigate('Perguntas', parametros)
 
 		let valorDaBarra = 0
-		if(
+		if (
 			prospecto.situacao_id === SITUACAO_IMPORTAR ||
 			prospecto.situacao_id === SITUACAO_CADASTRO
-		){
+		) {
 			valorDaBarra = 0.1
 		}
 
-		if( prospecto.situacao_id === SITUACAO_MENSAGEM){
+		if (prospecto.situacao_id === SITUACAO_MENSAGEM) {
 			valorDaBarra = 0.25
 		}
-		if( prospecto.situacao_id === SITUACAO_LIGAR){
+		if (prospecto.situacao_id === SITUACAO_LIGAR) {
 			valorDaBarra = 0.50
 		}
 
@@ -162,7 +162,7 @@ class Prospecto extends React.Component {
 							</View>
 							{
 								prospecto.data &&
-								<View style={[stylesProspecto.containerBadge, { justifyContent: 'flex-start', paddingLeft: 23 }]}>
+								<View style={[stylesProspecto.containerBadge, { justifyContent: 'flex-start', }]}>
 									<View style={stylesProspecto.badge}>
 										<Text style={stylesProspecto.textBadge}>
 											{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
@@ -237,7 +237,7 @@ class Prospecto extends React.Component {
 	}
 }
 
-function mapStateToProps({usuario}){
+function mapStateToProps({ usuario }) {
 	return {
 		usuario,
 	}
