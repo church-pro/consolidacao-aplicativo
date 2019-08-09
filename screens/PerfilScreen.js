@@ -130,7 +130,7 @@ class PerfilScreen extends React.Component {
 						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
 					</Text>
 				</View>
-				<ScrollView>
+				<ScrollView style={{ paddingHorizontal: 20 }}>
 
 					<View style={container}>
 						{
