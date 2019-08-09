@@ -20,11 +20,6 @@ class ClubeScreen extends React.Component {
 				backgroundColor: dark,
 				borderBottomWidth: 0,
 			},
-			headerTitleStyle: {
-				width: '100%',
-				textAlign: 'center',
-				alignSelf: 'center',
-			},
 
 			headerTintColor: white,
 
@@ -36,7 +31,6 @@ class ClubeScreen extends React.Component {
 			clube
 		} = this.props
 
-		console.log(clube.nos)
 		return (
 
 			<View style={{ flex: 1, backgroundColor: dark, padding: 20 }}>
