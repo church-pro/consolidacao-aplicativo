@@ -4,6 +4,8 @@ import {
 	Alert, Text, View, Image, TextInput,
 	TouchableOpacity,
 	NetInfo,
+	Keyboard,
+	ScrollView,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { dark, white, lightdark, black } from '../helpers/colors';
@@ -90,7 +92,8 @@ class LoginScreen extends React.Component {
 								if (retorno.ok) {
 									let usuario = retorno.resultado.usuario
 									delete usuario.prospectos
-									this.props.alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
+									usuario.senha = senha
+									this.props.alterarUsuarioNoAsyncStorage(usuario)
 										.then(() => {
 											if (retorno.resultado.prospectos) {
 												this.props.porProspectoDaSincronizacao(retorno.resultado.prospectos)
@@ -153,8 +156,6 @@ class LoginScreen extends React.Component {
 										keyboardType="email-address"
 										value={email}
 										onChangeText={texto => this.setState({ email: texto })}
-										returnKeyType={'next'}
-										onSubmitEditing={() => this.inputSenha.focus()}
 									/>
 								</View>
 								<View style={[stylesLogin.containerInputSenha]}>
@@ -168,8 +169,6 @@ class LoginScreen extends React.Component {
 										secureTextEntry={true}
 										value={senha}
 										onChangeText={texto => this.setState({ senha: texto })}
-										returnKeyType={'go'}
-										onSubmitEditing={() => this.ajudadorDeSubmissao()}
 									/>
 								</View>
 								<View>

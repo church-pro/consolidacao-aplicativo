@@ -57,9 +57,6 @@ class SincronizacaoScreen extends React.Component {
 											if (retorno.ok) {
 												// nao apertei sair
 												if (tela !== 'Login') {
-													dados.no_id = retorno.resultado.no_id
-													dados.data_atualizacao = retorno.resultado.data_atualizacao
-													dados.hora_atualizacao = retorno.resultado.hora_atualizacao
 													let usuario = retorno.resultado.usuario
 													usuario.senha = dados.senha
 													alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
