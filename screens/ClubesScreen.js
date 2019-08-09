@@ -8,7 +8,8 @@ import {
 	TouchableOpacity,
 	TextInput,
 	Alert,
-	ScrollView
+	ScrollView,
+	Image
 } from 'react-native';
 import {
 	clubesNaAPI,
@@ -20,6 +21,7 @@ import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
 import { Icon } from 'react-native-elements';
 import { stylesMarcar } from '../components/Styles';
+import empty from '../assets/images/empty.png'
 
 class ClubesScreen extends React.Component {
 
@@ -188,7 +190,7 @@ class ClubesScreen extends React.Component {
 									this.setState({
 										clubes: retorno.resultado.clubes,
 										clubesQueParticipo: retorno.resultado.clubesQueParticipo,
-										carregando: false,
+										carregando: false
 									})
 								}
 							})
@@ -214,77 +216,93 @@ class ClubesScreen extends React.Component {
 			carregando,
 			clubesBuscados,
 		} = this.state
+
+		console.log(clubes)
 		return (
 			// <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 			<View style={{ flex: 1, backgroundColor: dark }}>
-
+				{
+					carregando &&
+					<Loading title={'Buscando clubes ...'} />
+				}
 				{
 					!carregando &&
 					!mostrarBuscar &&
 					!mostrarCriar &&
 					<View style={{ paddingTop: 20, paddingHorizontal: 20, flex: 1 }}>
-						<ScrollView>
-							<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
-								Clubes
+						<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
+							Clubes
 						</Text>
 
-							<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
-								Meus clubes
-						</Text>
-							<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
-								{
-									clubes &&
-									clubes.map(clube =>
-										<TouchableOpacity
-											key={clube._id}
-											style={{
-												borderTopWidth: 1,
-												borderTopColor: dark,
-												padding: 12,
-												flexDirection: 'row',
-												alignItems: 'center',
-												justifyContent: 'space-between',
-											}}
+						{
+							clubes.length === 0 && clubesQueParticipo.length === 0 ?
+								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+									<Text style={{ color: gray, fontSize: 18 }}>Você não possui nenhum clube...</Text>
+									<Image source={empty} style={{ height: 100, width: 100, marginVertical: 15 }} />
+									<Text style={{ color: gray, fontSize: 18 }}>Crie ou participe de algum.</Text>
+								</View>
+								:
+								<ScrollView>
 
-											onPress={() => this.props.navigation.navigate('Clube', { clube })}
-										>
-											<Text style={{ color: white }}> {clube.nome} </Text>
-											<Icon type="font-awesome" name="angle-right" size={22} color={white} />
-										</TouchableOpacity>
+									<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
+										Meus clubes
+							</Text>
+									<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
+										{
+											clubes &&
+											clubes.map(clube =>
+												<TouchableOpacity
+													key={clube._id}
+													style={{
+														borderTopWidth: 1,
+														borderTopColor: dark,
+														padding: 12,
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'space-between',
+													}}
 
-									)
-								}
-							</View>
+													onPress={() => this.props.navigation.navigate('Clube', { clube })}
+												>
+													<Text style={{ color: white }}> {clube.nome} </Text>
+													<Icon type="font-awesome" name="angle-right" size={22} color={white} />
+												</TouchableOpacity>
 
-							<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>
-								Clubes que participo
+											)
+										}
+									</View>
+
+									<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>
+										Clubes que participo
 							</Text>
 
-							<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
-								{
-									clubesQueParticipo &&
-									clubesQueParticipo.map(clube =>
-										<TouchableOpacity
-											style={{
-												borderTopWidth: 1,
-												borderTopColor: dark,
-												padding: 12,
-												flexDirection: 'row',
-												alignItems: 'center',
-												justifyContent: 'space-between',
-											}}
-											key={clube._id}
-											onPress={() => this.props.navigation.navigate('Clube', { clube })}
-										>
-											<Text style={{ color: white }}>
-												{clube.nome}
-											</Text>
-											<Icon type="font-awesome" name="angle-right" size={22} color={white} />
-										</TouchableOpacity>
-									)
-								}
-							</View>
-						</ScrollView>
+									<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
+										{
+											clubesQueParticipo &&
+											clubesQueParticipo.map(clube =>
+												<TouchableOpacity
+													style={{
+														borderTopWidth: 1,
+														borderTopColor: dark,
+														padding: 12,
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'space-between',
+													}}
+													key={clube._id}
+													onPress={() => this.props.navigation.navigate('Clube', { clube })}
+												>
+													<Text style={{ color: white }}>
+														{clube.nome}
+													</Text>
+													<Icon type="font-awesome" name="angle-right" size={22} color={white} />
+												</TouchableOpacity>
+											)
+										}
+									</View>
+
+								</ScrollView>
+						}
 
 						<View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
 							<TouchableOpacity
@@ -302,7 +320,7 @@ class ClubesScreen extends React.Component {
 								onPress={() => this.setState({ mostrarCriar: true })}>
 								<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
 									Criar
-							</Text>
+								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={{
@@ -411,6 +429,8 @@ class ClubesScreen extends React.Component {
 										<View style={stylesMarcar.inputContainerStyle}>
 											<TextInput
 												ref={(input) => { this.inputBusca = input; }}
+												onSubmitEditing={() => this.buscarClubes()}
+												returnKeyType={'go'}
 												keyboardAppearance='dark'
 												autoCorrect={false}
 												placeholder="Nome do Clube"
@@ -467,10 +487,7 @@ class ClubesScreen extends React.Component {
 								</View>
 							</View>
 						}
-						{
-							carregando &&
-							<Loading title={'Buscando clubes ...'} />
-						}
+
 						<ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 10 }} >
 							{
 								!carregando &&
