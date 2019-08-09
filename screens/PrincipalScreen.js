@@ -25,6 +25,7 @@ class PrincipalScreen extends React.Component {
 	static navigationOptions = () => {
 		return {
 			header: null,
+			gesturesEnabled: false,
 		}
 	}
 
@@ -91,7 +92,7 @@ class PrincipalScreen extends React.Component {
 				},
 			},
 			{
-				initialRouteName: 'Pessoas',
+				initialRouteName: 'Clubes',
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: true,
