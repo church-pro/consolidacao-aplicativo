@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native'
+import { FlatList, ScrollView } from 'react-native'
 import Loading from '../components/Loading';
 import { black, white, lightdark, dark, gray } from '../helpers/colors';
 import {
@@ -130,20 +130,23 @@ class PerfilScreen extends React.Component {
 						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
 					</Text>
 				</View>
-				<View style={container}>
-					{
-						items.map(item =>
-							<View key={item.label} style={linha}>
-								<Text style={texto}>
-									{item.label}
-								</Text>
-								<Text style={texto}>
-									{item.valor}
-								</Text>
-							</View>
-						)
-					}
-				</View>
+				<ScrollView>
+
+					<View style={container}>
+						{
+							items.map(item =>
+								<View key={item.label} style={linha}>
+									<Text style={texto}>
+										{item.label}
+									</Text>
+									<Text style={texto}>
+										{item.valor}
+									</Text>
+								</View>
+							)
+						}
+					</View>
+				</ScrollView>
 			</LinearGradient>
 		)
 	}
