@@ -84,15 +84,9 @@ class PrincipalScreen extends React.Component {
 						tabBarIcon: ({ tintColor }) => (<Icon name='shield' type='font-awesome' color={tintColor} />),
 					},
 				},
-				Inicio: {
-					screen: InicioScreen,
-					navigationOptions: {
-						tabBarIcon: ({ tintColor }) => (<Icon name='info' type='font-awesome' color={tintColor} />),
-					},
-				},
 			},
 			{
-				initialRouteName: 'Clubes',
+				initialRouteName: 'Pessoas',
 				tabBarOptions: {
 					showIcon: true,
 					showLabel: true,

@@ -67,7 +67,7 @@ class SincronizacaoScreen extends React.Component {
 																	limparSituacoes()
 																		.then(() => {
 																			Alert.alert('Sincronização', 'Sincronizado com sucesso!')
-																			navigation.navigate(tela)
+																			navigation.goBack()
 																		})
 																})
 																.catch(err => {

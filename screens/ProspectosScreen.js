@@ -20,8 +20,16 @@ import {
 	SITUACAO_VISITA,
 	CHURCH_PRO,
 } from '../helpers/constants'
+import { 
+	sincronizar,
+} from '../helpers/helper'
 import consolidacao from '../assets/images/user.png'
 import seta from '../assets/images/seta.png'
+import {
+	alterarUsuarioNoAsyncStorage,
+	porProspectoDaSincronizacao,
+} from '../actions'
+import Loading from '../components/Loading';
 
 class ProspectosScreen extends React.Component {
 
@@ -31,10 +39,11 @@ class ProspectosScreen extends React.Component {
 		buscaMensagem: true,
 		buscaTelefone: false,
 		buscaVisita: false,
-		buscaEvento: false,
+		sincronizando: false,
 	}
 
 	componentDidMount() {
+		this.comecarSincronizacao()
 		if (this.props.prospectos) {
 			this.setState({ carregando: false })
 		}
@@ -46,20 +55,26 @@ class ProspectosScreen extends React.Component {
 		}
 	}
 
+	comecarSincronizacao = () => {
+		this.setState({sincronizando: true})
+		sincronizar(this.props, () => {this.setState({sincronizando: false})})
+	}
+
 	render() {
 		let {
-			prospectos,
+			prospectosFiltrados,
 			navigation,
 		} = this.props
 		const {
 			carregando,
+			sincronizando,
 		} = this.state
 
 		let { busca, buscaMensagem, buscaTelefone, buscaVisita, buscaEvento } = this.state
 
 		if (buscaMensagem !== false || buscaTelefone !== false || buscaVisita !== false || buscaEvento !== false) {
 
-			prospectos = prospectos.filter(item => {
+			prospectosFiltrados = prospectosFiltrados.filter(item => {
 				const itemData = item.situacao_id.toString()
 				let textData = ''
 				if (buscaMensagem === true) {
@@ -71,52 +86,57 @@ class ProspectosScreen extends React.Component {
 				if (buscaVisita === true) {
 					textData = '3'
 				}
-				if (buscaEvento === true) {
-					textData = '4'
-				}
-
 				return itemData.indexOf(textData) > -1
 			})
 		}
 
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-
 				{
-					carregando &&
-					<View style={{ flex: 1, justifyContent: 'center' }}>
-						<ActivityIndicator
-							size="large"
-							color={gold}
-						/>
+					sincronizando &&
+					<View style={{ 
+						flex: 0.1,
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-around',
+						flexWrap: 'wrap',
+					}}>
+						<ActivityIndicator />
+						<Text style={{color: white}}>
+							Sincronizando ...
+						</Text>
 					</View>
 				}
 				{
+					carregando &&
+						<Loading title={'Buscando pessoas'} />
+				}
+				{
 					!carregando &&
-					<React.Fragment>
-						<View style={[stylesProspecto.containerBadge]}>
+						<React.Fragment>
+							<View style={[stylesProspecto.containerBadge]}>
 
-							<TouchableOpacity
-								style={{
-									borderBottomWidth: buscaMensagem ? 2 : 0,
-									borderBottomColor: buscaMensagem ? primary : 'transparent',
-									marginRight: 0, flex: 1, padding: 10
-								}}
-								activeOpacity={1}
-								onPress={() => {
-									this.setState({
-										buscaMensagem: !buscaMensagem,
-										buscaTelefone: false,
-										buscaVisita: false,
-										buscaEvento: false
-									})
-								}} >
-								<Text style={{
-									color: buscaMensagem === true ? primary : white,
-									fontSize: 12,
-									textAlign: 'center',
-									fontWeight: buscaMensagem === true ? 'bold' : 'normal'
-								}}>Mensagem</Text>
+								<TouchableOpacity
+									style={{
+										borderBottomWidth: buscaMensagem ? 2 : 0,
+										borderBottomColor: buscaMensagem ? primary : 'transparent',
+										marginRight: 0, flex: 1, padding: 10
+									}}
+									activeOpacity={1}
+									onPress={() => {
+										this.setState({
+											buscaMensagem: !buscaMensagem,
+											buscaTelefone: false,
+											buscaVisita: false,
+											buscaEvento: false
+										})
+									}} >
+									<Text style={{
+										color: buscaMensagem === true ? primary : white,
+										fontSize: 12,
+										textAlign: 'center',
+										fontWeight: buscaMensagem === true ? 'bold' : 'normal'
+									}}>Mensagem</Text>
 							</TouchableOpacity>
 
 							<TouchableOpacity
@@ -172,7 +192,7 @@ class ProspectosScreen extends React.Component {
 							</TouchableOpacity>
 						</View>
 						{
-							prospectos.length === 0 ?
+							prospectosFiltrados.length === 0 ?
 								<View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
 									<Text style={{ color: gray, fontSize: 20 }}>Você não possui</Text>
 									<Text style={{ color: gray, fontSize: 20 }}>consolidações!</Text>
@@ -183,11 +203,11 @@ class ProspectosScreen extends React.Component {
 										width: 100, height: 100, resizeMode: "contain",
 										position: 'absolute', bottom: -120, right: -20
 									}} />
-								</View>
+							</View>
 								:
-								prospectos &&
+								prospectosFiltrados &&
 								<ListaDeProspectos
-									prospectos={prospectos}
+									prospectos={prospectosFiltrados}
 									navigation={navigation}
 								/>
 						}
@@ -203,11 +223,11 @@ class ProspectosScreen extends React.Component {
 							bottom: 10,
 							right: 5,
 						}}
-							onPress={() => navigation.navigate('ImportarProspectos')}
-							hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
-							<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
-						</TouchableOpacity>
-					</React.Fragment>
+						onPress={() => navigation.navigate('ImportarProspectos')}
+						hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
+						<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
+					</TouchableOpacity>
+				</React.Fragment>
 				}
 
 			</LinearGradient>
@@ -215,7 +235,7 @@ class ProspectosScreen extends React.Component {
 	}
 }
 
-function mapStateToProps({ prospectos, }) {
+function mapStateToProps({ prospectos, usuario, }) {
 	const prospectosFiltrados = prospectos.filter(prospecto =>
 		prospecto.situacao_id === SITUACAO_IMPORTAR ||
 		prospecto.situacao_id === SITUACAO_CADASTRO ||
@@ -223,12 +243,16 @@ function mapStateToProps({ prospectos, }) {
 		prospecto.situacao_id === SITUACAO_LIGAR
 	)
 	return {
-		prospectos: prospectosFiltrados,
+		prospectosFiltrados,
+		prospectos,
+		usuario,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
+		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
 	}
 }
 

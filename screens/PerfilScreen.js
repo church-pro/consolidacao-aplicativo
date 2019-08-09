@@ -1,6 +1,5 @@
 import React from 'react';
 import { FlatList } from 'react-native'
-import Loading from '../components/Loading';
 import { black, white, lightdark, dark, gray } from '../helpers/colors';
 import {
 	View,
@@ -122,6 +121,11 @@ class PerfilScreen extends React.Component {
 				<View>
 					<Text style={{ padding: 10, color: white}}>
 						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
+					</Text>
+				</View>
+				<View>
+					<Text style={{ padding: 10, color: white}}>
+						Última Atualização: {usuario.ultima_sincronizacao_data}-{usuario.ultima_sincronizacao_hora}
 					</Text>
 				</View>
 				<View style={container}>

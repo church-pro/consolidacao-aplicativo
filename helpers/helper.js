@@ -4,6 +4,9 @@ import {
 	Platform,
 } from 'expo'
 import {
+	NetInfo,
+} from 'react-native';
+import {
 	NotificationsIOS,
 } from 'react-native-notifications'
 import {
@@ -52,6 +55,11 @@ import {
 	PESSOA_VEIO,
 	RECOMECAR,
 } from '../helpers/constants'
+import {
+	sincronizarNaAPI,
+	recuperarSituacoes,
+	limparSituacoes,
+} from '../helpers/api'
 
 export function criarNotificacaoLocal(notificacao) {
 	return {
@@ -742,4 +750,81 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		}
 	}
 	return parametros
+}
+
+export const sincronizar = (props, funcao) => {
+	try {
+		NetInfo.isConnected
+			.fetch()
+			.then(isConnected => {
+				if (isConnected) {
+					const {
+						usuario,
+						//navigation,
+						alterarUsuarioNoAsyncStorage,
+						porProspectoDaSincronizacao,
+						prospectos,
+					} = props
+					if (usuario.email) {
+						recuperarSituacoes()
+							.then(retornoAsync => {
+								let dados = {
+									email: usuario.email,
+									senha: usuario.senha,
+									prospectos,
+									situacoes: retornoAsync.situacoes,
+									usuario,
+									subindo: true,
+								}
+								sincronizarNaAPI(dados)
+									.then(retorno => {
+										if (retorno.ok) {
+											// nao apertei sair
+											//if (tela !== 'Login') {
+												let usuario = retorno.resultado.usuario
+												usuario.senha = dados.senha
+												alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
+													.then(() => {
+														// pondo prospectos retornados da api com id da api
+														porProspectoDaSincronizacao(retorno.resultado.prospectos)
+															.then(() => {
+																limparSituacoes()
+																	.then(() => {
+																		//Alert.alert('Sincronização', 'Sincronizado com sucesso!')
+																		//navigation.goBack()
+																		funcao()
+																	})
+															})
+															.catch(err => {
+																console.log('err: ', err)
+															})
+													})
+											//}
+											// apertei sair
+											 /*
+											if (tela === 'Login') {
+												alterarUsuarioNoAsyncStorage({})
+													.then(() => {
+														limparSituacoes()
+															.then(() => {
+																//navigation.navigate(tela)
+															})
+													})
+											}
+											*/
+
+										}
+									})
+							})
+							.catch(err => console.log('err: ', err))
+					} else {
+						//navigation.navigate('Login')
+					}
+				} else {
+					console.log('Internet', 'Verifique sua internet!')
+				}
+			})
+	} catch (err) {
+		Alert.alert('Error', err)
+	}
 }

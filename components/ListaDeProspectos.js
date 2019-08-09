@@ -26,7 +26,7 @@ class ListaDeProspectos extends React.Component {
 
 	_handleRefresh = () => {
 		this.setState({ refreshing: true })
-		this.props.navigation.navigate('Sincronizacao', { tela: 'Pessoas' })
+		this.props.navigation.navigate('Sincronizacao', { tela: 'Principal' })
 	}
 
 	_keyExtractor = (item, index) => item._id;
@@ -50,12 +50,6 @@ class ListaDeProspectos extends React.Component {
 						renderItem={this._renderItem}
 						keyExtractor={this._keyExtractor}
 						navigation={navigation}
-						refreshControl={
-							<RefreshControl
-								refreshing={this.state.refreshing}
-								onRefresh={this._handleRefresh}
-							/>
-						}
 						removeClippedSubviews={false}
 					/>
 				}
