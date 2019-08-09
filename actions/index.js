@@ -8,6 +8,8 @@ import {
 	limparESubmeterProspectos,
 	recuperarSituacoes,
 	submeterSituacoes,
+	recuperarAdministracao,
+	submeterAdministracao,
 } from '../helpers/api'
 import{
 	pegarDataEHoraAtual,
@@ -91,6 +93,22 @@ export function adicionarSituacoes(situacoes){
 		type: ADICIONAR_SITUACOES,
 		situacoes,
 	}
+}
+
+export const pegarAdministracaoNoAsyncStorage = () => dispatch => {
+	return recuperarAdministracao()
+		.then(retorno => {
+			dispatch(pegarAdministracao(retorno.administracao))
+			return retorno.administracao 
+		})
+}
+
+export const submeterAdministracaoNoAsyncStorage = (administracao) => dispatch => {
+	return submeterAdministracao(administracao)
+		.then(retorno => {
+			dispatch(alterarAdministracao(retorno.administracao))
+			return retorno.administracao 
+		})
 }
 
 export const pegarProspectosNoAsyncStorage = () => dispatch => {

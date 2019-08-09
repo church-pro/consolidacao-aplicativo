@@ -15,6 +15,7 @@ import {
 	adicionarProspectosAoAsyncStorage,
 	pegarProspectosNoAsyncStorage,
 	porProspectoDaSincronizacao,
+	pegarAdministracaoNoAsyncStorage,
 } from '../actions'
 import {
 	sincronizarNaAPI,
@@ -49,8 +50,16 @@ class LoginScreen extends React.Component {
 				if (usuario.email && usuario.email !== '') {
 					this.props.pegarProspectosNoAsyncStorage()
 						.then(() => {
-							this.setState({ carregando: false })
-							this.props.navigation.navigate(this.state.encaminhamento)
+							// validando se esta bloqueado para pergunta
+							this.props.pegarAdministracaoNoAsyncStorage()
+								.then(retorno => {
+									this.setState({ carregando: false })
+									if(retorno && retorno.administracao && retorno.administracao.bloqueiarTela){
+
+									}else{
+										this.props.navigation.navigate(this.state.encaminhamento)
+									}
+								})
 						})
 				} else {
 					this.setState({ carregando: false })
@@ -90,6 +99,7 @@ class LoginScreen extends React.Component {
 						sincronizarNaAPI(dados)
 							.then(retorno => {
 								if (retorno.ok) {
+									console.log('retorno: ', retorno)
 									let usuario = retorno.resultado.usuario
 									delete usuario.prospectos
 									usuario.senha = senha
@@ -216,6 +226,7 @@ const mapDispatchToProps = (dispatch) => {
 		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
 		pegarProspectosNoAsyncStorage: (prospectos) => dispatch(pegarProspectosNoAsyncStorage(prospectos)),
 		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
+		pegarAdministracaoNoAsyncStorage: (administracao) => dispatch(pegarAdministracaoNoAsyncStorage(administracao)),
 	}
 }
 

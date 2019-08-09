@@ -13,6 +13,7 @@ import call from 'react-native-phone-call'
 import {
 	alterarProspectoNoAsyncStorage,
 	alterarUsuarioNoAsyncStorage,
+	submeterAdministracaoNoAsyncStorage,
 } from '../actions'
 import {
 	submeterSituacoes,
@@ -40,12 +41,20 @@ class Prospecto extends React.Component {
 	}
 
 	chamarOTelefoneDoCelular() {
-		const { prospecto } = this.props
-		call({ number: prospecto.telefone, prompt: false }).catch(console.error)
+		const { 
+			prospecto,
+			submeterAdministracaoNoAsyncStorage
+		} = this.props
+		submeterAdministracaoNoAsyncStorage({bloqueiarTela: true, prospecto_id: prospecto.celular_id})
+		//.then(() => call({ number: prospecto.telefone, prompt: false }).catch(console.error))
 	}
 	whatsapp() {
-		const { prospecto } = this.props
-		Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
+		const { 
+			prospecto,
+			submeterAdministracaoNoAsyncStorage
+		} = this.props
+		submeterAdministracaoNoAsyncStorage({bloqueiarTela: true, prospecto_id: prospecto.celular_id})
+		//.then(() => Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err)))	
 	}
 
 	perguntarSeQuerRemover() {
@@ -247,6 +256,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+		submeterAdministracaoNoAsyncStorage: (administracao) => dispatch(submeterAdministracaoNoAsyncStorage(administracao)),
 	}
 }
 

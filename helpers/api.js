@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native'
 
-const versaoBanco = '0031'
+const versaoBanco = '0035'
+const CHAVE_ADMINISTRACAO = 'churchProConsolidacao:administracao' + versaoBanco
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
@@ -99,7 +100,26 @@ export const criarClubeNaAPI = (dados) =>
 		.then(resultado => resultado.json())
 		.then(json => json)
 
+export function recuperarAdministracao() {
+	return AsyncStorage.getItem(CHAVE_ADMINISTRACAO)
+		.then(JSON.parse)
+		.then((dados) => {
+			if (dados === null) {
+				dados = { administracao: {bloqueiarTela: false, prospecto_id: null} }
+				AsyncStorage.setItem(CHAVE_ADMINISTRACAO, JSON.stringify(dados))
+			}
+			return dados
+		})
+}
 
+export function submeterAdministracao(administracao) {
+	return recuperarAdministracao()
+		.then(dados => {
+			dados.administracao = [...administracao]
+			AsyncStorage.setItem(CHAVE_ADMINISTRACAO, JSON.stringify(dados))
+			return administracao
+		})
+}
 
 export function recuperarProspectos() {
 	return AsyncStorage.getItem(CHAVE_PROSPECTOS)

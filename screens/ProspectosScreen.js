@@ -44,7 +44,6 @@ class ProspectosScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		this.comecarSincronizacao()
 		if (this.props.prospectos) {
 			this.setState({ carregando: false })
 		}
