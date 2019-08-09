@@ -172,6 +172,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		estados = {
 			enviouMensagem: false,
 			naoEnviouMensagem: false,
+			naoEnviouMasQuerEnviar: false,
 			removerDireto: false,
 			mostrarBotaoConfirmar: false,
 			remover: false,
@@ -197,6 +198,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						onPress: {
 							enviouMensagem: true,
 							naoEnviouMensagem: false,
+							naoEnviouMasQuerEnviar: false,
 							removerDireto: false,
 							mostrarBotaoConfirmar: true,
 							mostrarPerguntaDois: false,
@@ -211,10 +213,26 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						onPress: {
 							enviouMensagem: false,
 							naoEnviouMensagem: true,
+							naoEnviouMasQuerEnviar: false,
 							removerDireto: false,
 							mostrarBotaoConfirmar: false,
 							mostrarPerguntaDois: true,
 							situacao_id_extra: SITUACAO_MENSAGEM_NUMERO_INVALIDO,
+							remover: false,
+							avancar: false,
+						},
+					},
+					{
+						estado: 'naoEnviouMasQuerEnviar',
+						titulo: 'Não mas quero enviar agora',
+						onPress: {
+							enviouMensagem: false,
+							naoEnviouMensagem: false,
+							naoEnviouMasQuerEnviar: true,
+							removerDireto: false,
+							mostrarBotaoConfirmar: true,
+							mostrarPerguntaDois: false,
+							situacao_id_extra: null,
 							remover: false,
 							avancar: false,
 						},
@@ -225,6 +243,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						onPress: {
 							enviouMensagem: false,
 							naoEnviouMensagem: false,
+							naoEnviouMasQuerEnviar: false,
 							removerDireto: true,
 							mostrarBotaoConfirmar: true,
 							mostrarPerguntaDois: false,
@@ -645,97 +664,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							remover: true,
 							recomecar: false,
 							avancar: false,
-							situacao_id_nova: SITUACAO_REMOVIDO,
-							alertTitulo: labelRemover,
-							alertMensagem: labelMensgemRemovido,
-						},
-					},
-				]
-			},
-		]
-		parametros = {
-			estados,
-			perguntas,
-		}
-	}
-	if (situacao_id === SITUACAO_VISITA) {
-		estados = {
-			veio: false,
-			naoVeio: false,
-			mostrarBotaoConfirmar: false,
-			remover: false,
-			recomecar: false,
-			mostrarPerguntaUm: true,
-			mostrarPerguntaDois: false,
-			situacao_id_nova: SITUACAO_EVENTO,
-			situacao_id_extra: null,
-			paraOndeVoltar: 'Prospectos',
-			qualAba: 'Evento',
-			paraOndeNavegar: null,
-			alertTitulo: labelParabens,
-			alertMensagem: labelMensagemEvento,
-		}
-		perguntas = [
-			{
-				mostrar: 'mostrarPerguntaUm',
-				titulo: PESSOA_VEIO,
-				opcoes: [
-					{
-						estado: 'veio',
-						titulo: SIM,
-						onPress: {
-							veio: true,
-							naoVeio: false,
-							mostrarBotaoConfirmar: true,
-							remover: false,
-							recomecar: false,
-							mostrarPerguntaUm: true,
-							mostrarPerguntaDois: false,
-							situacao_id_nova: SITUACAO_EVENTO,
-							situacao_id_extra: null,
-							alertTitulo: labelParabens,
-							alertMensagem: labelMensagemEvento,
-						},
-					},
-					{
-						estado: 'naoVeio',
-						titulo: NAO,
-						onPress: {
-							veio: false,
-							naoVeio: true,
-							mostrarBotaoConfirmar: false,
-							remover: false,
-							recomecar: false,
-							mostrarPerguntaUm: true,
-							mostrarPerguntaDois: true,
-							situacao_id_extra: SITUACAO_EVENTO_NAO_VEIO,
-						},
-					},
-				]
-			},
-			{
-				mostrar: 'mostrarPerguntaDois',
-				titulo: O_QUE_DESEJA_FAZER,
-				opcoes: [
-					{
-						estado: 'recomecar',
-						titulo: RECOMECAR,
-						onPress: {
-							remover: false,
-							recomecar: true,
-							mostrarBotaoConfirmar: true,
-							situacao_id_nova: SITUACAO_IMPORTAR,
-							alertTitulo: labelParabens,
-							alertMensagem: labelMensagem + 'mensagem',
-						},
-					},
-					{
-						estado: 'remover',
-						titulo: REMOVER,
-						onPress: {
-							remover: true,
-							recomecar: false,
-							mostrarBotaoConfirmar: true,
 							situacao_id_nova: SITUACAO_REMOVIDO,
 							alertTitulo: labelRemover,
 							alertMensagem: labelMensgemRemovido,
