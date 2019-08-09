@@ -14,7 +14,13 @@ class PerfilScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		if (navigation.state && navigation.state.params && navigation.state.params.no) {
 			return {
-
+				title: navigation.state.params.no.nome,
+				headerTintColor: white,
+				headerStyle: {
+					backgroundColor: black,
+					borderBottomWidth: 0,
+				},
+				headerBackTitle: null
 			}
 		} else {
 			return {
@@ -30,11 +36,11 @@ class PerfilScreen extends React.Component {
 			navigation,
 		} = this.props
 
-		const container =  {
-			padding: 10, 
-			borderWidth: 1, 
-			borderColor: gray, 
-			borderRadius: 6, 
+		const container = {
+			padding: 10,
+			borderWidth: 1,
+			borderColor: gray,
+			borderRadius: 6,
 			marginTop: 10
 		}
 
@@ -114,19 +120,19 @@ class PerfilScreen extends React.Component {
 		]
 
 		let estouVendoMeuPerfil = true
-		if(navigation.state && navigation.state.params && navigation.state.params.no){
+		if (navigation.state && navigation.state.params && navigation.state.params.no) {
 			estouVendoMeuPerfil = false
 		}
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				<View>
-					<Text style={{ padding: 10, color: white}}>
+					<Text style={{ padding: 10, color: white }}>
 						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
 					</Text>
 				</View>
 				<View style={container}>
 					{
-						items.map(item => 
+						items.map(item =>
 							<View key={item.label} style={linha}>
 								<Text style={texto}>
 									{item.label}
@@ -145,10 +151,10 @@ class PerfilScreen extends React.Component {
 
 const mapStateToProps = ({ usuario }, navigation) => {
 	let no = null
-	if(navigation.state && navigation.state.params && navigation.state.params.no){
+	if (navigation.state && navigation.state.params && navigation.state.params.no) {
 		no = navigation.state.params.no
 	}
-	return { 
+	return {
 		usuario: no ? no : usuario,
 	}
 }
