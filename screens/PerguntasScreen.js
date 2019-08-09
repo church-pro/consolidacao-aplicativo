@@ -255,6 +255,14 @@ class PerguntasScreen extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				<View style={styles.container}>
+					{
+						prospecto &&
+						<View style={{ flex: 0.1, padding: 10, alignItems: 'center' }}>
+							<Text style={{color: white}}>
+								{prospecto.nome}	
+							</Text>
+						</View>
+					}
 
 					{
 						carregando &&

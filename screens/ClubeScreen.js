@@ -36,7 +36,6 @@ class ClubeScreen extends React.Component {
 			clube
 		} = this.props
 
-		console.log(clube.nos)
 		return (
 
 			<View style={{ flex: 1, backgroundColor: dark, padding: 20 }}>

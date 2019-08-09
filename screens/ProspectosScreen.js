@@ -30,6 +30,7 @@ import {
 	porProspectoDaSincronizacao,
 } from '../actions'
 import Loading from '../components/Loading';
+import { Icon } from 'react-native-elements'
 
 class ProspectosScreen extends React.Component {
 
@@ -190,6 +191,15 @@ class ProspectosScreen extends React.Component {
 									Visitar
 								</Text>
 							</TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => this.comecarSincronizacao()}>
+								<Icon
+									name='retweet'
+									type='font-awesome'
+									color={white}
+								/>
+							</TouchableOpacity>
+
 						</View>
 						{
 							prospectosFiltrados.length === 0 ?
