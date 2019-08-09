@@ -1,5 +1,4 @@
 import React from 'react';
-import { FlatList } from 'react-native'
 import { black, white, lightdark, dark, gray } from '../helpers/colors';
 import {
 	View,
@@ -147,13 +146,13 @@ class PerfilScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ usuario }, navigation) => {
-	let no = null
+const mapStateToProps = ({ usuario }, {navigation}) => {
+	let no = usuario
 	if(navigation.state && navigation.state.params && navigation.state.params.no){
 		no = navigation.state.params.no
 	}
 	return { 
-		usuario: no ? no : usuario,
+		usuario: no,
 	}
 }
 
