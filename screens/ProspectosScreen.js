@@ -20,7 +20,7 @@ import {
 	SITUACAO_VISITA,
 	CHURCH_PRO,
 } from '../helpers/constants'
-import { 
+import {
 	sincronizar,
 } from '../helpers/helper'
 import consolidacao from '../assets/images/user.png'
@@ -57,8 +57,8 @@ class ProspectosScreen extends React.Component {
 	}
 
 	comecarSincronizacao = () => {
-		this.setState({sincronizando: true})
-		sincronizar(this.props, () => {this.setState({sincronizando: false})})
+		this.setState({ sincronizando: true })
+		sincronizar(this.props, () => { this.setState({ sincronizando: false }) })
 	}
 
 	render() {
@@ -95,7 +95,7 @@ class ProspectosScreen extends React.Component {
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				{
 					sincronizando &&
-					<View style={{ 
+					<View style={{
 						flex: 0.1,
 						flexDirection: 'row',
 						alignItems: 'center',
@@ -103,41 +103,41 @@ class ProspectosScreen extends React.Component {
 						flexWrap: 'wrap',
 					}}>
 						<ActivityIndicator />
-						<Text style={{color: white}}>
+						<Text style={{ color: white }}>
 							Sincronizando ...
 						</Text>
 					</View>
 				}
 				{
 					carregando &&
-						<Loading title={'Buscando pessoas'} />
+					<Loading title={'Buscando pessoas'} />
 				}
 				{
 					!carregando &&
-						<React.Fragment>
-							<View style={[stylesProspecto.containerBadge]}>
+					<React.Fragment>
+						<View style={[stylesProspecto.containerBadge]}>
 
-								<TouchableOpacity
-									style={{
-										borderBottomWidth: buscaMensagem ? 2 : 0,
-										borderBottomColor: buscaMensagem ? primary : 'transparent',
-										marginRight: 0, flex: 1, padding: 10
-									}}
-									activeOpacity={1}
-									onPress={() => {
-										this.setState({
-											buscaMensagem: !buscaMensagem,
-											buscaTelefone: false,
-											buscaVisita: false,
-											buscaEvento: false
-										})
-									}} >
-									<Text style={{
-										color: buscaMensagem === true ? primary : white,
-										fontSize: 12,
-										textAlign: 'center',
-										fontWeight: buscaMensagem === true ? 'bold' : 'normal'
-									}}>Mensagem</Text>
+							<TouchableOpacity
+								style={{
+									borderBottomWidth: buscaMensagem ? 2 : 0,
+									borderBottomColor: buscaMensagem ? primary : 'transparent',
+									marginRight: 0, flex: 1, padding: 10
+								}}
+								activeOpacity={1}
+								onPress={() => {
+									this.setState({
+										buscaMensagem: !buscaMensagem,
+										buscaTelefone: false,
+										buscaVisita: false,
+										buscaEvento: false
+									})
+								}} >
+								<Text style={{
+									color: buscaMensagem === true ? primary : white,
+									fontSize: 12,
+									textAlign: 'center',
+									fontWeight: buscaMensagem === true ? 'bold' : 'normal'
+								}}>Mensagem</Text>
 							</TouchableOpacity>
 
 							<TouchableOpacity
@@ -192,11 +192,13 @@ class ProspectosScreen extends React.Component {
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
+								style={{ marginRight: 0, flex: 1 }}
 								onPress={() => this.comecarSincronizacao()}>
 								<Icon
 									name='retweet'
 									type='font-awesome'
 									color={white}
+									size={22}
 								/>
 							</TouchableOpacity>
 
@@ -213,7 +215,7 @@ class ProspectosScreen extends React.Component {
 										width: 100, height: 100, resizeMode: "contain",
 										position: 'absolute', bottom: -120, right: -20
 									}} />
-							</View>
+								</View>
 								:
 								prospectosFiltrados &&
 								<ListaDeProspectos
@@ -233,11 +235,11 @@ class ProspectosScreen extends React.Component {
 							bottom: 10,
 							right: 5,
 						}}
-						onPress={() => navigation.navigate('ImportarProspectos')}
-						hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
-						<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
-					</TouchableOpacity>
-				</React.Fragment>
+							onPress={() => navigation.navigate('ImportarProspectos')}
+							hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
+							<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
+						</TouchableOpacity>
+					</React.Fragment>
 				}
 
 			</LinearGradient>
