@@ -132,6 +132,10 @@ class ProspectoScreen extends React.Component {
 		const { params = {} } = navigation.state
 		return {
 			title: NOVO_CONTATO,
+			headerStyle: {
+				backgroundColor: black,
+				borderBottomWidth: 0
+			},
 			headerTitleStyle: {
 				flex: 1,
 				// textAlign: 'center',

@@ -21,7 +21,7 @@ class ClubeScreen extends React.Component {
 				borderBottomWidth: 0,
 			},
 			headerTitleStyle: {
-				flex: 1,
+				width: '100%',
 				textAlign: 'center',
 				alignSelf: 'center',
 			},
