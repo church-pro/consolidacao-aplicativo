@@ -276,6 +276,7 @@ class ImportarProspectosScreen extends React.Component {
                 <Header style={stylesImportar.header} iosBarStyle="light-content">
                     <Left style={{ flex: 0 }}>
                         <TouchableOpacity
+                            hitSlop={{ right: 10 }}
                             style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.goBack()}>
                             <Icon type="font-awesome" name="angle-left" color={white} size={36} />

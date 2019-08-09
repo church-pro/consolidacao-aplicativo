@@ -204,8 +204,8 @@ class Prospecto extends React.Component {
 									onPress={() => this.perguntarSeQuerRemover()}
 									hitSlop={{ top: 10, right: 5, bottom: 10, left: 10 }} >
 									<Icon name="trash" size={24} color={red} type='font-awesome' />
+									<Text style={{ color: white, marginTop: 5 }}>Excluir</Text>
 								</TouchableOpacity>
-								<Text style={{ color: white }}>Excluir</Text>
 							</View>
 
 							<View>
@@ -214,8 +214,8 @@ class Prospecto extends React.Component {
 									onPress={() => { this.chamarOTelefoneDoCelular() }}
 									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
 									<Icon name="phone" size={24} color={white} />
+									<Text style={{ color: white, marginTop: 5 }}>Ligar</Text>
 								</TouchableOpacity>
-								<Text style={{ color: white }}>Ligar</Text>
 							</View>
 
 							<View>
@@ -224,8 +224,8 @@ class Prospecto extends React.Component {
 									onPress={() => { this.whatsapp() }}
 									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
 									<Icon name="whatsapp" size={24} color={white} type='font-awesome' />
+									<Text style={{ color: white, marginTop: 5 }}>Mensagem</Text>
 								</TouchableOpacity>
-								<Text style={{ color: white }}>Mensagem</Text>
 							</View>
 
 							<View>
@@ -234,8 +234,8 @@ class Prospecto extends React.Component {
 									onPress={() => funcaoOnPressDoIconeList()}
 									hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }} >
 									<Icon name="play" size={24} color={white} type='font-awesome' />
+									<Text style={{ color: white, marginTop: 5 }}>Prosseguir</Text>
 								</TouchableOpacity>
-								<Text style={{ color: white }}>Prosseguir</Text>
 							</View>
 						</View>
 					}

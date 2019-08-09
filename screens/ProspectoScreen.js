@@ -6,7 +6,8 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { Input } from 'react-native-elements'
+import { Header, Title, Left, Body, Right } from 'native-base'
+import { Input, Icon } from 'react-native-elements'
 import { white, lightdark, dark, black } from '../helpers/colors'
 import {
 	alterarProspectoNoAsyncStorage,
@@ -24,7 +25,7 @@ import {
 	submeterSituacoes
 } from '../helpers/api'
 import Loading from '../components/Loading'
-import { styles } from '../components/Styles';
+import { styles, stylesImportar } from '../components/Styles';
 
 class ProspectoScreen extends React.Component {
 
@@ -131,18 +132,19 @@ class ProspectoScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		const { params = {} } = navigation.state
 		return {
-			title: NOVO_CONTATO,
-			headerStyle: {
-				backgroundColor: black,
-				borderBottomWidth: 0
-			},
-			headerTitleStyle: {
-				flex: 1,
-				// textAlign: 'center',
-				alignSelf: 'center',
-				color: white,
-			},
-			headerTintColor: white,
+			header: null
+			// title: NOVO_CONTATO,
+			// headerStyle: {
+			// 	backgroundColor: black,
+			// 	borderBottomWidth: 0
+			// },
+			// headerTitleStyle: {
+			// 	flex: 1,
+			// 	// textAlign: 'center',
+			// 	alignSelf: 'center',
+			// 	color: white,
+			// },
+			// headerTintColor: white,
 		}
 	}
 
@@ -156,7 +158,22 @@ class ProspectoScreen extends React.Component {
 		} = this.state
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+				<Header style={stylesImportar.header} iosBarStyle="light-content">
+					<Left >
+						<TouchableOpacity
+							hitSlop={{ right: 10 }}
+							style={stylesImportar.containerIcon}
+							onPress={() => this.props.navigation.goBack()}>
+							<Icon type="font-awesome" name={Platform.OS === "ios" ? "angle-left" : "arrow-left"}
+								color={white} size={Platform.OS === "ios" ? 36 : 20} />
+						</TouchableOpacity>
+					</Left>
+					<Body >
+						<Title style={stylesImportar.headerTitle}>{NOVO_CONTATO}</Title>
+					</Body>
+					<Right />
 
+				</Header>
 				{
 					carregando &&
 					<Loading />

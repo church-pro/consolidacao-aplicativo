@@ -20,11 +20,6 @@ class ClubeScreen extends React.Component {
 				backgroundColor: dark,
 				borderBottomWidth: 0,
 			},
-			headerTitleStyle: {
-				width: '100%',
-				textAlign: 'center',
-				alignSelf: 'center',
-			},
 
 			headerTintColor: white,
 
