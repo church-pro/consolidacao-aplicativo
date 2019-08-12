@@ -4,6 +4,7 @@ import {
 	Text,
 	Alert,
 	ActivityIndicator,
+	TouchableOpacity
 } from 'react-native';
 import { Card, CheckBox } from 'react-native-elements'
 import { white, black, lightdark, dark, primary } from '../helpers/colors'
@@ -259,8 +260,8 @@ class PerguntasScreen extends React.Component {
 					{
 						prospecto &&
 						<View style={{ flex: 0.1, padding: 10, alignItems: 'center' }}>
-							<Text style={{color: white}}>
-								{prospecto.nome}	
+							<Text style={{ color: white }}>
+								{prospecto.nome}
 							</Text>
 						</View>
 					}
@@ -314,6 +315,7 @@ class PerguntasScreen extends React.Component {
 							OnPress={() => { this.ajudadorDeSubmit() }}
 						/>
 					}
+					<CPButton title="Voltar" OnPress={() => { this.props.navigation.goBack() }} />
 				</View>
 			</LinearGradient>
 		)

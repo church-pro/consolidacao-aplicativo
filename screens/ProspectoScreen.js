@@ -3,7 +3,8 @@ import {
 	Alert,
 	Platform,
 	View,
-	TouchableOpacity
+	TouchableOpacity,
+	Image
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Header, Title, Left, Body, Right } from 'native-base'
@@ -26,6 +27,7 @@ import {
 } from '../helpers/api'
 import Loading from '../components/Loading'
 import { styles, stylesImportar } from '../components/Styles';
+import arrow from '../assets/images/arrow-back.png'
 
 class ProspectoScreen extends React.Component {
 
@@ -133,18 +135,6 @@ class ProspectoScreen extends React.Component {
 		const { params = {} } = navigation.state
 		return {
 			header: null
-			// title: NOVO_CONTATO,
-			// headerStyle: {
-			// 	backgroundColor: black,
-			// 	borderBottomWidth: 0
-			// },
-			// headerTitleStyle: {
-			// 	flex: 1,
-			// 	// textAlign: 'center',
-			// 	alignSelf: 'center',
-			// 	color: white,
-			// },
-			// headerTintColor: white,
 		}
 	}
 
@@ -164,12 +154,20 @@ class ProspectoScreen extends React.Component {
 							hitSlop={{ right: 10 }}
 							style={stylesImportar.containerIcon}
 							onPress={() => this.props.navigation.goBack()}>
-							<Icon type="font-awesome" name={Platform.OS === "ios" ? "angle-left" : "arrow-left"}
-								color={white} size={Platform.OS === "ios" ? 36 : 20} />
+							{
+								Platform.OS === "ios" ?
+									<Icon type="font-awesome" name={"angle-left"}
+										color={white} size={36}
+									/>
+									:
+									<Image source={arrow} style={{ height: 16, width: 16, marginHorizontal: 5 }} />
+							}
 						</TouchableOpacity>
 					</Left>
 					<Body >
-						<Title style={stylesImportar.headerTitle}>{NOVO_CONTATO}</Title>
+						<Title
+							style={stylesImportar.headerTitle}
+						>{NOVO_CONTATO}</Title>
 					</Body>
 					<Right />
 
