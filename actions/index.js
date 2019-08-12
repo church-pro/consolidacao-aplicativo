@@ -106,8 +106,8 @@ export const pegarAdministracaoNoAsyncStorage = () => dispatch => {
 export const submeterAdministracaoNoAsyncStorage = (administracao) => dispatch => {
 	return submeterAdministracao(administracao)
 		.then(retorno => {
-			dispatch(alterarAdministracao(retorno.administracao))
-			return retorno.administracao 
+			dispatch(alterarAdministracao(retorno))
+			return administracao 
 		})
 }
 

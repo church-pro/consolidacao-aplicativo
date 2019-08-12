@@ -15,7 +15,6 @@ import ImportarProspectosScreen from '../screens/ImportarProspectosScreen';
 import MarcarDataEHoraScreen from '../screens/MarcarDataEHoraScreen';
 import PerguntasScreen from '../screens/PerguntasScreen';
 import ProspectoScreen from '../screens/ProspectoScreen';
-import SincronizacaoScreen from '../screens/SincronizacaoScreen';
 import ClubesScreen from '../screens/ClubesScreen';
 import ClubeScreen from '../screens/ClubeScreen';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
@@ -37,7 +36,6 @@ class PrincipalScreen extends React.Component {
 				MarcarDataEHora: MarcarDataEHoraScreen,
 				Perguntas: PerguntasScreen,
 				Prospecto: ProspectoScreen,
-				Sincronizacao: SincronizacaoScreen,
 			},
 			{
 				initialRouteName: 'Prospectos',

@@ -27,6 +27,7 @@ import {
 import {
 	alterarProspectoNoAsyncStorage,
 	alterarUsuarioNoAsyncStorage,
+	submeterAdministracaoNoAsyncStorage,
 } from '../actions'
 import {
 	submeterSituacoes,
@@ -34,7 +35,8 @@ import {
 import CPButton from '../components/CPButton'
 import { LinearGradient } from 'expo'
 import {
-	pegarDataEHoraAtual
+	pegarDataEHoraAtual,
+	montarObjetoParaPerguntas,
 } from '../helpers/helper'
 import { stylesPerguntas, styles } from '../components/Styles';
 import Loading from '../components/Loading';
@@ -58,21 +60,22 @@ class PerguntasScreen extends React.Component {
 		this.setState(estados)
 	}
 
-	ajudadorDeSubmit() {
+	ajudadorDeSubmit = async () => {
 		this.setState({ carregando: true })
 		const {
 			prospecto,
 			alterarProspectoNoAsyncStorage,
 			alterarUsuarioNoAsyncStorage,
+			submeterAdministracaoNoAsyncStorage,
 			navigation,
 			usuario
 		} = this.props
 		const {
 			situacao_id_nova,
 			situacao_id_extra,
-			paraOndeVoltar,
 			qualAba,
 			paraOndeNavegar,
+			paraOndeVoltar,
 			alertTitulo,
 			alertMensagem,
 		} = this.state
@@ -202,28 +205,26 @@ class PerguntasScreen extends React.Component {
 					usuario.removidos = 1
 				}
 			}
+
 			if (
 				paraOndeNavegar === null ||
 				situacao_id_nova === SITUACAO_REMOVIDO
 			) {
-				alterarUsuarioNoAsyncStorage(usuario)
-					.then(() => {
-						submeterSituacoes(situacoes)
-							.then(() => {
-								if (prospecto.situacao_id !== SITUACAO_LIGAR) {
-									delete prospecto.local
-									delete prospecto.data
-									delete prospecto.hora
-								}
-								alterarProspectoNoAsyncStorage(prospecto)
-									.then(() => {
-										Alert.alert(alertTitulo, alertMensagem)
-										this.setState({ carregando: false })
-										navigation.navigate(paraOndeVoltar, { qualAba })
-									})
-							})
-					})
+				await submeterAdministracaoNoAsyncStorage({})
+				await alterarUsuarioNoAsyncStorage(usuario)
+				await submeterSituacoes(situacoes)
+				if (prospecto.situacao_id !== SITUACAO_LIGAR) {
+					delete prospecto.local
+					delete prospecto.data
+					delete prospecto.hora
+				}
+				await alterarProspectoNoAsyncStorage(prospecto)
+				Alert.alert(alertTitulo, alertMensagem)
+				this.setState({ carregando: false })
+				navigation.navigate('Prospectos', { qualAba })
 			}
+
+			/* marcar data e hora */
 			if (
 				paraOndeNavegar &&
 				situacao_id_nova !== SITUACAO_REMOVIDO
@@ -232,7 +233,7 @@ class PerguntasScreen extends React.Component {
 					prospecto_id: prospecto._id,
 					situacao_id_nova,
 					situacoes,
-					paraOndeVoltar,
+					paraOndeVoltar: 'Prospectos',
 					qualAba,
 					alertTitulo,
 					alertMensagem,
@@ -320,15 +321,23 @@ class PerguntasScreen extends React.Component {
 
 }
 
-function mapStateToProps({ prospectos, usuario, }, { navigation }) {
-	const { params } = navigation.state
-	const {
-		prospecto_id,
-		estados,
-		perguntas,
-	} = params
+function mapStateToProps({ prospectos, usuario, administracao }, { navigation }) {
+	let prospectoSelecionado = null
+	let estados = null
+	let perguntas = null
+	if(navigation.state.params){
+		const { params } = navigation.state
+		if(params.prospecto_id){
+			prospectoSelecionado = prospectos.find(prospecto => prospecto._id === params.prospecto_id)
+		}
+	}
+	if(prospectoSelecionado){
+		const retorno = montarObjetoParaPerguntas(prospectoSelecionado.situacao_id)
+		estados = retorno.estados
+		perguntas = retorno.perguntas
+	}
 	return {
-		prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id),
+		prospecto: prospectoSelecionado,
 		estados,
 		perguntas,
 		usuario,
@@ -339,6 +348,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+		submeterAdministracaoNoAsyncStorage: (administracao) => dispatch(submeterAdministracaoNoAsyncStorage(administracao)),
 	}
 }
 

@@ -34,18 +34,12 @@ function prospectos(state = [], action){
 	}
 }
 
-const estadoDaAdministracao = {}
-
-function administracao(state = estadoDaAdministracao, action){
+function administracao(state = {}, action){
 	switch(action.type){
 		case PEGAR_ADMINISTRACAO:
-			return {
-				...state
-			}
+			return action.administracao
 		case ALTERAR_ADMINISTRACAO:
-			return {
-				...action.administracao
-			}
+			return action.administracao
 		default:
 			return state
 	}
@@ -66,20 +60,8 @@ function usuario(state = {}, action){
 	}
 }
 
-function situacoes(state = [], action){
-	switch(action.type){
-		case PEGAR_SITUACOES:
-			return [...action.situacoes]
-		case ADICIONAR_SITUACOES:
-			return [...state, ...action.situacoes]
-		default:
-			return state
-	}
-}
-
 export default combineReducers({
 	prospectos,
 	administracao,
 	usuario,
-	situacoes,
 })

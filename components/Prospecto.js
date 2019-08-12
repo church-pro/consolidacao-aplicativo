@@ -30,7 +30,6 @@ import {
 } from '../helpers/constants'
 import {
 	pegarDataEHoraAtual,
-	montarObjetoParaPerguntas,
 } from '../helpers/helper'
 import { ProgressBar, Colors } from 'react-native-paper'
 
@@ -40,21 +39,24 @@ class Prospecto extends React.Component {
 		mostrarOpcoes: false
 	}
 
-	chamarOTelefoneDoCelular() {
+	executarAcao = async (tipo) => {
 		const { 
 			prospecto,
-			submeterAdministracaoNoAsyncStorage
+			submeterAdministracaoNoAsyncStorage,
+			navigation,
 		} = this.props
-		submeterAdministracaoNoAsyncStorage({bloqueiarTela: true, prospecto_id: prospecto.celular_id})
-		//.then(() => call({ number: prospecto.telefone, prompt: false }).catch(console.error))
-	}
-	whatsapp() {
-		const { 
-			prospecto,
-			submeterAdministracaoNoAsyncStorage
-		} = this.props
-		submeterAdministracaoNoAsyncStorage({bloqueiarTela: true, prospecto_id: prospecto.celular_id})
-		//.then(() => Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err)))	
+		const adminstracao = {
+			bloqueiarTela: true,
+			prospecto_id: prospecto.celular_id
+		}
+		await submeterAdministracaoNoAsyncStorage(adminstracao)
+		if(tipo === 'ligar'){
+			call({ number: prospecto.telefone, prompt: false }).catch(console.error)
+		}
+		if(tipo === 'whatsapp'){
+			Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
+		}
+		navigation.navigate('Perguntas', {prospecto_id: prospecto._id})
 	}
 
 	perguntarSeQuerRemover() {
@@ -101,11 +103,10 @@ class Prospecto extends React.Component {
 	render() {
 		const { prospecto, navigation } = this.props
 		const { mostrarOpcoes } = this.state
-
-		let parametros = montarObjetoParaPerguntas(prospecto.situacao_id)
-		parametros.prospecto_id = prospecto._id
+		let parametros = {
+			prospecto_id: prospecto._id
+		}
 		const funcaoOnPressDoIconeList = () => navigation.navigate('Perguntas', parametros)
-
 		let valorDaBarra = 0
 		if (
 			prospecto.situacao_id === SITUACAO_IMPORTAR ||
@@ -211,7 +212,7 @@ class Prospecto extends React.Component {
 							<View>
 								<TouchableOpacity
 									style={{ padding: 6, }}
-									onPress={() => { this.chamarOTelefoneDoCelular() }}
+									onPress={() => { this.executarAcao('ligar') }}
 									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
 									<Icon name="phone" size={24} color={white} />
 									<Text style={{ color: white, marginTop: 5 }}>Ligar</Text>
@@ -221,7 +222,7 @@ class Prospecto extends React.Component {
 							<View>
 								<TouchableOpacity
 									style={{ padding: 6, }}
-									onPress={() => { this.whatsapp() }}
+									onPress={() => { this.executarAcao('whatsapp') }}
 									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
 									<Icon name="whatsapp" size={24} color={white} type='font-awesome' />
 									<Text style={{ color: white, marginTop: 5 }}>Mensagem</Text>

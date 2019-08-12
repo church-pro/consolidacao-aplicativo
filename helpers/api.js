@@ -115,7 +115,7 @@ export function recuperarAdministracao() {
 export function submeterAdministracao(administracao) {
 	return recuperarAdministracao()
 		.then(dados => {
-			dados.administracao = [...administracao]
+			dados.administracao = administracao
 			AsyncStorage.setItem(CHAVE_ADMINISTRACAO, JSON.stringify(dados))
 			return administracao
 		})

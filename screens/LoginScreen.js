@@ -42,30 +42,16 @@ class LoginScreen extends React.Component {
 		encaminhamento: 'Principal',
 	}
 
-	componentDidMount() {
+	componentDidMount = async () => {
 		this.setState({ carregando: true })
-
-		this.props.pegarUsuarioNoAsyncStorage()
-			.then(usuario => {
-				if (usuario.email && usuario.email !== '') {
-					this.props.pegarProspectosNoAsyncStorage()
-						.then(() => {
-							// validando se esta bloqueado para pergunta
-							this.props.pegarAdministracaoNoAsyncStorage()
-								.then(retorno => {
-									this.setState({ carregando: false })
-									if(retorno && retorno.administracao && retorno.administracao.bloqueiarTela){
-
-									}else{
-										this.props.navigation.navigate(this.state.encaminhamento)
-									}
-								})
-						})
-				} else {
-					this.setState({ carregando: false })
-				}
-
-			})
+		const usuario = await this.props.pegarUsuarioNoAsyncStorage()
+		if (usuario.email && usuario.email !== '') {
+			await this.props.pegarProspectosNoAsyncStorage()
+			this.setState({ carregando: false })
+			this.props.navigation.navigate(this.state.encaminhamento)
+		} else {
+			this.setState({ carregando: false })
+		}
 	}
 
 	ajudadorDeSubmissao = () => {
