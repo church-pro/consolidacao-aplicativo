@@ -20,13 +20,6 @@ class ClubeScreen extends React.Component {
 	static navigationOptions = ({ navigation, }) => {
 		const { params = { clube } } = navigation.state
 		return {
-			// title: params.clube.nome,
-			// headerStyle: {
-			// 	backgroundColor: dark,
-			// 	borderBottomWidth: 0,
-			// },
-
-			// headerTintColor: white,
 			header: null
 		}
 	}
