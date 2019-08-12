@@ -163,7 +163,7 @@ class RegistroScreen extends React.Component {
 												this.props.porProspectoDaSincronizacao([])
 													.then(() => {
 														Alert.alert('Registro', 'Registrado com sucesso!')
-														this.props.navigation.navigate('Prospectos')
+														this.props.navigation.navigate('Login')
 													})
 											})
 									} else {
@@ -296,7 +296,6 @@ class RegistroScreen extends React.Component {
 
 						<View style={[stylesMarcar.containerInput, { marginTop: 6 }]}>
 							<Text style={stylesMarcar.labelMarcar}>DENOMINAÇÃO</Text>
-							{/* <View style={stylesMarcar.inputContainerStyle}> */}
 							<View style={{ flex: 1 }}>
 								<RNPickerSelect
 									placeholder={{ label: 'Selecione', value: 0 }}

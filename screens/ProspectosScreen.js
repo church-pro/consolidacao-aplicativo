@@ -51,13 +51,9 @@ class ProspectosScreen extends React.Component {
 			pegarAdministracaoNoAsyncStorage,
 		} = this.props
 		const retorno =	await pegarAdministracaoNoAsyncStorage()
+		this.setState({ carregando: false })
 		if(retorno.bloqueiarTela){
-			this.setState({ carregando: false })
 			navigation.navigate('Perguntas', {prospecto_id: retorno.prospecto_id})
-		}else{
-			if (prospectos) {
-				this.setState({ carregando: false })
-			}
 		}
 	}
 

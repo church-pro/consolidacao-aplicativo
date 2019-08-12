@@ -236,24 +236,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							avancar: false,
 						},
 					},
-					{
-						estado: 'removerDireto',
-						titulo: REMOVER,
-						onPress: {
-							enviouMensagem: false,
-							naoEnviouMensagem: false,
-							naoEnviouMasQuerEnviar: false,
-							removerDireto: true,
-							mostrarBotaoConfirmar: true,
-							mostrarPerguntaDois: false,
-							situacao_id_nova: SITUACAO_REMOVIDO,
-							situacao_id_extra: null,
-							alertTitulo: REMOVER,
-							alertMensagem: PESSOA_REMOVIDA,
-							remover: false,
-							avancar: false,
-						},
-					},
 				]
 			},
 			{
