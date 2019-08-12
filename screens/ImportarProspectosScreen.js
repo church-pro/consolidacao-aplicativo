@@ -250,7 +250,7 @@ class ImportarProspectosScreen extends React.Component {
                             .then(() => {
                                 this.setState({ carregando: false })
                                 Alert.alert('Importação', 'Importação concluida com sucesso!')
-                                navigation.navigate('Prospectos', { qualAba: 'Mensagem' })
+                                navigation.navigate('Prospectos', { qualAba: 'Importar' })
                             })
                     })
             })
@@ -277,9 +277,7 @@ class ImportarProspectosScreen extends React.Component {
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
                 <Header style={stylesImportar.header} iosBarStyle="light-content">
-                    <Left
-                    // style={{ flex: 0 }}
-                    >
+                    <Left >
                         <TouchableOpacity
                             hitSlop={{ right: 10 }}
                             style={stylesImportar.containerIcon}
@@ -294,13 +292,10 @@ class ImportarProspectosScreen extends React.Component {
                             }
                         </TouchableOpacity>
                     </Left>
-                    <Body
-                    >
+                    <Body >
                         <Title style={stylesImportar.headerTitle}>{IMPORTAR_CONTATOS}</Title>
                     </Body>
-                    <Right
-                    // style={{ flex: 0 }}
-                    >
+                    <Right >
                         <TouchableOpacity
                             style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.navigate('Prospecto')}>
@@ -311,12 +306,11 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     carregando &&
-                    <Loading />
+                    <Loading title='Carregando Contatos'/>
                 }
 
                 {
                     !carregando && contatosParaSelecionar &&
-                    <>
                         <View style={{ height: 40, borderWidth: 1, borderColor: gray, borderRadius: 6, marginHorizontal: 10 }}>
                             <TextInput
                                 placeholder="Buscar"
@@ -327,14 +321,17 @@ class ImportarProspectosScreen extends React.Component {
                                 autoCorrect={false}
                             />
                         </View>
-                        <MultiSelectList
-                            data={contatosParaSelecionar}
-                            selected={selected}
-                            _onPressItem={this._onPressItem}
-                        >
-                        </MultiSelectList>
-                    </>
-                }
+               }
+			   {
+				   !carregando && contatosParaSelecionar &&
+
+					   <MultiSelectList
+						   data={contatosParaSelecionar}
+						   selected={selected}
+						   _onPressItem={this._onPressItem}
+					   >
+					   </MultiSelectList>
+			   } 
 
                 {
                     !carregando && contatosParaSelecionar &&
