@@ -491,28 +491,33 @@ class ClubesScreen extends React.Component {
 								clubesBuscados.length > 0 &&
 								clubesBuscados.map(clube =>
 
-									<View key={clube._id} style={{ marginTop: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, padding: 5 }}>
-										<View style={{ flexDirection: 'row' }}>
-											<Icon name="shield" type="font-awesome" size={16} color={gray} containerStyle={{ marginRight: 5 }} />
-											<Text style={{ color: white }}>
-												{clube.nome}
-											</Text>
+									<View key={clube._id} style={{ marginTop: 5, borderWidth: 1, borderColor: gray, borderRadius: 6, padding: 5, flexDirection: 'row', justifyContent: 'space-between' }}>
+										<View>
+											<View style={{ flexDirection: 'row' }}>
+												<Icon name="shield" type="font-awesome" size={16} color={gray} containerStyle={{ marginRight: 5 }} />
+												<Text style={{ color: white }}>
+													{clube.nome}
+												</Text>
+											</View>
+
+											<View style={{ flexDirection: 'row' }}>
+												<Icon name="user" type="font-awesome" size={16} color={gray} containerStyle={{ marginRight: 5 }} />
+												<Text style={{ color: white }}>
+													DONO - {clube.no.nome}
+												</Text>
+											</View>
 										</View>
 
-										<View style={{ flexDirection: 'row' }}>
-											<Icon name="user" type="font-awesome" size={16} color={gray} containerStyle={{ marginRight: 5 }} />
-											<Text style={{ color: white }}>
-												{clube.no.nome}
+										<View style={{ justifyContent: 'center' }}>
+											<TouchableOpacity
+												style={{ backgroundColor: primary, padding: 5, borderRadius: 6 }}
+												hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+												onPress={() => this.selecionarClube(clube._id)} >
+												<Text style={{ color: white, textAlign: 'center' }}>
+													Participar
 											</Text>
+											</TouchableOpacity>
 										</View>
-
-										<TouchableOpacity
-											hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-											onPress={() => this.selecionarClube(clube._id)} >
-											<Text style={{ color: white, textAlign: 'center' }}>
-												Selecionar
-											</Text>
-										</TouchableOpacity>
 									</View>
 								)
 							}
