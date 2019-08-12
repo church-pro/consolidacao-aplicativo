@@ -171,14 +171,13 @@ export const stylesImportar = StyleSheet.create({
     header: {
         backgroundColor: black,
         borderBottomWidth: 0,
-        paddingTop: 10
+        paddingTop: Platform.OS === "ios" ? 10 : 15
     },
     headerTitle: {
-        textAlign: 'center',
-        alignSelf: 'center',
+        alignItems: 'center',
         justifyContent: "center",
         color: white,
-        fontSize: 16
+        fontSize: Platform.OS === "ios" ? 16 : 20
     },
     containerIcon: {
         backgroundColor: 'transparent',

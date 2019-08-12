@@ -5,7 +5,9 @@ import {
     Text,
     View,
     FlatList,
-    TextInput
+    TextInput,
+    Platform,
+    Image
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { Header, Title, Left, Body, Right } from 'native-base'
@@ -26,6 +28,7 @@ import {
     pegarDataEHoraAtual
 } from '../helpers/helper'
 import Loading from '../components/Loading'
+import arrow from '../assets/images/arrow-back.png'
 
 class MyListItem extends React.PureComponent {
     _onPress = () => {
@@ -274,18 +277,30 @@ class ImportarProspectosScreen extends React.Component {
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
                 <Header style={stylesImportar.header} iosBarStyle="light-content">
-                    <Left style={{ flex: 0 }}>
+                    <Left
+                    // style={{ flex: 0 }}
+                    >
                         <TouchableOpacity
                             hitSlop={{ right: 10 }}
                             style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.goBack()}>
-                            <Icon type="font-awesome" name="angle-left" color={white} size={36} />
+                            {
+                                Platform.OS === "ios" ?
+                                    <Icon type="font-awesome" name={"angle-left"}
+                                        color={white} size={36}
+                                    />
+                                    :
+                                    <Image source={arrow} style={{ height: 16, width: 16, marginHorizontal: 5 }} />
+                            }
                         </TouchableOpacity>
                     </Left>
-                    <Body style={{ flex: 1 }}>
+                    <Body
+                    >
                         <Title style={stylesImportar.headerTitle}>{IMPORTAR_CONTATOS}</Title>
                     </Body>
-                    <Right style={{ flex: 0 }}>
+                    <Right
+                    // style={{ flex: 0 }}
+                    >
                         <TouchableOpacity
                             style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.navigate('Prospecto')}>
@@ -332,7 +347,7 @@ class ImportarProspectosScreen extends React.Component {
                     </View>
                 }
 
-            </LinearGradient>
+            </LinearGradient >
         );
     }
 
