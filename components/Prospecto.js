@@ -112,14 +112,14 @@ class Prospecto extends React.Component {
 			prospecto.situacao_id === SITUACAO_IMPORTAR ||
 			prospecto.situacao_id === SITUACAO_CADASTRO
 		) {
-			valorDaBarra = 0.1
+			valorDaBarra = 0.25
 		}
 
 		if (prospecto.situacao_id === SITUACAO_MENSAGEM) {
-			valorDaBarra = 0.25
+			valorDaBarra = 0.50
 		}
 		if (prospecto.situacao_id === SITUACAO_LIGAR) {
-			valorDaBarra = 0.50
+			valorDaBarra = 0.75
 		}
 
 		return (
