@@ -368,7 +368,7 @@ class ClubesScreen extends React.Component {
 						<View style={{ flexDirection: 'row', marginTop: 25 }}>
 							<TouchableOpacity
 								style={{
-									backgroundColor: primary,
+									backgroundColor: gray,
 									height: 45,
 									borderRadius: 6,
 									flex: 1,
@@ -462,7 +462,7 @@ class ClubesScreen extends React.Component {
 								<View style={{ flexDirection: 'row', marginTop: 25 }}>
 									<TouchableOpacity
 										style={{
-											backgroundColor: primary,
+											backgroundColor: gray,
 											height: 45,
 											borderRadius: 6,
 											flex: 1,

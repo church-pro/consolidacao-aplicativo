@@ -7,7 +7,7 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import { Card, CheckBox } from 'react-native-elements'
-import { white, black, lightdark, dark, primary } from '../helpers/colors'
+import { white, black, lightdark, dark, primary, gray } from '../helpers/colors'
 import { connect } from 'react-redux'
 import {
 	SITUACAO_LIGAR,
@@ -315,7 +315,29 @@ class PerguntasScreen extends React.Component {
 							OnPress={() => { this.ajudadorDeSubmit() }}
 						/>
 					}
-					<CPButton title="Voltar" OnPress={() => { this.props.navigation.goBack() }} />
+					<View style={{ flexDirection: 'row', marginTop: 25 }}>
+						<TouchableOpacity
+							style={{
+								backgroundColor: gray,
+								height: 45,
+								borderRadius: 6,
+								flex: 1,
+								justifyContent: 'center',
+								shadowOffset: { width: 5, height: 5, },
+								shadowColor: 'rgba(0,0,0,0.3)',
+								shadowOpacity: 1.0,
+								marginRight: 8,
+							}}
+							onPress={() => this.props.navigation.goBack()}
+						>
+							<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+								Voltar
+							</Text>
+						</TouchableOpacity>
+
+
+
+					</View>
 				</View>
 			</LinearGradient>
 		)
@@ -327,13 +349,13 @@ function mapStateToProps({ prospectos, usuario, administracao }, { navigation })
 	let prospectoSelecionado = null
 	let estados = null
 	let perguntas = null
-	if(navigation.state.params){
+	if (navigation.state.params) {
 		const { params } = navigation.state
-		if(params.prospecto_id){
+		if (params.prospecto_id) {
 			prospectoSelecionado = prospectos.find(prospecto => prospecto._id === params.prospecto_id)
 		}
 	}
-	if(prospectoSelecionado){
+	if (prospectoSelecionado) {
 		const retorno = montarObjetoParaPerguntas(prospectoSelecionado.situacao_id)
 		estados = retorno.estados
 		perguntas = retorno.perguntas
