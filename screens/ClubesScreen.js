@@ -25,9 +25,11 @@ import empty from '../assets/images/empty.png'
 
 class ClubesScreen extends React.Component {
 
-	static navigationOptions = {
-		headerTintColor: white,
-		header: null,
+	static navigationOptions = () => {
+		return {
+			headerTintColor: white,
+			header: null,
+		}
 	}
 
 	state = {
