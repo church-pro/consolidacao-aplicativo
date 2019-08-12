@@ -15,7 +15,6 @@ import {
 	adicionarProspectosAoAsyncStorage,
 	pegarProspectosNoAsyncStorage,
 	porProspectoDaSincronizacao,
-	pegarAdministracaoNoAsyncStorage,
 } from '../actions'
 import {
 	sincronizarNaAPI,
@@ -85,7 +84,6 @@ class LoginScreen extends React.Component {
 						sincronizarNaAPI(dados)
 							.then(retorno => {
 								if (retorno.ok) {
-									console.log('retorno: ', retorno)
 									let usuario = retorno.resultado.usuario
 									delete usuario.prospectos
 									usuario.senha = senha
@@ -179,8 +177,6 @@ class LoginScreen extends React.Component {
 					</KeyboardAwareScrollView>
 
 				}
-
-
 				{
 					!carregando &&
 					<TouchableOpacity
@@ -189,7 +185,6 @@ class LoginScreen extends React.Component {
 						<Text style={[stylesLogin.textButton]}> {BOTAO_CRIAR_CONTA} </Text>
 					</TouchableOpacity>
 				}
-
 			</LinearGradient>
 		)
 	}
@@ -212,7 +207,6 @@ const mapDispatchToProps = (dispatch) => {
 		adicionarProspectosAoAsyncStorage: (prospectos) => dispatch(adicionarProspectosAoAsyncStorage(prospectos)),
 		pegarProspectosNoAsyncStorage: (prospectos) => dispatch(pegarProspectosNoAsyncStorage(prospectos)),
 		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
-		pegarAdministracaoNoAsyncStorage: (administracao) => dispatch(pegarAdministracaoNoAsyncStorage(administracao)),
 	}
 }
 
