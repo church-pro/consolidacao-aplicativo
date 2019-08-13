@@ -222,12 +222,10 @@ class RegistroScreen extends React.Component {
 					!carregando &&
 						<KeyboardAwareScrollView style={styles.container}
 							enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80}
-							keyboardShoulfPersistTaps='always'
-						>
+							keyboardShoulfPersistTaps='always' >
 							<TouchableOpacity
 								activeOpacity={1}
-								onPress={() => this.inputNome.focus()}
-							>
+								onPress={() => this.inputNome.focus()} >
 								<Input
 									containerStyle={styles.containerInput}
 									inputContainerStyle={styles.inputContainerStyle}

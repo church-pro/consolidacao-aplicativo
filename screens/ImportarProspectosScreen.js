@@ -277,7 +277,7 @@ class ImportarProspectosScreen extends React.Component {
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
                 <Header style={stylesImportar.header} iosBarStyle="light-content">
-                    <Left >
+                    <Left style={{ flex: Platform.OS === "ios" ? 0 : 0 }} >
                         <TouchableOpacity
                             hitSlop={{ right: 10 }}
                             style={stylesImportar.containerIcon}
@@ -285,17 +285,17 @@ class ImportarProspectosScreen extends React.Component {
                             {
                                 Platform.OS === "ios" ?
                                     <Icon type="font-awesome" name={"angle-left"}
-                                        color={white} size={36}
-                                    />
+                                        color={white} size={36} />
                                     :
                                     <Image source={arrow} style={{ height: 16, width: 16, marginHorizontal: 5 }} />
                             }
                         </TouchableOpacity>
                     </Left>
-                    <Body >
-                        <Title style={[stylesImportar.headerTitle]}>{IMPORTAR_CONTATOS}</Title>
+                    <Body style={{ flex: 1, marginLeft: Platform.OS === "ios" ? 0 : 15 }}>
+                        <Title style={[stylesImportar.headerTitle, { textAlign: 'center' }]}>{IMPORTAR_CONTATOS}</Title>
                     </Body>
-                    <Right style={{ flex: 0 }} >
+                    <Right
+                        style={{ flex: 0 }} >
                         <TouchableOpacity
                             style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.navigate('Prospecto')}>
@@ -306,32 +306,32 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     carregando &&
-                    <Loading title='Carregando Contatos'/>
+                    <Loading title='Carregando Contatos' />
                 }
 
                 {
                     !carregando && contatosParaSelecionar &&
-                        <View style={{ height: 40, borderWidth: 1, borderColor: gray, borderRadius: 6, marginHorizontal: 10 }}>
-                            <TextInput
-                                placeholder="Buscar"
-                                placeholderTextColor={gray}
-                                style={{ flex: 1, paddingHorizontal: 5, color: white }}
-                                onChangeText={texto => this.setState({ busca: texto })}
-                                value={busca}
-                                autoCorrect={false}
-                            />
-                        </View>
-               }
-			   {
-				   !carregando && contatosParaSelecionar &&
+                    <View style={{ height: 40, borderWidth: 1, borderColor: gray, borderRadius: 6, marginHorizontal: 10 }}>
+                        <TextInput
+                            placeholder="Buscar"
+                            placeholderTextColor={gray}
+                            style={{ flex: 1, paddingHorizontal: 5, color: white }}
+                            onChangeText={texto => this.setState({ busca: texto })}
+                            value={busca}
+                            autoCorrect={false}
+                        />
+                    </View>
+                }
+                {
+                    !carregando && contatosParaSelecionar &&
 
-					   <MultiSelectList
-						   data={contatosParaSelecionar}
-						   selected={selected}
-						   _onPressItem={this._onPressItem}
-					   >
-					   </MultiSelectList>
-			   } 
+                    <MultiSelectList
+                        data={contatosParaSelecionar}
+                        selected={selected}
+                        _onPressItem={this._onPressItem}
+                    >
+                    </MultiSelectList>
+                }
 
                 {
                     !carregando && contatosParaSelecionar &&
