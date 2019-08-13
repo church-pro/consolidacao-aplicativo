@@ -65,6 +65,16 @@ class ClubeScreen extends React.Component {
 						{
 							clube.nos && clube.nos.length > 0 &&
 							clube.nos.map(no => {
+								let pontos = 0
+								if(no.mensagems){
+									pontos+= no.mensagems
+								}
+								if(no.ligacoes){
+									pontos+= no.ligacoes
+								}
+								if(no.visitas){
+									pontos+= no.visitas
+								}
 								return (
 									<TouchableOpacity
 										style={{
@@ -77,13 +87,8 @@ class ClubeScreen extends React.Component {
 										}}
 										key={no._id}
 										onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
-										<Text style={{ color: white }}>
-											{no.nome}
-										</Text>
-										<Text style={{ color: white }}>
-											127 pontos
-									</Text>
-
+										<Text style={{ color: white }}> {no.nome} </Text>
+										<Text style={{ color: white }}> {pontos} ações </Text>
 									</TouchableOpacity>
 								)
 							})
