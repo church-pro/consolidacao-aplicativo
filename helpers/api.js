@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-const versaoBanco = '0049'
+const versaoBanco = '0050'
 const CHAVE_ADMINISTRACAO = 'churchProConsolidacao:administracao' + versaoBanco
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco

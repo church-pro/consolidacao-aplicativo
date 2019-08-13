@@ -6,7 +6,8 @@ import {
 	Text,
 	TouchableOpacity,
 	Image,
-	Dimensions
+	Dimensions,
+	Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo'
 import {
@@ -96,22 +97,22 @@ class TutorialScreen extends React.Component {
 
 				{
 					!carregando &&
-					<View style={{ flex: 1, alignItems: 'center' }}>
-						<Image source={logo} style={{
-							height: 80,
-							width: 200,
-							resizeMode: 'contain',
-						}} />
+						<View style={{ flex: 1, alignItems: 'center' }}>
+							<Image source={logo} style={{
+								height: 80,
+								width: 200,
+								resizeMode: 'contain',
+							}} />
 
 						{
 							passoUm &&
-							<View style={{ flex: 1, justifyContent: 'space-between', }}>
-								<View style={{ alignItems: 'center', }}>
-									<Image source={tabs} style={{ width: Dimensions.get('screen').width - 20, resizeMode: 'contain' }} />
-									<Text style={{ color: white, fontSize: 18, textAlign: 'center' }}>
-										Importe contatos e cadastre pessoas para fazer o acompanhamento
-									</Text>
-								</View>
+								<View style={{ flex: 1, justifyContent: 'space-between', }}>
+									<View style={{ alignItems: 'center', }}>
+										<Image source={tabs} style={{ width: Dimensions.get('screen').width - 20, resizeMode: 'contain' }} />
+										<Text style={{ color: white, fontSize: 18, textAlign: 'center' }}>
+											Importe contatos e cadastre pessoas para fazer o acompanhamento
+										</Text>
+									</View>
 								<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
 									<Text style={{ color: white, textAlign: 'right' }}>
 										Próximo Passo
@@ -121,63 +122,63 @@ class TutorialScreen extends React.Component {
 						}
 						{
 							passoDois &&
-							<View style={{ flex: 1, justifyContent: 'space-between' }}>
-								<View style={{ alignItems: 'center', }}>
-									<Image source={perfil} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
-									<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
-										Acompanhe seu progresso no perfil
-									</Text>
-								</View>
-								<View style={{
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-								}}
+								<View style={{ flex: 1, justifyContent: 'space-between' }}>
+									<View style={{ alignItems: 'center', }}>
+										<Image source={perfil} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
+										<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
+											Acompanhe seu progresso no perfil
+										</Text>
+									</View>
+									<View style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+									}}
 								>
 									<TouchableOpacity onPress={() => this.setState(mostrarPassoUm)}>
 										<Text style={{ color: white }}>
 											Voltar
 										</Text>
 									</TouchableOpacity>
-									<TouchableOpacity onPress={() => this.setState(mostrarPassoTres)}>
-										<Text style={{ color: white }}>
-											Próximo Passo
-										</Text>
-									</TouchableOpacity>
-								</View>
+								<TouchableOpacity onPress={() => this.setState(mostrarPassoTres)}>
+									<Text style={{ color: white }}>
+										Próximo Passo
+									</Text>
+								</TouchableOpacity>
 							</View>
+						</View>
 						}
 						{
 							passoTres &&
-							<View style={{ flex: 1, justifyContent: 'space-between' }}>
-								<View style={{ alignItems: 'center', }}>
-									<Image source={clubes} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
-									<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
-										Crie ou participe de clubes, compita com seus amigos
-									</Text>
-								</View>
+								<View style={{ flex: 1, justifyContent: 'space-between' }}>
+									<View style={{ alignItems: 'center', }}>
+										<Image source={clubes} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
+										<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
+											Crie ou participe de clubes, compita com seus amigos
+										</Text>
+									</View>
 
-								<View
-									style={{
-										flexDirection: 'row',
-										alignItems: 'center',
-										justifyContent: 'space-between',
-									}}
-								>
-									<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
-										<Text style={{ color: white }}>
-											Voltar
-										</Text>
-									</TouchableOpacity>
-									<TouchableOpacity
-										style={{ backgroundColor: primary, borderRadius: 6, padding: 5 }}
-										onPress={() => this.comecar()}>
-										<Text style={{ color: white }}>
-											Começar
-										</Text>
-									</TouchableOpacity>
+									<View
+										style={{
+											flexDirection: 'row',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+										}}
+									>
+										<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
+											<Text style={{ color: white }}>
+												Voltar
+											</Text>
+										</TouchableOpacity>
+										<TouchableOpacity
+											style={{ backgroundColor: primary, borderRadius: 6, padding: 5 }}
+											onPress={() => this.comecar()}>
+											<Text style={{ color: white }}>
+												Começar
+											</Text>
+										</TouchableOpacity>
+									</View>
 								</View>
-							</View>
 						}
 						<View style={{ flexDirection: 'row', height: 50 }}>
 							<Text
@@ -198,17 +199,16 @@ class TutorialScreen extends React.Component {
 	}
 }
 
-// const mapStateToProps = (state, { navigation }) => {
-// const {
-// 	email,
-// 	senha,
-// } = navigation.state.params
-
-// return {
-// 	email,
-// 	senha
-// }
-// }
+const mapStateToProps = (state, { navigation }) => {
+	const {
+		email,
+		senha,
+	} = navigation.state.params
+	return {
+		email,
+		senha
+	}
+}
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -217,5 +217,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(TutorialScreen)
-export default connect(null, mapDispatchToProps)(TutorialScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(TutorialScreen)
