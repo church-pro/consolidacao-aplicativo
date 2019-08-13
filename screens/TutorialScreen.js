@@ -1,10 +1,12 @@
 import React from 'react';
 import Loading from '../components/Loading';
-import { black, white, lightdark, gray, dark } from '../helpers/colors';
+import { black, white, lightdark, gray, dark, primary } from '../helpers/colors';
 import {
 	View,
 	Text,
 	TouchableOpacity,
+	Image,
+	Dimensions
 } from 'react-native';
 import { LinearGradient } from 'expo'
 import {
@@ -16,6 +18,10 @@ import {
 	porProspectoDaSincronizacao,
 } from '../actions'
 import { ENTRANDO, } from '../helpers/constants';
+import logo from '../assets/images/churchpro_branco.png'
+import tabs from '../assets/images/onboard_import.png'
+import perfil from '../assets/images/onboard_perfil.png'
+import clubes from '../assets/images/onboard_clubes.png'
 
 class TutorialScreen extends React.Component {
 
@@ -82,7 +88,7 @@ class TutorialScreen extends React.Component {
 			passoTres: true,
 		}
 		return (
-			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+			<LinearGradient style={{ flex: 1, padding: 20, }} colors={[black, dark, lightdark, '#343434']}>
 				{
 					carregando &&
 					<Loading title={ENTRANDO} />
@@ -90,91 +96,119 @@ class TutorialScreen extends React.Component {
 
 				{
 					!carregando &&
-						<View>
-							<Text style={{color: white}}>
-								Tutorial	
-							</Text>
-							{
-								passoUm &&
-									<View>
-										<Text style={{color: white}}>
-											Importe contatos e cadastre pessoas para fazer o acompanhamento
+					<View style={{ flex: 1, alignItems: 'center' }}>
+						<Image source={logo} style={{
+							height: 80,
+							width: 200,
+							resizeMode: 'contain',
+						}} />
+
+						{
+							passoUm &&
+							<View style={{ flex: 1, justifyContent: 'space-between', }}>
+								<View style={{ alignItems: 'center', }}>
+									<Image source={tabs} style={{ width: Dimensions.get('screen').width - 20, resizeMode: 'contain' }} />
+									<Text style={{ color: white, fontSize: 18, textAlign: 'center' }}>
+										Importe contatos e cadastre pessoas para fazer o acompanhamento
+									</Text>
+								</View>
+								<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
+									<Text style={{ color: white, textAlign: 'right' }}>
+										Próximo Passo
+									</Text>
+								</TouchableOpacity>
+							</View>
+						}
+						{
+							passoDois &&
+							<View style={{ flex: 1, justifyContent: 'space-between' }}>
+								<View style={{ alignItems: 'center', }}>
+									<Image source={perfil} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
+									<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
+										Acompanhe seu progresso no perfil
+									</Text>
+								</View>
+								<View style={{
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+								}}
+								>
+									<TouchableOpacity onPress={() => this.setState(mostrarPassoUm)}>
+										<Text style={{ color: white }}>
+											Voltar
 										</Text>
-									<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
-										<Text style={{color: white}}>
-											Próximo Passo	
+									</TouchableOpacity>
+									<TouchableOpacity onPress={() => this.setState(mostrarPassoTres)}>
+										<Text style={{ color: white }}>
+											Próximo Passo
 										</Text>
 									</TouchableOpacity>
 								</View>
-							}
-							{
-								passoDois &&
-									<View>
-										<Text style={{color: white}}>
-											Acompanhe seu progresso no perfil
-										</Text>
-										<View
-											style={{
-												flexDirection: 'row',
-												alignItems: 'center',
-												justifyContent: 'space-around',
-											}} >
-											<TouchableOpacity onPress={() => this.setState(mostrarPassoUm)}>
-												<Text style={{color: white}}>
-													Voltar	
-												</Text>
-											</TouchableOpacity>
-										<TouchableOpacity onPress={() => this.setState(mostrarPassoTres)}>
-											<Text style={{color: white}}>
-												Próximo Passo	
-											</Text>
-										</TouchableOpacity>
-									</View>
+							</View>
+						}
+						{
+							passoTres &&
+							<View style={{ flex: 1, justifyContent: 'space-between' }}>
+								<View style={{ alignItems: 'center', }}>
+									<Image source={clubes} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
+									<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
+										Crie ou participe de clubes, compita com seus amigos
+									</Text>
 								</View>
-							}
-							{
-								passoTres &&
-									<View>
-										<Text style={{color: white}}>
-											Crie ou participe de clubes, compita com seus amigos	
+
+								<View
+									style={{
+										flexDirection: 'row',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+									}}
+								>
+									<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
+										<Text style={{ color: white }}>
+											Voltar
 										</Text>
-										<View
-											style={{
-												flexDirection: 'row',
-												alignItems: 'center',
-												justifyContent: 'space-around',
-											}} >
-											<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
-												<Text style={{color: white}}>
-													Voltar	
-												</Text>
-											</TouchableOpacity>
-										<TouchableOpacity onPress={() => this.comecar()}>
-											<Text style={{color: white}}>
-												Começar	
-											</Text>
-										</TouchableOpacity>
-									</View>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={{ backgroundColor: primary, borderRadius: 6, padding: 5 }}
+										onPress={() => this.comecar()}>
+										<Text style={{ color: white }}>
+											Começar
+										</Text>
+									</TouchableOpacity>
 								</View>
-							}
+							</View>
+						}
+						<View style={{ flexDirection: 'row', height: 50 }}>
+							<Text
+								style={{
+									fontSize: 40,
+									color: passoUm ? primary : white,
+									paddingHorizontal: 5,
+									fontWeight: passoUm ? 'bold' : 'normal'
+								}}
+							>.</Text>
+							<Text style={{ fontSize: 40, color: passoDois ? primary : white, paddingHorizontal: 5, fontWeight: passoDois ? 'bold' : 'normal' }}>.</Text>
+							<Text style={{ fontSize: 40, color: passoTres ? primary : white, paddingHorizontal: 5, fontWeight: passoTres ? 'bold' : 'normal' }}>.</Text>
 						</View>
+					</View>
 				}
 			</LinearGradient>
 		)
 	}
 }
 
-const mapStateToProps = (state, {navigation}) => {
-	const {
-		email,
-		senha,
-	} = navigation.state.params
+// const mapStateToProps = (state, { navigation }) => {
+// const {
+// 	email,
+// 	senha,
+// } = navigation.state.params
 
-	return {
-		email,
-		senha
-	}
-}
+// return {
+// 	email,
+// 	senha
+// }
+// }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -183,4 +217,5 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TutorialScreen)
+// export default connect(mapStateToProps, mapDispatchToProps)(TutorialScreen)
+export default connect(null, mapDispatchToProps)(TutorialScreen)

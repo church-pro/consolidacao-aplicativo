@@ -126,12 +126,12 @@ class PerfilScreen extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				<View>
-					<Text style={{ padding: 10, color: white }}>
+					<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', padding: 20 }}>
 						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
 					</Text>
 				</View>
 				<View>
-					<Text style={{ padding: 10, color: white}}>
+					<Text style={{ paddingHorizontal: 20, color: white }}>
 						Última Atualização: {usuario.ultima_sincronizacao_data}-{usuario.ultima_sincronizacao_hora}
 					</Text>
 				</View>
@@ -156,12 +156,12 @@ class PerfilScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ usuario }, {navigation}) => {
+const mapStateToProps = ({ usuario }, { navigation }) => {
 	let no = usuario
-	if(navigation.state && navigation.state.params && navigation.state.params.no){
+	if (navigation.state && navigation.state.params && navigation.state.params.no) {
 		no = navigation.state.params.no
 	}
-	return { 
+	return {
 		usuario: no,
 	}
 }
