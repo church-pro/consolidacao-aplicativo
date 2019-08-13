@@ -293,8 +293,10 @@ class ClubesScreen extends React.Component {
 													}}
 													onPress={() => this.props.navigation.navigate('Clube', { clube })} >
 													<Text style={{ color: white }}> {clube.nome} </Text>
-													<Text style={{ color: white }}> {clube.nos.length} membros </Text>
-													<Icon type="font-awesome" name="angle-right" size={22} color={white} />
+													<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+														<Text style={{ color: white }}> {clube.nos.length} membros </Text>
+														<Icon type="font-awesome" name="angle-right" size={22} containerStyle={{ marginLeft: 5 }} color={white} />
+													</View>
 												</TouchableOpacity>
 
 											)
@@ -321,8 +323,10 @@ class ClubesScreen extends React.Component {
 													key={clube._id}
 													onPress={() => this.props.navigation.navigate('Clube', { clube })} >
 													<Text style={{ color: white }}> {clube.nome} </Text>
-													<Text style={{ color: white }}> {clube.nos.length} membros </Text>
-													<Icon type="font-awesome" name="angle-right" size={22} color={white} />
+													<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+														<Text style={{ color: white }}> {clube.nos.length} membros </Text>
+														<Icon type="font-awesome" name="angle-right" size={22} containerStyle={{ marginLeft: 5 }} color={white} />
+													</View>
 												</TouchableOpacity>
 											)
 										}
