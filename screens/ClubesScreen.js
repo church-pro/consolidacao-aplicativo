@@ -22,6 +22,7 @@ import { LinearGradient } from 'expo'
 import { Icon } from 'react-native-elements';
 import { stylesMarcar } from '../components/Styles';
 import empty from '../assets/images/empty.png'
+import sad from '../assets/images/sad.png'
 
 class ClubesScreen extends React.Component {
 
@@ -180,7 +181,7 @@ class ClubesScreen extends React.Component {
 		const {
 			usuario
 		} = this.props
-		this.setState({semInternet: false,})
+		this.setState({ semInternet: false, })
 		try {
 			NetInfo.isConnected
 				.fetch()
@@ -198,11 +199,11 @@ class ClubesScreen extends React.Component {
 								}
 							})
 					} else {
-						this.setState({semInternet: true})
+						this.setState({ semInternet: true })
 					}
 				})
 		} catch (err) {
-			this.setState({semInternet: true})
+			this.setState({ semInternet: true })
 		}
 	}
 
@@ -223,152 +224,150 @@ class ClubesScreen extends React.Component {
 			<View style={{ flex: 1, backgroundColor: dark }}>
 				{
 					semInternet &&
-					<View style={{flex: 1}}>
-						<Text style={{color: white}}>
-							Sem conexão
-						</Text>
+
+					<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+						<Text style={{ color: gray, fontSize: 18 }}>Sem conexão</Text>
+						<Image source={sad} style={{ height: 120, width: 130, marginVertical: 15 }} />
 						<TouchableOpacity
 							onPress={() => this.buscarMeusClubes()}>
-							<Text style={{color: white}}>
-							Tentar Novamente
-							</Text>
+							<Text style={{ color: gray, fontSize: 18 }}>Tentar Novamente</Text>
 						</TouchableOpacity>
 					</View>
 				}
 				{
-					!semInternet && 
+					!semInternet &&
 					carregando &&
 					<Loading title={'Buscando clubes ...'} />
 				}
 				{
 					!semInternet &&
-						!carregando &&
-						!mostrarBuscar &&
-						!mostrarCriar &&
-						<View style={{ paddingTop: 20, paddingHorizontal: 20, flex: 1 }}>
-							<View
-								style={{
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-								}}>
-								<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
-									Clubes
+					!carregando &&
+					!mostrarBuscar &&
+					!mostrarCriar &&
+					<View style={{ paddingTop: 20, paddingHorizontal: 20, flex: 1 }}>
+						<View
+							style={{
+								flexDirection: 'row',
+								alignItems: 'center',
+								justifyContent: 'space-between',
+							}}>
+							<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
+								Clubes
 								</Text>
-								<TouchableOpacity
-									onPress={() => this.buscarMeusClubes()}>
-									<Icon
-										name='retweet'
-										type='font-awesome'
-										color={white}
-										size={22}
-									/>
-								</TouchableOpacity>
-							</View>
-							{
-								clubes.length === 0 && clubesQueParticipo.length === 0 ?
-									<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-										<Text style={{ color: gray, fontSize: 18 }}>Você não possui nenhum clube...</Text>
-										<Image source={empty} style={{ height: 100, width: 100, marginVertical: 15 }} />
-										<Text style={{ color: gray, fontSize: 18 }}>Crie ou participe de algum.</Text>
-									</View>
-									:
-									<ScrollView>
-
-										<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
-											Meus clubes
-										</Text>
-										<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
-											{
-												clubes &&
-												clubes.map(clube =>
-													<TouchableOpacity
-														key={clube._id}
-														style={{
-															borderTopWidth: 1,
-															borderTopColor: dark,
-															padding: 12,
-															flexDirection: 'row',
-															alignItems: 'center',
-															justifyContent: 'space-between',
-														}}
-														onPress={() => this.props.navigation.navigate('Clube', { clube })} >
-														<Text style={{ color: white }}> {clube.nome} </Text>
-														<Text style={{ color: white }}> {clube.nos.length} membros </Text>
-														<Icon type="font-awesome" name="angle-right" size={22} color={white} />
-													</TouchableOpacity>
-
-												)
-											}
-										</View>
-
-										<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>
-											Clubes que participo
-										</Text>
-
-										<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
-											{
-												clubesQueParticipo &&
-												clubesQueParticipo.map(clube =>
-													<TouchableOpacity
-														style={{
-															borderTopWidth: 1,
-															borderTopColor: dark,
-															padding: 12,
-															flexDirection: 'row',
-															alignItems: 'center',
-															justifyContent: 'space-between',
-														}}
-														key={clube._id}
-														onPress={() => this.props.navigation.navigate('Clube', { clube })} >
-														<Text style={{ color: white }}> {clube.nome} </Text>
-														<Text style={{ color: white }}> {clube.nos.length} membros </Text>
-														<Icon type="font-awesome" name="angle-right" size={22} color={white} />
-													</TouchableOpacity>
-												)
-											}
-										</View>
-
-									</ScrollView>
-							}
-
-							<View style={{ paddingVertical: 10, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-								<TouchableOpacity
-									style={{
-										backgroundColor: primary,
-										height: 45,
-										borderRadius: 6,
-										flex: 1,
-										justifyContent: 'center',
-										shadowOffset: { width: 5, height: 5, },
-										shadowColor: 'rgba(0,0,0,0.3)',
-										shadowOpacity: 1.0,
-										marginRight: 8,
-									}}
-									onPress={() => this.setState({ mostrarCriar: true })}>
-									<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-										Criar
-									</Text>
-								</TouchableOpacity>
-								<TouchableOpacity
-									style={{
-										backgroundColor: primary,
-										height: 45,
-										borderRadius: 6,
-										flex: 1,
-										justifyContent: 'center',
-										shadowOffset: { width: 5, height: 5, },
-										shadowColor: 'rgba(0,0,0,0.3)',
-										shadowOpacity: 1.0,
-									}}
-									onPress={() => this.setState({ mostrarBuscar: true })}>
-									<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-										Participar
-									</Text>
-								</TouchableOpacity>
-							</View>
-
+							<TouchableOpacity
+								onPress={() => this.buscarMeusClubes()}>
+								<Icon
+									name='retweet'
+									type='font-awesome'
+									color={white}
+									size={22}
+								/>
+							</TouchableOpacity>
 						</View>
+						{
+							clubes.length === 0 && clubesQueParticipo.length === 0 ?
+								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+									<Text style={{ color: gray, fontSize: 18 }}>Você não possui nenhum clube...</Text>
+									<Image source={empty} style={{ height: 100, width: 100, marginVertical: 15 }} />
+									<Text style={{ color: gray, fontSize: 18 }}>Crie ou participe de algum.</Text>
+								</View>
+								:
+								<ScrollView>
+
+									<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
+										Meus clubes
+										</Text>
+									<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
+										{
+											clubes &&
+											clubes.map(clube =>
+												<TouchableOpacity
+													key={clube._id}
+													style={{
+														borderTopWidth: 1,
+														borderTopColor: dark,
+														padding: 12,
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'space-between',
+													}}
+													onPress={() => this.props.navigation.navigate('Clube', { clube })} >
+													<Text style={{ color: white }}> {clube.nome} </Text>
+													<Text style={{ color: white }}> {clube.nos.length} membros </Text>
+													<Icon type="font-awesome" name="angle-right" size={22} color={white} />
+												</TouchableOpacity>
+
+											)
+										}
+									</View>
+
+									<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 10 }}>
+										Clubes que participo
+										</Text>
+
+									<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
+										{
+											clubesQueParticipo &&
+											clubesQueParticipo.map(clube =>
+												<TouchableOpacity
+													style={{
+														borderTopWidth: 1,
+														borderTopColor: dark,
+														padding: 12,
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'space-between',
+													}}
+													key={clube._id}
+													onPress={() => this.props.navigation.navigate('Clube', { clube })} >
+													<Text style={{ color: white }}> {clube.nome} </Text>
+													<Text style={{ color: white }}> {clube.nos.length} membros </Text>
+													<Icon type="font-awesome" name="angle-right" size={22} color={white} />
+												</TouchableOpacity>
+											)
+										}
+									</View>
+
+								</ScrollView>
+						}
+
+						<View style={{ paddingVertical: 10, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+							<TouchableOpacity
+								style={{
+									backgroundColor: primary,
+									height: 45,
+									borderRadius: 6,
+									flex: 1,
+									justifyContent: 'center',
+									shadowOffset: { width: 5, height: 5, },
+									shadowColor: 'rgba(0,0,0,0.3)',
+									shadowOpacity: 1.0,
+									marginRight: 8,
+								}}
+								onPress={() => this.setState({ mostrarCriar: true })}>
+								<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+									Criar
+									</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={{
+									backgroundColor: primary,
+									height: 45,
+									borderRadius: 6,
+									flex: 1,
+									justifyContent: 'center',
+									shadowOffset: { width: 5, height: 5, },
+									shadowColor: 'rgba(0,0,0,0.3)',
+									shadowOpacity: 1.0,
+								}}
+								onPress={() => this.setState({ mostrarBuscar: true })}>
+								<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+									Participar
+									</Text>
+							</TouchableOpacity>
+						</View>
+
+					</View>
 				}
 				{
 					mostrarCriar &&
