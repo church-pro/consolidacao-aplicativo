@@ -13,12 +13,7 @@ import { primary, dark, white, gray, lightdark, black } from '../helpers/colors'
 import { Input } from 'react-native-elements'
 import {
 	registrarNaAPI,
-	sincronizarNaAPI,
 } from '../helpers/api'
-import {
-	alterarUsuarioNoAsyncStorage,
-	porProspectoDaSincronizacao,
-} from '../actions'
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
 import CPButton from '../components/CPButton';
@@ -48,6 +43,9 @@ class RegistroScreen extends React.Component {
 	}
 
 	ajudadorDeSubmissao = () => {
+		const {
+			navigation,
+		} = this.props
 		const {
 			nome,
 			ddd,
@@ -155,32 +153,9 @@ class RegistroScreen extends React.Component {
 								.then(resposta => {
 									this.setState({ carregando: false })
 									if (resposta.ok) {
-										const dados = {
-											email,
-											senha,
-											baixando: true,
-										}
-										sincronizarNaAPI(dados)
-											.then(retorno => {
-												if (retorno.ok) {
-													let usuario = retorno.resultado.usuario
-													delete usuario.prospectos
-													usuario.senha = senha
-													this.props.alterarUsuarioNoAsyncStorage(usuario)
-														.then(() => {
-															this.props.porProspectoDaSincronizacao([])
-																.then(() => {
-																	this.setState({ carregando: false })
-																	Alert.alert('Registro', 'Registrado com sucesso!')
-																	this.props.navigation.navigate('Principal')
-																})
-														})
-												} else {
-													this.setState({ carregando: false })
-													Alert.alert('Aviso', 'Usuário/Senha não conferem!')
-												}
-											})
-
+										this.setState({ carregando: false })
+										Alert.alert('Registro', 'Registrado com sucesso!')
+										navigation.navigate('Tutorial', {email, senha})
 									} else {
 										Alert.alert('Aviso', resposta.mensagem)
 									}
@@ -418,11 +393,4 @@ class RegistroScreen extends React.Component {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
-		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
-	}
-}
-
-export default connect(null, mapDispatchToProps)(RegistroScreen)
+export default RegistroScreen

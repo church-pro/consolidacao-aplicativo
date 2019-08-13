@@ -5,6 +5,7 @@ import RegistroScreen from '../screens/RegistroScreen';
 import SincronizacaoScreen from '../screens/SincronizacaoScreen';
 import PrincipalScreen from '../screens/PrincipalScreen';
 import PerguntasScreen from '../screens/PerguntasScreen';
+import TutorialScreen from '../screens/TutorialScreen'
 import { white, dark, black } from '../helpers/colors'
 
 const MainStack = createStackNavigator(
@@ -13,6 +14,7 @@ const MainStack = createStackNavigator(
         Registro: RegistroScreen,
         Principal: PrincipalScreen,
         Perguntas: PerguntasScreen,
+		Tutorial: TutorialScreen,
     },
     {
         initialRouteName: 'Login',
