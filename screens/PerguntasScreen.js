@@ -259,6 +259,8 @@ class PerguntasScreen extends React.Component {
 				<View style={styles.container}>
 					{
 						prospecto &&
+						estados &&
+						!carregando &&
 						<View style={{ flex: 0.1, padding: 10, alignItems: 'center' }}>
 							<Text style={{ color: white }}>
 								{prospecto.nome}
@@ -315,34 +317,33 @@ class PerguntasScreen extends React.Component {
 							OnPress={() => { this.ajudadorDeSubmit() }}
 						/>
 					}
-					<View style={{ flexDirection: 'row', marginTop: 25 }}>
-						<TouchableOpacity
-							style={{
-								backgroundColor: gray,
-								height: 45,
-								borderRadius: 6,
-								flex: 1,
-								justifyContent: 'center',
-								shadowOffset: { width: 5, height: 5, },
-								shadowColor: 'rgba(0,0,0,0.3)',
-								shadowOpacity: 1.0,
-								marginRight: 8,
-							}}
-							onPress={() => this.props.navigation.goBack()}
-						>
-							<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-								Voltar
-							</Text>
-						</TouchableOpacity>
-
-
-
-					</View>
+					{
+						estados &&
+							!carregando &&
+							<View style={{ flexDirection: 'row', marginTop: 25 }}>
+								<TouchableOpacity
+									style={{
+										backgroundColor: gray,
+										height: 45,
+										borderRadius: 6,
+										flex: 1,
+										justifyContent: 'center',
+										shadowOffset: { width: 5, height: 5, },
+										shadowColor: 'rgba(0,0,0,0.3)',
+										shadowOpacity: 1.0,
+										marginRight: 8,
+									}}
+									onPress={() => this.props.navigation.goBack()} >
+									<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+										Voltar
+									</Text>
+								</TouchableOpacity>
+							</View>
+					}
 				</View>
 			</LinearGradient>
 		)
 	}
-
 }
 
 function mapStateToProps({ prospectos, usuario, administracao }, { navigation }) {
