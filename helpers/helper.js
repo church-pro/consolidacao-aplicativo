@@ -172,8 +172,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 		estados = {
 			enviouMensagem: false,
 			naoEnviouMensagem: false,
-			naoEnviouMasQuerEnviar: false,
-			removerDireto: false,
 			mostrarBotaoConfirmar: false,
 			remover: false,
 			avancar: false,
@@ -197,8 +195,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						onPress: {
 							enviouMensagem: true,
 							naoEnviouMensagem: false,
-							naoEnviouMasQuerEnviar: false,
-							removerDireto: false,
 							mostrarBotaoConfirmar: true,
 							mostrarPerguntaDois: false,
 							situacao_id_extra: null,
@@ -212,26 +208,9 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 						onPress: {
 							enviouMensagem: false,
 							naoEnviouMensagem: true,
-							naoEnviouMasQuerEnviar: false,
-							removerDireto: false,
 							mostrarBotaoConfirmar: false,
 							mostrarPerguntaDois: true,
 							situacao_id_extra: SITUACAO_MENSAGEM_NUMERO_INVALIDO,
-							remover: false,
-							avancar: false,
-						},
-					},
-					{
-						estado: 'naoEnviouMasQuerEnviar',
-						titulo: 'Não mas quero enviar agora',
-						onPress: {
-							enviouMensagem: false,
-							naoEnviouMensagem: false,
-							naoEnviouMasQuerEnviar: true,
-							removerDireto: false,
-							mostrarBotaoConfirmar: true,
-							mostrarPerguntaDois: false,
-							situacao_id_extra: null,
 							remover: false,
 							avancar: false,
 						},
@@ -542,7 +521,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							situacao_id_nova: SITUACAO_VISITA,
 							situacao_id_extra: null,
 							alertTitulo: labelParabens,
-							alertMensagem: labelMensagem + 'evento',
+							alertMensagem: 'Parabéns Processo concluído!',
 						},
 					},
 					{
@@ -620,19 +599,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							situacao_id_nova: SITUACAO_IMPORTAR,
 							alertTitulo: labelVolta,
 							alertMensagem: labelMensagemVoltar
-						},
-					},
-					{
-						estado: 'avancar',
-						titulo: AVANCAR_PARA_EVENTO,
-						onPress: {
-							mostrarBotaoConfirmar: true,
-							remover: false,
-							recomecar: false,
-							avancar: true,
-							situacao_id_nova: SITUACAO_VISITA,
-							alertTitulo: labelParabens,
-							alertMensagem: labelMensagem + 'evento'
 						},
 					},
 					{

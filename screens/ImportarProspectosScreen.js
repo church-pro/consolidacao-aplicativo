@@ -250,7 +250,7 @@ class ImportarProspectosScreen extends React.Component {
                             .then(() => {
                                 this.setState({ carregando: false })
                                 Alert.alert('Importação', 'Importação concluida com sucesso!')
-                                navigation.navigate('Prospectos', { qualAba: 'Mensagem' })
+                                navigation.navigate('Prospectos', { qualAba: 'Importar' })
                             })
                     })
             })
@@ -310,29 +310,31 @@ class ImportarProspectosScreen extends React.Component {
 
                 {
                     carregando &&
-                    <Loading />
+                    <Loading title='Carregando Contatos' />
                 }
 
                 {
                     !carregando && contatosParaSelecionar &&
-                    <>
-                        <View style={{ height: 40, borderWidth: 1, borderColor: gray, borderRadius: 6, marginHorizontal: 10 }}>
-                            <TextInput
-                                placeholder="Buscar"
-                                placeholderTextColor={gray}
-                                style={{ flex: 1, paddingHorizontal: 5, color: white }}
-                                onChangeText={texto => this.setState({ busca: texto })}
-                                value={busca}
-                                autoCorrect={false}
-                            />
-                        </View>
-                        <MultiSelectList
-                            data={contatosParaSelecionar}
-                            selected={selected}
-                            _onPressItem={this._onPressItem}
-                        >
-                        </MultiSelectList>
-                    </>
+                    <View style={{ height: 40, borderWidth: 1, borderColor: gray, borderRadius: 6, marginHorizontal: 10 }}>
+                        <TextInput
+                            placeholder="Buscar"
+                            placeholderTextColor={gray}
+                            style={{ flex: 1, paddingHorizontal: 5, color: white }}
+                            onChangeText={texto => this.setState({ busca: texto })}
+                            value={busca}
+                            autoCorrect={false}
+                        />
+                    </View>
+                }
+                {
+                    !carregando && contatosParaSelecionar &&
+
+                    <MultiSelectList
+                        data={contatosParaSelecionar}
+                        selected={selected}
+                        _onPressItem={this._onPressItem}
+                    >
+                    </MultiSelectList>
                 }
 
                 {

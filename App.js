@@ -13,8 +13,8 @@ const logger = store => next => action => {
 	console.group(action.type ? action.type : 'Redux-Thunk')
 	console.info('DESPACHANDO ACAO: ', action)
 	let resultado = next(action)
-	//console.log('PROXIMO STORE: ', store.getState())
-	console.groupEnd(action.type)
+	console.log('PROXIMO STORE: ', store.getState())
+	console.groupEnd(action.type ? action.type : 'Redux-Thunk')
 	return resultado
 }
 const store = createStore(rootReducer, applyMiddleware(thunk))
