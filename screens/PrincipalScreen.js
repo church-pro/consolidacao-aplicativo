@@ -7,7 +7,6 @@ import {
 import { Icon } from 'react-native-elements'
 import { white, gold, dark, lightdark, black, primary } from '../helpers/colors'
 import { Header, Title, Left, Body, Right, } from 'native-base'
-import TutorialScreen from './TutorialScreen'
 import PerfilScreen from './PerfilScreen'
 import { LinearGradient } from 'expo'
 import ProspectosScreen from '../screens/ProspectosScreen';
