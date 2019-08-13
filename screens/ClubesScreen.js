@@ -41,6 +41,7 @@ class ClubesScreen extends React.Component {
 		busca: '',
 		clubesBuscados: [],
 		carregando: false,
+		semInternet: false,
 	}
 
 	criarClube() {
@@ -179,6 +180,7 @@ class ClubesScreen extends React.Component {
 		const {
 			usuario
 		} = this.props
+		this.setState({semInternet: false,})
 		try {
 			NetInfo.isConnected
 				.fetch()
@@ -196,13 +198,11 @@ class ClubesScreen extends React.Component {
 								}
 							})
 					} else {
-						Alert.alert('Internet', 'Verifique sua internet!')
-						this.props.navigation.goBack()
+						this.setState({semInternet: true})
 					}
 				})
 		} catch (err) {
-			Alert.alert('Internet', 'Verifique sua internet!')
-			this.props.navigation.goBack()
+			this.setState({semInternet: true})
 		}
 	}
 
@@ -216,15 +216,32 @@ class ClubesScreen extends React.Component {
 			busca,
 			carregando,
 			clubesBuscados,
+			semInternet,
 		} = this.state
 
 		return (
 			<View style={{ flex: 1, backgroundColor: dark }}>
 				{
+					semInternet &&
+					<View style={{flex: 1}}>
+						<Text style={{color: white}}>
+							Sem conexão
+						</Text>
+						<TouchableOpacity
+							onPress={() => this.buscarMeusClubes()}>
+							<Text style={{color: white}}>
+							Tentar Novamente
+							</Text>
+						</TouchableOpacity>
+					</View>
+				}
+				{
+					!semInternet && 
 					carregando &&
 					<Loading title={'Buscando clubes ...'} />
 				}
 				{
+					!semInternet &&
 					!carregando &&
 					!mostrarBuscar &&
 					!mostrarCriar &&
