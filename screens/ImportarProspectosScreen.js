@@ -278,7 +278,7 @@ class ImportarProspectosScreen extends React.Component {
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
                 <Header style={stylesImportar.header} iosBarStyle="light-content">
                     <Left
-                    // style={{ flex: 0 }}
+                        style={{ flex: Platform.OS === "ios" ? 0 : 0 }}
                     >
                         <TouchableOpacity
                             hitSlop={{ right: 10 }}
@@ -294,9 +294,8 @@ class ImportarProspectosScreen extends React.Component {
                             }
                         </TouchableOpacity>
                     </Left>
-                    <Body
-                    >
-                        <Title style={[stylesImportar.headerTitle]}>{IMPORTAR_CONTATOS}</Title>
+                    <Body style={{ flex: 1, marginLeft: Platform.OS === "ios" ? 0 : 15 }}>
+                        <Title style={[stylesImportar.headerTitle, { textAlign: 'center' }]}>{IMPORTAR_CONTATOS}</Title>
                     </Body>
                     <Right
                         style={{ flex: 0 }}
