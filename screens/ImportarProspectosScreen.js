@@ -293,9 +293,9 @@ class ImportarProspectosScreen extends React.Component {
                         </TouchableOpacity>
                     </Left>
                     <Body >
-                        <Title style={stylesImportar.headerTitle}>{IMPORTAR_CONTATOS}</Title>
+                        <Title style={[stylesImportar.headerTitle]}>{IMPORTAR_CONTATOS}</Title>
                     </Body>
-                    <Right >
+                    <Right style={{ flex: 0 }} >
                         <TouchableOpacity
                             style={stylesImportar.containerIcon}
                             onPress={() => this.props.navigation.navigate('Prospecto')}>

@@ -376,7 +376,8 @@ class RegistroScreen extends React.Component {
 					<Input
 						containerStyle={styles.containerInput}
 						inputContainerStyle={styles.inputContainerStyle}
-						keyboardType='visible-password'
+						keyboardType='default'
+						secureTextEntry={true}
 						keyboardAppearance='dark'
 						placeholder=""
 						placeholderTextColor={'#ddd'}
@@ -393,7 +394,8 @@ class RegistroScreen extends React.Component {
 					<Input
 						containerStyle={styles.containerInput}
 						inputContainerStyle={styles.inputContainerStyle}
-						keyboardType='visible-password'
+						keyboardType='default'
+						secureTextEntry={true}
 						keyboardAppearance='dark'
 						placeholder=""
 						placeholderTextColor={'#ddd'}
@@ -411,8 +413,7 @@ class RegistroScreen extends React.Component {
 						title={SALVAR}
 						OnPress={() => { this.ajudadorDeSubmissao() }}
 					/>
-
-			</KeyboardAwareScrollView>
+				</KeyboardAwareScrollView>
 				}
 			</LinearGradient>
 		)

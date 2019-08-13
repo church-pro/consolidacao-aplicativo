@@ -48,13 +48,13 @@ class ProspectosScreen extends React.Component {
 		const {
 			navigation,
 			prospectos,
-			pegarAdministracaoNoAsyncStorage,
+			// pegarAdministracaoNoAsyncStorage,
 		} = this.props
-		const retorno =	await pegarAdministracaoNoAsyncStorage()
+		// const retorno =	await pegarAdministracaoNoAsyncStorage()
 		this.setState({ carregando: false })
-		if(retorno && retorno.bloqueiarTela){
-			navigation.navigate('Perguntas', {prospecto_id: retorno.prospecto_id})
-		}
+		// if (retorno && retorno.bloqueiarTela) {
+		// 	navigation.navigate('Perguntas', { prospecto_id: retorno.prospecto_id })
+		// }
 	}
 
 	static navigationOptions = () => {
