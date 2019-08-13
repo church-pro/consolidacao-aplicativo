@@ -15,6 +15,7 @@ import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,
 } from '../actions'
+import { ENTRANDO, } from '../helpers/constants';
 
 class TutorialScreen extends React.Component {
 
