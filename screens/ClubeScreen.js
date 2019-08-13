@@ -55,25 +55,25 @@ class ClubeScreen extends React.Component {
 					<Right />
 
 				</Header>
-				<View style={{ flex: 1, backgroundColor: dark, padding: 20 }}>
+				<View style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
 
 					<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
 						Participantes
-				</Text>
+					</Text>
 					<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
 
 						{
 							clube.nos && clube.nos.length > 0 &&
 							clube.nos.map(no => {
 								let pontos = 0
-								if(no.mensagems){
-									pontos+= no.mensagems
+								if (no.mensagems) {
+									pontos += no.mensagems
 								}
-								if(no.ligacoes){
-									pontos+= no.ligacoes
+								if (no.ligacoes) {
+									pontos += no.ligacoes
 								}
-								if(no.visitas){
-									pontos+= no.visitas
+								if (no.visitas) {
+									pontos += no.visitas
 								}
 								return (
 									<TouchableOpacity
