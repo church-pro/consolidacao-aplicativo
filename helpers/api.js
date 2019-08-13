@@ -105,7 +105,7 @@ export function recuperarAdministracao() {
 		.then(JSON.parse)
 		.then((dados) => {
 			if (dados === null) {
-				dados = { administracao: {bloqueiarTela: false, prospecto_id: null} }
+				dados = { administracao: { bloqueiarTela: false, prospecto_id: null } }
 				AsyncStorage.setItem(CHAVE_ADMINISTRACAO, JSON.stringify(dados))
 			}
 			return dados

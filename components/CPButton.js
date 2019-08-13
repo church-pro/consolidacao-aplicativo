@@ -15,7 +15,7 @@ const CPButton = ({ OnPress, title }) => (
             style={styles.button}
             onPress={OnPress}
         >
-            <Text style={{ textAlign: "center", fontSize: 16, color: white }}>{title}</Text>
+            <Text style={{ textAlign: "center", fontSize: 16, color: white }}> {title} </Text>
         </TouchableOpacity>
     </View>
 );
