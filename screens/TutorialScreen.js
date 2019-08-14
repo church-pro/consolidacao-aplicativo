@@ -106,55 +106,90 @@ class TutorialScreen extends React.Component {
 
 						{
 							passoUm &&
-								<View style={{ flex: 1, justifyContent: 'space-between', }}>
-									<View style={{ alignItems: 'center', }}>
-										<Image source={tabs} style={{ width: Dimensions.get('screen').width - 20, resizeMode: 'contain' }} />
-										<Text style={{ color: white, fontSize: 18, textAlign: 'center' }}>
-											Importe contatos e cadastre pessoas para fazer o acompanhamento
-										</Text>
-									</View>
-								<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
-									<Text style={{ color: white, textAlign: 'right' }}>
-										Próximo Passo
+							<View style={{ flex: 1, justifyContent: 'space-between', }}>
+								<View style={{ alignItems: 'center', }}>
+									<Image source={tabs} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 280, resizeMode: 'contain' }} />
+									<Text style={{ color: white, fontSize: 18, textAlign: 'center' }}>
+										Importe contatos e cadastre pessoas para fazer o acompanhamento
 									</Text>
-								</TouchableOpacity>
+								</View>
+								<View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+									<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}
+										style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+									>
+										<Text style={{ color: white }}>
+											Próximo Passo
+										</Text>
+									</TouchableOpacity>
+								</View>
 							</View>
 						}
 						{
 							passoDois &&
-								<View style={{ flex: 1, justifyContent: 'space-between' }}>
-									<View style={{ alignItems: 'center', }}>
-										<Image source={perfil} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
-										<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
-											Acompanhe seu progresso no perfil
+							<View style={{ flex: 1, justifyContent: 'space-between' }}>
+								<View style={{ alignItems: 'center', }}>
+									<Image source={perfil} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'contain' }} />
+									<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
+										Acompanhe seu progresso no perfil
+									</Text>
+								</View>
+								<View style={{
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+								}}
+								>
+									<TouchableOpacity onPress={() => this.setState(mostrarPassoUm)}
+										style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+									>
+										<Text style={{ color: white }}>
+											Voltar
 										</Text>
-									</View>
-									<View style={{
+									</TouchableOpacity>
+									<TouchableOpacity onPress={() => this.setState(mostrarPassoTres)}
+										style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+									>
+										<Text style={{ color: white }}>
+											Próximo Passo
+										</Text>
+									</TouchableOpacity>
+								</View>
+							</View>
+						}
+						{
+							passoTres &&
+							<View style={{ flex: 1, justifyContent: 'space-between' }}>
+								<View style={{ alignItems: 'center', }}>
+									<Image source={clubes} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'contain' }} />
+									<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
+										Crie ou participe de clubes, compita com seus amigos
+									</Text>
+								</View>
+
+								<View
+									style={{
 										flexDirection: 'row',
 										alignItems: 'center',
 										justifyContent: 'space-between',
 									}}
 								>
-									<TouchableOpacity onPress={() => this.setState(mostrarPassoUm)}>
+									<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}
+										style={{ padding: 5, borderWidth: 1, borderColor: gray, borderRadius: 6 }}
+										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+									>
 										<Text style={{ color: white }}>
 											Voltar
 										</Text>
 									</TouchableOpacity>
-								<TouchableOpacity onPress={() => this.setState(mostrarPassoTres)}>
-									<Text style={{ color: white }}>
-										Próximo Passo
-									</Text>
-								</TouchableOpacity>
-							</View>
-						</View>
-						}
-						{
-							passoTres &&
-								<View style={{ flex: 1, justifyContent: 'space-between' }}>
-									<View style={{ alignItems: 'center', }}>
-										<Image source={clubes} style={{ width: Dimensions.get('screen').width - 70, height: Dimensions.get('screen').height - 300, resizeMode: 'stretch' }} />
-										<Text style={{ color: white, fontSize: 18, textAlign: 'center', marginTop: 10 }}>
-											Crie ou participe de clubes, compita com seus amigos
+									<TouchableOpacity
+										style={{ backgroundColor: primary, borderRadius: 6, padding: 5 }}
+										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+										onPress={() => this.comecar()}>
+										<Text style={{ color: white }}>
+											Começar
 										</Text>
 									</View>
 
