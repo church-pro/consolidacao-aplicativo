@@ -6,7 +6,8 @@ import {
 	Text,
 	TouchableOpacity,
 	Image,
-	Dimensions
+	Dimensions,
+	Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo'
 import {
@@ -186,12 +187,15 @@ class TutorialScreen extends React.Component {
 									<TouchableOpacity
 										style={{ backgroundColor: primary, borderRadius: 6, padding: 5 }}
 										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-										onPress={() => this.comecar()}>
+										onPress={() => this.comecar()}
+									>
 										<Text style={{ color: white }}>
 											Começar
 										</Text>
 									</TouchableOpacity>
 								</View>
+
+
 							</View>
 						}
 						<View style={{ flexDirection: 'row', height: 50 }}>
@@ -213,17 +217,16 @@ class TutorialScreen extends React.Component {
 	}
 }
 
-// const mapStateToProps = (state, { navigation }) => {
-// const {
-// 	email,
-// 	senha,
-// } = navigation.state.params
-
-// return {
-// 	email,
-// 	senha
-// }
-// }
+const mapStateToProps = (state, { navigation }) => {
+	const {
+		email,
+		senha,
+	} = navigation.state.params
+	return {
+		email,
+		senha
+	}
+}
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -232,5 +235,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(TutorialScreen)
-export default connect(null, mapDispatchToProps)(TutorialScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(TutorialScreen)
