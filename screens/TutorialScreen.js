@@ -97,12 +97,12 @@ class TutorialScreen extends React.Component {
 
 				{
 					!carregando &&
-						<View style={{ flex: 1, alignItems: 'center' }}>
-							<Image source={logo} style={{
-								height: 80,
-								width: 200,
-								resizeMode: 'contain',
-							}} />
+					<View style={{ flex: 1, alignItems: 'center' }}>
+						<Image source={logo} style={{
+							height: 80,
+							width: 200,
+							resizeMode: 'contain',
+						}} />
 
 						{
 							passoUm &&
@@ -187,33 +187,16 @@ class TutorialScreen extends React.Component {
 									<TouchableOpacity
 										style={{ backgroundColor: primary, borderRadius: 6, padding: 5 }}
 										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-										onPress={() => this.comecar()}>
+										onPress={() => this.comecar()}
+									>
 										<Text style={{ color: white }}>
 											Começar
 										</Text>
-									</View>
-
-									<View
-										style={{
-											flexDirection: 'row',
-											alignItems: 'center',
-											justifyContent: 'space-between',
-										}}
-									>
-										<TouchableOpacity onPress={() => this.setState(mostrarPassoDois)}>
-											<Text style={{ color: white }}>
-												Voltar
-											</Text>
-										</TouchableOpacity>
-										<TouchableOpacity
-											style={{ backgroundColor: primary, borderRadius: 6, padding: 5 }}
-											onPress={() => this.comecar()}>
-											<Text style={{ color: white }}>
-												Começar
-											</Text>
-										</TouchableOpacity>
-									</View>
+									</TouchableOpacity>
 								</View>
+
+
+							</View>
 						}
 						<View style={{ flexDirection: 'row', height: 50 }}>
 							<Text

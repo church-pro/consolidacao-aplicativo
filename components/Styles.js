@@ -3,7 +3,9 @@ import { lightdark, gray, white, gold, dark, primary, black } from '../helpers/c
 
 // GLOBAL
 export const styles = StyleSheet.create({
-
+	textp:{
+		color: white,
+	},
     container: {
         flex: 1,
         paddingHorizontal: 20,
