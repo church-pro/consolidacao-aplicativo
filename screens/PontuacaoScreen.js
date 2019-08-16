@@ -4,8 +4,17 @@ import {
 	Text,
 	TouchableOpacity,
 } from 'react-native';
-import { white, lightdark } from '../helpers/colors';
+import { blue, white, lightdark } from '../helpers/colors';
 import ProgressCircle from 'react-native-progress-circle'
+import { connect } from 'react-redux'
+import { 
+	SITUACAO_LIGAR,
+	SITUACAO_MENSAGEM,
+	SITUACAO_VISITA,
+	VALOR_VISITA,
+	VALOR_LIGAR,
+	VALOR_MENSAGEM,
+} from '../helpers/constants'
 
 class PontuacaoScreen extends React.Component {
 
@@ -15,54 +24,81 @@ class PontuacaoScreen extends React.Component {
 	}
 
 	state = {
+		velocimetro: 0,
 		pontos: 0,
+		informacao: '',
 	}
 
 	componentDidMount(){
-		const total = 95
+		const {
+			situacao_id,
+		} = this.props
+		const {
+			velocimetro,
+		} = this.state
+		let pontos = 0
+		let informacao = ''
+		if(situacao_id === SITUACAO_MENSAGEM){
+			pontos = VALOR_MENSAGEM
+			informacao = 'Parabéns! A pessoa está agora na aba ligar.'
+		}
+		if(situacao_id === SITUACAO_LIGAR){
+			pontos = VALOR_LIGAR
+			informacao = 'Parabéns! A pessoa está agora na aba visita.'
+		}
+		if(situacao_id === SITUACAO_VISITA){
+			pontos = VALOR_VISITA
+			informacao = 'Parabéns! Você concluiu o projeto!'
+		}
+		this.setState({pontos})
 		this.interval = setInterval(() => {
 			this.setState(state => {
-				const pontosAtuais = state.pontos
+				const velocimetro = state.velocimetro
 				return {
-					pontos: pontosAtuais < total ? pontosAtuais + 1 : pontosAtuais,
+					velocimetro: velocimetro < 100 ? velocimetro + 1 : velocimetro,
+					informacao,
 				}
 			})
-		}, 20)
+		}, 1)
 	}
 	render() {
 		const {
-			pontos
+			velocimetro,
+			pontos,
+			informacao,
 		} = this.state
+		const {
+			qualAba,
+			navigation,
+		} = this.props
 		return (
 			<View style={{ flex: 1, backgroundColor: lightdark }}>
 				<View style={{ flex: 1 }}>
-					<View style={{ flex: 1, backgroundColor: white,}}>
+					<View style={{ flex: 1,}}>
 						<ProgressCircle
-							percent={pontos}
+							percent={velocimetro}
 							radius={50}
 							borderWidth={10}
 							color="#3399FF"
-							bgColor="#aaaaaa"
+							bgColor="#000000"
 						>
-							<Text style={{ fontSize: 18}}>
-								{`${pontos}%`}
-							</Text>
 						</ProgressCircle>
-						<Text style={{ color: white}}>
-							Velocimetro
-						</Text>
 					</View>
 					<View style={{ flex: 1 }}>
 						<Text style={{ color: white}}>
 							{/* por em negrito */}
 							{`Ação concluída! +${pontos} XP`}
 						</Text>
+						<Text style={{ color: white}}>
+							{informacao}
+						</Text>
 					</View>
 				</View>
 				<View style={{ flex: 0.25 }}>
 					{/* botao com sombra para parecer mais cartoon */}
 					<TouchableOpacity
-						onPress={() => navigation.navigate('Anuncio')}>
+						style={{backgroundColor: blue}}
+							onPress={() => navigation.navigate('Prospectos', {qualAba})}>
 						<Text style={{ color: white}}>
 							Continuar
 						</Text>
@@ -73,4 +109,12 @@ class PontuacaoScreen extends React.Component {
 	}
 }
 
-export default PontuacaoScreen
+
+const mapStateToProps = (state, { navigation, }) => {
+	return {
+		qualAba: navigation.state.params.qualAba,
+		situacao_id: navigation.state.params.situacao_id,
+	}
+}
+
+export default connect(mapStateToProps, null)(PontuacaoScreen)

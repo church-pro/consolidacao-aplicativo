@@ -168,7 +168,6 @@ class Prospecto extends React.Component {
 						<View style={stylesProspecto.containerName}>
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 								<Text numberOfLines={1} style={[stylesProspecto.text]}>{prospecto.nome}</Text>
-
 							</View>
 							{
 								prospecto.data &&

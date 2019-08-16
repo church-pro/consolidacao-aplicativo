@@ -19,6 +19,9 @@ import {
 	SITUACAO_LIGAR,
 	SITUACAO_VISITA,
 	CHURCH_PRO,
+	VALOR_MENSAGEM,
+	VALOR_LIGAR,
+	VALOR_VISITA,
 } from '../helpers/constants'
 import {
 	sincronizar,
@@ -48,13 +51,15 @@ class ProspectosScreen extends React.Component {
 		const {
 			navigation,
 			prospectos,
-			// pegarAdministracaoNoAsyncStorage,
+			pegarAdministracaoNoAsyncStorage,
 		} = this.props
-		// const retorno =	await pegarAdministracaoNoAsyncStorage()
+		const retorno =	await pegarAdministracaoNoAsyncStorage()
 		this.setState({ carregando: false })
-		// if (retorno && retorno.bloqueiarTela) {
-		// 	navigation.navigate('Perguntas', { prospecto_id: retorno.prospecto_id })
-		// }
+		if (retorno && retorno.bloqueiarTela) {
+			navigation.navigate('Perguntas', { prospecto_id: retorno.prospecto_id })
+		}else{
+			this.comecarSincronizacao()
+		}
 	}
 
 	static navigationOptions = () => {
@@ -72,6 +77,7 @@ class ProspectosScreen extends React.Component {
 		let {
 			prospectosFiltrados,
 			navigation,
+			usuario,
 		} = this.props
 		const {
 			carregando,
@@ -98,6 +104,17 @@ class ProspectosScreen extends React.Component {
 			})
 		}
 
+		let pontos = 0
+		if (usuario.mensagems) {
+			pontos += usuario.mensagems * VALOR_MENSAGEM
+		}
+		if (usuario.ligacoes) {
+			pontos += usuario.ligacoes * VALOR_LIGAR
+		}
+		if (usuario.visitas) {
+			pontos += usuario.visitas * VALOR_VISITA
+		}
+
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				{
@@ -106,11 +123,10 @@ class ProspectosScreen extends React.Component {
 						flex: 0.1,
 						flexDirection: 'row',
 						alignItems: 'center',
-						justifyContent: 'space-around',
-						flexWrap: 'wrap',
+						alignSelf: 'center',
 					}}>
 						<ActivityIndicator />
-						<Text style={{ color: white }}>
+						<Text style={{ marginLeft: 5, color: white }}>
 							Sincronizando ...
 						</Text>
 					</View>
@@ -121,7 +137,20 @@ class ProspectosScreen extends React.Component {
 				}
 				{
 					!carregando &&
-					<React.Fragment>
+						<React.Fragment>
+							<View style={{
+								padding: 10, 
+								flexDirection: 'row',
+								marging: 5,
+								justifyContent: 'space-between',
+							}}>
+							<Text style={{color: white}}>
+								{usuario.nome}
+							</Text>
+							<Text style={{color: primary}}>
+								{pontos} XP
+							</Text>
+						</View>
 						<View style={[stylesProspecto.containerBadge]}>
 
 							<TouchableOpacity

@@ -14,6 +14,11 @@ import empty from '../assets/images/empty.png'
 import { Header, Title, Left, Body, Right } from 'native-base'
 import arrow from '../assets/images/arrow-back.png'
 import { stylesImportar } from '../components/Styles'
+import { 
+	VALOR_VISITA,
+	VALOR_LIGAR,
+	VALOR_MENSAGEM,
+} from '../helpers/constants'
 
 class ClubeScreen extends React.Component {
 
@@ -63,18 +68,25 @@ class ClubeScreen extends React.Component {
 					<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
 
 						{
-							clube.nos && clube.nos.length > 0 &&
-							clube.nos.map(no => {
+							clube.nos && 
+							clube.nos.length > 0 &&
+							clube.nos
+							.map(no => {
 								let pontos = 0
 								if (no.mensagems) {
-									pontos += no.mensagems
+									pontos += no.mensagems * VALOR_MENSAGEM
 								}
 								if (no.ligacoes) {
-									pontos += no.ligacoes
+									pontos += no.ligacoes * VALOR_LIGAR
 								}
 								if (no.visitas) {
-									pontos += no.visitas
+									pontos += no.visitas * VALOR_VISITA
 								}
+								no.pontos = pontos
+								return no
+							})
+							.sort((a, b) => (a.pontos < b.pontos) ? 1 : -1)
+							.map(no => {
 								return (
 									<TouchableOpacity
 										style={{
@@ -88,7 +100,7 @@ class ClubeScreen extends React.Component {
 										key={no._id}
 										onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
 										<Text style={{ color: white }}> {no.nome} </Text>
-										<Text style={{ color: white }}> {pontos} ações </Text>
+										<Text style={{ color: white }}> {no.pontos} XP </Text>
 									</TouchableOpacity>
 								)
 							})

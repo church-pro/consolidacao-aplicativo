@@ -1,3 +1,7 @@
+export const VALOR_MENSAGEM = 5
+export const VALOR_LIGAR = 25
+export const VALOR_VISITA = 70
+
 export const SITUACAO_IMPORTAR = 1
 export const SITUACAO_MENSAGEM = 2
 export const SITUACAO_LIGAR = 3

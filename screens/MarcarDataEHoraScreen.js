@@ -27,6 +27,9 @@ import Loading from '../components/Loading';
 import { stylesMarcar } from '../components/Styles'
 import CPButton from '../components/CPButton';
 import { DATA, HORA, LOCAL, CONFIRMAR, MARCAR_DATA_E_HORA, CANCELAR } from '../helpers/constants';
+import { 
+	SITUACAO_LIGAR,
+} from '../helpers/constants'
 
 class MarcarDataEHoraScreen extends React.Component {
 
@@ -70,10 +73,13 @@ class MarcarDataEHoraScreen extends React.Component {
                         .then(() => {
                             alterarProspectoNoAsyncStorage(prospecto)
                                 .then(() => {
-                                    Alert.alert(alertTitulo, alertMensagem)
                                     this.setState({ carregando: false })
-                                    navigation.navigate(paraOndeVoltar, { qualAba })
-                                })
+									const dados = {
+										qualAba,
+										situacao_id: SITUACAO_LIGAR,
+									}
+									navigation.navigate('Pontuacao', dados)
+								})
                         })
                 })
         }

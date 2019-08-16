@@ -8,6 +8,11 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
+import { 
+	VALOR_VISITA,
+	VALOR_LIGAR,
+	VALOR_MENSAGEM,
+} from '../helpers/constants'
 
 class PerfilScreen extends React.Component {
 
@@ -52,8 +57,29 @@ class PerfilScreen extends React.Component {
 			flexWrap: 'wrap',
 		}
 
+		const linhaBorder = {
+			padding: 10,
+			flexDirection: 'row',
+			alignItems: 'center',
+			borderWidth: 1,
+			borderColor: gray,
+			borderRadius: 6,
+			flexWrap: 'wrap',
+		}
+
 		const texto = {
 			color: white,
+		}
+
+		let pontos = 0
+		if (usuario.mensagems) {
+			pontos += usuario.mensagems * VALOR_MENSAGEM
+		}
+		if (usuario.ligacoes) {
+			pontos += usuario.ligacoes * VALOR_LIGAR
+		}
+		if (usuario.visitas) {
+			pontos += usuario.visitas * VALOR_VISITA
 		}
 
 		const items = [
@@ -66,12 +92,12 @@ class PerfilScreen extends React.Component {
 				valor: usuario.email,
 			},
 			{
-				label: 'Importações',
-				valor: usuario.importacoes ? usuario.importacoes : 0,
+				label: 'Pontos',
+				valor: `${pontos} XP`,
 			},
 			{
-				label: 'Cadastros Novos',
-				valor: usuario.cadastros ? usuario.cadastros : 0,
+				label: 'Ações contabilizadas',
+				valor: null,
 			},
 			{
 				label: 'Mensagens Enviadas',
@@ -84,6 +110,18 @@ class PerfilScreen extends React.Component {
 			{
 				label: 'Visitas Feitas',
 				valor: usuario.visitas ? usuario.visitas : 0,
+			},
+			{
+				label: 'Outras ações',
+				valor: null,
+			},
+			{
+				label: 'Importações',
+				valor: usuario.importacoes ? usuario.importacoes : 0,
+			},
+			{
+				label: 'Cadastros Novos',
+				valor: usuario.cadastros ? usuario.cadastros : 0,
 			},
 			{
 				label: 'Removidos',
@@ -132,22 +170,28 @@ class PerfilScreen extends React.Component {
 				</View>
 				<View>
 					<Text style={{ paddingHorizontal: 20, color: white }}>
-						Última Atualização: {usuario.ultima_sincronizacao_data}-{usuario.ultima_sincronizacao_hora}
+						Última Atualização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
 					</Text>
 				</View>
 				<ScrollView style={{ paddingHorizontal: 20 }}>
 					<View style={container}>
 						{
-							items.map(item =>
-								<View key={item.label} style={linha}>
-									<Text style={texto}>
-										{item.label}
-									</Text>
-									<Text style={texto}>
-										{item.valor}
-									</Text>
-								</View>
-							)
+							 items.map(item => {
+								 let qualStilo = linha
+								 if(item.valor === null){
+									 qualStilo = linhaBorder
+								 }
+								 return (
+									 <View key={item.label} style={qualStilo}>
+										 <Text style={texto}>
+											 {item.label}
+										 </Text>
+										 <Text style={texto}>
+											 {item.valor}
+										 </Text>
+									 </View>
+								 )
+							 })
 						}
 					</View>
 				</ScrollView>

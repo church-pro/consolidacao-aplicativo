@@ -2,7 +2,6 @@ import React from 'react';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import LoginScreen from '../screens/LoginScreen';
 import RegistroScreen from '../screens/RegistroScreen';
-import SincronizacaoScreen from '../screens/SincronizacaoScreen';
 import PrincipalScreen from '../screens/PrincipalScreen';
 import PerguntasScreen from '../screens/PerguntasScreen';
 import TutorialScreen from '../screens/TutorialScreen'

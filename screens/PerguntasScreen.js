@@ -220,9 +220,12 @@ class PerguntasScreen extends React.Component {
 					delete prospecto.hora
 				}
 				await alterarProspectoNoAsyncStorage(prospecto)
-				Alert.alert(alertTitulo, alertMensagem)
 				this.setState({ carregando: false })
-				navigation.navigate('Prospectos', { qualAba })
+				const dados = {
+					qualAba,
+					situacao_id: situacao_id_nova,
+				}
+				navigation.navigate('Pontuacao', dados)
 			}
 
 			/* marcar data e hora */
