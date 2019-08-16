@@ -72,8 +72,8 @@ class PerfilScreen extends React.Component {
 		}
 
 		let pontos = 0
-		if (usuario.mensagems) {
-			pontos += usuario.mensagems * VALOR_MENSAGEM
+		if (usuario.mensagens) {
+			pontos += usuario.mensagens * VALOR_MENSAGEM
 		}
 		if (usuario.ligacoes) {
 			pontos += usuario.ligacoes * VALOR_LIGAR

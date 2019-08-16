@@ -105,8 +105,8 @@ class ProspectosScreen extends React.Component {
 		}
 
 		let pontos = 0
-		if (usuario.mensagems) {
-			pontos += usuario.mensagems * VALOR_MENSAGEM
+		if (usuario.mensagens) {
+			pontos += usuario.mensagens * VALOR_MENSAGEM
 		}
 		if (usuario.ligacoes) {
 			pontos += usuario.ligacoes * VALOR_LIGAR
@@ -141,7 +141,6 @@ class ProspectosScreen extends React.Component {
 							<View style={{
 								padding: 10, 
 								flexDirection: 'row',
-								marging: 5,
 								justifyContent: 'space-between',
 							}}>
 							<Text style={{color: white}}>
@@ -149,6 +148,14 @@ class ProspectosScreen extends React.Component {
 							</Text>
 							<Text style={{color: primary}}>
 								{pontos} XP
+							</Text>
+						</View>
+						<View style={{
+							padding: 10,
+							flexDirection: 'row-reverse',
+							}}>
+							<Text style={{fontSize: 10, color: white}}>
+								Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
 							</Text>
 						</View>
 						<View style={[stylesProspecto.containerBadge]}>

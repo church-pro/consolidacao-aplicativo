@@ -51,11 +51,16 @@ class PontuacaoScreen extends React.Component {
 			informacao = 'Parabéns! Você concluiu o projeto!'
 		}
 		this.setState({pontos})
-		this.interval = setInterval(() => {
+		const interval = setInterval(() => {
 			this.setState(state => {
-				const velocimetro = state.velocimetro
+				let velocimetro = state.velocimetro
+				if(velocimetro === 100){
+					clearInterval(interval)
+				}else{
+					velocimetro += 1
+				}
 				return {
-					velocimetro: velocimetro < 100 ? velocimetro + 1 : velocimetro,
+					velocimetro,
 					informacao,
 				}
 			})

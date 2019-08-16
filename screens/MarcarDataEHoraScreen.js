@@ -61,12 +61,6 @@ class MarcarDataEHoraScreen extends React.Component {
             prospecto.situacao_id = situacao_id_nova
             prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(3)[0]
 
-            if (usuario.ligacoes) {
-                usuario.ligacoes += 1
-            } else {
-                usuario.ligacoes = 1
-            }
-
             alterarUsuarioNoAsyncStorage(usuario)
                 .then(() => {
                     submeterSituacoes(situacoes)

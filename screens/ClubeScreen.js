@@ -73,8 +73,8 @@ class ClubeScreen extends React.Component {
 							clube.nos
 							.map(no => {
 								let pontos = 0
-								if (no.mensagems) {
-									pontos += no.mensagems * VALOR_MENSAGEM
+								if (no.mensagens) {
+									pontos += no.mensagens * VALOR_MENSAGEM
 								}
 								if (no.ligacoes) {
 									pontos += no.ligacoes * VALOR_LIGAR
