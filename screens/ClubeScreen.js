@@ -14,7 +14,7 @@ import empty from '../assets/images/empty.png'
 import { Header, Title, Left, Body, Right } from 'native-base'
 import arrow from '../assets/images/arrow-back.png'
 import { stylesImportar } from '../components/Styles'
-import { 
+import {
 	VALOR_VISITA,
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
@@ -39,7 +39,7 @@ class ClubeScreen extends React.Component {
 				<Header style={[stylesImportar.header, { backgroundColor: dark }]} iosBarStyle="light-content">
 					<Left >
 						<TouchableOpacity
-							hitSlop={{ right: 10 }}
+							hitSlop={{ right: 10, bottom: 10, top: 10, left: 10 }}
 							style={stylesImportar.containerIcon}
 							onPress={() => this.props.navigation.goBack()}>
 							{
@@ -68,42 +68,42 @@ class ClubeScreen extends React.Component {
 					<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
 
 						{
-							clube.nos && 
+							clube.nos &&
 							clube.nos.length > 0 &&
 							clube.nos
-							.map(no => {
-								let pontos = 0
-								if (no.mensagens) {
-									pontos += no.mensagens * VALOR_MENSAGEM
-								}
-								if (no.ligacoes) {
-									pontos += no.ligacoes * VALOR_LIGAR
-								}
-								if (no.visitas) {
-									pontos += no.visitas * VALOR_VISITA
-								}
-								no.pontos = pontos
-								return no
-							})
-							.sort((a, b) => (a.pontos < b.pontos) ? 1 : -1)
-							.map(no => {
-								return (
-									<TouchableOpacity
-										style={{
-											borderTopWidth: 1,
-											borderTopColor: dark,
-											padding: 12,
-											flexDirection: 'row',
-											alignItems: 'center',
-											justifyContent: 'space-between',
-										}}
-										key={no._id}
-										onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
-										<Text style={{ color: white }}> {no.nome} </Text>
-										<Text style={{ color: white }}> {no.pontos} XP </Text>
-									</TouchableOpacity>
-								)
-							})
+								.map(no => {
+									let pontos = 0
+									if (no.mensagens) {
+										pontos += no.mensagens * VALOR_MENSAGEM
+									}
+									if (no.ligacoes) {
+										pontos += no.ligacoes * VALOR_LIGAR
+									}
+									if (no.visitas) {
+										pontos += no.visitas * VALOR_VISITA
+									}
+									no.pontos = pontos
+									return no
+								})
+								.sort((a, b) => (a.pontos < b.pontos) ? 1 : -1)
+								.map(no => {
+									return (
+										<TouchableOpacity
+											style={{
+												borderTopWidth: 1,
+												borderTopColor: dark,
+												padding: 12,
+												flexDirection: 'row',
+												alignItems: 'center',
+												justifyContent: 'space-between',
+											}}
+											key={no._id}
+											onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
+											<Text style={{ color: white }}> {no.nome} </Text>
+											<Text style={{ color: white }}> {no.pontos} XP </Text>
+										</TouchableOpacity>
+									)
+								})
 						}
 					</View>
 
