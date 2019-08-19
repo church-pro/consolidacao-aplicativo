@@ -70,7 +70,7 @@ class ProspectosScreen extends React.Component {
 
 	comecarSincronizacao = () => {
 		this.setState({ sincronizando: true })
-		if(this.props.usuario){
+		if (this.props.usuario) {
 			sincronizar(this.props, () => { this.setState({ sincronizando: false }) })
 		}
 	}
@@ -142,11 +142,12 @@ class ProspectosScreen extends React.Component {
 					<React.Fragment>
 						{
 							!sincronizando &&
-								<View style={{
-									padding: 10,
-									alignItems: 'center',
-								}}>
+							<View style={{
+								padding: 10,
+								alignItems: 'center',
+							}}>
 								<TouchableOpacity
+									hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
 									style={{ flexDirection: 'row', }}
 									onPress={() => this.comecarSincronizacao()}>
 									<Icon
@@ -158,7 +159,7 @@ class ProspectosScreen extends React.Component {
 									<Text style={{ marginLeft: 10, fontSize: 10, color: white }}>
 										Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
 									</Text>
-							</TouchableOpacity>
+								</TouchableOpacity>
 							</View>
 						}
 						<View style={{
