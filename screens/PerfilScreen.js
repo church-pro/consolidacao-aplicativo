@@ -92,6 +92,10 @@ class PerfilScreen extends React.Component {
 				valor: usuario.email,
 			},
 			{
+				label: 'Igreja',
+				valor: usuario.nome_igreja,
+			},
+			{
 				label: 'Pontos',
 				valor: `${pontos} XP`,
 			},
