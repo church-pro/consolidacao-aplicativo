@@ -7,7 +7,7 @@ import {
 import { blue, white, lightdark } from '../helpers/colors';
 import ProgressCircle from 'react-native-progress-circle'
 import { connect } from 'react-redux'
-import { 
+import {
 	SITUACAO_LIGAR,
 	SITUACAO_MENSAGEM,
 	SITUACAO_VISITA,
@@ -15,6 +15,7 @@ import {
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
+import CPButton from '../components/CPButton';
 
 class PontuacaoScreen extends React.Component {
 
@@ -29,7 +30,7 @@ class PontuacaoScreen extends React.Component {
 		informacao: '',
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const {
 			situacao_id,
 		} = this.props
@@ -38,25 +39,25 @@ class PontuacaoScreen extends React.Component {
 		} = this.state
 		let pontos = 0
 		let informacao = ''
-		if(situacao_id === SITUACAO_MENSAGEM){
+		if (situacao_id === SITUACAO_MENSAGEM) {
 			pontos = VALOR_MENSAGEM
 			informacao = 'Parabéns! A pessoa está agora na aba ligar.'
 		}
-		if(situacao_id === SITUACAO_LIGAR){
+		if (situacao_id === SITUACAO_LIGAR) {
 			pontos = VALOR_LIGAR
 			informacao = 'Parabéns! A pessoa está agora na aba visita.'
 		}
-		if(situacao_id === SITUACAO_VISITA){
+		if (situacao_id === SITUACAO_VISITA) {
 			pontos = VALOR_VISITA
 			informacao = 'Parabéns! Você concluiu o projeto!'
 		}
-		this.setState({pontos})
+		this.setState({ pontos })
 		const interval = setInterval(() => {
 			this.setState(state => {
 				let velocimetro = state.velocimetro
-				if(velocimetro === 100){
+				if (velocimetro === 100) {
 					clearInterval(interval)
-				}else{
+				} else {
 					velocimetro += 1
 				}
 				return {
@@ -77,9 +78,9 @@ class PontuacaoScreen extends React.Component {
 			navigation,
 		} = this.props
 		return (
-			<View style={{ flex: 1, backgroundColor: lightdark }}>
+			<View style={{ flex: 1, backgroundColor: lightdark, alignItems: 'center', padding: 20 }}>
 				<View style={{ flex: 1 }}>
-					<View style={{ flex: 1,}}>
+					<View style={{ flex: 1, alignItems: 'center' }}>
 						<ProgressCircle
 							percent={velocimetro}
 							radius={50}
@@ -90,24 +91,21 @@ class PontuacaoScreen extends React.Component {
 						</ProgressCircle>
 					</View>
 					<View style={{ flex: 1 }}>
-						<Text style={{ color: white}}>
+						<Text style={{ color: white, fontWeight: 'bold', textAlign: 'center', fontSize: 18, marginVertical: 6 }}>
 							{/* por em negrito */}
 							{`Ação concluída! +${pontos} XP`}
 						</Text>
-						<Text style={{ color: white}}>
+						<Text style={{ color: white }}>
 							{informacao}
 						</Text>
 					</View>
 				</View>
 				<View style={{ flex: 0.25 }}>
 					{/* botao com sombra para parecer mais cartoon */}
-					<TouchableOpacity
-						style={{backgroundColor: blue}}
-							onPress={() => navigation.navigate('Prospectos', {qualAba})}>
-						<Text style={{ color: white}}>
-							Continuar
-						</Text>
-					</TouchableOpacity>
+					<CPButton
+						OnPress={() => navigation.navigate('Prospectos', { qualAba })}
+						title="Continuar"
+					/>
 				</View>
 			</View>
 		)
