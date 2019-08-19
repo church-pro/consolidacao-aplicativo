@@ -127,11 +127,9 @@ class LoginScreen extends React.Component {
 
 				{
 					!carregando &&
-					<KeyboardAwareScrollView
-						contentContainerStyle={stylesLogin.container}
-						enableOnAndroid enableAutomaticScroll={true}
-						keyboardShoulfPersistTaps='always'
-						extraScrollHeight={Platform.OS === 'ios' ? 30 : 80} >
+					<View
+						style={stylesLogin.container}
+					>
 
 						<Fragment>
 
@@ -139,7 +137,9 @@ class LoginScreen extends React.Component {
 								<Image source={logo} style={stylesLogin.logo} />
 							</View>
 
-							<View style={{ flex: 1 }}>
+							<View
+							// style={{ flex: 1 }}
+							>
 								<View style={[stylesLogin.containerInputEmail]}>
 									<TextInput style={stylesLogin.inputText}
 										keyboardAppearance='dark'
@@ -174,7 +174,7 @@ class LoginScreen extends React.Component {
 							</View>
 
 						</Fragment>
-					</KeyboardAwareScrollView>
+					</View>
 
 				}
 				{

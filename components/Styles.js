@@ -3,9 +3,9 @@ import { lightdark, gray, white, gold, dark, primary, black } from '../helpers/c
 
 // GLOBAL
 export const styles = StyleSheet.create({
-	textp:{
-		color: white,
-	},
+    textp: {
+        color: white,
+    },
     container: {
         flex: 1,
         paddingHorizontal: 20,
@@ -99,17 +99,18 @@ export const stylesLogin = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         alignItems: 'stretch',
         padding: 20,
     },
     containerLogo: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 50,
     },
     logo: {
-        height: 50,
+        height: 40,
         resizeMode: 'contain',
     },
     containerInputEmail: {

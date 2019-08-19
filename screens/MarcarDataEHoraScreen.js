@@ -5,7 +5,6 @@ import {
     Alert,
     TextInput,
     TouchableOpacity,
-    StyleSheet,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { white, dark, lightdark, black, primary, gray } from '../helpers/colors'
@@ -27,8 +26,8 @@ import Loading from '../components/Loading';
 import { stylesMarcar } from '../components/Styles'
 import CPButton from '../components/CPButton';
 import { DATA, HORA, LOCAL, CONFIRMAR, MARCAR_DATA_E_HORA, CANCELAR } from '../helpers/constants';
-import { 
-	SITUACAO_LIGAR,
+import {
+    SITUACAO_LIGAR,
 } from '../helpers/constants'
 
 class MarcarDataEHoraScreen extends React.Component {
@@ -68,12 +67,12 @@ class MarcarDataEHoraScreen extends React.Component {
                             alterarProspectoNoAsyncStorage(prospecto)
                                 .then(() => {
                                     this.setState({ carregando: false })
-									const dados = {
-										qualAba,
-										situacao_id: SITUACAO_LIGAR,
-									}
-									navigation.navigate('Pontuacao', dados)
-								})
+                                    const dados = {
+                                        qualAba,
+                                        situacao_id: SITUACAO_LIGAR,
+                                    }
+                                    navigation.navigate('Pontuacao', dados)
+                                })
                         })
                 })
         }
@@ -115,9 +114,10 @@ class MarcarDataEHoraScreen extends React.Component {
 
         return (
             <LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
+
                 <KeyboardAwareScrollView
                     contentContainerStyle={stylesMarcar.container}
-                    keyboardShoulfPersistTaps='always'
+                    keyboardShoulfPersistTaps="always"
                     enableOnAndroid enableAutomaticScroll={true} extraScrollHeight={80} >
 
                     {
@@ -198,6 +198,7 @@ class MarcarDataEHoraScreen extends React.Component {
                         </View>
                     }
                 </KeyboardAwareScrollView>
+
             </LinearGradient>
         )
     }
