@@ -163,7 +163,7 @@ class ProspectosScreen extends React.Component {
 							</View>
 						}
 						<View style={{
-							padding: 10,
+							padding: 5,
 							flexDirection: 'row',
 							justifyContent: 'space-between',
 						}}>
