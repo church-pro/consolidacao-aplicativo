@@ -4,10 +4,10 @@ import {
 	Text,
 	TouchableOpacity,
 } from 'react-native';
-import { blue, white, lightdark } from '../helpers/colors';
+import { primary, white, lightdark } from '../helpers/colors';
 import ProgressCircle from 'react-native-progress-circle'
 import { connect } from 'react-redux'
-import { 
+import {
 	SITUACAO_LIGAR,
 	SITUACAO_MENSAGEM,
 	SITUACAO_VISITA,
@@ -15,6 +15,7 @@ import {
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
+import CPButton from '../components/CPButton';
 
 class PontuacaoScreen extends React.Component {
 
@@ -29,7 +30,7 @@ class PontuacaoScreen extends React.Component {
 		informacao: '',
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const {
 			situacao_id,
 		} = this.props
@@ -38,25 +39,25 @@ class PontuacaoScreen extends React.Component {
 		} = this.state
 		let pontos = 0
 		let informacao = ''
-		if(situacao_id === SITUACAO_MENSAGEM){
+		if (situacao_id === SITUACAO_MENSAGEM) {
 			pontos = VALOR_MENSAGEM
-			informacao = 'Parabéns! A pessoa está agora na aba ligar.'
+			informacao = 'A pessoa está agora na aba ligar.'
 		}
-		if(situacao_id === SITUACAO_LIGAR){
+		if (situacao_id === SITUACAO_LIGAR) {
 			pontos = VALOR_LIGAR
-			informacao = 'Parabéns! A pessoa está agora na aba visita.'
+			informacao = 'A pessoa está agora na aba visita.'
 		}
-		if(situacao_id === SITUACAO_VISITA){
+		if (situacao_id === SITUACAO_VISITA) {
 			pontos = VALOR_VISITA
-			informacao = 'Parabéns! Você concluiu o projeto!'
+			informacao = 'Você concluiu o projeto!'
 		}
-		this.setState({pontos})
+		this.setState({ pontos })
 		const interval = setInterval(() => {
 			this.setState(state => {
 				let velocimetro = state.velocimetro
-				if(velocimetro === 100){
+				if (velocimetro === 100) {
 					clearInterval(interval)
-				}else{
+				} else {
 					velocimetro += 1
 				}
 				return {
@@ -64,7 +65,7 @@ class PontuacaoScreen extends React.Component {
 					informacao,
 				}
 			})
-		}, 1)
+		}, 10)
 	}
 	render() {
 		const {
@@ -77,38 +78,46 @@ class PontuacaoScreen extends React.Component {
 			navigation,
 		} = this.props
 		return (
-			<View style={{ flex: 1, backgroundColor: lightdark }}>
-				<View style={{ flex: 1 }}>
-					<View style={{ flex: 1,}}>
-						<ProgressCircle
-							percent={velocimetro}
-							radius={50}
-							borderWidth={10}
-							color="#3399FF"
-							bgColor="#000000"
-						>
-						</ProgressCircle>
-					</View>
-					<View style={{ flex: 1 }}>
-						<Text style={{ color: white}}>
-							{/* por em negrito */}
-							{`Ação concluída! +${pontos} XP`}
-						</Text>
-						<Text style={{ color: white}}>
-							{informacao}
-						</Text>
-					</View>
+			<View style={{ flex: 1, backgroundColor: lightdark, alignItems: 'center', padding: 20 }}>
+				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+					<Text style={{ color: white, fontWeight: 'bold', textAlign: 'center', fontSize: 22, marginVertical: 16 }}>
+						Parabéns!
+					</Text>
+					<ProgressCircle
+						percent={velocimetro}
+						radius={50}
+						borderWidth={10}
+						color="#3399FF"
+						bgColor={lightdark}
+					>
+					</ProgressCircle>
+
+					<Text style={{ color: white, fontWeight: 'bold', textAlign: 'center', fontSize: 18, marginVertical: 16 }}>
+						{`Ação concluída! +${pontos} XP`}
+					</Text>
+					<Text style={{ color: white, textAlign: 'center', paddingHorizontal: 8 }}>
+						{informacao}
+					</Text>
 				</View>
-				<View style={{ flex: 0.25 }}>
-					{/* botao com sombra para parecer mais cartoon */}
-					<TouchableOpacity
-						style={{backgroundColor: blue}}
-							onPress={() => navigation.navigate('Prospectos', {qualAba})}>
-						<Text style={{ color: white}}>
-							Continuar
-						</Text>
-					</TouchableOpacity>
-				</View>
+
+				<TouchableOpacity
+					onPress={() => navigation.navigate('Prospectos', { qualAba })}
+					style={{
+						width: '100%',
+						backgroundColor: primary,
+						height: 45,
+						borderRadius: 6,
+						justifyContent: 'center',
+						shadowOffset: { width: 5, height: 5, },
+						shadowColor: 'rgba(0,0,0,0.3)',
+						shadowOpacity: 1.5,
+					}}
+				>
+					<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+						Continuar
+					</Text>
+				</TouchableOpacity>
+
 			</View>
 		)
 	}

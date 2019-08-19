@@ -53,11 +53,11 @@ class ProspectosScreen extends React.Component {
 			prospectos,
 			pegarAdministracaoNoAsyncStorage,
 		} = this.props
-		const retorno =	await pegarAdministracaoNoAsyncStorage()
+		const retorno = await pegarAdministracaoNoAsyncStorage()
 		this.setState({ carregando: false })
 		if (retorno && retorno.bloqueiarTela) {
 			navigation.navigate('Perguntas', { prospecto_id: retorno.prospecto_id })
-		}else{
+		} else {
 			this.comecarSincronizacao()
 		}
 	}
@@ -139,27 +139,31 @@ class ProspectosScreen extends React.Component {
 				}
 				{
 					!carregando &&
-						<React.Fragment>
+					<React.Fragment>
+						{
+							!sincronizando &&
 							<View style={{
-								padding: 10, 
-								flexDirection: 'row',
-								justifyContent: 'space-between',
+								padding: 10,
+								flexDirection: 'row-reverse',
 							}}>
-							<Text style={{color: white}}>
+								<Text style={{ fontSize: 10, color: white }}>
+									Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
+								</Text>
+							</View>
+						}
+						<View style={{
+							padding: 10,
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+						}}>
+							<Text style={{ color: white }}>
 								{usuario.nome}
 							</Text>
-							<Text style={{color: primary}}>
+							<Text style={{ color: primary }}>
 								{pontos} XP
 							</Text>
 						</View>
-						<View style={{
-							padding: 10,
-							flexDirection: 'row-reverse',
-							}}>
-							<Text style={{fontSize: 10, color: white}}>
-								Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
-							</Text>
-						</View>
+
 						<View style={[stylesProspecto.containerBadge]}>
 
 							<TouchableOpacity

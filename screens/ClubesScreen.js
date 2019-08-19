@@ -208,6 +208,7 @@ class ClubesScreen extends React.Component {
 	}
 
 	render() {
+		let { clubesBuscados } = this.state
 		const {
 			clubes,
 			clubesQueParticipo,
@@ -216,9 +217,14 @@ class ClubesScreen extends React.Component {
 			nome,
 			busca,
 			carregando,
-			clubesBuscados,
 			semInternet,
 		} = this.state
+
+		if (clubesBuscados) {
+			clubesBuscados = clubesBuscados.sort((a, b) => {
+				return a.nome > b.nome ? 1 : -1
+			})
+		}
 
 		return (
 			<View style={{ flex: 1, backgroundColor: dark }}>
