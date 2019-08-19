@@ -4,7 +4,8 @@ import {
 	Text,
 	Alert,
 	ActivityIndicator,
-	TouchableOpacity
+	TouchableOpacity,
+	ScrollView
 } from 'react-native';
 import { Card, CheckBox } from 'react-native-elements'
 import { white, black, lightdark, dark, primary, gray } from '../helpers/colors'
@@ -259,7 +260,7 @@ class PerguntasScreen extends React.Component {
 		} = estados
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
-				<View style={styles.container}>
+				<ScrollView style={styles.container}>
 					{
 						prospecto &&
 						estados &&
@@ -322,28 +323,28 @@ class PerguntasScreen extends React.Component {
 					}
 					{
 						estados &&
-							!carregando &&
-							<View style={{ flexDirection: 'row', marginTop: 25 }}>
-								<TouchableOpacity
-									style={{
-										backgroundColor: gray,
-										height: 45,
-										borderRadius: 6,
-										flex: 1,
-										justifyContent: 'center',
-										shadowOffset: { width: 5, height: 5, },
-										shadowColor: 'rgba(0,0,0,0.3)',
-										shadowOpacity: 1.0,
-										marginRight: 8,
-									}}
-									onPress={() => this.props.navigation.goBack()} >
-									<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-										Voltar
+						!carregando &&
+						<View style={{ flexDirection: 'row', marginTop: 25 }}>
+							<TouchableOpacity
+								style={{
+									backgroundColor: gray,
+									height: 45,
+									borderRadius: 6,
+									flex: 1,
+									justifyContent: 'center',
+									shadowOffset: { width: 5, height: 5, },
+									shadowColor: 'rgba(0,0,0,0.3)',
+									shadowOpacity: 1.0,
+									marginRight: 8,
+								}}
+								onPress={() => this.props.navigation.goBack()} >
+								<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+									Voltar
 									</Text>
-								</TouchableOpacity>
-							</View>
+							</TouchableOpacity>
+						</View>
 					}
-				</View>
+				</ScrollView>
 			</LinearGradient>
 		)
 	}
