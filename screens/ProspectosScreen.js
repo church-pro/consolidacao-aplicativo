@@ -142,13 +142,23 @@ class ProspectosScreen extends React.Component {
 					<React.Fragment>
 						{
 							!sincronizando &&
-							<View style={{
-								padding: 10,
-								flexDirection: 'row-reverse',
-							}}>
-								<Text style={{ fontSize: 10, color: white }}>
-									Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
-								</Text>
+								<View style={{
+									padding: 10,
+									alignItems: 'center',
+								}}>
+								<TouchableOpacity
+									style={{ flexDirection: 'row', }}
+									onPress={() => this.comecarSincronizacao()}>
+									<Icon
+										name='retweet'
+										type='font-awesome'
+										color={white}
+										size={10}
+									/>
+									<Text style={{ marginLeft: 10, fontSize: 10, color: white }}>
+										Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
+									</Text>
+							</TouchableOpacity>
 							</View>
 						}
 						<View style={{
@@ -240,17 +250,6 @@ class ProspectosScreen extends React.Component {
 									Visitar
 								</Text>
 							</TouchableOpacity>
-							<TouchableOpacity
-								style={{ marginRight: 0, flex: 1 }}
-								onPress={() => this.comecarSincronizacao()}>
-								<Icon
-									name='retweet'
-									type='font-awesome'
-									color={white}
-									size={22}
-								/>
-							</TouchableOpacity>
-
 						</View>
 						{
 							prospectosFiltrados.length === 0 ?
