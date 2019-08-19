@@ -70,7 +70,9 @@ class ProspectosScreen extends React.Component {
 
 	comecarSincronizacao = () => {
 		this.setState({ sincronizando: true })
-		sincronizar(this.props, () => { this.setState({ sincronizando: false }) })
+		if(this.props.usuario){
+			sincronizar(this.props, () => { this.setState({ sincronizando: false }) })
+		}
 	}
 
 	render() {

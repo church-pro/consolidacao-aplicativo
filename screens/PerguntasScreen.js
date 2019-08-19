@@ -242,6 +242,7 @@ class PerguntasScreen extends React.Component {
 					alertTitulo,
 					alertMensagem,
 				}
+				this.setState({ carregando: false })
 				navigation.navigate(paraOndeNavegar, dados)
 			}
 		}
