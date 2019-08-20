@@ -83,6 +83,7 @@ class LoginScreen extends React.Component {
 						}
 						sincronizarNaAPI(dados)
 							.then(retorno => {
+								console.log('retorno: ', retorno)
 								if (retorno.ok) {
 									let usuario = retorno.resultado.usuario
 									delete usuario.prospectos
@@ -130,7 +131,6 @@ class LoginScreen extends React.Component {
 					<View
 						style={stylesLogin.container}
 					>
-
 						<Fragment>
 
 							<View style={stylesLogin.containerLogo}>
@@ -138,7 +138,6 @@ class LoginScreen extends React.Component {
 							</View>
 
 							<View
-							// style={{ flex: 1 }}
 							>
 								<View style={[stylesLogin.containerInputEmail]}>
 									<TextInput style={stylesLogin.inputText}

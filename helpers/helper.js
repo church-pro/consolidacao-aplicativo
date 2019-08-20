@@ -576,7 +576,6 @@ export const sincronizar = (props, funcao) => {
 				if (isConnected) {
 					const {
 						usuario,
-						//navigation,
 						alterarUsuarioNoAsyncStorage,
 						porProspectoDaSincronizacao,
 						prospectos,
@@ -595,46 +594,25 @@ export const sincronizar = (props, funcao) => {
 								sincronizarNaAPI(dados)
 									.then(retorno => {
 										if (retorno.ok) {
-											// nao apertei sair
-											//if (tela !== 'Login') {
-												let usuario = retorno.resultado.usuario
-												usuario.senha = dados.senha
-												alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
-													.then(() => {
-														// pondo prospectos retornados da api com id da api
-														porProspectoDaSincronizacao(retorno.resultado.prospectos)
-															.then(() => {
-																limparSituacoes()
-																	.then(() => {
-																		//Alert.alert('Sincronização', 'Sincronizado com sucesso!')
-																		//navigation.goBack()
-																		funcao()
-																	})
-															})
-															.catch(err => {
-																console.log('err: ', err)
-															})
-													})
-											//}
-											// apertei sair
-											 /*
-											if (tela === 'Login') {
-												alterarUsuarioNoAsyncStorage({})
-													.then(() => {
-														limparSituacoes()
-															.then(() => {
-																//navigation.navigate(tela)
-															})
-													})
-											}
-											*/
-
+											let usuario = retorno.resultado.usuario
+											usuario.senha = dados.senha
+											alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
+												.then(() => {
+													porProspectoDaSincronizacao(retorno.resultado.prospectos)
+														.then(() => {
+															limparSituacoes()
+																.then(() => {
+																	funcao()
+																})
+														})
+														.catch(err => {
+															console.log('err: ', err)
+														})
+												})
 										}
 									})
 							})
 							.catch(err => console.log('err: ', err))
-					} else {
-						//navigation.navigate('Login')
 					}
 				} else {
 					console.log('Internet', 'Verifique sua internet!')
