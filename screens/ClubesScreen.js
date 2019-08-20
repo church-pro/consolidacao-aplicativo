@@ -268,6 +268,7 @@ class ClubesScreen extends React.Component {
 									color={white}
 									size={22}
 								/>
+								<Text style={{ color: white }}>Sincronizar</Text>
 							</TouchableOpacity>
 						</View>
 						{
