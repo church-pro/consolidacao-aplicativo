@@ -606,15 +606,20 @@ export const sincronizar = (props, funcao) => {
 																})
 														})
 														.catch(err => {
+															funcao()
 															console.log('err: ', err)
 														})
 												})
 										}
 									})
 							})
-							.catch(err => console.log('err: ', err))
+							.catch(err => {
+								funcao()
+								console.log('err: ', err)
+							})
 					}
 				} else {
+					funcao()
 					console.log('Internet', 'Verifique sua internet!')
 				}
 			})
