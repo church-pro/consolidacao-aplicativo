@@ -6,7 +6,8 @@ const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
 
-const apiNova = 'https://api.churchpro.com.br'
+let apiNova = 'https://api.churchpro.com.br'
+apiNova = 'https://homologacao.churchpro.com.br'
 const headers = {
 	'Content-Type': 'application/json'
 }
