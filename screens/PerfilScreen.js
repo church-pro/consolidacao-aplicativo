@@ -1,18 +1,19 @@
 import React from 'react';
 import { FlatList, ScrollView } from 'react-native'
 import Loading from '../components/Loading';
-import { black, white, lightdark, dark, gray } from '../helpers/colors';
+import { black, white, lightdark, dark, gray, gold } from '../helpers/colors';
 import {
 	View,
 	Text,
 } from 'react-native';
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
-import { 
+import {
 	VALOR_VISITA,
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
+import { Icon } from 'react-native-elements';
 
 class PerfilScreen extends React.Component {
 
@@ -81,8 +82,7 @@ class PerfilScreen extends React.Component {
 		if (usuario.visitas) {
 			pontos += usuario.visitas * VALOR_VISITA
 		}
-
-		const items = [
+		const dados = [
 			{
 				label: 'Nome',
 				valor: usuario.nome,
@@ -99,6 +99,9 @@ class PerfilScreen extends React.Component {
 				label: 'Pontos',
 				valor: `${pontos} XP`,
 			},
+		]
+		const items = [
+
 			{
 				label: 'Ações contabilizadas',
 				valor: null,
@@ -180,22 +183,100 @@ class PerfilScreen extends React.Component {
 				<ScrollView style={{ paddingHorizontal: 20 }}>
 					<View style={container}>
 						{
-							 items.map(item => {
-								 let qualStilo = linha
-								 if(item.valor === null){
-									 qualStilo = linhaBorder
-								 }
-								 return (
-									 <View key={item.label} style={qualStilo}>
-										 <Text style={texto}>
-											 {item.label}
-										 </Text>
-										 <Text style={texto}>
-											 {item.valor}
-										 </Text>
-									 </View>
-								 )
-							 })
+							dados.map(item => {
+								let qualStilo = linha
+								if (item.valor === null) {
+									qualStilo = linhaBorder
+								}
+								return (
+									<View key={item.label} style={qualStilo}>
+										<Text style={texto}>
+											{item.label}
+										</Text>
+										<Text style={texto}>
+											{item.valor}
+										</Text>
+									</View>
+								)
+							})
+						}
+					</View>
+					<View style={container}>
+						{
+
+							<View style={{ flexDirection: 'row' }}>
+								<Text style={texto}>
+									Conquistas
+								</Text>
+								<View style={{ backgroundColor: '#8D533E', height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center" }}>
+									<Icon type="font-awesome" name="envelope" size={30} color={white} />
+									<View style={{ flexDirection: "row" }}>
+										<Icon name="star" type="font-awesome" color={gold} size={12} />
+										<Icon name="star" type="font-awesome" color={gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+										<Icon name="star" type="font-awesome" color={gray} size={12} />
+									</View>
+									<Text style={{ color: white, }}>5 | 25</Text>
+								</View>
+								<View style={{ backgroundColor: '#8D533E', height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center" }}>
+									<Icon type="font-awesome" name="envelope" size={30} color={white} />
+									<View style={{ flexDirection: "row" }}>
+										<Icon name="star" type="font-awesome" color={gold} size={12} />
+										<Icon name="star" type="font-awesome" color={gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+										<Icon name="star" type="font-awesome" color={gray} size={12} />
+									</View>
+									<Text style={{ color: white, }}>5 | 25</Text>
+								</View>
+								<View style={{ backgroundColor: '#8D533E', height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center" }}>
+									<Icon type="font-awesome" name="envelope" size={30} color={white} />
+									<View style={{ flexDirection: "row" }}>
+										<Icon name="star" type="font-awesome" color={gold} size={12} />
+										<Icon name="star" type="font-awesome" color={gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+										<Icon name="star" type="font-awesome" color={gray} size={12} />
+									</View>
+									<Text style={{ color: white, }}>5 | 25</Text>
+								</View>
+							</View>
+
+						}
+					</View>
+					<View style={container}>
+						{
+							dados.map(item => {
+								let qualStilo = linha
+								if (item.valor === null) {
+									qualStilo = linhaBorder
+								}
+								return (
+									<View key={item.label} style={qualStilo}>
+										<Text style={texto}>
+											{item.label}
+										</Text>
+										<Text style={texto}>
+											{item.valor}
+										</Text>
+									</View>
+								)
+							})
+						}
+					</View>
+					<View style={container}>
+						{
+							items.map(item => {
+								let qualStilo = linha
+								if (item.valor === null) {
+									qualStilo = linhaBorder
+								}
+								return (
+									<View key={item.label} style={qualStilo}>
+										<Text style={texto}>
+											{item.label}
+										</Text>
+										<Text style={texto}>
+											{item.valor}
+										</Text>
+									</View>
+								)
+							})
 						}
 					</View>
 				</ScrollView>
