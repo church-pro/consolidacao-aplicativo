@@ -263,12 +263,12 @@ class ClubesScreen extends React.Component {
 							<TouchableOpacity
 								onPress={() => this.buscarMeusClubes()}>
 								<Icon
-									name='retweet'
+									name='download'
 									type='font-awesome'
 									color={white}
 									size={22}
 								/>
-								<Text style={{ color: white }}>Sincronizar</Text>
+								<Text style={{ color: white }}>Puxar Dados</Text>
 							</TouchableOpacity>
 						</View>
 						{
