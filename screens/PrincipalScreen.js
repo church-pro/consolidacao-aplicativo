@@ -41,7 +41,7 @@ class PrincipalScreen extends React.Component {
 				Prospecto: ProspectoScreen,
 			},
 			{
-				initialRouteName: 'Conquistas',
+				initialRouteName: 'Prospectos',
 				headerStyle: {
 					backgroundColor: black,
 					borderBottomColor: black

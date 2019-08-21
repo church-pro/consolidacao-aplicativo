@@ -268,7 +268,7 @@ class ClubesScreen extends React.Component {
 									color={white}
 									size={22}
 								/>
-								<Text style={{ color: white }}>Puxar Dados</Text>
+								<Text style={{ color: white }}>Atualizar Dados</Text>
 							</TouchableOpacity>
 						</View>
 						{
@@ -298,7 +298,7 @@ class ClubesScreen extends React.Component {
 														alignItems: 'center',
 														justifyContent: 'space-between',
 													}}
-													onPress={() => this.props.navigation.navigate('Clube', { clube })} >
+													onPress={() => this.props.navigation.navigate('Clube', { clube, atualizarDados: this.buscarMeusClubes })} >
 													<Text style={{ color: white }}> {clube.nome} </Text>
 													<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 														<Text style={{ color: white }}> {clube.nos ? clube.nos.length : 0} membros </Text>

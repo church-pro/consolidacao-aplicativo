@@ -1,16 +1,9 @@
 import React from 'react';
-import { FlatList, ScrollView, Image } from 'react-native'
-import Loading from '../components/Loading';
-import { black, white, lightdark, dark, gray, primary, gold } from '../helpers/colors';
-import {
-    View,
-    Text,
-} from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native'
+import { black, white, lightdark, dark, gray, primary, gold, silver, bronze, yellow, darkGray } from '../helpers/colors';
 import { connect } from 'react-redux'
-import { LinearGradient } from 'expo'
 import { Icon } from 'react-native-elements';
-import mensagem from '../assets/images/conquista-mensagem-bronze.png'
-
+import CPButton from '../components/CPButton';
 
 class ConquistasScreen extends React.Component {
 
@@ -23,76 +16,152 @@ class ConquistasScreen extends React.Component {
 
     render() {
 
-        const { usuario } = this.props
+        const { usuario, navigation, qualAba, tipo, nivel } = this.props
+        console.log(tipo)
+        console.log(nivel)
+
+        let cor = {
+            mensagens:
+                tipo === 1 && nivel === 1 ? bronze : tipo === 1 && nivel === 2 ? silver : tipo === 1 && nivel === 3 ? gold : darkGray
+            ,
+            ligacoes:
+                tipo === 2 && nivel === 1 ? bronze : tipo === 2 && nivel === 2 ? silver : tipo === 2 && nivel === 3 ? gold : darkGray
+            ,
+            visitas:
+                tipo === 3 && nivel === 1 ? bronze : tipo === 3 && nivel === 2 ? silver : tipo === 3 && nivel === 3 ? gold : darkGray
+
+        }
 
         return (
             <View style={{ flex: 1, backgroundColor: lightdark, padding: 20 }}>
                 <View>
-                    <Text style={{ color: white, fontSize: 28, fontWeight: "bold" }} >Parabéns! </Text>
-                    <Text style={{ color: white, fontSize: 16, color: gray }}>você tem uma nova conquista </Text>
+                    <Text style={{ color: white, fontSize: 28, fontWeight: "bold" }}> Parabéns! </Text>
+                    <Text style={{ color: white, fontSize: 16, color: gray }}> você tem uma nova conquista </Text>
                 </View>
                 {
-                    !usuario.mensagens &&
+                    tipo === 1 &&
                     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <View style={{ backgroundColor: '#8D533E', height: 240, width: 240, borderRadius: 240 / 2, alignItems: "center", justifyContent: "center" }}>
+                        <View style={{
+                            backgroundColor: cor.mensagens, height: 240, width: 240, borderRadius: 240 / 2, alignItems: "center", justifyContent: "center",
+                            borderWidth: 2, borderColor: '#fff'
+                        }}
+                        >
                             <Icon type="font-awesome" name="envelope" size={120} color={white} />
                             <View style={{ flexDirection: "row" }}>
-                                <Icon name="star" type="font-awesome" color={gold} />
-                                <Icon name="star" type="font-awesome" color={gray} containerStyle={{ marginHorizontal: 5 }} />
-                                <Icon name="star" type="font-awesome" color={gray} />
+                                <Icon name="star" type="font-awesome" color={tipo === 1 && nivel >= 1 ? yellow : gray} />
+                                <Icon name="star" type="font-awesome" color={tipo === 1 && nivel >= 2 ? yellow : gray} containerStyle={{ marginHorizontal: 5 }} />
+                                <Icon name="star" type="font-awesome" color={tipo === 1 && nivel === 3 ? yellow : gray} />
                             </View>
                         </View>
                         <View style={{ alignItems: "center", marginTop: 20 }}>
-                            <Text style={{ color: white, fontSize: 18, fontWeight: "bold" }}> Mensagem - Bronze </Text>
-                            <Text style={{ color: gray, fontSize: 16 }} > Enviou 5 mensagens </Text>
+                            <Text style={{ color: white, fontSize: 18, fontWeight: "bold" }}>
+                                Mensagem -
+                            {
+                                    cor.mensagens === bronze ? ' Bronze' : '' ||
+                                        cor.mensagens === silver ? ' Prata' : '' ||
+                                            cor.mensagens === gold ? ' Ouro' : ''
+                                }
+                            </Text>
+                            <Text style={{ color: gray, fontSize: 16 }} > Enviou
+                                {
+                                    cor.mensagens === bronze ? ' 5 ' : '' ||
+                                        cor.mensagens === silver ? ' 35 ' : '' ||
+                                            cor.mensagens === gold ? ' 100 ' : ''
+                                }
+                                Mensagens
+                            </Text>
                         </View>
 
                     </View>
                 }
                 {
-                    usuario.ligacoes &&
+                    tipo === 2 &&
                     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <View style={{ backgroundColor: '#B2B3B5', height: 240, width: 240, borderRadius: 240 / 2, alignItems: "center", justifyContent: "center" }}>
+                        <View style={{
+                            backgroundColor: cor.ligacoes, height: 240, width: 240, borderRadius: 240 / 2, alignItems: "center", justifyContent: "center",
+                            borderWidth: 2, borderColor: '#fff'
+                        }}>
                             <Icon type="font-awesome" name="phone" size={120} color={white} />
                             <View style={{ flexDirection: "row" }}>
-                                <Icon name="star" type="font-awesome" color={gold} />
-                                <Icon name="star" type="font-awesome" color={gold} containerStyle={{ marginHorizontal: 5 }} />
-                                <Icon name="star" type="font-awesome" color={gray} />
+                                <Icon name="star" type="font-awesome" color={tipo === 2 && nivel >= 1 ? yellow : gray} />
+                                <Icon name="star" type="font-awesome" color={tipo === 2 && nivel >= 2 ? yellow : gray} containerStyle={{ marginHorizontal: 5 }} />
+                                <Icon name="star" type="font-awesome" color={tipo === 2 && nivel === 3 ? yellow : gray} />
                             </View>
                         </View>
                         <View style={{ alignItems: "center", marginTop: 20 }}>
-                            <Text style={{ color: white, fontSize: 18, fontWeight: "bold" }}> Ligação - Prata </Text>
-                            <Text style={{ color: gray, fontSize: 16 }} > Realizou 10 ligações </Text>
+                            <Text style={{ color: white, fontSize: 18, fontWeight: "bold" }}>
+                                Ligação -
+                            {
+                                    cor.ligacoes === bronze ? ' Bronze' : '' ||
+                                        cor.ligacoes === silver ? ' Prata' : '' ||
+                                            cor.ligacoes === gold ? ' Ouro' : ''
+                                }
+                            </Text>
+                            <Text style={{ color: gray, fontSize: 16 }} >
+                                Realizou
+                            {
+                                    tipo === 2 && nivel === 1 ? ' 5 ' : '' ||
+                                        tipo === 2 && nivel === 2 ? ' 35 ' : '' ||
+                                            tipo === 2 && nivel === 3 ? ' 100 ' : ''
+                                }
+                                ligações
+                            </Text>
                         </View>
                     </View>
                 }
                 {
-                    usuario.visitas &&
+                    tipo === 3 &&
                     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                        <View style={{ backgroundColor: '#B37F14', height: 240, width: 240, borderRadius: 240 / 2, alignItems: "center", justifyContent: "center" }}>
+                        <View style={{
+                            backgroundColor: cor.visitas, height: 240, width: 240, borderRadius: 240 / 2, alignItems: "center", justifyContent: "center",
+                            borderWidth: 2, borderColor: '#fff'
+                        }}>
                             <Icon type="font-awesome" name="user" size={120} color={white} />
                             <View style={{ flexDirection: "row" }}>
-                                <Icon name="star" type="font-awesome" color={black} />
-                                <Icon name="star" type="font-awesome" color={black} containerStyle={{ marginHorizontal: 5 }} />
-                                <Icon name="star" type="font-awesome" color={black} />
+                                <Icon name="star" type="font-awesome" color={tipo === 3 && nivel >= 1 ? yellow : gray} />
+                                <Icon name="star" type="font-awesome" color={tipo === 3 && nivel >= 2 ? yellow : gray} containerStyle={{ marginHorizontal: 5 }} />
+                                <Icon name="star" type="font-awesome" color={tipo === 3 && nivel === 3 ? yellow : gray} />
                             </View>
                         </View>
                         <View style={{ alignItems: "center", marginTop: 20 }}>
-                            <Text style={{ color: white, fontSize: 18, fontWeight: "bold" }}> Visita - Ouro </Text>
-                            <Text style={{ color: gray, fontSize: 16 }} > Realizou 20 visitas </Text>
+                            <Text style={{ color: white, fontSize: 18, fontWeight: "bold" }}>
+                                Visita -
+                                 {
+                                    cor.visitas === bronze ? ' Bronze' : '' ||
+                                        cor.visitas === silver ? ' Prata' : '' ||
+                                            cor.visitas === gold ? ' Ouro' : ''
+                                }
+                            </Text>
+                            <Text style={{ color: gray, fontSize: 16 }} > Realizou
+                            {
+                                    tipo === 3 && nivel === 1 ? ' 5 ' : '' ||
+                                        tipo === 3 && nivel === 2 ? ' 35 ' : '' ||
+                                            tipo === 3 && nivel === 3 ? ' 100 ' : ''
+                                }
+                                visitas </Text>
                         </View>
                     </View>
                 }
+
+
+                <CPButton
+                    title="Obrigado"
+                    OnPress={() => { navigation.navigate('Prospectos', { qualAba }) }}
+                />
 
             </View>
         )
     }
 }
 
-const mapStateToProps = ({ usuario }) => {
+const mapStateToProps = (state, { navigation }) => {
 
+    let usuario = state.usuario
     return {
-        usuario,
+        qualAba: navigation.state.params.qualAba,
+        tipo: navigation.state.params.conquista.tipo,
+        nivel: navigation.state.params.conquista.nivel,
+        usuario
     }
 }
 
