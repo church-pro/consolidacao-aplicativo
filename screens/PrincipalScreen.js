@@ -18,6 +18,7 @@ import ClubesScreen from '../screens/ClubesScreen';
 import ClubeScreen from '../screens/ClubeScreen';
 import PontuacaoScreen from '../screens/PontuacaoScreen';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import ConquistasScreen from './ConquistasScreen';
 
 class PrincipalScreen extends React.Component {
 
@@ -36,6 +37,7 @@ class PrincipalScreen extends React.Component {
 				MarcarDataEHora: MarcarDataEHoraScreen,
 				Perguntas: PerguntasScreen,
 				Pontuacao: PontuacaoScreen,
+				Conquistas: ConquistasScreen,
 				Prospecto: ProspectoScreen,
 			},
 			{

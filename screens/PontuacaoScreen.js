@@ -67,16 +67,87 @@ class PontuacaoScreen extends React.Component {
 			})
 		}, 10)
 	}
+
+	ajudadorDeSubmissao = () => {
+		const { usuario, qualAba, navigation, } = this.props
+
+		if (usuario.mensagens === 5) {
+			const conquista = {
+				tipo: 1,
+				nivel: 1
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.mensagens === 35) {
+			const conquista = {
+				tipo: 1,
+				nivel: 2
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.mensagens === 100) {
+			const conquista = {
+				tipo: 1,
+				nivel: 3
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.ligacoes === 5) {
+			const conquista = {
+				tipo: 2,
+				nivel: 1
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.ligacoes === 35) {
+			const conquista = {
+				tipo: 2,
+				nivel: 2
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.ligacoes === 100) {
+			const conquista = {
+				tipo: 2,
+				nivel: 3
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.visitas === 5) {
+			const conquista = {
+				tipo: 3,
+				nivel: 1
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.visitas === 35) {
+			const conquista = {
+				tipo: 3,
+				nivel: 2
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+		else if (usuario.visitas === 100) {
+			const conquista = {
+				tipo: 3,
+				nivel: 3
+			}
+			navigation.navigate('Conquistas', { qualAba, conquista })
+		}
+
+		else {
+			navigation.navigate('Prospectos', { qualAba })
+		}
+
+	}
+
 	render() {
 		const {
 			velocimetro,
 			pontos,
 			informacao,
 		} = this.state
-		const {
-			qualAba,
-			navigation,
-		} = this.props
+
 		return (
 			<View style={{ flex: 1, backgroundColor: lightdark, alignItems: 'center', padding: 20 }}>
 				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -101,7 +172,7 @@ class PontuacaoScreen extends React.Component {
 				</View>
 
 				<TouchableOpacity
-					onPress={() => navigation.navigate('Prospectos', { qualAba })}
+					onPress={this.ajudadorDeSubmissao}
 					style={{
 						width: '100%',
 						backgroundColor: primary,
@@ -124,10 +195,13 @@ class PontuacaoScreen extends React.Component {
 }
 
 
-const mapStateToProps = (state, { navigation, }) => {
+const mapStateToProps = (state, { navigation }) => {
+
+	let usuario = state.usuario
 	return {
 		qualAba: navigation.state.params.qualAba,
 		situacao_id: navigation.state.params.situacao_id,
+		usuario
 	}
 }
 

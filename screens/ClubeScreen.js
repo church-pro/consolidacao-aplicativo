@@ -31,7 +31,8 @@ class ClubeScreen extends React.Component {
 
 	render() {
 		const {
-			clube
+			clube,
+			atualizarDados
 		} = this.props
 
 		return (
@@ -57,7 +58,18 @@ class ClubeScreen extends React.Component {
 							style={stylesImportar.headerTitle}
 						>{clube.nome}</Title>
 					</Body>
-					<Right />
+					<Right>
+						{/* <TouchableOpacity
+							onPress={atualizarDados}>
+							<Icon
+								name='download'
+								type='font-awesome'
+								color={white}
+								size={22}
+							/>
+							<Text style={{ color: white }}>Atualizar Dados</Text>
+						</TouchableOpacity> */}
+					</Right>
 
 				</Header>
 				<View style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
@@ -124,10 +136,12 @@ class ClubeScreen extends React.Component {
 
 const mapStateToProps = (state, { navigation }) => {
 	const {
-		clube
+		clube,
+		atualizarDados
 	} = navigation.state.params
 	return {
 		clube,
+		atualizarDados
 	}
 }
 

@@ -1,18 +1,19 @@
 import React from 'react';
 import { FlatList, ScrollView } from 'react-native'
 import Loading from '../components/Loading';
-import { black, white, lightdark, dark, gray } from '../helpers/colors';
+import { black, white, lightdark, dark, gray, gold, yellow, bronze, silver, darkGray } from '../helpers/colors';
 import {
 	View,
 	Text,
 } from 'react-native';
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
-import { 
+import {
 	VALOR_VISITA,
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
+import { Icon } from 'react-native-elements';
 
 class PerfilScreen extends React.Component {
 
@@ -81,8 +82,7 @@ class PerfilScreen extends React.Component {
 		if (usuario.visitas) {
 			pontos += usuario.visitas * VALOR_VISITA
 		}
-
-		const items = [
+		const dados = [
 			{
 				label: 'Nome',
 				valor: usuario.nome,
@@ -99,6 +99,9 @@ class PerfilScreen extends React.Component {
 				label: 'Pontos',
 				valor: `${pontos} XP`,
 			},
+		]
+		const items = [
+
 			{
 				label: 'Ações contabilizadas',
 				valor: null,
@@ -165,6 +168,26 @@ class PerfilScreen extends React.Component {
 		if (navigation.state && navigation.state.params && navigation.state.params.no) {
 			estouVendoMeuPerfil = false
 		}
+
+		let cor = {
+			mensagens: !usuario.mensagens || usuario.mensagens < 5 ? darkGray : darkGray ||
+				usuario.mensagens >= 5 && usuario.mensagens <= 34 ? bronze : bronze ||
+					usuario.mensagens >= 35 && usuario.mensagens <= 99 ? silver : silver ||
+						usuario.mensagens >= 100 ? gold : gold
+			,
+			ligacoes: !usuario.ligacoes || usuario.ligacoes < 5 ? darkGray : darkGray ||
+				usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? bronze : bronze ||
+					usuario.ligacoes >= 35 && usuario.ligacoes <= 99 ? silver : silver ||
+						usuario.ligacoes >= 100 ? gold : gold
+			,
+			visitas: !usuario.visitas || usuario.visitas < 5 ? darkGray : darkGray ||
+				usuario.visitas >= 5 && usuario.visitas <= 34 ? bronze : bronze ||
+					usuario.visitas >= 35 && usuario.visitas <= 99 ? silver : silver ||
+						usuario.visitas >= 100 ? gold : gold
+
+		}
+
+
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				<View>
@@ -180,22 +203,123 @@ class PerfilScreen extends React.Component {
 				<ScrollView style={{ paddingHorizontal: 20 }}>
 					<View style={container}>
 						{
-							 items.map(item => {
-								 let qualStilo = linha
-								 if(item.valor === null){
-									 qualStilo = linhaBorder
-								 }
-								 return (
-									 <View key={item.label} style={qualStilo}>
-										 <Text style={texto}>
-											 {item.label}
-										 </Text>
-										 <Text style={texto}>
-											 {item.valor}
-										 </Text>
-									 </View>
-								 )
-							 })
+							dados.map(item => {
+								let qualStilo = linha
+								if (item.valor === null) {
+									qualStilo = linhaBorder
+								}
+								return (
+									<View key={item.label} style={qualStilo}>
+										<Text style={texto}>
+											{item.label}
+										</Text>
+										<Text style={texto}>
+											{item.valor}
+										</Text>
+									</View>
+								)
+							})
+						}
+					</View>
+					<View style={container}>
+						{
+
+							<View>
+								<Text style={texto}>
+									Conquistas
+								</Text>
+								<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 10 }}>
+									<View style={{ alignItems: "center" }}>
+										<View style={{
+											backgroundColor: cor.mensagens, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
+											borderWidth: 2, borderColor: '#fff'
+										}}>
+											<Icon type="font-awesome" name="envelope" size={30} color={white} />
+											<View style={{ flexDirection: "row" }}>
+												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 5 ? yellow : gray} size={12} />
+												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 100 ? yellow : gray} size={12} />
+											</View>
+										</View>
+										<View style={{ backgroundColor: bronze, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
+											<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
+												{!usuario.mensagens ? '0' : usuario.mensagens} /{
+													!usuario.mensagens || usuario.mensagens < 5 ? ' 5 ' : '' ||
+														usuario.mensagens >= 5 && usuario.mensagens <= 34 ? ' 35 ' : '' ||
+															usuario.mensagens >= 35 ? ' 100 ' : ''
+												}
+											</Text>
+										</View>
+									</View>
+									<View style={{ alignItems: "center" }}>
+										<View style={{
+											backgroundColor: cor.ligacoes, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
+											borderWidth: 2, borderColor: '#fff'
+										}}>
+											<Icon type="font-awesome" name="phone" size={30} color={white} />
+											<View style={{ flexDirection: "row" }}>
+												<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 5 ? yellow : gray} size={12} />
+												<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+												<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 100 ? yellow : gray} size={12} />
+											</View>
+										</View>
+										<View style={{ backgroundColor: cor.ligacoes, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
+											<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
+												{!usuario.ligacoes ? '0' : usuario.ligacoes} /
+												{
+													!usuario.ligacoes || usuario.ligacoes < 5 ? ' 5 ' : '' ||
+														usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? ' 35 ' : '' ||
+															usuario.ligacoes >= 35 ? ' 100 ' : ''
+												}
+											</Text>
+										</View>
+									</View>
+									<View style={{ alignItems: "center" }}>
+										<View style={{
+											backgroundColor: cor.visitas, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
+											borderWidth: 2, borderColor: '#fff'
+										}}>
+											<Icon type="font-awesome" name="home" size={30} color={white} />
+											<View style={{ flexDirection: "row" }}>
+												<Icon name="star" type="font-awesome" color={usuario.visitas >= 5 ? yellow : gray} size={12} />
+												<Icon name="star" type="font-awesome" color={usuario.visitas >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+												<Icon name="star" type="font-awesome" color={usuario.visitas >= 100 ? yellow : gray} size={12} />
+											</View>
+										</View>
+										<View style={{ backgroundColor: cor.visitas, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
+											<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
+												{!usuario.visitas ? '0' : usuario.visitas} /
+												{
+													!usuario.visitas || usuario.visitas < 5 ? ' 5 ' : '' ||
+														usuario.visitas >= 5 && usuario.visitas <= 34 ? ' 35 ' : '' ||
+															usuario.visitas >= 35 ? ' 100 ' : ''
+												}</Text>
+										</View>
+									</View>
+
+								</View>
+							</View>
+
+						}
+					</View>
+					<View style={container}>
+						{
+							items.map(item => {
+								let qualStilo = linha
+								if (item.valor === null) {
+									qualStilo = linhaBorder
+								}
+								return (
+									<View key={item.label} style={qualStilo}>
+										<Text style={texto}>
+											{item.label}
+										</Text>
+										<Text style={texto}>
+											{item.valor}
+										</Text>
+									</View>
+								)
+							})
 						}
 					</View>
 				</ScrollView>

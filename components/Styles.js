@@ -139,6 +139,7 @@ export const stylesLogin = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         marginHorizontal: 12,
+        marginBottom: 10,
     },
     textButton: {
         fontSize: 16,
