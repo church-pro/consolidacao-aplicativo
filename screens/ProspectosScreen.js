@@ -272,7 +272,6 @@ class ProspectosScreen extends React.Component {
 									navigation={navigation}
 								/>
 						}
-
 						{
 							buscaMensagem &&
 								<TouchableOpacity style={{

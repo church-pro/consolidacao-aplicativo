@@ -147,6 +147,7 @@ class ImportarProspectosScreen extends React.Component {
                                                 let ddd = 61
                                                 let telefoneTexto = item.number.toString()
                                                 telefoneTexto = telefoneTexto.replace('-', '')
+                                                telefoneTexto = telefoneTexto.replace('-', '')
                                                 telefoneTexto = telefoneTexto.replace(' ', '')
                                                 telefoneTexto = telefoneTexto.replace('+', '')
                                                 telefoneTexto = telefoneTexto.replace('(', '')

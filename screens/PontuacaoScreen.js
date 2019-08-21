@@ -41,11 +41,11 @@ class PontuacaoScreen extends React.Component {
 		let informacao = ''
 		if (situacao_id === SITUACAO_MENSAGEM) {
 			pontos = VALOR_MENSAGEM
-			informacao = 'A pessoa está agora na aba ligar.'
+			informacao = 'A pessoa está agora na aba LIGAR.'
 		}
 		if (situacao_id === SITUACAO_LIGAR) {
 			pontos = VALOR_LIGAR
-			informacao = 'A pessoa está agora na aba visita.'
+			informacao = 'A pessoa está agora na aba VISITA.'
 		}
 		if (situacao_id === SITUACAO_VISITA) {
 			pontos = VALOR_VISITA
