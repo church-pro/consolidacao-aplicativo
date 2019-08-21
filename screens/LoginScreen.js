@@ -83,7 +83,6 @@ class LoginScreen extends React.Component {
 						}
 						sincronizarNaAPI(dados)
 							.then(retorno => {
-								console.log('retorno: ', retorno)
 								if (retorno.ok) {
 									let usuario = retorno.resultado.usuario
 									delete usuario.prospectos

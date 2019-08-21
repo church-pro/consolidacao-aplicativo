@@ -233,18 +233,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							alertMensagem: labelMensagem + 'ligar',
 						},
 					},
-					{
-						estado: 'remover',
-						titulo: REMOVER,
-						onPress: {
-							remover: true,
-							avancar: false,
-							mostrarBotaoConfirmar: true,
-							situacao_id_nova: SITUACAO_REMOVIDO,
-							alertTitulo: REMOVER,
-							alertMensagem: PESSOA_REMOVIDA,
-						},
-					},
 				]
 			},
 		]
@@ -401,19 +389,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							alertMensagem: labelMensagemVoltar,
 						},
 					},
-					{
-						estado: 'remover',
-						titulo: REMOVER,
-						onPress: {
-							remover: true,
-							avancar: false,
-							voltar: false,
-							mostrarBotaoConfirmar: true,
-							situacao_id_nova: SITUACAO_REMOVIDO,
-							alertTitulo: labelRemover,
-							alertMensagem: labelMensgemRemovido,
-						},
-					},
 				]
 			},
 		]
@@ -543,18 +518,6 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 							situacao_id_nova: SITUACAO_IMPORTAR,
 							alertTitulo: labelVolta,
 							alertMensagem: labelMensagemVoltar
-						},
-					},
-					{
-						estado: 'remover',
-						titulo: REMOVER,
-						onPress: {
-							mostrarBotaoConfirmar: true,
-							remover: true,
-							recomecar: false,
-							situacao_id_nova: SITUACAO_REMOVIDO,
-							alertTitulo: labelRemover,
-							alertMensagem: labelMensgemRemovido,
 						},
 					},
 				]

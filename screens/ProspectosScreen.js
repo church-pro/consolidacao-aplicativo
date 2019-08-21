@@ -273,21 +273,24 @@ class ProspectosScreen extends React.Component {
 								/>
 						}
 
-						<TouchableOpacity style={{
-							backgroundColor: primary,
-							borderRadius: 50 / 2,
-							height: 50,
-							width: 50,
-							justifyContent: 'center',
-							alignItems: 'center',
-							position: 'absolute',
-							bottom: 10,
-							right: 5,
-						}}
-							onPress={() => navigation.navigate('ImportarProspectos')}
-							hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
-							<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
-						</TouchableOpacity>
+						{
+							buscaMensagem &&
+								<TouchableOpacity style={{
+									backgroundColor: primary,
+									borderRadius: 50 / 2,
+									height: 50,
+									width: 50,
+									justifyContent: 'center',
+									alignItems: 'center',
+									position: 'absolute',
+									bottom: 10,
+									right: 5,
+								}}
+								onPress={() => navigation.navigate('ImportarProspectos')}
+								hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
+								<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
+							</TouchableOpacity>
+						}
 					</React.Fragment>
 				}
 
