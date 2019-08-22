@@ -102,6 +102,20 @@ export const criarClubeNaAPI = (dados) =>
 		.then(resultado => resultado.json())
 		.then(json => json)
 
+export const atualizarClubeNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/atualizarClube`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+
+
 export function recuperarAdministracao() {
 	return AsyncStorage.getItem(CHAVE_ADMINISTRACAO)
 		.then(JSON.parse)
