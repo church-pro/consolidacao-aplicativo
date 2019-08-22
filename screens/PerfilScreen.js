@@ -241,7 +241,7 @@ class PerfilScreen extends React.Component {
 												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 100 ? yellow : gray} size={12} />
 											</View>
 										</View>
-										<View style={{ backgroundColor: bronze, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
+										<View style={{ backgroundColor: cor.mensagens, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
 											<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
 												{!usuario.mensagens ? '0' : usuario.mensagens} /{
 													!usuario.mensagens || usuario.mensagens < 5 ? ' 5 ' : '' ||
