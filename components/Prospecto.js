@@ -13,7 +13,6 @@ import call from 'react-native-phone-call'
 import {
 	alterarProspectoNoAsyncStorage,
 	alterarUsuarioNoAsyncStorage,
-	submeterAdministracaoNoAsyncStorage,
 } from '../actions'
 import {
 	submeterSituacoes,
@@ -39,22 +38,21 @@ class Prospecto extends React.Component {
 		mostrarOpcoes: false
 	}
 
-	executarAcao = async (tipo) => {
+	executarAcao = (tipo) => {
 		const { 
 			prospecto,
-			submeterAdministracaoNoAsyncStorage,
 			navigation,
 		} = this.props
-		const adminstracao = {
-			bloqueiarTela: true,
-			prospecto_id: prospecto.celular_id
-		}
-		await submeterAdministracaoNoAsyncStorage(adminstracao)
 		if(tipo === 'ligar'){
-			call({ number: prospecto.telefone, prompt: false }).catch(console.error)
+			const dados = {
+				number: prospecto.telefone.toString(),
+				prompt: false,
+			}
+			call(dados).catch(console.error)
 		}
 		if(tipo === 'whatsapp'){
-			Linking.openURL(`https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`).catch((err) => console.error(err))
+			const url = `https://api.whatsapp.com/send?phone=55${prospecto.ddd}${prospecto.telefone}`
+			Linking.openURL(url).catch((err) => console.error(err))
 		}
 		navigation.navigate('Perguntas', {prospecto_id: prospecto._id})
 	}
@@ -256,7 +254,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
-		submeterAdministracaoNoAsyncStorage: (administracao) => dispatch(submeterAdministracaoNoAsyncStorage(administracao)),
 	}
 }
 

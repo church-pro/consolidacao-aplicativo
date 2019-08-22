@@ -11,6 +11,7 @@ import { Card, CheckBox } from 'react-native-elements'
 import { white, black, lightdark, dark, primary, gray } from '../helpers/colors'
 import { connect } from 'react-redux'
 import {
+	SITUACAO_IMPORTAR,
 	SITUACAO_LIGAR,
 	SITUACAO_MENSAGEM,
 	SITUACAO_VISITA,
@@ -29,7 +30,6 @@ import {
 import {
 	alterarProspectoNoAsyncStorage,
 	alterarUsuarioNoAsyncStorage,
-	submeterAdministracaoNoAsyncStorage,
 } from '../actions'
 import {
 	submeterSituacoes,
@@ -68,7 +68,6 @@ class PerguntasScreen extends React.Component {
 			prospecto,
 			alterarProspectoNoAsyncStorage,
 			alterarUsuarioNoAsyncStorage,
-			submeterAdministracaoNoAsyncStorage,
 			navigation,
 			usuario
 		} = this.props
@@ -81,44 +80,6 @@ class PerguntasScreen extends React.Component {
 			alertTitulo,
 			alertMensagem,
 		} = this.state
-
-		prospecto.situacao_id = situacao_id_nova
-		let numeroDeDiasParaTerminar = 1
-		if (situacao_id_nova === SITUACAO_MENSAGEM) {
-			numeroDeDiasParaTerminar = 2
-			if (usuario.mensagens) {
-				usuario.mensagens += 1
-			} else {
-				usuario.mensagens = 1
-			}
-		}
-		if (situacao_id_nova === SITUACAO_LIGAR) {
-			numeroDeDiasParaTerminar = 3
-			if (usuario.ligacoes) {
-				usuario.ligacoes += 1
-			} else {
-				usuario.ligacoes = 1
-			}
-		}
-		if (situacao_id_nova === SITUACAO_VISITA) {
-			if (usuario.visitas) {
-				usuario.visitas += 1
-			} else {
-				usuario.visitas = 1
-			}
-		}
-		if (situacao_id_nova === SITUACAO_EVENTO) {
-			if (usuario.eventos) {
-				usuario.eventos += 1
-			} else {
-				usuario.eventos = 1
-			}
-		}
-
-		prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(1)[0]
-		if (situacao_id_nova === SITUACAO_VISITA) {
-			delete prospecto.dataParaFinalizarAAcao
-		}
 
 		let situacoes = []
 		const situacao = {
@@ -200,19 +161,36 @@ class PerguntasScreen extends React.Component {
 		if (situacao_id_nova === null) {
 			navigation.goBack()
 		} else {
-			if (situacao_id_nova === SITUACAO_REMOVIDO) {
-				if (usuario.removidos) {
-					usuario.removidos += 1
-				} else {
-					usuario.removidos = 1
+			if (paraOndeNavegar === null) {
+			let numeroDeDiasParaTerminar = 1
+				if (situacao_id_nova === SITUACAO_MENSAGEM) {
+					numeroDeDiasParaTerminar = 2
+					if (usuario.mensagens) {
+						usuario.mensagens += 1
+					} else {
+						usuario.mensagens = 1
+					}
 				}
-			}
-
-			if (
-				paraOndeNavegar === null ||
-				situacao_id_nova === SITUACAO_REMOVIDO
-			) {
-				await submeterAdministracaoNoAsyncStorage({})
+				if (situacao_id_nova === SITUACAO_LIGAR) {
+					numeroDeDiasParaTerminar = 3
+					if (usuario.ligacoes) {
+						usuario.ligacoes += 1
+					} else {
+						usuario.ligacoes = 1
+					}
+				}
+				if (situacao_id_nova === SITUACAO_VISITA) {
+					if (usuario.visitas) {
+						usuario.visitas += 1
+					} else {
+						usuario.visitas = 1
+					}
+				}
+				prospecto.situacao_id = situacao_id_nova
+				prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(numeroDeDiasParaTerminar)[0]
+				if ( situacao_id_nova === SITUACAO_VISITA) {
+					delete prospecto.dataParaFinalizarAAcao
+				}
 				await alterarUsuarioNoAsyncStorage(usuario)
 				await submeterSituacoes(situacoes)
 				if (prospecto.situacao_id !== SITUACAO_LIGAR) {
@@ -225,18 +203,39 @@ class PerguntasScreen extends React.Component {
 				const dados = {
 					qualAba,
 					situacao_id: situacao_id_nova,
+				}	
+				if(
+					(
+						situacao_id_nova === SITUACAO_MENSAGEM ||
+						situacao_id_nova === SITUACAO_LIGAR ||
+						situacao_id_nova === SITUACAO_VISITA 
+					) && situacao_id_extra === null
+				){
+					navigation.navigate('Pontuacao', dados)
 				}
-				navigation.navigate('Pontuacao', dados)
+				if(
+					(
+						situacao_id_nova === SITUACAO_IMPORTAR ||
+						situacao_id_nova === SITUACAO_MENSAGEM ||
+						situacao_id_nova === SITUACAO_LIGAR ||
+						situacao_id_nova === SITUACAO_VISITA 
+					) && situacao_id_extra !== null
+				){
+					let mensagem = 'Ação concluída! A pessoa está no próximo passo.'
+					if(situacao_id_nova === SITUACAO_IMPORTAR){
+						mensagem = 'Ação concluída! A pessoa está na aba MENSAGEM'
+					}
+					Alert.alert('Progresso', mensagem)
+					navigation.navigate('Prospectos', {qualAba})
+				}
 			}
 
 			/* marcar data e hora */
-			if (
-				paraOndeNavegar &&
-				situacao_id_nova !== SITUACAO_REMOVIDO
-			) {
+			if (paraOndeNavegar) {
 				dados = {
 					prospecto_id: prospecto._id,
 					situacao_id_nova,
+					situacao_id_extra,
 					situacoes,
 					paraOndeVoltar: 'Prospectos',
 					qualAba,
@@ -378,7 +377,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		alterarProspectoNoAsyncStorage: (prospecto) => dispatch(alterarProspectoNoAsyncStorage(prospecto)),
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
-		submeterAdministracaoNoAsyncStorage: (administracao) => dispatch(submeterAdministracaoNoAsyncStorage(administracao)),
 	}
 }
 

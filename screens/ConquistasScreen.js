@@ -36,7 +36,7 @@ class ConquistasScreen extends React.Component {
             <View style={{ flex: 1, backgroundColor: lightdark, padding: 20 }}>
                 <View>
                     <Text style={{ color: white, fontSize: 28, fontWeight: "bold" }}> Parabéns! </Text>
-                    <Text style={{ color: white, fontSize: 16, color: gray }}> você tem uma nova conquista </Text>
+                    <Text style={{ color: white, fontSize: 16, color: gray }}> Você tem uma nova conquista </Text>
                 </View>
                 {
                     tipo === 1 &&

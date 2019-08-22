@@ -103,7 +103,6 @@ class ClubesScreen extends React.Component {
 					if (isConnected) {
 						buscarClubesNaAPI({ busca })
 							.then(retorno => {
-								console.log('retorno: ', retorno)
 								if (retorno.ok) {
 									this.setState({
 										clubesBuscados: retorno.resultado.clubes,

@@ -32,13 +32,14 @@ import {
 
 class MarcarDataEHoraScreen extends React.Component {
 
-    ajudadorDeSubmit = () => {
+    ajudadorDeSubmit = async () => {
         this.setState({ carregando: true })
         const {
             prospecto,
             alterarProspectoNoAsyncStorage,
             navigation,
             situacao_id_nova,
+			situacao_id_extra,
             situacoes,
             paraOndeVoltar,
             qualAba,
@@ -51,31 +52,31 @@ class MarcarDataEHoraScreen extends React.Component {
             this.state.horaParaOAgendamento === null) {
             this.setState({ carregando: false })
             Alert.alert('Erro', 'Selecione a data e hora')
-        } else {
-            prospecto.data = this.state.dataParaOAgendamento
-            prospecto.hora = this.state.horaParaOAgendamento
-            if (this.state.local) {
-                prospecto.local = this.state.local
-            }
-            prospecto.situacao_id = situacao_id_nova
-            prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(3)[0]
+		} else {
+			prospecto.data = this.state.dataParaOAgendamento
+			prospecto.hora = this.state.horaParaOAgendamento
+			if (this.state.local) {
+				prospecto.local = this.state.local
+			}
+			prospecto.situacao_id = situacao_id_nova
+			prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(3)[0]
 
-            alterarUsuarioNoAsyncStorage(usuario)
-                .then(() => {
-                    submeterSituacoes(situacoes)
-                        .then(() => {
-                            alterarProspectoNoAsyncStorage(prospecto)
-                                .then(() => {
-                                    this.setState({ carregando: false })
-                                    const dados = {
-                                        qualAba,
-                                        situacao_id: SITUACAO_LIGAR,
-                                    }
-                                    navigation.navigate('Pontuacao', dados)
-                                })
-                        })
-                })
-        }
+			await alterarUsuarioNoAsyncStorage(usuario)
+			await submeterSituacoes(situacoes)
+			await alterarProspectoNoAsyncStorage(prospecto)
+			this.setState({ carregando: false })
+			const dados = {
+				qualAba,
+				situacao_id: SITUACAO_LIGAR,
+			}
+			if(situacao_id_extra === null){
+				navigation.navigate('Pontuacao', dados)
+			}
+			if(situacao_id_extra !== null){
+				Alert.alert('Progresso', 'Ação concluída! A pessoa está no próximo passo.')
+				navigation.navigate('Prospectos', {qualAba})
+			}
+		}
     }
 
     state = {
@@ -209,6 +210,7 @@ function mapStateToProps({ prospectos, usuario, }, { navigation }) {
     const {
         prospecto_id,
         situacao_id_nova,
+        situacao_id_extra,
         situacoes,
         paraOndeVoltar,
         qualAba,
@@ -218,6 +220,7 @@ function mapStateToProps({ prospectos, usuario, }, { navigation }) {
     return {
         prospecto: prospectos && prospectos.find(prospecto => prospecto._id === prospecto_id),
         situacao_id_nova,
+        situacao_id_extra,
         situacoes,
         paraOndeVoltar,
         qualAba,

@@ -31,7 +31,6 @@ import seta from '../assets/images/seta.png'
 import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,
-	pegarAdministracaoNoAsyncStorage,
 } from '../actions'
 import Loading from '../components/Loading';
 import { Icon } from 'react-native-elements'
@@ -47,19 +46,9 @@ class ProspectosScreen extends React.Component {
 		sincronizando: false,
 	}
 
-	componentDidMount = async () => {
-		const {
-			navigation,
-			prospectos,
-			pegarAdministracaoNoAsyncStorage,
-		} = this.props
-		const retorno = await pegarAdministracaoNoAsyncStorage()
+	componentDidMount = () => {
 		this.setState({ carregando: false })
-		if (retorno && retorno.bloqueiarTela) {
-			navigation.navigate('Perguntas', { prospecto_id: retorno.prospecto_id })
-		} else {
-			this.comecarSincronizacao()
-		}
+		this.comecarSincronizacao()
 	}
 
 	static navigationOptions = () => {
@@ -316,7 +305,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
 		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
-		pegarAdministracaoNoAsyncStorage: () => dispatch(pegarAdministracaoNoAsyncStorage()),
 	}
 }
 
