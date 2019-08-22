@@ -31,7 +31,6 @@ import seta from '../assets/images/seta.png'
 import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,
-	pegarAdministracaoNoAsyncStorage,
 } from '../actions'
 import Loading from '../components/Loading';
 import { Icon } from 'react-native-elements'
@@ -47,19 +46,9 @@ class ProspectosScreen extends React.Component {
 		sincronizando: false,
 	}
 
-	componentDidMount = async () => {
-		const {
-			navigation,
-			prospectos,
-			pegarAdministracaoNoAsyncStorage,
-		} = this.props
-		const retorno = await pegarAdministracaoNoAsyncStorage()
+	componentDidMount = () => {
 		this.setState({ carregando: false })
-		if (retorno && retorno.bloqueiarTela) {
-			navigation.navigate('Perguntas', { prospecto_id: retorno.prospecto_id })
-		} else {
-			this.comecarSincronizacao()
-		}
+		this.comecarSincronizacao()
 	}
 
 	static navigationOptions = () => {
@@ -142,22 +131,31 @@ class ProspectosScreen extends React.Component {
 					<React.Fragment>
 						{
 							!sincronizando &&
-							<View style={{
-								padding: 10,
-								alignItems: 'center',
-							}}>
+								<View style={{
+									padding: 10,
+									alignItems: 'center',
+								}}>
 								<TouchableOpacity
 									hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
 									style={{ flexDirection: 'row', }}
 									onPress={() => this.comecarSincronizacao()}>
-									<Icon
-										name='retweet'
-										type='font-awesome'
-										color={white}
-										size={10}
-									/>
 									<Text style={{ marginLeft: 10, fontSize: 10, color: white }}>
 										Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
+									</Text>
+									<Text
+										style={{
+											marginLeft: 10,
+											backgroundColor: primary,
+											padding: 2,
+											fontSize: 10,
+											borderRadius: 6,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+											color: white
+										}}>
+										Sincronizar
 									</Text>
 								</TouchableOpacity>
 							</View>
@@ -316,7 +314,6 @@ function mapDispatchToProps(dispatch) {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
 		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
-		pegarAdministracaoNoAsyncStorage: () => dispatch(pegarAdministracaoNoAsyncStorage()),
 	}
 }
 

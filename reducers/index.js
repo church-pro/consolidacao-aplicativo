@@ -4,8 +4,6 @@ import {
 	PEGAR_PROSPECTOS, 
 	ADICIONAR_PROSPECTOS, 
 	ALTERAR_PROSPECTO, 
-	PEGAR_ADMINISTRACAO,
-	ALTERAR_ADMINISTRACAO,
 	PEGAR_USUARIO,
 	ALTERAR_USUARIO,
 	PEGAR_SITUACOES,
@@ -34,17 +32,6 @@ function prospectos(state = [], action){
 	}
 }
 
-function administracao(state = {}, action){
-	switch(action.type){
-		case PEGAR_ADMINISTRACAO:
-			return action.administracao
-		case ALTERAR_ADMINISTRACAO:
-			return action.administracao
-		default:
-			return state
-	}
-}
-
 function usuario(state = {}, action){
 	switch(action.type){
 		case PEGAR_USUARIO:
@@ -62,6 +49,5 @@ function usuario(state = {}, action){
 
 export default combineReducers({
 	prospectos,
-	administracao,
 	usuario,
 })

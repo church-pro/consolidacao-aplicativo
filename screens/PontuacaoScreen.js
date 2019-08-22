@@ -65,7 +65,7 @@ class PontuacaoScreen extends React.Component {
 					informacao,
 				}
 			})
-		}, 10)
+		}, 5)
 	}
 
 	ajudadorDeSubmissao = () => {
