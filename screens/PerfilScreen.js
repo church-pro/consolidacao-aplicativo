@@ -209,11 +209,11 @@ class PerfilScreen extends React.Component {
 									qualStilo = linhaBorder
 								}
 								return (
-									<View key={item.label} style={qualStilo}>
-										<Text style={texto}>
+									<View key={item.label} style={[qualStilo, { flexDirection: "column", alignItems: "flex-start" }]}>
+										<Text style={{ color: white, fontWeight: "bold" }}>
 											{item.label}
 										</Text>
-										<Text style={texto}>
+										<Text numberOfLines={1} style={texto}>
 											{item.valor}
 										</Text>
 									</View>
