@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, ScrollView } from 'react-native'
 import Loading from '../components/Loading';
-import { black, white, lightdark, dark, gray, gold, yellow, bronze, silver, darkGray } from '../helpers/colors';
+import { black, white, lightdark, dark, gray, gold, yellow, bronze, silver, darkGray, primary } from '../helpers/colors';
 import {
 	View,
 	Text,
@@ -95,10 +95,6 @@ class PerfilScreen extends React.Component {
 				label: 'Igreja',
 				valor: usuario.nome_igreja,
 			},
-			{
-				label: 'Pontos',
-				valor: `${pontos} XP`,
-			},
 		]
 		const items = [
 
@@ -191,7 +187,7 @@ class PerfilScreen extends React.Component {
 		return (
 			<LinearGradient style={{ flex: 1 }} colors={[black, dark, lightdark, '#343434']}>
 				<View>
-					<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', padding: 20 }}>
+					<Text style={{ color: white, fontSize: 20, fontWeight: 'bold', paddingHorizontal: 20, marginVertical: 8 }}>
 						{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
 					</Text>
 				</View>
@@ -202,30 +198,42 @@ class PerfilScreen extends React.Component {
 				</View>
 				<ScrollView style={{ paddingHorizontal: 20 }}>
 					<View style={container}>
-						{
-							dados.map(item => {
-								let qualStilo = linha
-								if (item.valor === null) {
-									qualStilo = linhaBorder
-								}
-								return (
-									<View key={item.label} style={[qualStilo, { flexDirection: "column", alignItems: "flex-start" }]}>
-										<Text style={{ color: white, fontWeight: "bold" }}>
-											{item.label}
-										</Text>
-										<Text numberOfLines={1} style={texto}>
-											{item.valor}
-										</Text>
-									</View>
-								)
-							})
-						}
+						<View style={[{
+							flexDirection: "column", alignItems: "flex-start", paddingVertical: 5,
+							justifyContent: 'space-between',
+							flexWrap: 'wrap',
+						}]}>
+							{
+								dados.map(item => {
+									let qualStilo = linha
+									if (item.valor === null) {
+										qualStilo = linhaBorder
+									}
+									return (
+										<View key={item.label} style={{ paddingVertical: 5 }}>
+											<Text style={{ color: white, fontWeight: "bold" }}>
+												{item.label}
+											</Text>
+											<Text numberOfLines={1} style={texto}>
+												{item.valor}
+											</Text>
+										</View>
+									)
+								})
+							}
+							<Text style={{ color: white, fontWeight: "bold" }}>
+								Pontos
+							</Text>
+							<Text numberOfLines={1} style={{ color: primary }}>
+								{pontos} XP
+							</Text>
+						</View>
 					</View>
 					<View style={container}>
 						{
 
 							<View>
-								<Text style={texto}>
+								<Text style={[texto, { fontWeight: 'bold' }]}>
 									Conquistas
 								</Text>
 								<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 10 }}>
@@ -241,7 +249,7 @@ class PerfilScreen extends React.Component {
 												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 100 ? yellow : gray} size={12} />
 											</View>
 										</View>
-										<View style={{ backgroundColor: cor.mensagens, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
+										<View style={{ backgroundColor: cor.mensagens, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
 											<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
 												{!usuario.mensagens ? '0' : usuario.mensagens} /{
 													!usuario.mensagens || usuario.mensagens < 5 ? ' 5 ' : '' ||
@@ -263,7 +271,7 @@ class PerfilScreen extends React.Component {
 												<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 100 ? yellow : gray} size={12} />
 											</View>
 										</View>
-										<View style={{ backgroundColor: cor.ligacoes, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
+										<View style={{ backgroundColor: cor.ligacoes, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
 											<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
 												{!usuario.ligacoes ? '0' : usuario.ligacoes} /
 												{
@@ -286,7 +294,7 @@ class PerfilScreen extends React.Component {
 												<Icon name="star" type="font-awesome" color={usuario.visitas >= 100 ? yellow : gray} size={12} />
 											</View>
 										</View>
-										<View style={{ backgroundColor: cor.visitas, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 50 }}>
+										<View style={{ backgroundColor: cor.visitas, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
 											<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
 												{!usuario.visitas ? '0' : usuario.visitas} /
 												{
