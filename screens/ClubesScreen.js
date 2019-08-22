@@ -152,10 +152,10 @@ class ClubesScreen extends React.Component {
 						}
 						participarDeClubeNaAPI(dados)
 							.then(retorno => {
-								if(retorno.ok) {
+								if (retorno.ok) {
 									this.buscarMeusClubes()
 								}
-								if(!retorno.ok){
+								if (!retorno.ok) {
 									Alert.alert('Aviso', retorno.mensagem)
 								}
 								this.setState({
@@ -567,9 +567,9 @@ class ClubesScreen extends React.Component {
 							}
 							{
 								!carregando &&
-									clubesBuscados.length === 0 &&
-									<Text style={{color: white, flex: 1, textAlign: 'center',}}>
-										Nenhum Clube encontrado!
+								clubesBuscados.length === 0 &&
+								<Text style={{ color: white, flex: 1, textAlign: 'center', }}>
+									Nenhum Clube encontrado!
 									</Text>
 							}
 						</ScrollView>

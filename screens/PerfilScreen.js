@@ -166,19 +166,19 @@ class PerfilScreen extends React.Component {
 		}
 
 		let cor = {
-			mensagens: !usuario.mensagens || usuario.mensagens < 5 ? darkGray : darkGray ||
-				usuario.mensagens >= 5 && usuario.mensagens <= 34 ? bronze : bronze ||
-					usuario.mensagens >= 35 && usuario.mensagens <= 99 ? silver : silver ||
+			mensagens: !usuario.mensagens || usuario.mensagens < 5 ? darkGray :
+				usuario.mensagens >= 5 && usuario.mensagens <= 34 ? bronze :
+					usuario.mensagens >= 35 && usuario.mensagens <= 99 ? silver :
 						usuario.mensagens >= 100 ? gold : gold
 			,
-			ligacoes: !usuario.ligacoes || usuario.ligacoes < 5 ? darkGray : darkGray ||
-				usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? bronze : bronze ||
-					usuario.ligacoes >= 35 && usuario.ligacoes <= 99 ? silver : silver ||
+			ligacoes: !usuario.ligacoes || usuario.ligacoes < 5 ? darkGray :
+				usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? bronze :
+					usuario.ligacoes >= 35 && usuario.ligacoes <= 99 ? silver :
 						usuario.ligacoes >= 100 ? gold : gold
 			,
-			visitas: !usuario.visitas || usuario.visitas < 5 ? darkGray : darkGray ||
-				usuario.visitas >= 5 && usuario.visitas <= 34 ? bronze : bronze ||
-					usuario.visitas >= 35 && usuario.visitas <= 99 ? silver : silver ||
+			visitas: !usuario.visitas || usuario.visitas < 5 ? darkGray :
+				usuario.visitas >= 5 && usuario.visitas <= 34 ? bronze :
+					usuario.visitas >= 35 && usuario.visitas <= 99 ? silver :
 						usuario.visitas >= 100 ? gold : gold
 
 		}
