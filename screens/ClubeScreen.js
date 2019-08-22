@@ -41,7 +41,7 @@ class ClubeScreen extends React.Component {
 				<Header style={[stylesImportar.header, { backgroundColor: dark }]} iosBarStyle="light-content">
 					<Left >
 						<TouchableOpacity
-							hitSlop={{ right: 10, bottom: 10, top: 10, left: 10 }}
+							hitSlop={{ right: 15, bottom: 10, top: 10, left: 10 }}
 							style={stylesImportar.containerIcon}
 							onPress={() => this.props.navigation.goBack()}>
 							{
