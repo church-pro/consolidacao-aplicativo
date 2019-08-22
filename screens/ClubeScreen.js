@@ -6,7 +6,8 @@ import {
 	Text,
 	TouchableOpacity,
 	Image,
-	Platform
+	Platform,
+	ScrollView
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
@@ -72,7 +73,7 @@ class ClubeScreen extends React.Component {
 					</Right>
 
 				</Header>
-				<View style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
+				<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
 
 					<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
 						Participantes
@@ -102,6 +103,7 @@ class ClubeScreen extends React.Component {
 									return (
 										<TouchableOpacity
 											style={{
+												flex: 1,
 												borderTopWidth: 1,
 												borderTopColor: dark,
 												padding: 12,
@@ -111,7 +113,7 @@ class ClubeScreen extends React.Component {
 											}}
 											key={no._id}
 											onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
-											<Text style={{ color: white }}> {no.nome} </Text>
+											<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
 											<Text style={{ color: white }}> {no.pontos} XP </Text>
 										</TouchableOpacity>
 									)
@@ -128,7 +130,7 @@ class ClubeScreen extends React.Component {
 					</Text>
 						</View>
 					}
-				</View>
+				</ScrollView>
 			</>
 		)
 	}
