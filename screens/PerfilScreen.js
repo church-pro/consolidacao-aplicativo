@@ -205,7 +205,7 @@ class PerfilScreen extends React.Component {
 							activeOpacity={1}
 							onPress={() => {
 								this.setState({
-									perfil: !perfil,
+									perfil: true,
 									config: false,
 								})
 							}} >
@@ -227,7 +227,7 @@ class PerfilScreen extends React.Component {
 							onPress={() => {
 								this.setState({
 									perfil: false,
-									config: !config,
+									config: true,
 								})
 							}} >
 							<Text
