@@ -70,6 +70,7 @@ class PontuacaoScreen extends React.Component {
 
 	ajudadorDeSubmissao = () => {
 		const { 
+			situacao_id,
 			usuario, 
 			qualAba, 
 			navigation,
