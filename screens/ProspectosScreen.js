@@ -48,7 +48,6 @@ class ProspectosScreen extends React.Component {
 
 	componentDidMount = () => {
 		this.setState({ carregando: false })
-		this.comecarSincronizacao()
 	}
 
 	static navigationOptions = () => {
