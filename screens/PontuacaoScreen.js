@@ -15,7 +15,6 @@ import {
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
-import CPButton from '../components/CPButton';
 
 class PontuacaoScreen extends React.Component {
 
@@ -70,6 +69,7 @@ class PontuacaoScreen extends React.Component {
 
 	ajudadorDeSubmissao = () => {
 		const {
+			situacao_id,
 			usuario,
 			qualAba,
 			navigation,
