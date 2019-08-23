@@ -175,11 +175,6 @@ class PerguntasScreen extends React.Component {
 				}
 				if (situacao_id_nova === SITUACAO_LIGAR) {
 					numeroDeDiasParaTerminar = 3
-					if (usuario.ligacoes) {
-						usuario.ligacoes += 1
-					} else {
-						usuario.ligacoes = 1
-					}
 				}
 				if (situacao_id_nova === SITUACAO_VISITA) {
 					if (usuario.visitas) {

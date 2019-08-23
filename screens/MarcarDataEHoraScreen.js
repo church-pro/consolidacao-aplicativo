@@ -17,9 +17,11 @@ import {
 } from '../actions'
 import {
     submeterSituacoes,
+	sincronizacaoRapidaNaAPI,
 } from '../helpers/api'
 import {
     pegarDataEHoraAtual,
+	sincronizacaoRapida,
 } from '../helpers/helper'
 import { LinearGradient } from 'expo'
 import Loading from '../components/Loading';
@@ -60,7 +62,12 @@ class MarcarDataEHoraScreen extends React.Component {
 			}
 			prospecto.situacao_id = situacao_id_nova
 			prospecto.dataParaFinalizarAAcao = pegarDataEHoraAtual(3)[0]
-
+			if (usuario.ligacoes) {
+				usuario.ligacoes += 1
+			} else {
+				usuario.ligacoes = 1
+			}
+			await sincronizacaoRapida(usuario, sincronizacaoRapidaNaAPI) 
 			await alterarUsuarioNoAsyncStorage(usuario)
 			await submeterSituacoes(situacoes)
 			await alterarProspectoNoAsyncStorage(prospecto)
