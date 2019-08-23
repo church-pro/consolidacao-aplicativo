@@ -69,13 +69,13 @@ class PontuacaoScreen extends React.Component {
 	}
 
 	ajudadorDeSubmissao = () => {
-		const { 
-			usuario, 
-			qualAba, 
+		const {
+			usuario,
+			qualAba,
 			navigation,
 		} = this.props
 
-		if(situacao_id === SITUACAO_MENSAGEM){
+		if (situacao_id === SITUACAO_MENSAGEM) {
 			if (usuario.mensagens === 5) {
 				const conquista = {
 					tipo: 1,
@@ -98,7 +98,7 @@ class PontuacaoScreen extends React.Component {
 				navigation.navigate('Conquistas', { qualAba, conquista })
 			}
 		}
-		if(situacao_id === SITUACAO_LIGAR){
+		if (situacao_id === SITUACAO_LIGAR) {
 			if (usuario.ligacoes === 5) {
 				const conquista = {
 					tipo: 2,
@@ -121,7 +121,7 @@ class PontuacaoScreen extends React.Component {
 				navigation.navigate('Conquistas', { qualAba, conquista })
 			}
 		}
-		if(situacao_id === SITUACAO_VISITA){
+		if (situacao_id === SITUACAO_VISITA) {
 			if (usuario.visitas === 5) {
 				const conquista = {
 					tipo: 3,
