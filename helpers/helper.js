@@ -590,3 +590,29 @@ export const sincronizar = (props, funcao) => {
 		Alert.alert('Error', err)
 	}
 }
+
+export const sincronizacaoRapida = (usuario, sincronizacaoRapidaNaAPI) => {
+	try {
+		NetInfo.isConnected
+			.fetch()
+			.then(isConnected => {
+				if (isConnected) {
+					if (usuario.email) {
+						sincronizacaoRapidaNaAPI({usuario,})
+							.then(retorno => {
+								return true
+							})
+							.catch(err => {
+								console.log('err: ', err)
+								return false
+							})
+					}
+				} else {
+					funcao()
+					console.log('Internet', 'Verifique sua internet!')
+				}
+			})
+	} catch (err) {
+		Alert.alert('Error', err)
+	}
+}

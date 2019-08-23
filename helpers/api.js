@@ -114,6 +114,18 @@ export const atualizarClubeNaAPI = (dados) =>
 		.then(resultado => resultado.json())
 		.then(json => json)
 
+export const sincronizacaoRapidaNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/no/sincronizacaoRapida`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
 
 
 export function recuperarAdministracao() {

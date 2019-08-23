@@ -33,12 +33,14 @@ import {
 } from '../actions'
 import {
 	submeterSituacoes,
+	sincronizacaoRapidaNaAPI,
 } from '../helpers/api'
 import CPButton from '../components/CPButton'
 import { LinearGradient } from 'expo'
 import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,
+	sincronizacaoRapida,
 } from '../helpers/helper'
 import { stylesPerguntas, styles } from '../components/Styles';
 import Loading from '../components/Loading';
@@ -191,6 +193,7 @@ class PerguntasScreen extends React.Component {
 				if ( situacao_id_nova === SITUACAO_VISITA) {
 					delete prospecto.dataParaFinalizarAAcao
 				}
+				await sincronizacaoRapida(usuario, sincronizacaoRapidaNaAPI) 
 				await alterarUsuarioNoAsyncStorage(usuario)
 				await submeterSituacoes(situacoes)
 				if (prospecto.situacao_id !== SITUACAO_LIGAR) {

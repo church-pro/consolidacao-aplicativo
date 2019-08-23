@@ -114,7 +114,7 @@ class ClubeScreen extends React.Component {
 						<TouchableOpacity
 							onPress={() => this.atualizarClube()}>
 							<Icon
-								name='download'
+								name='retweet'
 								type='font-awesome'
 								color={white}
 								size={22}
