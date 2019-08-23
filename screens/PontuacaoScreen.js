@@ -15,7 +15,6 @@ import {
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
-import CPButton from '../components/CPButton';
 
 class PontuacaoScreen extends React.Component {
 
@@ -69,15 +68,15 @@ class PontuacaoScreen extends React.Component {
 	}
 
 	ajudadorDeSubmissao = () => {
-		const { 
+		const {
 			situacao_id,
-			usuario, 
-			qualAba, 
+			usuario,
+			qualAba,
 			navigation,
 		} = this.props
 		let qualTela = 'Prospectos'
 		let dados = {}
-		if(situacao_id === SITUACAO_MENSAGEM){
+		if (situacao_id === SITUACAO_MENSAGEM) {
 			if (usuario.mensagens === 5) {
 				qualTela = 'Conquistas'
 				const conquista = {
@@ -103,7 +102,7 @@ class PontuacaoScreen extends React.Component {
 				dados.conquista = conquista
 			}
 		}
-		if(situacao_id === SITUACAO_LIGAR){
+		if (situacao_id === SITUACAO_LIGAR) {
 			if (usuario.ligacoes === 5) {
 				qualTela = 'Conquistas'
 				const conquista = {
@@ -129,7 +128,7 @@ class PontuacaoScreen extends React.Component {
 				dados.conquista = conquista
 			}
 		}
-		if(situacao_id === SITUACAO_VISITA){
+		if (situacao_id === SITUACAO_VISITA) {
 			if (usuario.visitas === 5) {
 				qualTela = 'Conquistas'
 				const conquista = {
