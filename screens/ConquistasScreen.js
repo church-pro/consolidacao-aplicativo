@@ -15,10 +15,7 @@ class ConquistasScreen extends React.Component {
     }
 
     render() {
-
         const { usuario, navigation, qualAba, tipo, nivel } = this.props
-        console.log(tipo)
-        console.log(nivel)
 
         let cor = {
             mensagens:
