@@ -26,7 +26,6 @@ class ConquistasScreen extends React.Component {
             ,
             visitas:
                 tipo === 3 && nivel === 1 ? bronze : tipo === 3 && nivel === 2 ? silver : tipo === 3 && nivel === 3 ? gold : darkGray
-
         }
 
         return (
