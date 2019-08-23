@@ -69,76 +69,83 @@ class PontuacaoScreen extends React.Component {
 	}
 
 	ajudadorDeSubmissao = () => {
-		const { usuario, qualAba, navigation, } = this.props
+		const { 
+			usuario, 
+			qualAba, 
+			navigation,
+		} = this.props
 
-		if (usuario.mensagens === 5) {
-			const conquista = {
-				tipo: 1,
-				nivel: 1
+		if(situacao_id === SITUACAO_MENSAGEM){
+			if (usuario.mensagens === 5) {
+				const conquista = {
+					tipo: 1,
+					nivel: 1
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
 			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
+			if (usuario.mensagens === 35) {
+				const conquista = {
+					tipo: 1,
+					nivel: 2
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
+			}
+			if (usuario.mensagens === 100) {
+				const conquista = {
+					tipo: 1,
+					nivel: 3
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
+			}
 		}
-		else if (usuario.mensagens === 35) {
-			const conquista = {
-				tipo: 1,
-				nivel: 2
+		if(situacao_id === SITUACAO_LIGAR){
+			if (usuario.ligacoes === 5) {
+				const conquista = {
+					tipo: 2,
+					nivel: 1
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
 			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
+			if (usuario.ligacoes === 35) {
+				const conquista = {
+					tipo: 2,
+					nivel: 2
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
+			}
+			if (usuario.ligacoes === 100) {
+				const conquista = {
+					tipo: 2,
+					nivel: 3
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
+			}
 		}
-		else if (usuario.mensagens === 100) {
-			const conquista = {
-				tipo: 1,
-				nivel: 3
+		if(situacao_id === SITUACAO_VISITA){
+			if (usuario.visitas === 5) {
+				const conquista = {
+					tipo: 3,
+					nivel: 1
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
 			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
-		}
-		else if (usuario.ligacoes === 5) {
-			const conquista = {
-				tipo: 2,
-				nivel: 1
+			if (usuario.visitas === 35) {
+				const conquista = {
+					tipo: 3,
+					nivel: 2
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
 			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
-		}
-		else if (usuario.ligacoes === 35) {
-			const conquista = {
-				tipo: 2,
-				nivel: 2
+			if (usuario.visitas === 100) {
+				const conquista = {
+					tipo: 3,
+					nivel: 3
+				}
+				navigation.navigate('Conquistas', { qualAba, conquista })
 			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
-		}
-		else if (usuario.ligacoes === 100) {
-			const conquista = {
-				tipo: 2,
-				nivel: 3
-			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
-		}
-		else if (usuario.visitas === 5) {
-			const conquista = {
-				tipo: 3,
-				nivel: 1
-			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
-		}
-		else if (usuario.visitas === 35) {
-			const conquista = {
-				tipo: 3,
-				nivel: 2
-			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
-		}
-		else if (usuario.visitas === 100) {
-			const conquista = {
-				tipo: 3,
-				nivel: 3
-			}
-			navigation.navigate('Conquistas', { qualAba, conquista })
 		}
 
-		else {
-			navigation.navigate('Prospectos', { qualAba })
-		}
-
+		navigation.navigate('Prospectos', { qualAba })
 	}
 
 	render() {
@@ -201,7 +208,7 @@ const mapStateToProps = (state, { navigation }) => {
 	return {
 		qualAba: navigation.state.params.qualAba,
 		situacao_id: navigation.state.params.situacao_id,
-		usuario
+		usuario,
 	}
 }
 
