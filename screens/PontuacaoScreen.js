@@ -75,78 +75,88 @@ class PontuacaoScreen extends React.Component {
 			qualAba, 
 			navigation,
 		} = this.props
-
+		let qualTela = 'Prospectos'
+		let dados = {}
 		if(situacao_id === SITUACAO_MENSAGEM){
 			if (usuario.mensagens === 5) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 1,
 					nivel: 1
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 			if (usuario.mensagens === 35) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 1,
 					nivel: 2
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 			if (usuario.mensagens === 100) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 1,
 					nivel: 3
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 		}
 		if(situacao_id === SITUACAO_LIGAR){
 			if (usuario.ligacoes === 5) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 2,
 					nivel: 1
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 			if (usuario.ligacoes === 35) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 2,
 					nivel: 2
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 			if (usuario.ligacoes === 100) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 2,
 					nivel: 3
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 		}
 		if(situacao_id === SITUACAO_VISITA){
 			if (usuario.visitas === 5) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 3,
 					nivel: 1
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 			if (usuario.visitas === 35) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 3,
 					nivel: 2
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 			if (usuario.visitas === 100) {
+				qualTela = 'Conquistas'
 				const conquista = {
 					tipo: 3,
 					nivel: 3
 				}
-				navigation.navigate('Conquistas', { qualAba, conquista })
+				dados.conquista = conquista
 			}
 		}
-
-		navigation.navigate('Prospectos', { qualAba })
+		dados.qualAba = qualAba
+		navigation.navigate(qualTela, dados)
 	}
 
 	render() {
