@@ -1,6 +1,6 @@
 import React from 'react';
 import Loading from '../components/Loading';
-import { black, white, lightdark, dark, gray } from '../helpers/colors';
+import { black, white, lightdark, dark, gray, red } from '../helpers/colors';
 import {
 	View,
 	Text,
@@ -9,6 +9,7 @@ import {
 	Platform,
 	ScrollView,
 	NetInfo,
+	Alert
 } from 'react-native';
 import { Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
@@ -40,17 +41,17 @@ class ClubeScreen extends React.Component {
 		semInternet: false,
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		const {
 			clube,
 		} = this.props
 		this.setState({
 			clube,
-			carregando:false,
+			carregando: false,
 		})
 	}
 
-	atualizarClube(){
+	atualizarClube() {
 		const {
 			clube,
 		} = this.state
@@ -81,12 +82,33 @@ class ClubeScreen extends React.Component {
 
 	}
 
+	perguntarSeQuerRemover() {
+		Alert.alert(
+			'Remover',
+			'Realmente deseja remover essa pessoa?',
+			[
+				{
+					text: 'Não',
+					style: 'cancel',
+				},
+				{ text: 'Sim', onPress: () => this.removerParticipante() },
+			],
+			{ cancelable: false },
+		)
+	}
+
+	removerParticipante() {
+		alert('Removido!')
+	}
+
 	render() {
 		const {
 			clube,
 			carregando,
 			semInternet,
 		} = this.state
+		const { usuario } = this.props
+
 		return (
 			<View style={{ flex: 1, backgroundColor: dark }}>
 				<Header style={[stylesImportar.header, { backgroundColor: dark }]} iosBarStyle="light-content">
@@ -97,11 +119,11 @@ class ClubeScreen extends React.Component {
 							onPress={() => this.props.navigation.goBack()}>
 							{
 								Platform.OS === "ios" ?
-								<Icon type="font-awesome" name={"angle-left"}
-									color={white} size={36}
-								/>
-								:
-								<Image source={arrow} style={{ height: 16, width: 16, marginHorizontal: 5 }} />
+									<Icon type="font-awesome" name={"angle-left"}
+										color={white} size={36}
+									/>
+									:
+									<Image source={arrow} style={{ height: 16, width: 16, marginHorizontal: 5 }} />
 							}
 						</TouchableOpacity>
 					</Left>
@@ -125,20 +147,20 @@ class ClubeScreen extends React.Component {
 				</Header>
 				{
 					carregando &&
-						<Loading title='Atualizando Clube' />
+					<Loading title='Atualizando Clube' />
 				}
 				{
 					!carregando &&
-						clube &&
-						<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
-							<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
-								Participantes
+					clube &&
+					<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
+						<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
+							Participantes
 							</Text>
-							<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
-								{
-									clube.nos &&
-									clube.nos.length > 0 &&
-									clube.nos
+						<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
+							{
+								clube.nos &&
+								clube.nos.length > 0 &&
+								clube.nos
 									.map(no => {
 										let pontos = 0
 										if (no.mensagens) {
@@ -156,36 +178,47 @@ class ClubeScreen extends React.Component {
 									.sort((a, b) => (a.pontos < b.pontos) ? 1 : -1)
 									.map(no => {
 										return (
-											<TouchableOpacity
-												style={{
-													flex: 1,
-													borderTopWidth: 1,
-													borderTopColor: dark,
-													padding: 12,
-													flexDirection: 'row',
-													alignItems: 'center',
-													justifyContent: 'space-between',
-												}}
-												key={no._id}
-												onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
-												<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
-												<Text style={{ color: white }}> {no.pontos} XP </Text>
-											</TouchableOpacity>
+											<View style={{
+												flexDirection: 'row', borderTopWidth: 1,
+												borderTopColor: dark,
+												padding: 12,
+											}} key={no._id}>
+												{clube.no_id === usuario._id &&
+													<TouchableOpacity
+														onPress={() => { this.perguntarSeQuerRemover() }}
+														style={{ justifyContent: 'center', marginRight: 12 }}
+														hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+													>
+														<Icon name="trash" type="font-awesome" color={red} size={20} />
+													</TouchableOpacity>
+												}
+												<TouchableOpacity
+													style={{
+														flex: 1,
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'space-between',
+													}}
+													onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
+													<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
+													<Text style={{ color: white }}> {no.pontos} XP </Text>
+												</TouchableOpacity>
+											</View >
 										)
 									})
-								}
-							</View>
-							{
-								clube.nos && 
-								clube.nos.length === 0 &&
-									<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-										<Image source={empty} style={{ height: 100, width: 100 }} />
-										<Text style={{ color: gray, fontSize: 16, marginVertical: 15 }}>
-											Clube sem participantes
-										</Text>
-									</View>
 							}
-						</ScrollView>
+						</View>
+						{
+							clube.nos &&
+							clube.nos.length === 0 &&
+							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								<Image source={empty} style={{ height: 100, width: 100 }} />
+								<Text style={{ color: gray, fontSize: 16, marginVertical: 15 }}>
+									Clube sem participantes
+										</Text>
+							</View>
+						}
+					</ScrollView>
 				}
 			</View>
 		)
@@ -193,11 +226,13 @@ class ClubeScreen extends React.Component {
 }
 
 const mapStateToProps = (state, { navigation }) => {
+	let usuario = state.usuario
 	const {
 		clube,
 	} = navigation.state.params
 	return {
 		clube,
+		usuario
 	}
 }
 
