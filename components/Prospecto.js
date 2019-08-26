@@ -125,16 +125,16 @@ class Prospecto extends React.Component {
 				<View>
 					{
 						prospecto.dataParaFinalizarAAcao &&
-						(prospecto.situacao_id === SITUACAO_IMPORTAR ||
-							prospecto.situacao_id === SITUACAO_CADASTRO ||
-							prospecto.situacao_id === SITUACAO_MENSAGEM ||
-							prospecto.situacao_id === SITUACAO_LIGAR) &&
-						<View>
-							<View style={{
-								backgroundColor: black, borderTopStartRadius: 6, borderTopEndRadius: 6,
-								flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-								paddingVertical: 6, flexWrap: 'wrap'
-							}}>
+							(prospecto.situacao_id === SITUACAO_IMPORTAR ||
+								prospecto.situacao_id === SITUACAO_CADASTRO ||
+								prospecto.situacao_id === SITUACAO_MENSAGEM ||
+								prospecto.situacao_id === SITUACAO_LIGAR) &&
+							<View>
+								<View style={{
+									backgroundColor: black, borderTopStartRadius: 6, borderTopEndRadius: 6,
+									flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+									paddingVertical: 6, flexWrap: 'wrap'
+								}}>
 								<Text style={{ textAlign: 'center', color: '#FFFFFF' }}>
 									{
 										(prospecto.situacao_id === SITUACAO_IMPORTAR ||
@@ -143,11 +143,11 @@ class Prospecto extends React.Component {
 									}
 									{
 										prospecto.situacao_id === SITUACAO_MENSAGEM &&
-										'Ligar até '
+											'Ligar até '
 									}
 									{
 										prospecto.situacao_id === SITUACAO_LIGAR &&
-										'Visitar até '
+											'Visitar até '
 									}
 									{prospecto.dataParaFinalizarAAcao}
 								</Text>
@@ -169,13 +169,13 @@ class Prospecto extends React.Component {
 							</View>
 							{
 								prospecto.data &&
-								<View style={[stylesProspecto.containerBadge, { justifyContent: 'flex-start', }]}>
-									<View style={stylesProspecto.badge}>
-										<Text style={stylesProspecto.textBadge}>
-											{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
-										</Text>
+									<View style={[stylesProspecto.containerBadge, { justifyContent: 'flex-start', }]}>
+										<View style={stylesProspecto.badge}>
+											<Text style={stylesProspecto.textBadge}>
+												{prospecto.data} - {prospecto.hora} {prospecto.local && `-`} {prospecto.local}
+											</Text>
+										</View>
 									</View>
-								</View>
 							}
 						</View>
 						<View style={stylesProspecto.containerActions}>
@@ -220,9 +220,9 @@ class Prospecto extends React.Component {
 								}
 
 								{
-									prospecto.situacao_id === SITUACAO_IMPORTAR ||
+									(prospecto.situacao_id === SITUACAO_IMPORTAR ||
 										prospecto.situacao_id === SITUACAO_CADASTRO ||
-										prospecto.situacao_id === SITUACAO_MENSAGEM &&
+										prospecto.situacao_id === SITUACAO_MENSAGEM) &&
 										<View>
 											<TouchableOpacity
 												style={{ padding: 6, }}
@@ -236,18 +236,15 @@ class Prospecto extends React.Component {
 										</View>
 								}
 
-								{
-									prospecto.situacao_id === SITUACAO_LIGAR &&
-										<View>
-											<TouchableOpacity
-												style={{ padding: 6, }}
-												onPress={() => funcaoOnPressDoIconeList()}
-												hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }} >
-												<Icon name="play" size={24} color={white} type='font-awesome' />
-												<Text style={{ color: white, marginTop: 5 }}>Prosseguir</Text>
-											</TouchableOpacity>
-										</View>
-								}
+								<View>
+									<TouchableOpacity
+										style={{ padding: 6, }}
+										onPress={() => funcaoOnPressDoIconeList()}
+										hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }} >
+										<Icon name="play" size={24} color={white} type='font-awesome' />
+										<Text style={{ color: white, marginTop: 5 }}>Prosseguir</Text>
+									</TouchableOpacity>
+								</View>
 							</View>
 					}
 
