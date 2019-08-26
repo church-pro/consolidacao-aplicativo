@@ -188,16 +188,6 @@ class LoginScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = (state, props) => {
-	let tipo = null
-	if (props.navigation.state.params && props.navigation.state.params.tipo) {
-		tipo = props.navigation.state.params.tipo
-	}
-	return {
-		tipo,
-	}
-}
-
 const mapDispatchToProps = (dispatch) => {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
@@ -208,4 +198,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
+export default connect(null, mapDispatchToProps)(LoginScreen)

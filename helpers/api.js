@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-const versaoBanco = '0080'
+const versaoBanco = '0081'
 // banco de teste na versao 70
 const CHAVE_ADMINISTRACAO = 'churchProConsolidacao:administracao' + versaoBanco
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
@@ -129,6 +129,42 @@ export const sincronizacaoRapidaNaAPI = (dados) =>
 export const removerParticipanteDoClubeNaAPI = (dados) =>
 	fetch(
 		`${apiNova}/clube/removerParticipante`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const alterarNomeNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/no/alterarNome`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const alterarEmailNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/no/alterarEmail`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const alterarSenhaNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/no/alterarSenha`,
 		{
 			headers,
 			method: "POST",

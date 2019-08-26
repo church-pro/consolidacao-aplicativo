@@ -14,6 +14,11 @@ import {
 } from '../helpers/constants'
 import { Icon } from 'react-native-elements';
 import { stylesProspecto } from '../components/Styles';
+import {
+	alterarNomeNaAPI,
+	alterarEmailNaAPI,
+	alterarSenhaNaAPI,
+} from '../helpers/api'
 
 class PerfilScreen extends React.Component {
 

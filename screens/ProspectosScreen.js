@@ -32,7 +32,7 @@ import {
 	alterarUsuarioNoAsyncStorage,
 	porProspectoDaSincronizacao,
 } from '../actions'
-import Loading from '../components/Loading';
+import Loading from '../components/Loading'
 import { Icon } from 'react-native-elements'
 
 class ProspectosScreen extends React.Component {
@@ -115,55 +115,55 @@ class ProspectosScreen extends React.Component {
 						alignItems: 'center',
 						alignSelf: 'center',
 					}}>
-						<ActivityIndicator />
-						<Text style={{ marginLeft: 5, color: white }}>
-							Sincronizando ...
-						</Text>
-					</View>
+					<ActivityIndicator />
+					<Text style={{ marginLeft: 5, color: white }}>
+						Sincronizando ...
+					</Text>
+				</View>
 				}
 				{
 					carregando &&
-					<Loading title={'Buscando pessoas'} />
+						<Loading title={'Buscando pessoas'} />
 				}
 				{
 					!carregando &&
-					<React.Fragment>
-						{
-							!sincronizando &&
-								<View style={{
-									padding: 10,
-									alignItems: 'center',
-								}}>
-								<TouchableOpacity
-									hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-									style={{ flexDirection: 'row', }}
-									onPress={() => this.comecarSincronizacao()}>
-									<Text style={{ marginLeft: 10, fontSize: 10, color: white }}>
-										Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
-									</Text>
-									<Text
-										style={{
-											marginLeft: 10,
-											backgroundColor: primary,
-											padding: 2,
-											fontSize: 10,
-											borderRadius: 6,
-											justifyContent: 'center',
-											shadowOffset: { width: 5, height: 5, },
-											shadowColor: 'rgba(0,0,0,0.3)',
-											shadowOpacity: 1.0,
-											color: white
-										}}>
-										Sincronizar
-									</Text>
-								</TouchableOpacity>
-							</View>
-						}
-						<View style={{
-							padding: 5,
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-						}}>
+						<React.Fragment>
+							{
+								!sincronizando &&
+									<View style={{
+										padding: 10,
+										alignItems: 'center',
+									}}>
+									<TouchableOpacity
+										hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+										style={{ flexDirection: 'row', }}
+										onPress={() => this.comecarSincronizacao()}>
+										<Text style={{ marginLeft: 10, fontSize: 10, color: white }}>
+											Última Sincronização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
+										</Text>
+										<Text
+											style={{
+												marginLeft: 10,
+												backgroundColor: primary,
+												padding: 2,
+												fontSize: 10,
+												borderRadius: 6,
+												justifyContent: 'center',
+												shadowOffset: { width: 5, height: 5, },
+												shadowColor: 'rgba(0,0,0,0.3)',
+												shadowOpacity: 1.0,
+												color: white
+											}}>
+											Sincronizar
+										</Text>
+									</TouchableOpacity>
+								</View>
+							}
+							<View style={{
+								padding: 5,
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+							}}>
 							<Text style={{ color: white }}>
 								{usuario.nome}
 							</Text>
@@ -195,101 +195,100 @@ class ProspectosScreen extends React.Component {
 									textAlign: 'center',
 									fontWeight: buscaMensagem === true ? 'bold' : 'normal'
 								}}>Mensagem</Text>
-							</TouchableOpacity>
+						</TouchableOpacity>
 
-							<TouchableOpacity
+						<TouchableOpacity
+							style={{
+								borderBottomWidth: buscaTelefone ? 2 : 0,
+								borderBottomColor: buscaTelefone ? primary : 'transparent',
+								marginRight: 0, flex: 1, padding: 5
+							}}
+							activeOpacity={1}
+							onPress={() => {
+								this.setState({
+									buscaMensagem: false,
+									buscaTelefone: !buscaTelefone,
+									buscaVisita: false,
+									buscaEvento: false,
+								})
+							}} >
+							<Text
 								style={{
-									borderBottomWidth: buscaTelefone ? 2 : 0,
-									borderBottomColor: buscaTelefone ? primary : 'transparent',
-									marginRight: 0, flex: 1, padding: 5
-								}}
-								activeOpacity={1}
-								onPress={() => {
-									this.setState({
-										buscaMensagem: false,
-										buscaTelefone: !buscaTelefone,
-										buscaVisita: false,
-										buscaEvento: false,
-									})
+									color: buscaTelefone === true ? primary : white,
+									fontSize: 13,
+									textAlign: 'center',
+									fontWeight: buscaTelefone === true ? 'bold' : 'normal'
 								}} >
-								<Text
-									style={{
-										color: buscaTelefone === true ? primary : white,
-										fontSize: 13,
-										textAlign: 'center',
-										fontWeight: buscaTelefone === true ? 'bold' : 'normal'
-									}} >
-									Ligar
-								</Text>
-							</TouchableOpacity>
+								Ligar
+							</Text>
+						</TouchableOpacity>
 
-							<TouchableOpacity
+						<TouchableOpacity
+							style={{
+								borderBottomWidth: buscaVisita ? 2 : 0,
+								borderBottomColor: buscaVisita ? primary : 'transparent',
+								marginRight: 0, flex: 1, padding: 5
+							}}
+							activeOpacity={1}
+							onPress={() => {
+								this.setState({
+									buscaMensagem: false,
+									buscaTelefone: false,
+									buscaVisita: !buscaVisita,
+									buscaEvento: false,
+								})
+							}} >
+							<Text
 								style={{
-									borderBottomWidth: buscaVisita ? 2 : 0,
-									borderBottomColor: buscaVisita ? primary : 'transparent',
-									marginRight: 0, flex: 1, padding: 5
-								}}
-								activeOpacity={1}
-								onPress={() => {
-									this.setState({
-										buscaMensagem: false,
-										buscaTelefone: false,
-										buscaVisita: !buscaVisita,
-										buscaEvento: false,
-									})
+									color: buscaVisita === true ? primary : white,
+									fontSize: 12,
+									textAlign: 'center',
+									fontWeight: buscaVisita === true ? 'bold' : 'normal'
 								}} >
-								<Text
-									style={{
-										color: buscaVisita === true ? primary : white,
-										fontSize: 12,
-										textAlign: 'center',
-										fontWeight: buscaVisita === true ? 'bold' : 'normal'
-									}} >
-									Visitar
-								</Text>
-							</TouchableOpacity>
+								Visitar
+							</Text>
+						</TouchableOpacity>
+					</View>
+					{
+						prospectosFiltrados.length === 0 ?
+							<View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
+								<Text style={{ color: gray, fontSize: 20 }}>Você não possui</Text>
+								<Text style={{ color: gray, fontSize: 20 }}>consolidações!</Text>
+								<Image source={consolidacao} style={{ marginTop: 15, width: 120, height: 120, resizeMode: "contain", }} />
+								<Text style={{ color: gray, fontSize: 14, padding: 15 }}>Para incluir, basta cadastrar ou importar </Text>
+
+								<Image source={seta} style={{
+									width: 100, height: 100, resizeMode: "contain",
+									position: 'absolute', bottom: -120, right: -20
+								}} />
 						</View>
-						{
-							prospectosFiltrados.length === 0 ?
-								<View style={{ flex: 1, alignItems: 'center', marginTop: 30 }}>
-									<Text style={{ color: gray, fontSize: 20 }}>Você não possui</Text>
-									<Text style={{ color: gray, fontSize: 20 }}>consolidações!</Text>
-									<Image source={consolidacao} style={{ marginTop: 15, width: 120, height: 120, resizeMode: "contain", }} />
-									<Text style={{ color: gray, fontSize: 14, padding: 15 }}>Para incluir, basta cadastrar ou importar </Text>
-
-									<Image source={seta} style={{
-										width: 100, height: 100, resizeMode: "contain",
-										position: 'absolute', bottom: -120, right: -20
-									}} />
-								</View>
-								:
-								prospectosFiltrados &&
-								<ListaDeProspectos
-									prospectos={prospectosFiltrados}
-									navigation={navigation}
-								/>
-						}
-						{
-							buscaMensagem &&
-								<TouchableOpacity style={{
-									backgroundColor: primary,
-									borderRadius: 50 / 2,
-									height: 50,
-									width: 50,
-									justifyContent: 'center',
-									alignItems: 'center',
-									position: 'absolute',
-									bottom: 10,
-									right: 5,
-								}}
-								onPress={() => navigation.navigate('ImportarProspectos')}
-								hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
-								<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
-							</TouchableOpacity>
-						}
-					</React.Fragment>
+							:
+							prospectosFiltrados &&
+							<ListaDeProspectos
+								prospectos={prospectosFiltrados}
+								navigation={navigation}
+							/>
+					}
+					{
+						buscaMensagem &&
+							<TouchableOpacity style={{
+								backgroundColor: primary,
+								borderRadius: 50 / 2,
+								height: 50,
+								width: 50,
+								justifyContent: 'center',
+								alignItems: 'center',
+								position: 'absolute',
+								bottom: 10,
+								right: 5,
+							}}
+							onPress={() => navigation.navigate('ImportarProspectos')}
+							hitSlop={{ top: 5, right: 5, bottom: 5, left: 0 }} >
+							<Text style={{ fontSize: 22, fontWeight: 'bold', color: white, textAlign: 'center' }}>+</Text>
+						</TouchableOpacity>
+					}
+				</React.Fragment>
 				}
-
 			</LinearGradient>
 		)
 	}
