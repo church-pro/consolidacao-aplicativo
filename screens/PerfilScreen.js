@@ -4,6 +4,7 @@ import { black, white, lightdark, dark, gray, gold, yellow, bronze, silver, dark
 import {
 	View,
 	Text,
+	TextInput,
 } from 'react-native';
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
@@ -390,8 +391,34 @@ class PerfilScreen extends React.Component {
 					</ScrollView>
 				}
 
-				{config &&
-					<Text style={{ color: white }}>CONFIGURAÇÕES</Text>
+				{
+					config &&
+					<View style={[container, { margin: 20 }]}>
+						<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+							<Icon name="user" type="font-awesome" color={gray} size={16} containerStyle={{ marginRight: 5 }} />
+							<Text style={{ color: white, fontSize: 20 }}>
+								Editar Nome
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+							<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+							<Text style={{ color: white, fontSize: 20 }}>
+								Editar Email
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+							<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
+							<Text style={{ color: white, fontSize: 20 }}>
+								Editar Senha
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+							<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+							<Text style={{ color: white, fontSize: 20 }}>
+								Sair
+							</Text>
+						</TouchableOpacity>
+					</View>
 				}
 
 			</LinearGradient>
