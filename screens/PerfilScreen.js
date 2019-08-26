@@ -5,7 +5,8 @@ import {
 	View,
 	Text,
 	TextInput,
-	Alert
+	Alert,
+	NetInfo,
 } from 'react-native';
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
@@ -23,6 +24,10 @@ import {
 } from '../helpers/api'
 import { Icon, Input } from 'react-native-elements';
 import { stylesProspecto, styles } from '../components/Styles';
+import Loading from '../components/Loading';
+import {
+	alterarUsuarioNoAsyncStorage,
+} from '../actions'
 
 class PerfilScreen extends React.Component {
 
@@ -46,6 +51,7 @@ class PerfilScreen extends React.Component {
 	}
 
 	state = {
+		carregando: false,
 		perfil: true,
 		config: false,
 		mostrarEditar: true,
@@ -66,14 +72,64 @@ class PerfilScreen extends React.Component {
 	alterarNome = () => {
 		if (this.state.nome === '') {
 			Alert.alert('Nome inválido', 'O campo está com erro.')
+			return true
 		}
-		Alert.alert('Sucesso!', 'Nome alterado.')
+		if(this.state.nome !== ''){
+			try {
+				NetInfo.isConnected
+					.fetch()
+					.then(isConnected => {
+						if (isConnected) {
+							this.setState({carregando: true,})
+							const {
+								usuario,
+								alterarUsuarioNoAsyncStorage,
+							} = this.props
+							const {
+								nome,
+							} = this.state
+							const dados = {
+								no_id: usuario._id,
+								nome,
+							}
+							alterarNomeNaAPI(dados)
+								.then(retorno => {
+									if(retorno.ok){
+										usuario.nome = nome.toUpperCase()
+										alterarUsuarioNoAsyncStorage(usuario)
+											.then(() => {
+												Alert.alert('Sucesso!', 'Nome alterado.')
+												this.setState({
+													carregando: false,
+													editarNome: false,
+													mostrarEditar: true,
+												})
+											})
+									}
+									if(!retorno.ok){
+										Alert.alert('Aviso', retorno.mensagem)
+										this.setState({carregando: false})
+									}
+								})
+						} else {
+							Alert.alert('Internet', 'Verifique sua internet')
+						}
+					})
+			} catch (err) {
+				Alert.alert('Internet', 'Verifique sua internet')
+			}
+		}
 	}
+
 	alterarEmail = () => {
 		let camposComErro = ''
 		let mostrarMensagemDeErro = false
+		const {
+			email,
+			confirmarEmail,
+		} = this.state
 
-		if (this.state.email === '') {
+		if (email === '') {
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
@@ -81,7 +137,7 @@ class PerfilScreen extends React.Component {
 			camposComErro += 'Email'
 		}
 
-		if (this.state.confirmarEmail !== this.state.email || this.state.confirmarEmail === '') {
+		if (confirmarEmail !== email || confirmarEmail === '') {
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
@@ -92,20 +148,77 @@ class PerfilScreen extends React.Component {
 		if (mostrarMensagemDeErro) {
 			Alert.alert('Erro', `Campos invalidos: ${camposComErro}`)
 		}
+
+		if(!mostrarMensagemDeErro){
+			try {
+				NetInfo.isConnected
+					.fetch()
+					.then(isConnected => {
+						if (isConnected) {
+							this.setState({carregando: true,})
+							const {
+								usuario,
+								alterarUsuarioNoAsyncStorage,
+							} = this.props
+							const dados = {
+								no_id: usuario._id,
+								email,
+							}
+							alterarEmailNaAPI(dados)
+								.then(retorno => {
+									if(retorno.ok){
+										usuario.email = email.toLowerCase()
+										alterarUsuarioNoAsyncStorage(usuario)
+											.then(() => {
+												Alert.alert('Sucesso!', 'Email alterado.')
+												this.setState({
+													carregando: false,
+													editarEmail: false,
+													mostrarEditar: true,
+												})
+											})
+									}
+									if(!retorno.ok){
+										Alert.alert('Aviso', retorno.mensagem)
+										this.setState({carregando: false})
+									}
+								})
+						} else {
+							Alert.alert('Internet', 'Verifique sua internet')
+						}
+					})
+			} catch (err) {
+				Alert.alert('Internet', 'Verifique sua internet')
+			}
+		}
 	}
+
 	alterarSenha = () => {
 		let camposComErro = ''
 		let mostrarMensagemDeErro = false
+		const {
+			antigaSenha,
+			senha,
+			confirmarSenha,
+		} = this.state
 
-		if (this.state.senha === '') {
+		if (antigaSenha === '') {
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
 			}
-			camposComErro += 'Senha'
+			camposComErro += 'Senha Atual'
 		}
 
-		if (this.state.confirmarSenha !== this.state.senha || this.state.confirmarSenha === '') {
+		if (senha === '') {
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Senha Nova'
+		}
+
+		if (confirmarSenha !== senha || confirmarSenha === '') {
 			mostrarMensagemDeErro = true
 			if (camposComErro !== '') {
 				camposComErro += ', '
@@ -115,7 +228,72 @@ class PerfilScreen extends React.Component {
 
 		if (mostrarMensagemDeErro) {
 			Alert.alert('Erro', `Campos invalidos: ${camposComErro}`)
+			return true
 		}
+		if(!mostrarMensagemDeErro){
+			try {
+				NetInfo.isConnected
+					.fetch()
+					.then(isConnected => {
+						if (isConnected) {
+							this.setState({carregando: true,})
+							const {
+								usuario,
+								alterarUsuarioNoAsyncStorage,
+							} = this.props
+							const dados = {
+								no_id: usuario._id,
+								senha: antigaSenha,
+								senhaNova: senha,
+							}
+							alterarSenhaNaAPI(dados)
+								.then(retorno => {
+									if(retorno.ok){
+										usuario.senha = senha
+										alterarUsuarioNoAsyncStorage(usuario)
+											.then(() => {
+												Alert.alert('Sucesso!', 'Senha alterada.')
+												this.setState({
+													carregando: false,
+													editarSenha: false,
+													mostrarEditar: true,
+												})
+											})
+									}
+									if(!retorno.ok){
+										Alert.alert('Aviso', retorno.mensagem)
+										this.setState({carregando: false})
+									}
+								})
+						} else {
+							Alert.alert('Internet', 'Verifique sua internet')
+						}
+					})
+			} catch (err) {
+				Alert.alert('Internet', 'Verifique sua internet')
+			}
+		}
+	}
+
+	perguntarSeQuerSair = () => {
+		Alert.alert(
+			'Sair',
+			'Realmente deseja sair?',
+			[
+				{
+					text: 'Não',
+					style: 'cancel',
+				},
+				{ text: 'Sim', onPress: () => this.sair() },
+			],
+			{ cancelable: false },
+		)
+	
+	}
+
+	sair = () => {
+		this.setState({carregando: true})
+
 	}
 
 	render() {
@@ -124,6 +302,7 @@ class PerfilScreen extends React.Component {
 			navigation,
 		} = this.props
 		const {
+			carregando,
 			perfil,
 			config,
 			editarNome,
@@ -480,14 +659,17 @@ class PerfilScreen extends React.Component {
 						</View>
 					</ScrollView>
 				}
-
+				{ 
+				carregando &&
+						<Loading title='Processando' />
+				}
 				{
+					!carregando &&
 					config &&
-
 					<View style={[container, { margin: 20 }]}>
-						{
+					{
 							mostrarEditar &&
-							<>
+							<View>
 								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
 									onPress={() => this.setState({
 										editarNome: true,
@@ -499,7 +681,7 @@ class PerfilScreen extends React.Component {
 									<Icon name="user" type="font-awesome" color={gray} size={16} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: white, fontSize: 20 }}>
 										Editar Nome
-							</Text>
+									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
 									onPress={() => this.setState({
@@ -512,7 +694,7 @@ class PerfilScreen extends React.Component {
 									<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: white, fontSize: 20 }}>
 										Editar Email
-							</Text>
+									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
 									onPress={() => this.setState({
@@ -525,35 +707,34 @@ class PerfilScreen extends React.Component {
 									<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: white, fontSize: 20 }}>
 										Editar Senha
-							</Text>
+									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
 									<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: gray, fontSize: 20 }}>
 										Sair
-							</Text>
+									</Text>
 								</TouchableOpacity>
-							</>
+							</View>
 						}
-
 						{
-							editarNome &&
-							<>
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									keyboardAppearance='dark'
-									returnKeyType="next"
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label={NOME}
-									value={nome}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									onChangeText={texto => this.setState({ nome: texto })}
+								editarNome &&
+								<View>
+									<Input
+										containerStyle={styles.containerInput}
+										inputContainerStyle={styles.inputContainerStyle}
+										keyboardAppearance='dark'
+										returnKeyType="next"
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label={NOME}
+										value={nome}
+										inputStyle={styles.input}
+										labelStyle={styles.label}
+										onChangeText={texto => this.setState({ nome: texto })}
 
-								/>
+									/>
 
 								<View style={{ flexDirection: 'row', marginTop: 25 }}>
 									<TouchableOpacity
@@ -590,19 +771,21 @@ class PerfilScreen extends React.Component {
 											shadowColor: 'rgba(0,0,0,0.3)',
 											shadowOpacity: 1.0,
 										}}
-										onPress={() => this.alterarNome()}
-									>
+										onPress={() => this.alterarNome()} >
 										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
 											Confirmar
 										</Text>
 									</TouchableOpacity>
 
 								</View>
-							</>
+							</View>
 						}
 						{
 							editarEmail &&
-							<>
+							<View>
+								<Text style={{color: white, alignItems: 'center', padding: 5,}}>
+									Email: {usuario.email}
+								</Text>
 								<Input
 									containerStyle={styles.containerInput}
 									inputContainerStyle={styles.inputContainerStyle}
@@ -677,13 +860,11 @@ class PerfilScreen extends React.Component {
 										</Text>
 									</TouchableOpacity>
 								</View>
-
-							</>
+							</View>
 						}
-
 						{
 							editarSenha &&
-							<>
+							<View>
 
 								<Input
 									containerStyle={styles.containerInput}
@@ -776,13 +957,10 @@ class PerfilScreen extends React.Component {
 										</Text>
 									</TouchableOpacity>
 								</View>
-
-							</>
+							</View>
 						}
-
 					</View>
 				}
-
 			</LinearGradient>
 		)
 	}
@@ -798,4 +976,10 @@ const mapStateToProps = ({ usuario }, { navigation }) => {
 	}
 }
 
-export default connect(mapStateToProps, null)(PerfilScreen)
+const mapDispatchToProps = (dispatch) => {
+	return {
+		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PerfilScreen)
