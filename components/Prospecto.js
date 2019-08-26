@@ -195,52 +195,60 @@ class Prospecto extends React.Component {
 
 					{
 						mostrarOpcoes &&
-						<View style={[stylesProspecto.containerBadge, { borderTopWidth: 1, borderColor: gray, padding: 10 }]}>
-							<View>
-								<TouchableOpacity
-									style={{ padding: 6, }}
-									onPress={() => this.perguntarSeQuerRemover()}
-									hitSlop={{ top: 10, right: 5, bottom: 10, left: 10 }} >
-									<Icon name="trash" size={24} color={red} type='font-awesome' />
-									<Text style={{ color: white, marginTop: 5 }}>Excluir</Text>
-								</TouchableOpacity>
-							</View>
+							<View style={[stylesProspecto.containerBadge, { borderTopWidth: 1, borderColor: gray, padding: 10 }]}>
+								<View>
+									<TouchableOpacity
+										style={{ padding: 6, }}
+										onPress={() => this.perguntarSeQuerRemover()}
+										hitSlop={{ top: 10, right: 5, bottom: 10, left: 10 }} >
+										<Icon name="trash" size={24} color={red} type='font-awesome' />
+										<Text style={{ color: white, marginTop: 5 }}>Excluir</Text>
+									</TouchableOpacity>
+								</View>
 
-							{
-								prospecto.situacao_id === SITUACAO_MENSAGEM &&
-									<View>
-										<TouchableOpacity
-											style={{ padding: 6, }}
-											onPress={() => { this.executarAcao('ligar') }}
-											hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
-											<Icon name="phone" size={24} color={white} />
-											<Text style={{ color: white, marginTop: 5 }}>Ligar</Text>
-										</TouchableOpacity>
-									</View>
-							}
+								{
+									prospecto.situacao_id === SITUACAO_MENSAGEM &&
+										<View>
+											<TouchableOpacity
+												style={{ padding: 6, }}
+												onPress={() => { this.executarAcao('ligar') }}
+												hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
+												<Icon name="phone" size={24} color={white} />
+												<Text style={{ color: white, marginTop: 5 }}>Ligar</Text>
+											</TouchableOpacity>
+										</View>
+								}
 
-							<View>
-								<TouchableOpacity
-									style={{ padding: 6, }}
-									onPress={() => { this.executarAcao('whatsapp') }}
-									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
-									<Icon name="whatsapp" size={24} color={white} type='font-awesome' />
-									<Text style={{ color: white, marginTop: 5 }}>
-										{prospecto.situacao_id === SITUACAO_MENSAGEM ? 'Ligar' : 'Mensagem'}
-									</Text>
-								</TouchableOpacity>
-							</View>
+								{
+									prospecto.situacao_id === SITUACAO_IMPORTAR ||
+										prospecto.situacao_id === SITUACAO_CADASTRO ||
+										prospecto.situacao_id === SITUACAO_MENSAGEM &&
+										<View>
+											<TouchableOpacity
+												style={{ padding: 6, }}
+												onPress={() => { this.executarAcao('whatsapp') }}
+												hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
+												<Icon name="whatsapp" size={24} color={white} type='font-awesome' />
+												<Text style={{ color: white, marginTop: 5 }}>
+													{prospecto.situacao_id === SITUACAO_MENSAGEM ? 'Ligar' : 'Mensagem'}
+												</Text>
+											</TouchableOpacity>
+										</View>
+								}
 
-							<View>
-								<TouchableOpacity
-									style={{ padding: 6, }}
-									onPress={() => funcaoOnPressDoIconeList()}
-									hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }} >
-									<Icon name="play" size={24} color={white} type='font-awesome' />
-									<Text style={{ color: white, marginTop: 5 }}>Prosseguir</Text>
-								</TouchableOpacity>
+								{
+									prospecto.situacao_id === SITUACAO_LIGAR &&
+										<View>
+											<TouchableOpacity
+												style={{ padding: 6, }}
+												onPress={() => funcaoOnPressDoIconeList()}
+												hitSlop={{ top: 10, right: 10, bottom: 10, left: 5 }} >
+												<Icon name="play" size={24} color={white} type='font-awesome' />
+												<Text style={{ color: white, marginTop: 5 }}>Prosseguir</Text>
+											</TouchableOpacity>
+										</View>
+								}
 							</View>
-						</View>
 					}
 
 				</View>
