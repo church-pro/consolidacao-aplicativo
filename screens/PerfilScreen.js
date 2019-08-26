@@ -4,6 +4,8 @@ import { black, white, lightdark, dark, gray, gold, yellow, bronze, silver, dark
 import {
 	View,
 	Text,
+	TextInput,
+	Alert
 } from 'react-native';
 import { connect } from 'react-redux'
 import { LinearGradient } from 'expo'
@@ -11,14 +13,16 @@ import {
 	VALOR_VISITA,
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
+	NOME,
+	EMAIL,
 } from '../helpers/constants'
-import { Icon } from 'react-native-elements';
-import { stylesProspecto } from '../components/Styles';
 import {
 	alterarNomeNaAPI,
 	alterarEmailNaAPI,
 	alterarSenhaNaAPI,
 } from '../helpers/api'
+import { Icon, Input } from 'react-native-elements';
+import { stylesProspecto, styles } from '../components/Styles';
 
 class PerfilScreen extends React.Component {
 
@@ -44,6 +48,74 @@ class PerfilScreen extends React.Component {
 	state = {
 		perfil: true,
 		config: false,
+		mostrarEditar: true,
+		editarNome: false,
+		editarEmail: false,
+		editarSenha: false,
+		nome: '',
+		email: '',
+		confirmarEmail: '',
+		antigaSenha: '',
+		senha: '',
+		confirmarSenha: ''
+	}
+	componentDidMount() {
+		this.setState({ nome: this.props.usuario.nome })
+	}
+
+	alterarNome = () => {
+		if (this.state.nome === '') {
+			Alert.alert('Nome inválido', 'O campo está com erro.')
+		}
+		Alert.alert('Sucesso!', 'Nome alterado.')
+	}
+	alterarEmail = () => {
+		let camposComErro = ''
+		let mostrarMensagemDeErro = false
+
+		if (this.state.email === '') {
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Email'
+		}
+
+		if (this.state.confirmarEmail !== this.state.email || this.state.confirmarEmail === '') {
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Repetir Email'
+		}
+
+		if (mostrarMensagemDeErro) {
+			Alert.alert('Erro', `Campos invalidos: ${camposComErro}`)
+		}
+	}
+	alterarSenha = () => {
+		let camposComErro = ''
+		let mostrarMensagemDeErro = false
+
+		if (this.state.senha === '') {
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Senha'
+		}
+
+		if (this.state.confirmarSenha !== this.state.senha || this.state.confirmarSenha === '') {
+			mostrarMensagemDeErro = true
+			if (camposComErro !== '') {
+				camposComErro += ', '
+			}
+			camposComErro += 'Repetir Senha'
+		}
+
+		if (mostrarMensagemDeErro) {
+			Alert.alert('Erro', `Campos invalidos: ${camposComErro}`)
+		}
 	}
 
 	render() {
@@ -51,7 +123,20 @@ class PerfilScreen extends React.Component {
 			usuario,
 			navigation,
 		} = this.props
-		const { perfil, config } = this.state
+		const {
+			perfil,
+			config,
+			editarNome,
+			editarEmail,
+			editarSenha,
+			mostrarEditar,
+			nome,
+			email,
+			senha,
+			confirmarEmail,
+			confirmarSenha,
+			antigaSenha,
+		} = this.state
 
 		const container = {
 			padding: 10,
@@ -247,7 +332,8 @@ class PerfilScreen extends React.Component {
 						</TouchableOpacity>
 					</View>
 				}
-				{perfil &&
+				{
+					perfil &&
 					<ScrollView style={{ paddingHorizontal: 20 }}>
 						<View>
 							<Text style={{ color: white, fontSize: 20, fontWeight: 'bold', marginVertical: 8 }}>
@@ -297,7 +383,7 @@ class PerfilScreen extends React.Component {
 								<View>
 									<Text style={[texto, { fontWeight: 'bold' }]}>
 										Conquistas
-								</Text>
+									</Text>
 									<View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 10 }}>
 										<View style={{ alignItems: "center" }}>
 											<View style={{
@@ -395,8 +481,306 @@ class PerfilScreen extends React.Component {
 					</ScrollView>
 				}
 
-				{config &&
-					<Text style={{ color: white }}>CONFIGURAÇÕES</Text>
+				{
+					config &&
+
+					<View style={[container, { margin: 20 }]}>
+						{
+							mostrarEditar &&
+							<>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+									onPress={() => this.setState({
+										editarNome: true,
+										editarEmail: false,
+										editarSenha: false,
+										mostrarEditar: false,
+									})}
+								>
+									<Icon name="user" type="font-awesome" color={gray} size={16} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: white, fontSize: 20 }}>
+										Editar Nome
+							</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+									onPress={() => this.setState({
+										editarNome: false,
+										editarEmail: true,
+										editarSenha: false,
+										mostrarEditar: false,
+									})}
+								>
+									<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: white, fontSize: 20 }}>
+										Editar Email
+							</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+									onPress={() => this.setState({
+										editarNome: false,
+										editarEmail: false,
+										editarSenha: true,
+										mostrarEditar: false,
+									})}
+								>
+									<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: white, fontSize: 20 }}>
+										Editar Senha
+							</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+									<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: gray, fontSize: 20 }}>
+										Sair
+							</Text>
+								</TouchableOpacity>
+							</>
+						}
+
+						{
+							editarNome &&
+							<>
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									keyboardAppearance='dark'
+									returnKeyType="next"
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label={NOME}
+									value={nome}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									onChangeText={texto => this.setState({ nome: texto })}
+
+								/>
+
+								<View style={{ flexDirection: 'row', marginTop: 25 }}>
+									<TouchableOpacity
+										style={{
+											backgroundColor: gray,
+											height: 45,
+											borderRadius: 6,
+											flex: 1,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+											marginRight: 8,
+										}}
+										onPress={() => this.setState({
+											mostrarEditar: true,
+											editarNome: false,
+											editarEmail: false,
+											editarSenha: false,
+										})}
+									>
+										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+											Voltar
+										</Text>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={{
+											backgroundColor: primary,
+											height: 45,
+											borderRadius: 6,
+											flex: 1,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+										}}
+										onPress={() => this.alterarNome()}
+									>
+										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+											Confirmar
+										</Text>
+									</TouchableOpacity>
+
+								</View>
+							</>
+						}
+						{
+							editarEmail &&
+							<>
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									keyboardType='email-address'
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="NOVO EMAIL"
+									value={email}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									onChangeText={texto => this.setState({ email: texto })}
+								/>
+
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									keyboardType='email-address'
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="CONFIRME NOVO EMAIL"
+									value={confirmarEmail}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									onChangeText={texto => this.setState({ confirmarEmail: texto })}
+								/>
+
+								<View style={{ flexDirection: 'row', marginTop: 25 }}>
+									<TouchableOpacity
+										style={{
+											backgroundColor: gray,
+											height: 45,
+											borderRadius: 6,
+											flex: 1,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+											marginRight: 8,
+										}}
+										onPress={() => this.setState({
+											mostrarEditar: true,
+											editarNome: false,
+											editarEmail: false,
+											editarSenha: false,
+											email: '',
+											confirmarEmail: '',
+										})}
+									>
+										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+											Voltar
+										</Text>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={{
+											backgroundColor: primary,
+											height: 45,
+											borderRadius: 6,
+											flex: 1,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+										}}
+										onPress={() => this.alterarEmail()}
+									>
+										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+											Confirmar
+										</Text>
+									</TouchableOpacity>
+								</View>
+
+							</>
+						}
+
+						{
+							editarSenha &&
+							<>
+
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									keyboardType='default'
+									secureTextEntry={true}
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="ANTIGA SENHA"
+									value={antigaSenha}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									onChangeText={texto => this.setState({ antigaSenha: texto })}
+								/>
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									keyboardType='default'
+									secureTextEntry={true}
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="NOVA SENHA"
+									value={senha}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									onChangeText={texto => this.setState({ senha: texto })}
+								/>
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									keyboardType='default'
+									secureTextEntry={true}
+									keyboardAppearance='dark'
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label="CONFIRME NOVA SENHA"
+									value={confirmarSenha}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									onChangeText={texto => this.setState({ confirmarSenha: texto })}
+								/>
+
+								<View style={{ flexDirection: 'row', marginTop: 25 }}>
+									<TouchableOpacity
+										style={{
+											backgroundColor: gray,
+											height: 45,
+											borderRadius: 6,
+											flex: 1,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+											marginRight: 8,
+										}}
+										onPress={() => this.setState({
+											mostrarEditar: true,
+											editarNome: false,
+											editarEmail: false,
+											editarSenha: false,
+											antigaSenha: '',
+											senha: '',
+											confirmarSenha: '',
+										})}
+									>
+										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+											Voltar
+										</Text>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={{
+											backgroundColor: primary,
+											height: 45,
+											borderRadius: 6,
+											flex: 1,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+										}}
+										onPress={() => this.alterarSenha()}
+									>
+										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+											Confirmar
+										</Text>
+									</TouchableOpacity>
+								</View>
+
+							</>
+						}
+
+					</View>
 				}
 
 			</LinearGradient>
