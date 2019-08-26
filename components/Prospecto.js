@@ -206,15 +206,18 @@ class Prospecto extends React.Component {
 								</TouchableOpacity>
 							</View>
 
-							<View>
-								<TouchableOpacity
-									style={{ padding: 6, }}
-									onPress={() => { this.executarAcao('ligar') }}
-									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
-									<Icon name="phone" size={24} color={white} />
-									<Text style={{ color: white, marginTop: 5 }}>Ligar</Text>
-								</TouchableOpacity>
-							</View>
+							{
+								prospecto.situacao_id === SITUACAO_MENSAGEM &&
+									<View>
+										<TouchableOpacity
+											style={{ padding: 6, }}
+											onPress={() => { this.executarAcao('ligar') }}
+											hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
+											<Icon name="phone" size={24} color={white} />
+											<Text style={{ color: white, marginTop: 5 }}>Ligar</Text>
+										</TouchableOpacity>
+									</View>
+							}
 
 							<View>
 								<TouchableOpacity
@@ -222,7 +225,9 @@ class Prospecto extends React.Component {
 									onPress={() => { this.executarAcao('whatsapp') }}
 									hitSlop={{ top: 10, right: 5, bottom: 10, left: 5 }} >
 									<Icon name="whatsapp" size={24} color={white} type='font-awesome' />
-									<Text style={{ color: white, marginTop: 5 }}>Mensagem</Text>
+									<Text style={{ color: white, marginTop: 5 }}>
+										{prospecto.situacao_id === SITUACAO_MENSAGEM ? 'Ligar' : 'Mensagem'}
+									</Text>
 								</TouchableOpacity>
 							</View>
 
