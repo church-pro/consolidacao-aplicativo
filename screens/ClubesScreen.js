@@ -385,7 +385,7 @@ class ClubesScreen extends React.Component {
 				}
 				{
 					mostrarCriar &&
-					!mostrarBuscar &&
+					!mostrarBuscar && !carregando &&
 					<View style={{ paddingTop: 20, paddingHorizontal: 20, }}>
 						<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
 							Criar Clube
