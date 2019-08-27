@@ -11,6 +11,7 @@ class ConquistasScreen extends React.Component {
         return {
             headerTintColor: white,
             header: null,
+            gesturesEnabled: false,
         }
     }
 
