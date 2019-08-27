@@ -29,6 +29,7 @@ class TutorialScreen extends React.Component {
 	static navigationOptions = {
 		headerTintColor: white,
 		header: null,
+		gesturesEnabled: false,
 	}
 
 	state = {
