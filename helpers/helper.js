@@ -531,7 +531,7 @@ export const montarObjetoParaPerguntas = (situacao_id) => {
 	return parametros
 }
 
-export const sincronizar = (props, funcao) => {
+export const sincronizar = (props, funcao, sair = null) => {
 	try {
 		NetInfo.isConnected
 			.fetch()
@@ -557,22 +557,40 @@ export const sincronizar = (props, funcao) => {
 								sincronizarNaAPI(dados)
 									.then(retorno => {
 										if (retorno.ok) {
-											let usuario = retorno.resultado.usuario
-											usuario.senha = dados.senha
-											alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
-												.then(() => {
-													porProspectoDaSincronizacao(retorno.resultado.prospectos)
-														.then(() => {
-															limparSituacoes()
-																.then(() => {
-																	funcao()
-																})
-														})
-														.catch(err => {
-															funcao()
-															console.log('err: ', err)
-														})
-												})
+											if(sair === null){
+												let usuario = retorno.resultado.usuario
+												usuario.senha = dados.senha
+												alterarUsuarioNoAsyncStorage(retorno.resultado.usuario)
+													.then(() => {
+														porProspectoDaSincronizacao(retorno.resultado.prospectos)
+															.then(() => {
+																limparSituacoes()
+																	.then(() => {
+																		funcao()
+																	})
+															})
+															.catch(err => {
+																funcao()
+																console.log('err: ', err)
+															})
+													})
+											}
+											if(sair){
+												alterarUsuarioNoAsyncStorage({})
+													.then(() => {
+														porProspectoDaSincronizacao([])
+															.then(() => {
+																limparSituacoes()
+																	.then(() => {
+																		funcao()
+																	})
+															})
+															.catch(err => {
+																funcao()
+																console.log('err: ', err)
+															})
+													})
+											}
 										}
 									})
 							})

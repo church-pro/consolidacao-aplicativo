@@ -148,6 +148,8 @@ class LoginScreen extends React.Component {
 										keyboardType="email-address"
 										value={email}
 										onChangeText={texto => this.setState({ email: texto })}
+										returnKeyType={'next'}
+										onSubmitEditing={() => this.inputSenha.focus()}
 									/>
 								</View>
 								<View style={[stylesLogin.containerInputSenha]}>
@@ -161,6 +163,9 @@ class LoginScreen extends React.Component {
 										secureTextEntry={true}
 										value={senha}
 										onChangeText={texto => this.setState({ senha: texto })}
+										ref={(input) => { this.inputSenha = input; }}
+										returnKeyType={'go'}
+										onSubmitEditing={() => this.ajudadorDeSubmissao()}
 									/>
 								</View>
 								<View>
