@@ -27,7 +27,12 @@ import { stylesProspecto, styles } from '../components/Styles';
 import Loading from '../components/Loading';
 import {
 	alterarUsuarioNoAsyncStorage,
+	porProspectoDaSincronizacao,
 } from '../actions'
+import {
+	sincronizar,
+} from '../helpers/helper'
+import { NavigationActions } from "react-navigation"
 
 class PerfilScreen extends React.Component {
 
@@ -292,8 +297,12 @@ class PerfilScreen extends React.Component {
 	}
 
 	sair = () => {
-		this.setState({carregando: true})
-
+		const sair = true
+		this.setState({ carregando: true })
+		sincronizar(this.props, () => { 
+			this.setState({ carregando: false })
+			this.props.navigation.navigate('Login')
+		}, sair)
 	}
 
 	render() {
@@ -709,7 +718,9 @@ class PerfilScreen extends React.Component {
 										Editar Senha
 									</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+								<TouchableOpacity 
+									onPress={() => this.perguntarSeQuerSair()}
+									style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
 									<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: gray, fontSize: 20 }}>
 										Sair
@@ -966,19 +977,21 @@ class PerfilScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ usuario }, { navigation }) => {
+const mapStateToProps = ({ usuario, prospectos }, { navigation }) => {
 	let no = usuario
 	if (navigation.state && navigation.state.params && navigation.state.params.no) {
 		no = navigation.state.params.no
 	}
 	return {
 		usuario: no,
+		prospectos,
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+		porProspectoDaSincronizacao: (prospectos) => dispatch(porProspectoDaSincronizacao(prospectos)),
 	}
 }
 
