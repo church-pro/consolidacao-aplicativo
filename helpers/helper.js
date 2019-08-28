@@ -592,6 +592,22 @@ export const sincronizar = (props, funcao, sair = null) => {
 													})
 											}
 										}
+										if(!retorno.ok){
+											alterarUsuarioNoAsyncStorage({})
+												.then(() => {
+													porProspectoDaSincronizacao([])
+														.then(() => {
+															limparSituacoes()
+																.then(() => {
+																	funcao()
+																})
+														})
+														.catch(err => {
+															funcao()
+															console.log('err: ', err)
+														})
+												})
+										}
 									})
 							})
 							.catch(err => {

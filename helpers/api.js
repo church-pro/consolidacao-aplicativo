@@ -1,26 +1,26 @@
 import { AsyncStorage } from 'react-native'
 
-const versaoBanco = '0083'
+const versaoBanco = '0070'
 // banco de teste na versao 70
 const CHAVE_ADMINISTRACAO = 'churchProConsolidacao:administracao' + versaoBanco
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
 
-let apiNova = 'https://api.churchpro.com.br'
-apiNova = 'https://homologacao.churchpro.com.br'
+const apiMaster = 'https://api.churchpro.com.br'
+//const apiHomologacao = 'https://homologacao.churchpro.com.br'
 const headers = {
 	'Content-Type': 'application/json'
 }
 
 export const teste = () =>
-	fetch(`${apiNova}/`)
+	fetch(`${apiMaster}/`)
 		.then(resultado => resultado.json())
 		.then(json => json)
 
 export const registrarNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/no/registrar`,
+		`${apiMaster}/no/registrar`,
 		{
 			headers,
 			method: "POST",
@@ -32,7 +32,7 @@ export const registrarNaAPI = (dados) =>
 
 export const logarNaApi = (dados) =>
 	fetch(
-		`${apiNova}/no/logar`,
+		`${apiMaster}/no/logar`,
 		{
 			headers,
 			method: "POST",
@@ -44,7 +44,7 @@ export const logarNaApi = (dados) =>
 
 export const sincronizarNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/no/sincronizar`,
+		`${apiMaster}/no/sincronizar`,
 		{
 			headers,
 			method: "POST",
@@ -56,7 +56,7 @@ export const sincronizarNaAPI = (dados) =>
 
 export const clubesNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/listaDeClubes`,
+		`${apiMaster}/clube/listaDeClubes`,
 		{
 			headers,
 			method: "POST",
@@ -68,7 +68,7 @@ export const clubesNaAPI = (dados) =>
 
 export const buscarClubesNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/buscar`,
+		`${apiMaster}/clube/buscar`,
 		{
 			headers,
 			method: "POST",
@@ -80,7 +80,7 @@ export const buscarClubesNaAPI = (dados) =>
 
 export const participarDeClubeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/participar`,
+		`${apiMaster}/clube/participar`,
 		{
 			headers,
 			method: "POST",
@@ -92,7 +92,7 @@ export const participarDeClubeNaAPI = (dados) =>
 
 export const criarClubeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/criar`,
+		`${apiMaster}/clube/criar`,
 		{
 			headers,
 			method: "POST",
@@ -104,7 +104,7 @@ export const criarClubeNaAPI = (dados) =>
 
 export const atualizarClubeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/atualizarClube`,
+		`${apiMaster}/clube/atualizarClube`,
 		{
 			headers,
 			method: "POST",
@@ -116,7 +116,7 @@ export const atualizarClubeNaAPI = (dados) =>
 
 export const sincronizacaoRapidaNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/no/sincronizacaoRapida`,
+		`${apiMaster}/no/sincronizacaoRapida`,
 		{
 			headers,
 			method: "POST",
@@ -128,7 +128,7 @@ export const sincronizacaoRapidaNaAPI = (dados) =>
 
 export const removerParticipanteDoClubeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/removerParticipante`,
+		`${apiMaster}/clube/removerParticipante`,
 		{
 			headers,
 			method: "POST",
@@ -140,7 +140,7 @@ export const removerParticipanteDoClubeNaAPI = (dados) =>
 
 export const removerParticipanteEBloquearDoClubeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/removerParticipanteEBloquear`,
+		`${apiMaster}/clube/removerParticipanteEBloquear`,
 		{
 			headers,
 			method: "POST",
@@ -152,7 +152,7 @@ export const removerParticipanteEBloquearDoClubeNaAPI = (dados) =>
 
 export const alterarNomeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/no/alterarNome`,
+		`${apiMaster}/no/alterarNome`,
 		{
 			headers,
 			method: "POST",
@@ -164,7 +164,7 @@ export const alterarNomeNaAPI = (dados) =>
 
 export const alterarEmailNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/no/alterarEmail`,
+		`${apiMaster}/no/alterarEmail`,
 		{
 			headers,
 			method: "POST",
@@ -176,7 +176,7 @@ export const alterarEmailNaAPI = (dados) =>
 
 export const alterarSenhaNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/no/alterarSenha`,
+		`${apiMaster}/no/alterarSenha`,
 		{
 			headers,
 			method: "POST",
