@@ -65,8 +65,6 @@ class ClubeScreen extends React.Component {
 						this.setState({ carregando: true })
 						atualizarClubeNaAPI({ clube_id: clube._id })
 							.then(retorno => {
-
-								console.log('retorno: ', retorno)
 								if (retorno.ok) {
 									this.setState({
 										clube: retorno.resultado.clube,
