@@ -158,11 +158,11 @@ class ClubeScreen extends React.Component {
 							onPress={() => this.props.navigation.goBack()}>
 							{
 								Platform.OS === "ios" ?
-									<Icon type="font-awesome" name={"angle-left"}
-										color={white} size={36}
-									/>
-									:
-									<Image source={arrow} style={{ height: 16, width: 16, marginHorizontal: 5 }} />
+								<Icon type="font-awesome" name={"angle-left"}
+									color={white} size={36}
+								/>
+								:
+								<Image source={arrow} style={{ height: 16, width: 16, marginHorizontal: 5 }} />
 							}
 						</TouchableOpacity>
 					</Left>
@@ -186,20 +186,20 @@ class ClubeScreen extends React.Component {
 				</Header>
 				{
 					carregando &&
-					<Loading title='Atualizando Clube' />
+						<Loading title='Atualizando Clube' />
 				}
 				{
 					!carregando &&
-					clube &&
-					<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
-						<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
-							Participantes
+						clube &&
+						<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
+							<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
+								Participantes
 							</Text>
-						<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
-							{
-								clube.nos &&
-								clube.nos.length > 0 &&
-								clube.nos
+							<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
+								{
+									clube.nos &&
+									clube.nos.length > 0 &&
+									clube.nos
 									.map(no => {
 										let pontos = 0
 										if (no.mensagens) {
@@ -222,42 +222,107 @@ class ClubeScreen extends React.Component {
 												borderTopColor: dark,
 												padding: 12,
 											}} key={no._id}>
-												{clube.no_id === usuario._id &&
+											{
+												clube.no_id === usuario._id &&
+												<TouchableOpacity
+													onPress={() => { this.perguntarSeQuerRemover(no._id) }}
+													style={{ justifyContent: 'center', marginRight: 12 }}
+													hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }} >
+													<Icon name="trash" type="font-awesome" color={red} size={20} />
+												</TouchableOpacity>
+											}
+											{
+												clube.no_id === usuario._id &&
 													<TouchableOpacity
-														onPress={() => { this.perguntarSeQuerRemover(no._id) }}
+														onPress={() => { this.perguntarSeQuerBloquear(no._id) }}
 														style={{ justifyContent: 'center', marginRight: 12 }}
 														hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }} >
-														<Icon name="trash" type="font-awesome" color={red} size={20} />
+														<Icon name="ban" type="font-awesome" color={red} size={20} />
 													</TouchableOpacity>
-												}
-												<TouchableOpacity
-													style={{
-														flex: 1,
-														flexDirection: 'row',
-														alignItems: 'center',
-														justifyContent: 'space-between',
-													}}
-													onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
-													<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
-													<Text style={{ color: white }}> {no.pontos} XP </Text>
-												</TouchableOpacity>
-											</View >
-										)
+											}
+											<TouchableOpacity
+												style={{
+													flex: 1,
+													flexDirection: 'row',
+													alignItems: 'center',
+													justifyContent: 'space-between',
+												}}
+												onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
+												<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
+												<Text style={{ color: white }}> {no.pontos} XP </Text>
+											</TouchableOpacity>
+										</View >
+									)
 									})
-							}
-						</View>
+									}
+								</View>
 						{
 							clube.nos &&
-							clube.nos.length === 0 &&
-							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+								clube.nos.length === 0 &&
+								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
 								<Image source={empty} style={{ height: 100, width: 100 }} />
 								<Text style={{ color: gray, fontSize: 16, marginVertical: 15 }}>
 									Clube sem participantes
-										</Text>
-							</View>
+								</Text>
+								</View>
 						}
-					</ScrollView>
+						</ScrollView>
 				}
+			{
+				!carregando &&
+					clube &&
+					clube.bloqueados &&
+					<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
+					<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
+						Lista Negra
+					</Text>
+					<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
+						{
+							clube.bloqueados.length > 0 &&
+							clube.bloqueados
+							.sort((a, b) => (a.pontos < b.pontos) ? 1 : -1)
+							.map(no => {
+								return (
+									<View style={{
+										flexDirection: 'row', borderTopWidth: 1,
+										borderTopColor: dark,
+										padding: 12,
+									}} key={no._id}>
+									{
+										clube.no_id === usuario._id &&
+										<TouchableOpacity
+											onPress={() => { this.perguntarSeQuerRemover(no._id) }}
+											style={{ justifyContent: 'center', marginRight: 12 }}
+											hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }} >
+											<Icon name="trash" type="font-awesome" color={red} size={20} />
+										</TouchableOpacity>
+									}
+
+									<View style={{
+										flex: 1,
+										flexDirection: 'row',
+										alignItems: 'center',
+										justifyContent: 'space-between',
+									}} >
+									<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
+								</View>
+							</View >
+						)
+						})
+						}
+					</View>
+					{
+						clube.nos &&
+							clube.nos.length === 0 &&
+							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+							<Image source={empty} style={{ height: 100, width: 100 }} />
+							<Text style={{ color: gray, fontSize: 16, marginVertical: 15 }}>
+								Clube sem participantes
+							</Text>
+							</View>
+					}
+					</ScrollView>
+			}
 			</View>
 		)
 	}
