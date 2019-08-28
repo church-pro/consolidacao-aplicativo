@@ -17,6 +17,7 @@ import {
 	participarDeClubeNaAPI,
 	criarClubeNaAPI,
 	removerClubeNaAPI,
+	alterarNomeDoClubeNaAPI,
 } from '../helpers/api'
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements';
@@ -43,6 +44,7 @@ class ClubesScreen extends React.Component {
 		clubesBuscados: [],
 		carregando: false,
 		semInternet: false,
+		clubeSelecionado: null
 	}
 
 	criarClube() {
@@ -226,7 +228,6 @@ class ClubesScreen extends React.Component {
 	}
 
 	removerClube = async (clube_id) => {
-
 		const dados = {
 			clube_id
 		}
@@ -236,8 +237,40 @@ class ClubesScreen extends React.Component {
 		this.buscarMeusClubes()
 	}
 
+	editarClube = async (clube_id) => {
+		const {
+			nome,
+		} = this.state
+
+		const dados = {
+			clube_id,
+			nome
+		}
+
+		this.setState({ carregando: true })
+		try {
+			NetInfo.isConnected
+				.fetch()
+				.then(isConnected => {
+					if (isConnected) {
+
+						this.setState({ carregando: true })
+						const retorno = alterarNomeDoClubeNaAPI(dados)
+						this.buscarMeusClubes()
+						this.setState({ mostrarCriar: false })
+					} else {
+						this.setState({
+							carregando: false,
+						})
+					}
+				})
+		} catch (err) {
+			Alert.alert('Internet', 'Verifique sua internet!')
+		}
+	}
+
 	render() {
-		let { clubesBuscados } = this.state
+		let { clubesBuscados, clubeSelecionado } = this.state
 		const {
 			clubes,
 			clubesQueParticipo,
@@ -247,6 +280,7 @@ class ClubesScreen extends React.Component {
 			busca,
 			carregando,
 			semInternet,
+
 		} = this.state
 
 		const { usuario } = this.props
@@ -334,7 +368,7 @@ class ClubesScreen extends React.Component {
 															<TouchableOpacity style={{ marginRight: 4 }} onPress={() => this.perguntarSeQuerRemover(clube._id)}>
 																<Icon name="trash" type="font-awesome" color={red} size={20} />
 															</TouchableOpacity>
-															<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.setState({ mostrarCriar: true, nome: clube.nome })}>
+															<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.setState({ mostrarCriar: true, nome: clube.nome, clubeSelecionado: clube._id })}>
 																<Icon name="edit" type="font-awesome" color={gray} size={20} />
 															</TouchableOpacity>
 														</>
@@ -377,7 +411,7 @@ class ClubesScreen extends React.Component {
 															<TouchableOpacity style={{ marginRight: 4 }} onPress={() => this.perguntarSeQuerRemover(clube)}>
 																<Icon name="trash" type="font-awesome" color={red} size={20} />
 															</TouchableOpacity>
-															<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.setState({ mostrarCriar: true, nome: clube.nome })}>
+															<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.setState({ mostrarCriar: true, nome: clube.nome, clubeSelecionado: clube._id })}>
 																<Icon name="edit" type="font-awesome" color={gray} size={20} />
 															</TouchableOpacity>
 														</>
@@ -442,8 +476,8 @@ class ClubesScreen extends React.Component {
 					!mostrarBuscar && !carregando &&
 					<View style={{ paddingTop: 20, paddingHorizontal: 20, }}>
 						<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
-							Criar Clube
-							</Text>
+							{clubeSelecionado ? 'Editar Clube' : 'Criar Clube'}
+						</Text>
 						<View style={[stylesMarcar.containerInput, { marginTop: 15 }]}>
 							<TouchableOpacity
 								activeOpacity={1}
@@ -476,12 +510,13 @@ class ClubesScreen extends React.Component {
 									shadowOpacity: 1.0,
 									marginRight: 8,
 								}}
-								onPress={() => this.setState({ mostrarCriar: false, })}
+								onPress={() => this.setState({ mostrarCriar: false, nome: '', clubeSelecionado: null })}
 							>
 								<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
 									Voltar
 									</Text>
 							</TouchableOpacity>
+
 							<TouchableOpacity
 								style={{
 									backgroundColor: primary,
@@ -493,11 +528,13 @@ class ClubesScreen extends React.Component {
 									shadowColor: 'rgba(0,0,0,0.3)',
 									shadowOpacity: 1.0,
 								}}
-								onPress={() => this.criarClube()}
+								onPress={() => {
+									clubeSelecionado ? this.editarClube(clubeSelecionado) : this.criarClube()
+								}}
 							>
 								<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-									Confirmar
-									</Text>
+									{clubeSelecionado ? 'Editar' : 'Confirmar'}
+								</Text>
 							</TouchableOpacity>
 
 						</View>
