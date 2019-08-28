@@ -138,6 +138,18 @@ export const removerParticipanteDoClubeNaAPI = (dados) =>
 		.then(resultado => resultado.json())
 		.then(json => json)
 
+export const removerParticipanteEBloquearDoClubeNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/removerParticipanteEBloquear`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
 export const alterarNomeNaAPI = (dados) =>
 	fetch(
 		`${apiNova}/no/alterarNome`,

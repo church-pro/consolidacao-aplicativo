@@ -25,6 +25,7 @@ import {
 import {
 	atualizarClubeNaAPI,
 	removerParticipanteDoClubeNaAPI,
+	removerParticipanteEBloquearDoClubeNaAPI,
 } from '../helpers/api'
 
 class ClubeScreen extends React.Component {
@@ -86,13 +87,28 @@ class ClubeScreen extends React.Component {
 	perguntarSeQuerRemover(no_id) {
 		Alert.alert(
 			'Remover',
-			'Realmente deseja remover essa pessoa?',
+			'Realmente deseja REMOVER essa pessoa?',
 			[
 				{
 					text: 'Não',
 					style: 'cancel',
 				},
 				{ text: 'Sim', onPress: () => this.removerParticipante(no_id) },
+			],
+			{ cancelable: false },
+		)
+	}
+
+	perguntarSeQuerBloquear(no_id) {
+		Alert.alert(
+			'Remover',
+			'Realmente deseja REMOVER e BLOQUEAR essa pessoa?',
+			[
+				{
+					text: 'Não',
+					style: 'cancel',
+				},
+				{ text: 'Sim', onPress: () => this.removerEBloquearParticipante(no_id) },
 			],
 			{ cancelable: false },
 		)
@@ -108,6 +124,19 @@ class ClubeScreen extends React.Component {
 		}
 		this.setState({carregando: true})
 		const retorno = await removerParticipanteDoClubeNaAPI(dados)
+		this.atualizarClube()
+	}
+
+	removerEBloquearParticipante = async (no_id) => {
+		const {
+			clube,
+		} = this.state
+		const dados = {
+			no_id,
+			clube_id: clube._id,
+		}
+		this.setState({carregando: true})
+		const retorno = await removerParticipanteEBloquearDoClubeNaAPI(dados)
 		this.atualizarClube()
 	}
 
@@ -197,8 +226,7 @@ class ClubeScreen extends React.Component {
 													<TouchableOpacity
 														onPress={() => { this.perguntarSeQuerRemover(no._id) }}
 														style={{ justifyContent: 'center', marginRight: 12 }}
-														hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-													>
+														hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }} >
 														<Icon name="trash" type="font-awesome" color={red} size={20} />
 													</TouchableOpacity>
 												}
