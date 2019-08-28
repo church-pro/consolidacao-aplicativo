@@ -262,7 +262,7 @@ class ClubesScreen extends React.Component {
 							}}>
 							<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
 								Clubes
-								</Text>
+							</Text>
 							<TouchableOpacity
 								onPress={() => this.buscarMeusClubes()}>
 								<Icon
