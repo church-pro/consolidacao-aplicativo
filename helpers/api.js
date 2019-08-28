@@ -150,6 +150,30 @@ export const alterarNomeNaAPI = (dados) =>
 		.then(resultado => resultado.json())
 		.then(json => json)
 
+export const alterarNomeDoClubeNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/alterarNome`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
+export const removerClubeNaAPI = (dados) =>
+	fetch(
+		`${apiNova}/clube/remover`,
+		{
+			headers,
+			method: "POST",
+			body: JSON.stringify(dados),
+		}
+	)
+		.then(resultado => resultado.json())
+		.then(json => json)
+
 export const alterarEmailNaAPI = (dados) =>
 	fetch(
 		`${apiNova}/no/alterarEmail`,
