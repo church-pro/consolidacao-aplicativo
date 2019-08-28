@@ -177,7 +177,7 @@ export const alterarNomeNaAPI = (dados) =>
 
 export const alterarNomeDoClubeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/alterarNome`,
+		`${apiMaster}/clube/alterarNome`,
 		{
 			headers,
 			method: "POST",
@@ -189,7 +189,7 @@ export const alterarNomeDoClubeNaAPI = (dados) =>
 
 export const removerClubeNaAPI = (dados) =>
 	fetch(
-		`${apiNova}/clube/remover`,
+		`${apiMaster}/clube/remover`,
 		{
 			headers,
 			method: "POST",
