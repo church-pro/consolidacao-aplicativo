@@ -1,6 +1,6 @@
 import React from 'react';
 import Loading from '../components/Loading';
-import { black, white, lightdark, dark, gray, red } from '../helpers/colors';
+import { green, black, white, lightdark, dark, gray, red } from '../helpers/colors';
 import {
 	View,
 	Text,
@@ -26,6 +26,7 @@ import {
 	atualizarClubeNaAPI,
 	removerParticipanteDoClubeNaAPI,
 	removerParticipanteEBloquearDoClubeNaAPI,
+	removerPessoaDaListaNegraNaAPI,
 } from '../helpers/api'
 
 class ClubeScreen extends React.Component {
@@ -65,8 +66,6 @@ class ClubeScreen extends React.Component {
 						this.setState({ carregando: true })
 						atualizarClubeNaAPI({ clube_id: clube._id })
 							.then(retorno => {
-
-								console.log('retorno: ', retorno)
 								if (retorno.ok) {
 									this.setState({
 										clube: retorno.resultado.clube,
@@ -114,6 +113,21 @@ class ClubeScreen extends React.Component {
 		)
 	}
 
+	perguntarSeQuerAtivar(no_id) {
+		Alert.alert(
+			'Remover',
+			'Realmente deseja tirar essa pessoa dessa lista negra?',
+			[
+				{
+					text: 'Não',
+					style: 'cancel',
+				},
+				{ text: 'Sim', onPress: () => this.removerPessoaDaListaNegra(no_id) },
+			],
+			{ cancelable: false },
+		)
+	}
+
 	removerParticipante = async (no_id) => {
 		const {
 			clube,
@@ -137,6 +151,19 @@ class ClubeScreen extends React.Component {
 		}
 		this.setState({carregando: true})
 		const retorno = await removerParticipanteEBloquearDoClubeNaAPI(dados)
+		this.atualizarClube()
+	}
+
+	removerPessoaDaListaNegra = async (no_id) => {
+		const {
+			clube,
+		} = this.state
+		const dados = {
+			no_id,
+			clube_id: clube._id,
+		}
+		this.setState({carregando: true})
+		const retorno = await removerPessoaDaListaNegraNaAPI(dados)
 		this.atualizarClube()
 	}
 
@@ -257,9 +284,9 @@ class ClubeScreen extends React.Component {
 									}
 								</View>
 						{
-							clube.nos &&
-								clube.nos.length === 0 &&
-								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+							clube.nos_id &&
+								clube.nos_id.length === 0 &&
+								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 								<Image source={empty} style={{ height: 100, width: 100 }} />
 								<Text style={{ color: gray, fontSize: 16, marginVertical: 15 }}>
 									Clube sem participantes
@@ -272,7 +299,7 @@ class ClubeScreen extends React.Component {
 				!carregando &&
 					clube &&
 					clube.bloqueados &&
-					<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
+					<ScrollView style={{ flex: 0.5, backgroundColor: dark, paddingHorizontal: 20 }}>
 					<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
 						Lista Negra
 					</Text>
@@ -291,10 +318,10 @@ class ClubeScreen extends React.Component {
 									{
 										clube.no_id === usuario._id &&
 										<TouchableOpacity
-											onPress={() => { this.perguntarSeQuerRemover(no._id) }}
+											onPress={() => { this.perguntarSeQuerAtivar(no._id) }}
 											style={{ justifyContent: 'center', marginRight: 12 }}
 											hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }} >
-											<Icon name="trash" type="font-awesome" color={red} size={20} />
+											<Icon name="minus" type="font-awesome" color={green} size={20} />
 										</TouchableOpacity>
 									}
 
@@ -306,21 +333,9 @@ class ClubeScreen extends React.Component {
 									}} >
 									<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
 								</View>
-							</View >
-						)
-						})
+						</View >)})
 						}
 					</View>
-					{
-						clube.nos &&
-							clube.nos.length === 0 &&
-							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-							<Image source={empty} style={{ height: 100, width: 100 }} />
-							<Text style={{ color: gray, fontSize: 16, marginVertical: 15 }}>
-								Clube sem participantes
-							</Text>
-							</View>
-					}
 					</ScrollView>
 			}
 			</View>

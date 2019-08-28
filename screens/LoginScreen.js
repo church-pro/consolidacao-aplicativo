@@ -17,6 +17,7 @@ import {
 	porProspectoDaSincronizacao,
 } from '../actions'
 import {
+	teste,
 	sincronizarNaAPI,
 } from '../helpers/api'
 import { connect } from 'react-redux'
