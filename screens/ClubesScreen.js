@@ -232,9 +232,24 @@ class ClubesScreen extends React.Component {
 			clube_id
 		}
 		this.setState({ carregando: true })
-		const retorno = await removerClubeNaAPI(dados)
-		console.log(retorno)
-		this.buscarMeusClubes()
+		try {
+			NetInfo.isConnected
+				.fetch()
+				.then(isConnected => {
+					if (isConnected) {
+						this.setState({ carregando: true })
+						const retorno = removerClubeNaAPI(dados)
+						this.buscarMeusClubes()
+						this.setState({ carregando: false })
+					} else {
+						this.setState({
+							carregando: false,
+						})
+					}
+				})
+		} catch (err) {
+			Alert.alert('Internet', 'Verifique sua internet!')
+		}
 	}
 
 	editarClube = async (clube_id) => {
@@ -246,7 +261,6 @@ class ClubesScreen extends React.Component {
 			clube_id,
 			nome
 		}
-
 		this.setState({ carregando: true })
 		try {
 			NetInfo.isConnected
@@ -337,7 +351,10 @@ class ClubesScreen extends React.Component {
 							</TouchableOpacity>
 						</View>
 						{
-							clubes.length === 0 && clubesQueParticipo.length === 0 ?
+							clubes &&
+								clubes.length === 0 && 
+								clubesQueParticipo &&
+								clubesQueParticipo.length === 0 ?
 								<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 									<Text style={{ color: gray, fontSize: 18 }}>Você não possui nenhum clube...</Text>
 									<Image source={empty} style={{ height: 100, width: 100, marginVertical: 15 }} />
@@ -348,7 +365,7 @@ class ClubesScreen extends React.Component {
 
 									<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
 										Meus clubes
-										</Text>
+									</Text>
 									<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
 										{
 											clubes &&
@@ -361,29 +378,27 @@ class ClubesScreen extends React.Component {
 													alignItems: 'center',
 													justifyContent: 'space-between',
 												}}
-													key={clube._id}
-												>
-													{clube.no_id === usuario._id &&
+												key={clube._id} >
+												{clube.no_id === usuario._id &&
 														<>
-															<TouchableOpacity style={{ marginRight: 4 }} onPress={() => this.perguntarSeQuerRemover(clube._id)}>
-																<Icon name="trash" type="font-awesome" color={red} size={20} />
-															</TouchableOpacity>
-															<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.setState({ mostrarCriar: true, nome: clube.nome, clubeSelecionado: clube._id })}>
-																<Icon name="edit" type="font-awesome" color={gray} size={20} />
-															</TouchableOpacity>
+														<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.perguntarSeQuerRemover(clube._id)}>
+															<Icon name="trash" type="font-awesome" color={red} size={20} />
+														</TouchableOpacity>
+														<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.setState({ mostrarCriar: true, nome: clube.nome, clubeSelecionado: clube._id })}>
+															<Icon name="edit" type="font-awesome" color={gray} size={20} />
+														</TouchableOpacity>
 														</>
-													}
-													<TouchableOpacity
-														style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}
-														onPress={() => this.props.navigation.navigate('Clube', { clube, atualizarDados: this.buscarMeusClubes })}
-													>
-														<Text style={{ color: white }}> {clube.nome} </Text>
-														<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-															<Text style={{ color: white }}> {clube.nos ? clube.nos.length : 0} membros </Text>
-															<Icon type="font-awesome" name="angle-right" size={22} containerStyle={{ marginLeft: 5 }} color={white} />
-														</View>
-													</TouchableOpacity>
-												</View>
+												}
+												<TouchableOpacity
+													style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}
+													onPress={() => this.props.navigation.navigate('Clube', { clube, atualizarDados: this.buscarMeusClubes })} >
+													<Text style={{ color: white }}> {clube.nome} </Text>
+													<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+														<Text style={{ color: white }}> {clube.nos ? clube.nos.length : 0} membros </Text>
+														<Icon type="font-awesome" name="angle-right" size={22} containerStyle={{ marginLeft: 5 }} color={white} />
+													</View>
+												</TouchableOpacity>
+											</View>
 											)
 										}
 									</View>
@@ -404,28 +419,17 @@ class ClubesScreen extends React.Component {
 													alignItems: 'center',
 													justifyContent: 'space-between',
 												}}
-													key={clube._id}
-												>
-													{clube.no_id === usuario._id &&
-														<>
-															<TouchableOpacity style={{ marginRight: 4 }} onPress={() => this.perguntarSeQuerRemover(clube)}>
-																<Icon name="trash" type="font-awesome" color={red} size={20} />
-															</TouchableOpacity>
-															<TouchableOpacity style={{ marginRight: 8 }} onPress={() => this.setState({ mostrarCriar: true, nome: clube.nome, clubeSelecionado: clube._id })}>
-																<Icon name="edit" type="font-awesome" color={gray} size={20} />
-															</TouchableOpacity>
-														</>
-													}
-													<TouchableOpacity
-														style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}
-														onPress={() => this.props.navigation.navigate('Clube', { clube })} >
-														<Text style={{ color: white }}> {clube.nome} </Text>
-														<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-															<Text style={{ color: white }}> {clube.nos ? clube.nos.length : 0} membros </Text>
-															<Icon type="font-awesome" name="angle-right" size={22} containerStyle={{ marginLeft: 5 }} color={white} />
-														</View>
-													</TouchableOpacity>
-												</View>
+												key={clube._id} >
+												<TouchableOpacity
+													style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}
+													onPress={() => this.props.navigation.navigate('Clube', { clube })} >
+													<Text style={{ color: white }}> {clube.nome} </Text>
+													<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+														<Text style={{ color: white }}> {clube.nos ? clube.nos.length : 0} membros </Text>
+														<Icon type="font-awesome" name="angle-right" size={22} containerStyle={{ marginLeft: 5 }} color={white} />
+													</View>
+												</TouchableOpacity>
+											</View>
 											)
 										}
 									</View>

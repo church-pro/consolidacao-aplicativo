@@ -299,13 +299,13 @@ class ClubeScreen extends React.Component {
 				!carregando &&
 					clube &&
 					clube.bloqueados &&
-					<ScrollView style={{ flex: 0.5, backgroundColor: dark, paddingHorizontal: 20 }}>
+					clube.bloqueados.length > 0 &&
+					<ScrollView style={{ flex: 1, backgroundColor: dark, paddingHorizontal: 20 }}>
 					<Text style={{ color: white, fontSize: 18, fontWeight: 'bold', marginTop: 15 }}>
 						Lista Negra
 					</Text>
 					<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
 						{
-							clube.bloqueados.length > 0 &&
 							clube.bloqueados
 							.sort((a, b) => (a.pontos < b.pontos) ? 1 : -1)
 							.map(no => {
