@@ -245,8 +245,8 @@ class ClubeScreen extends React.Component {
 							}
 						</View>
 						{
-							clube.nos &&
-							clube.nos.length === 0 &&
+							clube.nos_id &&
+							clube.nos_id.length === 0 &&
 							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
 								<Image source={empty} style={{ height: 100, width: 100 }} />
 								<Text style={{ color: gray, fontSize: 16, marginVertical: 15 }}>
