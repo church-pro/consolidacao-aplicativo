@@ -41,6 +41,7 @@ import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,
 	sincronizacaoRapida,
+	setarNotificacaoLocal,
 } from '../helpers/helper'
 import { stylesPerguntas, styles } from '../components/Styles';
 import Loading from '../components/Loading';
@@ -197,6 +198,12 @@ class PerguntasScreen extends React.Component {
 					delete prospecto.hora
 				}
 				await alterarProspectoNoAsyncStorage(prospecto)
+				const notificacao = {
+					titulo: 'Teste tres',
+					corpo: 'Corpo tres',
+				}
+				const tempoParaNotificar = 3 * 1000
+				await setarNotificacaoLocal(notificacao, tempoParaNotificar)
 				this.setState({ carregando: false })
 				const dados = {
 					qualAba,

@@ -73,27 +73,19 @@ export function criarNotificacaoLocal(notificacao) {
 			priority: 'high',
 			sticky: false,
 			vibrate: true,
+			icon: './assets/images/icon.png',
 		}
 	}
 }
 
-export function setarNotificacaoLocal(notificacao) {
-	Permissions.askAsync(Permissions.NOTIFICATIONS)
-		.then(({ status }) => {
-			if (status === 'granted') {
-				console.log(notificacao.data)
-				let time = new Date(notificacao.data)
-				console.log('time', time)
-				let dataAjustada = time.getTime() + 10000
-				console.log('dataAjustada', dataAjustada)
-				Notifications.scheduleLocalNotificationAsync(
-					criarNotificacaoLocal(notificacao),
-					{
-						time: dataAjustada
-					}
-				).then(resultado => console.log('notificacao', resultado))
-			}
-		})
+export const setarNotificacaoLocal = async (notificacao, tempo) => {
+	const retorno = await Notifications.scheduleLocalNotificationAsync(
+		criarNotificacaoLocal(notificacao),
+		{
+			time: new Date().getTime() + tempo,
+		}
+	)
+	console.log('setarNotificacaoLocal: ', retorno)
 }
 
 export const sendNotificationImmediately = async () => {
