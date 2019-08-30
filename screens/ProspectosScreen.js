@@ -178,15 +178,23 @@ class ProspectosScreen extends React.Component {
 							flexDirection: 'row',
 							justifyContent: 'space-between',
 						}}>
-
-							<Text style={{ color: white }}>
-								{usuario.nome}
-							</Text>
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Icon name='user-circle' type='font-awesome' color={white} containerStyle={{ marginRight: 5 }} size={20} />
+								<Text style={{ color: white }}>
+									{usuario.nome}
+								</Text>
+							</View>
+							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
+								<Text style={{ color: primary, marginRight: 8 }}>
+									{pontos} XP
+								</Text>
+								<TouchableOpacity style={{ marginRight: 12 }} onPress={() => this.ajudadorDeModal()}>
+									<Icon name="bell" type="font-awesome" color={white} size={16} />
+								</TouchableOpacity>
 								<TouchableOpacity style={{
 									position: 'absolute',
+									right: 4,
 									top: -3,
-									left: 9,
 									backgroundColor: red,
 									height: 15,
 									width: 15,
@@ -198,12 +206,6 @@ class ProspectosScreen extends React.Component {
 								>
 									<Text style={{ color: white, textAlign: 'center', fontSize: 10 }}>14</Text>
 								</TouchableOpacity>
-								<TouchableOpacity style={{ marginRight: 14 }} onPress={() => this.ajudadorDeModal()}>
-									<Icon name="bell" type="font-awesome" color={white} size={16} />
-								</TouchableOpacity>
-								<Text style={{ color: primary }}>
-									{pontos} XP
-								</Text>
 							</View>
 							<Modal
 								isVisible={this.state.mostraModal}

@@ -276,7 +276,9 @@ class ClubeScreen extends React.Component {
 														alignItems: 'center',
 														justifyContent: 'space-between',
 													}}
-													onPress={() => this.props.navigation.navigate('PerfilClube', { no })}>
+													onPress={() => this.props.navigation.navigate('PerfilClube', { no })}
+												>
+													<Icon name='user-circle' type='font-awesome' color={white} containerStyle={{ marginRight: 2 }} size={20} />
 													<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
 													<Text style={{ color: white }}> {no.pontos} XP </Text>
 												</TouchableOpacity>
@@ -333,6 +335,7 @@ class ClubeScreen extends React.Component {
 													alignItems: 'center',
 													justifyContent: 'space-between',
 												}} >
+													<Icon name='user-circle' type='font-awesome' color={white} containerStyle={{ marginRight: 5 }} size={20} />
 													<Text numberOfLines={1} style={{ color: white, flex: 1, }}> {no.nome} </Text>
 												</View>
 											</View >)
