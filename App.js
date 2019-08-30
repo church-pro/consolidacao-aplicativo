@@ -1,6 +1,6 @@
 import React from 'react'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native'
-import { AppLoading, Asset, Font, Icon } from 'expo'
+import { Platform, StatusBar, StyleSheet, View, } from 'react-native'
+import { AppLoading, Asset, Font, Icon, Notifications, } from 'expo'
 import AppNavigator from './navigation/AppNavigator'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
@@ -8,6 +8,7 @@ import thunk from 'redux-thunk'
 import rootReducer from './reducers'
 import { Constants } from 'expo'
 import { gray, dark, black } from './helpers/colors'
+import { recuperarNotificacoes, submeterNotificacoes, } from './helpers/api'
 
 const logger = store => next => action => {
 	console.group(action.type ? action.type : 'Redux-Thunk')
@@ -33,6 +34,31 @@ export default class App extends React.Component {
 	};
 
 	render() {
+		Notifications.addListener(retorno => {
+			console.log('Notifications.addListener')
+			recuperarNotificacoes()
+				.then(notificacoes => {
+					console.log('recuperarNotificacoes: ', notificacoes)
+					let submeter = false
+					if(notificacoes.mensagem === retorno.notificationId){
+						delete notificacoes.mensagem
+						submeter = true
+					}
+					if(notificacoes.ligar === retorno.notificationId){
+						delete notificacoes.ligar
+						submeter = true
+					}
+					if(notificacoes.visitar === retorno.notificationId){
+						delete notificacoes.visitar
+						submeter = true
+					}
+					if(submeter){
+						submeterNotificacoes(notificacoes)
+							.then(retorno => console.log('submeterNotificacoes: ', retorno))
+					}
+				})
+		})
+
 		if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
 			return (
 				<AppLoading

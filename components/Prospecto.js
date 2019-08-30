@@ -16,6 +16,7 @@ import {
 } from '../actions'
 import {
 	submeterSituacoes,
+	recuperarProspectos,
 } from '../helpers/api'
 
 import { connect } from 'react-redux'
@@ -29,6 +30,7 @@ import {
 } from '../helpers/constants'
 import {
 	pegarDataEHoraAtual,
+	gerarNotificacaoPorSituacao,
 } from '../helpers/helper'
 import { ProgressBar, Colors } from 'react-native-paper'
 
@@ -80,6 +82,7 @@ class Prospecto extends React.Component {
 			alterarUsuarioNoAsyncStorage,
 			alterarProspectoNoAsyncStorage,
 		} = this.props
+		const situacaoAnterior = prospecto.situacao_id
 		prospecto.situacao_id = SITUACAO_REMOVIDO
 		const situacao = {
 			prospecto_id: prospecto.celular_id,
@@ -95,6 +98,9 @@ class Prospecto extends React.Component {
 		await alterarUsuarioNoAsyncStorage(usuario)
 		await submeterSituacoes([situacao])
 		await alterarProspectoNoAsyncStorage(prospecto)
+		const retorno = await recuperarProspectos()
+		const remover = true
+		await gerarNotificacaoPorSituacao(situacaoAnterior, null, retorno.prospectos, remover)
 		Alert.alert('Removido', 'Pessoa removida com sucesso')
 	}
 
@@ -254,7 +260,7 @@ class Prospecto extends React.Component {
 	}
 }
 
-function mapStateToProps({ usuario }) {
+function mapStateToProps({ usuario, }) {
 	return {
 		usuario,
 	}

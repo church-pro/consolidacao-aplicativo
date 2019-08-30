@@ -208,7 +208,7 @@ class ProspectosScreen extends React.Component {
 							<Modal
 								isVisible={this.state.mostraModal}
 								onSwipeComplete={() => this.ajudadorDeModal()}
-								swipeDirection={['up', 'down']}
+								//swipeDirection={['up', 'down']}
 								style={{
 									justifyContent: 'flex-start',
 									margin: 0,

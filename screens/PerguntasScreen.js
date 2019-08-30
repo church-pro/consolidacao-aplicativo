@@ -34,6 +34,7 @@ import {
 import {
 	submeterSituacoes,
 	sincronizacaoRapidaNaAPI,
+	recuperarProspectos,
 } from '../helpers/api'
 import CPButton from '../components/CPButton'
 import { LinearGradient } from 'expo'
@@ -41,6 +42,7 @@ import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,
 	sincronizacaoRapida,
+	gerarNotificacaoPorSituacao,
 } from '../helpers/helper'
 import { stylesPerguntas, styles } from '../components/Styles';
 import Loading from '../components/Loading';
@@ -71,7 +73,8 @@ class PerguntasScreen extends React.Component {
 			alterarProspectoNoAsyncStorage,
 			alterarUsuarioNoAsyncStorage,
 			navigation,
-			usuario
+			usuario,
+			prospectos,
 		} = this.props
 		const {
 			situacao_id_nova,
@@ -197,7 +200,8 @@ class PerguntasScreen extends React.Component {
 					delete prospecto.hora
 				}
 				await alterarProspectoNoAsyncStorage(prospecto)
-				await setarNotificacaoLocal(notificacao, tempoParaNotificar)
+				const retorno = await recuperarProspectos()
+				await gerarNotificacaoPorSituacao(situacao_id_nova, null, retorno.prospectos)
 				this.setState({ carregando: false })
 				const dados = {
 					qualAba,
@@ -369,6 +373,7 @@ function mapStateToProps({ prospectos, usuario, administracao }, { navigation })
 		estados,
 		perguntas,
 		usuario,
+		prospectos,
 	}
 }
 

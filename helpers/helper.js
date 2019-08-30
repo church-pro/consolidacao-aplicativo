@@ -93,7 +93,7 @@ export const cancelarUmaNotificacao = async (notificacao_id) => {
 	return await Notifications.dismissNoficationAsync(notificacao_id)
 }
 
-export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, prospectosDepois) => {
+export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, prospectosDepois, remover = false) => {
 	let criarNotificacaoMensagem = false
 	let criarNotificacaoLigar = false
 	let criarNotificacaoVisita = false
@@ -101,61 +101,75 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 	let limparNotificacaoLigar = false
 	let limparNotificacaoVisitar = false
 
+	let notificacoes = await recuperarNotificacoes()
 	if(
 		situacao_id === SITUACAO_IMPORTAR ||
 		situacao_id === SITUACAO_CADASTRO
 	){
+		console.log('situacao_id === SITUACAO_IMPORTAR || SITUACAO_CADASTRO')
+		/* removendo */
+		if(prospectosDepois && prospectosDepois.filter(item => item.situacao_id === SITUACAO_IMPORTAR || item.situacao_id === SITUACAO_CADASTRO).length === 0 && notificacoes.mensagem){
+			console.log('limparNotificacaoMensagem')
+			limparNotificacaoMensagem = true
+		}
 		/* estou adicionando e nao tem pessoas nessa lista entao gero */
-		if(prospectosAntes.filter(item =>
-			item.situacao_id === SITUACAO_IMPORTAR ||
-			item.situacao_id === SITUACAO_CADASTRO
-		).length === 0){
+		if(
+			prospectosAntes &&
+			(
+				prospectosAntes.filter(item => item.situacao_id === SITUACAO_IMPORTAR || item.situacao_id === SITUACAO_CADASTRO).length === 0 || 
+				(prospectosAntes.filter(item => item.situacao_id === SITUACAO_IMPORTAR || item.situacao_id === SITUACAO_CADASTRO).length !== 0 && !notificacoes.mensagem && !remover)
+			)
+		){
+			console.log('criarNotificacaoVisita')
 			criarNotificacaoMensagem = true
 		}
 	}
 
 	if(situacao_id === SITUACAO_MENSAGEM){
+		console.log('situacao_id === SITUACAO_MENSAGEM')
 		/* mandei a mensagem  */	
 		/* acabou as pessoa na lista de mensagem */
 		/* entao limpar notificacao mensagem */
-		if(prospectosDepois.filter(item =>
-			item.situacao_id === SITUACAO_IMPORTAR ||
-			item.situacao_id === SITUACAO_CADASTRO
-		).length === 0){
+		if(prospectosDepois.filter(item => item.situacao_id === SITUACAO_IMPORTAR || item.situacao_id === SITUACAO_CADASTRO).length === 0 && notificacoes.ligar){
+			console.log('limparNotificacaoMensagem')
 			limparNotificacaoMensagem = true
 		}
 		/* sem nao tem pessoas na lista para ligar entao gerar*/
-		if(prospectosDepois
-			.filter(item => item.situacao_id === SITUACAO_MENSAGEM)
-			.length === 0){
+		if(
+			prospectosDepois.filter(item => item.situacao_id === SITUACAO_MENSAGEM).length === 0 ||
+			(prospectosDepois.filter(item => item.situacao_id === SITUACAO_MENSAGEM).length !== 0 && !notificacoes.ligar && !remover)
+		){
+			console.log('criarNotificacaoLigar')
 			criarNotificacaoLigar = true
 		}
 	}
 
 	if(situacao_id === SITUACAO_LIGAR){
+		console.log('situacao_id === SITUACAO_LIGAR')
 		/* liguei */	
 		/* acabou as pessoa na lista de ligar */
 		/* entao limpar notificacao ligar */
-		if(prospectosDepois.filter(item =>
-			item.situacao_id === SITUACAO_MENSAGEM
-		).length === 0){
+		if(prospectosDepois.filter(item => item.situacao_id === SITUACAO_MENSAGEM).length === 0){
+			console.log('limparNotificacaoLigar')
 			limparNotificacaoLigar = true
 		}
 		/* sem nao tem pessoas na lista para visita entao gerar*/
-		if(prospectosDepois
-			.filter(item => item.situacao_id === SITUACAO_LIGAR)
-			.length === 0){
+		if(
+			prospectosDepois.filter(item => item.situacao_id === SITUACAO_LIGAR).length === 0 ||
+			(prospectosDepois.filter(item => item.situacao_id === SITUACAO_LIGAR).length !== 0 && !notificacoes.visita && !remover)
+		){
+			console.log('criarNotificacaoVisita')
 			criarNotificacaoVisita = true
 		}
 	}
 
 	if(situacao_id === SITUACAO_VISITA){
+		console.log('situacao_id === SITUACAO_VISITA')
 		/* liguei visitei	
 		/* acabou as pessoa na lista de visitar */
 		/* entao limpar notificacao visitar */
-		if(prospectosDepois.filter(item =>
-			item.situacao_id === SITUACAO_VISITA
-		).length === 0){
+		if(prospectosDepois.filter(item => item.situacao_id === SITUACAO_VISITA).length === 0){
+			console.log('limparNotificacaoVisitar')
 			limparNotificacaoVisitar = true
 		}
 	}
@@ -163,9 +177,8 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 	// TODO
 	let titulo = ''
 	let corpo = ''
-	let tempo =  (new Date()).getTime() + 10000
+	let tempo =  (new Date()).getTime() + 30000
 	let dados = {}
-	let notificacoes = await recuperarNotificacoes()
 	if(criarNotificacaoMensagem){
 		titulo = 'titulo mensagem'	
 		corpo = 'corpo mensagem'	

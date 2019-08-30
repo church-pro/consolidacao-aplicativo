@@ -23,7 +23,8 @@ import {
 	pegarDataEHoraAtual
 } from '../helpers/helper'
 import {
-	submeterSituacoes
+	submeterSituacoes,
+	gerarNotificacaoPorSituacao,
 } from '../helpers/api'
 import Loading from '../components/Loading'
 import { styles, stylesImportar } from '../components/Styles';
@@ -64,6 +65,7 @@ class ProspectoScreen extends React.Component {
 		} = this.state
 		let {
 			prospectoSelecionado,
+			prospectos,
 		} = this.props
 
 		let camposComErro = ''
@@ -120,6 +122,7 @@ class ProspectoScreen extends React.Component {
 				hora_criacao: pegarDataEHoraAtual()[1],
 			}
 			await submeterSituacoes([situacao])
+			await gerarNotificacaoPorSituacao(SITUACAO_CADASTRO, prospectos, null)
 			await this.props.alterarProspectoNoAsyncStorage(prospecto)
 			this.setState({ carregando: false })
 			Alert.alert('Cadastro', 'Cadastro concluido com sucesso!')
@@ -304,6 +307,7 @@ const mapStateToProps = ({ prospectos }, { navigation }) => {
 	}
 	return {
 		prospectoSelecionado,
+		prospectos,
 	}
 }
 

@@ -25,7 +25,8 @@ import {
 import { SITUACAO_IMPORTAR, IMPORTAR_CONTATOS, CONFIRMAR } from '../helpers/constants'
 import { stylesImportar } from '../components/Styles';
 import {
-    pegarDataEHoraAtual
+	pegarDataEHoraAtual,
+	gerarNotificacaoPorSituacao,
 } from '../helpers/helper'
 import Loading from '../components/Loading'
 import arrow from '../assets/images/arrow-back.png'
@@ -205,57 +206,53 @@ class ImportarProspectosScreen extends React.Component {
         this.setState({ contatosParaSelecionar })
     }
 
-    adicionarContatos() {
-        const {
-            contatosParaSelecionar,
-            selected,
-            carregando,
-        } = this.state
-        const {
-            adicionarProspectosAoAsyncStorage,
-            navigation,
-            usuario,
-            alterarUsuarioNoAsyncStorage,
-        } = this.props
-        this.setState({ carregando: true })
-        const contatosFiltrados =
-            contatosParaSelecionar
-                .filter(contato => selected.get(contato.id))
-                .map(contato => {
-                    contato._id = contato.id
-                    return contato
-                })
-        adicionarProspectosAoAsyncStorage(contatosFiltrados)
-            .then(() => {
-                let situacoes = []
-                contatosFiltrados
-                    .forEach(contato => {
-                        const situacao = {
-                            prospecto_id: contato.celular_id,
-                            situacao_id: SITUACAO_IMPORTAR,
-                            data_criacao: pegarDataEHoraAtual()[0],
-                            hora_criacao: pegarDataEHoraAtual()[1],
-                        }
-                        situacoes.push(situacao)
-                    })
-                submeterSituacoes(situacoes)
-                    .then(() => {
+	adicionarContatos = async () => {
+		const {
+			contatosParaSelecionar,
+			selected,
+			carregando,
+		} = this.state
+		const {
+			adicionarProspectosAoAsyncStorage,
+			navigation,
+			usuario,
+			alterarUsuarioNoAsyncStorage,
+			prospectos,
+		} = this.props
+		this.setState({ carregando: true })
+		const contatosFiltrados =
+			contatosParaSelecionar
+			.filter(contato => selected.get(contato.id))
+			.map(contato => {
+				contato._id = contato.id
+				return contato
+			})
 
-                        if (usuario.importacoes) {
-                            usuario.importacoes += contatosFiltrados.length
-                        } else {
-                            usuario.importacoes = contatosFiltrados.length
-                        }
+		await gerarNotificacaoPorSituacao(SITUACAO_IMPORTAR, prospectos, null)
+		await adicionarProspectosAoAsyncStorage(contatosFiltrados)
+		let situacoes = []
+		contatosFiltrados
+			.forEach(contato => {
+				const situacao = {
+					prospecto_id: contato.celular_id,
+					situacao_id: SITUACAO_IMPORTAR,
+					data_criacao: pegarDataEHoraAtual()[0],
+					hora_criacao: pegarDataEHoraAtual()[1],
+				}
+				situacoes.push(situacao)
+			})
+		await submeterSituacoes(situacoes)
+		if (usuario.importacoes) {
+			usuario.importacoes += contatosFiltrados.length
+		} else {
+			usuario.importacoes = contatosFiltrados.length
+		}
 
-                        alterarUsuarioNoAsyncStorage(usuario)
-                            .then(() => {
-                                this.setState({ carregando: false })
-                                Alert.alert('Importação', 'Importação concluida com sucesso!')
-                                navigation.navigate('Prospectos', { qualAba: 'Importar' })
-                            })
-                    })
-            })
-    }
+		await alterarUsuarioNoAsyncStorage(usuario)
+		this.setState({ carregando: false })
+		Alert.alert('Importação', 'Importação concluida com sucesso!')
+		navigation.navigate('Prospectos', { qualAba: 'Importar' })
+	}
 
     render() {
         const { carregando } = this.state
@@ -351,9 +348,10 @@ class ImportarProspectosScreen extends React.Component {
 
 }
 
-function mapStateToProps({ usuario }) {
+function mapStateToProps({ usuario, prospectos }) {
     return {
-        usuario
+		usuario,
+		prospectos,
     }
 }
 

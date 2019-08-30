@@ -333,7 +333,7 @@ export function recuperarNotificacoes() {
 		.then(JSON.parse)
 		.then((dados) => {
 			if (dados === null) {
-				dados = { notificacoes: [] }
+				dados = {}
 				AsyncStorage.setItem(CHAVE_NOTIFICACOES, JSON.stringify(dados))
 			}
 			return dados
@@ -343,8 +343,7 @@ export function recuperarNotificacoes() {
 export function submeterNotificacoes(notificacoes) {
 	return recuperarNotificacoes()
 		.then(dados => {
-			dados.notificacoes = notificacoes
-			AsyncStorage.setItem(CHAVE_NOTIFICACOES, JSON.stringify(dados))
+			AsyncStorage.setItem(CHAVE_NOTIFICACOES, JSON.stringify(notificacoes))
 			return notificacoes
 		})
 }
