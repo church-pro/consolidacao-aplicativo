@@ -59,6 +59,8 @@ import {
 	sincronizarNaAPI,
 	recuperarSituacoes,
 	limparSituacoes,
+	recuperarNotificacoes,
+	submeterNotificacoes,
 } from '../helpers/api'
 
 export function criarNotificacaoLocal(notificacao) {
@@ -78,14 +80,148 @@ export function criarNotificacaoLocal(notificacao) {
 	}
 }
 
-export const setarNotificacaoLocal = async (notificacao, tempo) => {
-	const retorno = await Notifications.scheduleLocalNotificationAsync(
+export const setarNotificacaoLocal = async (notificacao) => {
+	return await Notifications.scheduleLocalNotificationAsync(
 		criarNotificacaoLocal(notificacao),
 		{
-			time: new Date().getTime() + tempo,
+			time: notificacao.tempo,
 		}
 	)
-	console.log('setarNotificacaoLocal: ', retorno)
+}
+
+export const cancelarUmaNotificacao = async (notificacao_id) => {
+	return await Notifications.dismissNoficationAsync(notificacao_id)
+}
+
+export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, prospectosDepois) => {
+	let criarNotificacaoMensagem = false
+	let criarNotificacaoLigar = false
+	let criarNotificacaoVisita = false
+	let limparNotificacaoMensagem = false
+	let limparNotificacaoLigar = false
+	let limparNotificacaoVisitar = false
+
+	if(
+		situacao_id === SITUACAO_IMPORTAR ||
+		situacao_id === SITUACAO_CADASTRO
+	){
+		/* estou adicionando e nao tem pessoas nessa lista entao gero */
+		if(prospectosAntes.filter(item =>
+			item.situacao_id === SITUACAO_IMPORTAR ||
+			item.situacao_id === SITUACAO_CADASTRO
+		).length === 0){
+			criarNotificacaoMensagem = true
+		}
+	}
+
+	if(situacao_id === SITUACAO_MENSAGEM){
+		/* mandei a mensagem  */	
+		/* acabou as pessoa na lista de mensagem */
+		/* entao limpar notificacao mensagem */
+		if(prospectosDepois.filter(item =>
+			item.situacao_id === SITUACAO_IMPORTAR ||
+			item.situacao_id === SITUACAO_CADASTRO
+		).length === 0){
+			limparNotificacaoMensagem = true
+		}
+		/* sem nao tem pessoas na lista para ligar entao gerar*/
+		if(prospectosDepois
+			.filter(item => item.situacao_id === SITUACAO_MENSAGEM)
+			.length === 0){
+			criarNotificacaoLigar = true
+		}
+	}
+
+	if(situacao_id === SITUACAO_LIGAR){
+		/* liguei */	
+		/* acabou as pessoa na lista de ligar */
+		/* entao limpar notificacao ligar */
+		if(prospectosDepois.filter(item =>
+			item.situacao_id === SITUACAO_MENSAGEM
+		).length === 0){
+			limparNotificacaoLigar = true
+		}
+		/* sem nao tem pessoas na lista para visita entao gerar*/
+		if(prospectosDepois
+			.filter(item => item.situacao_id === SITUACAO_LIGAR)
+			.length === 0){
+			criarNotificacaoVisita = true
+		}
+	}
+
+	if(situacao_id === SITUACAO_VISITA){
+		/* liguei visitei	
+		/* acabou as pessoa na lista de visitar */
+		/* entao limpar notificacao visitar */
+		if(prospectosDepois.filter(item =>
+			item.situacao_id === SITUACAO_VISITA
+		).length === 0){
+			limparNotificacaoVisitar = true
+		}
+	}
+
+	// TODO
+	let titulo = ''
+	let corpo = ''
+	let tempo =  (new Date()).getTime() + 10000
+	let dados = {}
+	let notificacoes = await recuperarNotificacoes()
+	if(criarNotificacaoMensagem){
+		titulo = 'titulo mensagem'	
+		corpo = 'corpo mensagem'	
+		const dataParaNotificar = pegarDataEHoraAtual(1)[0]
+		const splitData = dataParaNotificar.split('/')
+		//tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
+		dados = {
+			titulo,
+			corpo,
+			tempo,
+		}
+		const notificacao_id = await setarNotificacaoLocal(dados)
+		notificacoes.mensagem = notificacao_id
+	}
+	if(criarNotificacaoLigar){
+		titulo = 'titulo ligar'	
+		corpo = 'corpo ligar'	
+		const dataParaNotificar = pegarDataEHoraAtual(2)[0]
+		const splitData = dataParaNotificar.split('/')
+		//tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
+		dados = {
+			titulo,
+			corpo,
+			tempo,
+		}
+		const notificacao_id = await setarNotificacaoLocal(dados)
+		notificacoes.ligar = notificacao_id
+	}
+	if(criarNotificacaoVisita){
+		titulo = 'titulo visitar'	
+		corpo = 'corpo visitar'	
+		const dataParaNotificar = pegarDataEHoraAtual(3)[0]
+		const splitData = dataParaNotificar.split('/')
+		//tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
+		dados = {
+			titulo,
+			corpo,
+			tempo,
+		}
+		const notificacao_id = await setarNotificacaoLocal(dados)
+		notificacoes.visitar = notificacao_id
+	}
+	if(notificacoes.mensagem && limparNotificacaoMensagem){
+		cancelarUmaNotificacao(notificacoes.mensagem)
+		delete notificacoes.mensagem
+	}
+	if(notificacoes.ligar && limparNotificacaoLigar){
+		cancelarUmaNotificacao(notificacoes.ligar)
+		delete notificacoes.ligar
+	}
+	if(notificacoes.visitar && limparNotificacaoVisitar){
+		cancelarUmaNotificacao(notificacoes.visitar)
+		delete notificacoes.visitar
+	}
+	console.log('notificacoes: ', notificacoes)
+	await submeterNotificacoes(notificacoes)
 }
 
 export const sendNotificationImmediately = async () => {

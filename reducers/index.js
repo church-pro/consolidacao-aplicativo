@@ -6,8 +6,6 @@ import {
 	ALTERAR_PROSPECTO, 
 	PEGAR_USUARIO,
 	ALTERAR_USUARIO,
-	PEGAR_NOTIFICACOES,
-	ALTERAR_NOTIFICACOES,
 	PEGAR_ATUALIZACOES,
 	ALTERAR_ATUALIZACOES,
 } from '../actions'
@@ -49,21 +47,6 @@ function usuario(state = {}, action){
 	}
 }
 
-function notificacoes(state = [], action){
-	switch(action.type){
-		case PEGAR_NOTIFICACOES:
-			return {
-				...action.notificacoes
-			}
-		case ALTERAR_NOTIFICACOES:
-			return {
-				...action.notificacoes
-			}
-		default:
-			return state
-	}
-}
-
 function atualizacoes(state = [], action){
 	switch(action.type){
 		case PEGAR_ATUALIZACOES:
@@ -82,6 +65,5 @@ function atualizacoes(state = [], action){
 export default combineReducers({
 	prospectos,
 	usuario,
-	notificacoes,
 	atualizacoes,
 })
