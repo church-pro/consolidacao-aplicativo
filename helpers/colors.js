@@ -2,9 +2,12 @@ export const purple = '#292477'
 export const gray = '#857575'
 export const darkGray = '#555'
 export const white = '#fff'
+
 export const primary = "#2D84C3"
+export const secundary = "#FFAD1E"
+export const tertiary = "#F45D22"
+
 export const red = "#ED3833"
-export const orange = '#f26f28'
 export const lightPurp = '#7c53c3'
 export const pink = '#b93fb3'
 export const green = '#008000'
