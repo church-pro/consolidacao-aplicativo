@@ -15,6 +15,7 @@ import ConquistasScreen from '../screens/ConquistasScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import { primary, black, dark, gold } from '../helpers/colors'
 import { Icon } from 'react-native-elements'
+import AtualizacoesScreen from '../screens/AtualizacoesScreen';
 
 export const AutenticacaoStack = createStackNavigator(
 	{
@@ -43,6 +44,7 @@ const ProspectosStack = createStackNavigator(
 		Pontuacao: PontuacaoScreen,
 		Conquistas: ConquistasScreen,
 		Prospecto: ProspectoScreen,
+		Atualizacoes: AtualizacoesScreen,
 	},
 	{
 		initialRouteName: 'Prospectos',

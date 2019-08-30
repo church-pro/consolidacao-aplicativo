@@ -69,17 +69,13 @@ class ProspectosScreen extends React.Component {
 		this.setState({ mostraModal: !this.state.mostraModal })
 	}
 
-	handleScrollTo = p => {
-		if (this.scrollViewRef) {
-			this.scrollViewRef.scrollTo(p);
-		}
+	irParaAtualizacoes = () => {
+		this.setState({ mostraModal: false })
+
+		this.props.navigation.navigate('Atualizacoes')
 	}
 
-	handleOnScroll = event => {
-		this.setState({
-			scrollOffset: event.nativeEvent.contentOffset.y,
-		})
-	}
+
 
 	render() {
 		let {
@@ -230,18 +226,20 @@ class ProspectosScreen extends React.Component {
 									<Text style={{ color: white, fontSize: 20, fontWeight: "bold" }}>CENTRAL DE NOTIFICAÇÕES</Text>
 
 									<View style={{ marginTop: 15, paddingVertical: 5 }}>
-										<View style={{ borderBottomWidth: 1, borderBottomColor: gray }}>
+										<TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: gray }}
+											onPress={() => this.irParaAtualizacoes()}
+										>
 											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</View>
-										<View style={{ borderBottomWidth: 1, borderBottomColor: gray }}>
+										</TouchableOpacity>
+										<TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: gray }}>
 											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</View>
-										<View style={{ borderBottomWidth: 1, borderBottomColor: gray }}>
+										</TouchableOpacity>
+										<TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: gray }}>
 											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</View>
-										<View style={{ borderBottomWidth: 1 }}>
+										</TouchableOpacity>
+										<TouchableOpacity style={{ borderBottomWidth: 1 }}>
 											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</View>
+										</TouchableOpacity>
 									</View>
 								</View>
 
