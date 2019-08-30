@@ -534,11 +534,15 @@ class PerfilScreen extends React.Component {
 							</Text>
 						</View>
 						<View style={container}>
+							<View style={{ flex: 1, alignItems: "center" }}>
+								<Icon name='user-circle' type='font-awesome' color={white} containerStyle={{ marginRight: 5 }} size={80} />
+							</View>
 							<View style={[{
 								flexDirection: "column", alignItems: "flex-start", paddingVertical: 5,
 								justifyContent: 'space-between',
 								flexWrap: 'wrap',
-							}]}>
+							}]}
+							>
 								{
 									dados.map(item => {
 										let qualStilo = linha
