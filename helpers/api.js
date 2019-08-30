@@ -6,6 +6,8 @@ const CHAVE_ADMINISTRACAO = 'churchProConsolidacao:administracao' + versaoBanco
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
 const CHAVE_USUARIO = 'churchProConsolidacao:usuario' + versaoBanco
 const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
+const CHAVE_NOTIFICACOES = 'churchProConsolidacao:notificacoes' + versaoBanco
+const CHAVE_ATUALIZACOES = 'churchProConsolidacao:atualizacoes' + versaoBanco
 
 //const apiMaster = 'https://api.churchpro.com.br'
 const apiMaster = 'https://homologacao.churchpro.com.br'
@@ -324,4 +326,46 @@ export const limparSituacoes = async () => {
 	} catch (error) {
 		// Error saving data
 	}
+}
+
+export function recuperarNotificacoes() {
+	return AsyncStorage.getItem(CHAVE_NOTIFICACOES)
+		.then(JSON.parse)
+		.then((dados) => {
+			if (dados === null) {
+				dados = { notificacoes: [] }
+				AsyncStorage.setItem(CHAVE_NOTIFICACOES, JSON.stringify(dados))
+			}
+			return dados
+		})
+}
+
+export function submeterNotificacoes(notificacoes) {
+	return recuperarNotificacoes()
+		.then(dados => {
+			dados.notificacoes = notificacoes
+			AsyncStorage.setItem(CHAVE_NOTIFICACOES, JSON.stringify(dados))
+			return notificacoes
+		})
+}
+
+export function recuperarAtualizacoes() {
+	return AsyncStorage.getItem(CHAVE_ATUALIZACOES)
+		.then(JSON.parse)
+		.then((dados) => {
+			if (dados === null) {
+				dados = { atualizacoes: {} }
+				AsyncStorage.setItem(CHAVE_ATUALIZACOES, JSON.stringify(dados))
+			}
+			return dados
+		})
+}
+
+export function submeterAtualizacoes(atualizacoes) {
+	return recuperarAtualizacoes()
+		.then(dados => {
+			dados.atualizacoes = atualizacoes
+			AsyncStorage.setItem(CHAVE_ATUALIZACOES, JSON.stringify(dados))
+			return atualizacoes
+		})
 }

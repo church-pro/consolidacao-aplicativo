@@ -54,7 +54,7 @@ class ProspectoScreen extends React.Component {
 		}
 	}
 
-	ajudadorDeSubmissao = () => {
+	ajudadorDeSubmissao = async () => {
 		const {
 			nome,
 			ddd,
@@ -119,15 +119,11 @@ class ProspectoScreen extends React.Component {
 				data_criacao: pegarDataEHoraAtual()[0],
 				hora_criacao: pegarDataEHoraAtual()[1],
 			}
-			submeterSituacoes([situacao])
-				.then(() => {
-					this.props.alterarProspectoNoAsyncStorage(prospecto)
-						.then(() => {
-							this.setState({ carregando: false })
-							Alert.alert('Cadastro', 'Cadastro concluido com sucesso!')
-							this.props.navigation.navigate('Prospectos')
-						})
-				})
+			await submeterSituacoes([situacao])
+			await this.props.alterarProspectoNoAsyncStorage(prospecto)
+			this.setState({ carregando: false })
+			Alert.alert('Cadastro', 'Cadastro concluido com sucesso!')
+			this.props.navigation.navigate('Prospectos')
 		}
 	}
 

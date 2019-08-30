@@ -197,6 +197,7 @@ class PerguntasScreen extends React.Component {
 					delete prospecto.hora
 				}
 				await alterarProspectoNoAsyncStorage(prospecto)
+				await setarNotificacaoLocal(notificacao, tempoParaNotificar)
 				this.setState({ carregando: false })
 				const dados = {
 					qualAba,
