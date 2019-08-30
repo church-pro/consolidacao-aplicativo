@@ -8,6 +8,10 @@ import {
 	limparESubmeterProspectos,
 	recuperarSituacoes,
 	submeterSituacoes,
+	recuperarNotificacoes,
+	submeterNotificacoes,
+	recuperarAtualizacoes,
+	submeterAtualizacoes,
 } from '../helpers/api'
 import{
 	pegarDataEHoraAtual,
@@ -19,8 +23,10 @@ export const ADICIONAR_PROSPECTOS = 'ADICIONAR_PROSPECTOS'
 export const ALTERAR_PROSPECTO = 'ALTERAR_PROSPECTO'
 export const PEGAR_USUARIO = 'PEGAR_USUARIO'
 export const ALTERAR_USUARIO = 'ALTERAR_USUARIO'
-export const PEGAR_SITUACOES = 'PEGAR_SITUACOES'
-export const ADICIONAR_SITUACOES = 'ADICIONAR_SITUACOES'
+export const PEGAR_NOTIFICACOES = 'PEGAR_NOTIFICACOES'
+export const ALTERAR_NOTIFICACOES = 'ALTERAR_NOTIFICACOES'
+export const PEGAR_ATUALIZACOES = 'PEGAR_ATUALIZACOES'
+export const ALTERAR_ATUALIZACOES = 'ALTERAR_ATUALIZACOES'
 
 export function limparProspectosNoState(){ 
 	return {
@@ -63,17 +69,31 @@ export function alterarUsuario(usuario){
 	}
 }
 
-export function pegarSituacoes(situacoes){ 
+export function pegarNotificacoes(notificacoes){ 
 	return {
-		type: PEGAR_SITUACOES,
-		situacoes,
+		type: PEGAR_NOTIFICACOES,
+		notificacoes,
 	}
 }
 
-export function adicionarSituacoes(situacoes){ 
+export function alterarNotificacoes(notificacoes){ 
 	return {
-		type: ADICIONAR_SITUACOES,
-		situacoes,
+		type: ALTERAR_NOTIFICACOES,
+		notificacoes,
+	}
+}
+
+export function pegarAtualizacoes(atualizacoes){ 
+	return {
+		type: PEGAR_ATUALIZACOES,
+		atualizacoes,
+	}
+}
+
+export function alterarAtualizacoes(atualizacoes){ 
+	return {
+		type: ALTERAR_ATUALIZACOES,
+		atualizacoes,
 	}
 }
 
@@ -145,5 +165,37 @@ export const pegarSituacoesNoAsyncStorage = () => dispatch => {
 		.then(situacoesNaAsyncStorage => {
 			dispatch(pegarSituacoes(situacoesNaAsyncStorage.situacoes))
 			return situacoesNaAsyncStorage.situacoes 
+		})
+}
+
+export const pegarNotificacoesNoAsyncStorage = () => dispatch => {
+	return recuperarNotificacoes()
+		.then(retorno => {
+			dispatch(pegarNotificacoes(retorno.notificacoes))
+			return retorno.notificacoes 
+		})
+}
+
+export const alterarNotficacoesNoAsyncStorage = (notificacoes) => dispatch => {
+	return submeterNotificacoes(notificacoes)
+		.then(retorno => { 
+			dispatch(alterarNotificacoes(retorno))
+			return true
+		})
+}
+
+export const pegarNAtualizacoesNoAsyncStorage = () => dispatch => {
+	return recuperarAtualizacoes()
+		.then(retorno => {
+			dispatch(pegarAtualizacoes(retorno.atualizacoes))
+			return retorno.atualizacoes 
+		})
+}
+
+export const alterarAtualizacoesNoAsyncStorage = (atualizacoes) => dispatch => {
+	return submeterAtualizacoes(atualizacoes)
+		.then(retorno => { 
+			dispatch(alterarAtualizacoes(retorno))
+			return true
 		})
 }
