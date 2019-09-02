@@ -6,6 +6,7 @@ import {
 	Text,
 	ScrollView,
 	Image,
+	NetInfo,
 } from 'react-native';
 import { LinearGradient } from 'expo'
 import { white, gold, dark, lightdark, black, primary, gray, red } from '../helpers/colors'
@@ -25,7 +26,11 @@ import {
 } from '../helpers/constants'
 import {
 	sincronizar,
+	sincronizacaoRapida,
 } from '../helpers/helper'
+import {
+	sincronizacaoRapidaNaAPI,
+} from '../helpers/api'
 import consolidacao from '../assets/images/user.png'
 import seta from '../assets/images/seta.png'
 import {
@@ -49,8 +54,81 @@ class ProspectosScreen extends React.Component {
 	}
 
 	componentDidMount = () => {
+		const {
+			usuario,
+			alterarUsuarioNoAsyncStorage,
+		} = this.props
+		try {
+			NetInfo.isConnected
+				.fetch()
+				.then(isConnected => {
+					if (isConnected) {
+						if (usuario.email) {
+							sincronizacaoRapidaNaAPI({usuario,})
+								.then(retorno => {
+									if(retorno.ok){
+										if(retorno.resultado.no.notificacoes && retorno.resultado.no.notificacoes.length > 0){
+											retorno.resultado.no.notificacoes
+												.forEach(notificacaoParaValidar => {
+													let adicionar = true
+													usuario.notificacoes.forEach(item => {
+														if(item.notificacao._id === notificacaoParaValidar._id){
+															adicionar = false
+														}
+													})
+													if(adicionar){
+														const novoItem = {
+															visto: false,
+															notificacao: notificacaoParaValidar,
+														}
+														if(usuario.notificacoes){
+															usuario.notificacoes.push(novoItem)
+														}else{
+															usuario.notificacoes = [novoItem]
+														}
+													}
+												})
+										}
+										if(retorno.resultado.notificacoesParaTodos){
+											if(usuario.notificacoes){
+												retorno.resultado.notificacoesParaTodos
+													.forEach(notificacaoParaTodos => {
+														let adicionar = true
+														usuario.notificacoes.forEach(item => {
+															if(item.notificacao._id === notificacaoParaTodos._id){
+																adicionar = false
+															}
+														})
+														if(adicionar){
+															const novoItem = {
+																visto: false,
+																notificacao: notificacaoParaTodos,
+															}
+															if(usuario.notificacoes){
+																usuario.notificacoes.push(novoItem)
+															}else{
+																usuario.notificacoes = [novoItem]
+															}
+														}
+													})
+											}
+										}
+										alterarUsuarioNoAsyncStorage(usuario)
+									}
+								})
+								.catch(err => {
+									console.log('err: ', err)
+									return false
+								})
+						}
+					} else {
+						console.log('Internet', 'Verifique sua internet!')
+					}
+				})
+		} catch (err) {
+			console.log('err: ', err)
+		}
 		this.setState({ carregando: false })
-
 	}
 
 	static navigationOptions = () => {
@@ -189,64 +267,7 @@ class ProspectosScreen extends React.Component {
 								<Text style={{ color: primary, marginRight: 8 }}>
 									{pontos} XP
 								</Text>
-								<TouchableOpacity style={{ marginRight: 12 }} onPress={() => this.ajudadorDeModal()}>
-									<Icon name="bell" type="font-awesome" color={white} size={16} />
-								</TouchableOpacity>
-								<TouchableOpacity style={{
-									position: 'absolute',
-									right: 4,
-									top: -3,
-									backgroundColor: red,
-									height: 15,
-									width: 15,
-									borderRadius: 15,
-									zIndex: 5,
-									justifyContent: 'center'
-								}}
-									onPress={() => this.ajudadorDeModal()}
-								>
-									<Text style={{ color: white, textAlign: 'center', fontSize: 10 }}>14</Text>
-								</TouchableOpacity>
 							</View>
-							<Modal
-								isVisible={this.state.mostraModal}
-								onSwipeComplete={() => this.ajudadorDeModal()}
-								//swipeDirection={['up', 'down']}
-								style={{
-									justifyContent: 'flex-start',
-									margin: 0,
-								}}
-								backdropOpacity={0.8}
-							>
-								<View style={{ flex: 1, padding: 20, marginTop: 10 }} >
-									<TouchableOpacity
-										onPress={() => this.ajudadorDeModal()}
-										style={{ marginVertical: 6, alignItems: "flex-start" }}
-										hitSlop={{ top: 12, right: 12, bottom: 6, left: 10 }}
-									>
-										<Icon name="times" type="font-awesome" color={white} size={20} />
-									</TouchableOpacity>
-									<Text style={{ color: white, fontSize: 20, fontWeight: "bold" }}>CENTRAL DE NOTIFICAÇÕES</Text>
-
-									<View style={{ marginTop: 15, paddingVertical: 5 }}>
-										<TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: gray }}
-											onPress={() => this.irParaAtualizacoes()}
-										>
-											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</TouchableOpacity>
-										<TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: gray }}>
-											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</TouchableOpacity>
-										<TouchableOpacity style={{ borderBottomWidth: 1, borderBottomColor: gray }}>
-											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</TouchableOpacity>
-										<TouchableOpacity style={{ borderBottomWidth: 1 }}>
-											<Text style={{ color: white, paddingVertical: 10 }}>Várias NOTIFICAÇÕES</Text>
-										</TouchableOpacity>
-									</View>
-								</View>
-
-							</Modal>
 						</View>
 
 						<View style={[stylesProspecto.containerBadge]}>

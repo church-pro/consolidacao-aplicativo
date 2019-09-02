@@ -13,9 +13,10 @@ import ClubeScreen from '../screens/ClubeScreen';
 import PontuacaoScreen from '../screens/PontuacaoScreen';
 import ConquistasScreen from '../screens/ConquistasScreen';
 import PerfilScreen from '../screens/PerfilScreen';
-import { primary, black, dark, gold } from '../helpers/colors'
+import NotificacoesScreen from '../screens/NotificacoesScreen';
+import { primary, black, dark, gold, red, white, } from '../helpers/colors'
 import { Icon } from 'react-native-elements'
-import AtualizacoesScreen from '../screens/AtualizacoesScreen';
+import { View, Text, } from 'react-native'
 
 export const AutenticacaoStack = createStackNavigator(
 	{
@@ -44,7 +45,6 @@ const ProspectosStack = createStackNavigator(
 		Pontuacao: PontuacaoScreen,
 		Conquistas: ConquistasScreen,
 		Prospecto: ProspectoScreen,
-		Atualizacoes: AtualizacoesScreen,
 	},
 	{
 		initialRouteName: 'Prospectos',
@@ -90,6 +90,31 @@ const Tabs = createBottomTabNavigator(
 			screen: ClubeStack,
 			navigationOptions: {
 				tabBarIcon: ({ tintColor }) => (<Icon name='shield' type='font-awesome' color={tintColor} />),
+			},
+		},
+		Notificacoes: {
+			screen: NotificacoesScreen,
+			navigationOptions: {
+				tabBarIcon: ({ tintColor }) => (
+					<View>
+						<Icon name='bell' type='font-awesome' color={tintColor} />
+						<View style={{
+							position: 'absolute',
+							right: -2,
+							top: -3,
+							backgroundColor: red,
+							height: 15,
+							width: 15,
+							borderRadius: 15,
+							zIndex: 5,
+							justifyContent: 'center'
+						}}>
+						<Text style={{ color: white, textAlign: 'center', fontSize: 10 }}>
+							14
+						</Text>
+					</View>
+				</View>
+				),
 			},
 		},
 	},

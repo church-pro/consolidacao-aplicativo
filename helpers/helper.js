@@ -177,14 +177,15 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 	// TODO
 	let titulo = ''
 	let corpo = ''
-	let tempo =  (new Date()).getTime() + 30000
+	//let tempo =  (new Date()).getTime() + 30000
+	let tempo = ''
+	const dataParaNotificar = pegarDataEHoraAtual(1)[0]
+	const splitData = dataParaNotificar.split('/')
 	let dados = {}
 	if(criarNotificacaoMensagem){
 		titulo = 'titulo mensagem'	
 		corpo = 'corpo mensagem'	
-		const dataParaNotificar = pegarDataEHoraAtual(1)[0]
-		const splitData = dataParaNotificar.split('/')
-		//tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
+		tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
 		dados = {
 			titulo,
 			corpo,
@@ -196,9 +197,7 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 	if(criarNotificacaoLigar){
 		titulo = 'titulo ligar'	
 		corpo = 'corpo ligar'	
-		const dataParaNotificar = pegarDataEHoraAtual(2)[0]
-		const splitData = dataParaNotificar.split('/')
-		//tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
+		tempo = new Date(splitData[2], splitData[1], splitData[0], 19, 0, 0)
 		dados = {
 			titulo,
 			corpo,
@@ -210,9 +209,7 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 	if(criarNotificacaoVisita){
 		titulo = 'titulo visitar'	
 		corpo = 'corpo visitar'	
-		const dataParaNotificar = pegarDataEHoraAtual(3)[0]
-		const splitData = dataParaNotificar.split('/')
-		//tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
+		tempo = new Date(splitData[2], splitData[1], splitData[0], 12, 0, 0)
 		dados = {
 			titulo,
 			corpo,
@@ -775,7 +772,7 @@ export const sincronizacaoRapida = (usuario, sincronizacaoRapidaNaAPI) => {
 					if (usuario.email) {
 						sincronizacaoRapidaNaAPI({usuario,})
 							.then(retorno => {
-								return true
+								return retorno 
 							})
 							.catch(err => {
 								console.log('err: ', err)
@@ -783,11 +780,10 @@ export const sincronizacaoRapida = (usuario, sincronizacaoRapidaNaAPI) => {
 							})
 					}
 				} else {
-					funcao()
 					console.log('Internet', 'Verifique sua internet!')
 				}
 			})
 	} catch (err) {
-		Alert.alert('Error', err)
+		console.log('err: ', err)
 	}
 }

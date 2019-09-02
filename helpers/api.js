@@ -347,24 +347,3 @@ export function submeterNotificacoes(notificacoes) {
 			return notificacoes
 		})
 }
-
-export function recuperarAtualizacoes() {
-	return AsyncStorage.getItem(CHAVE_ATUALIZACOES)
-		.then(JSON.parse)
-		.then((dados) => {
-			if (dados === null) {
-				dados = { atualizacoes: {} }
-				AsyncStorage.setItem(CHAVE_ATUALIZACOES, JSON.stringify(dados))
-			}
-			return dados
-		})
-}
-
-export function submeterAtualizacoes(atualizacoes) {
-	return recuperarAtualizacoes()
-		.then(dados => {
-			dados.atualizacoes = atualizacoes
-			AsyncStorage.setItem(CHAVE_ATUALIZACOES, JSON.stringify(dados))
-			return atualizacoes
-		})
-}

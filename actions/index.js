@@ -7,9 +7,6 @@ import {
 	limparProspectos,
 	limparESubmeterProspectos,
 	recuperarSituacoes,
-	submeterSituacoes,
-	recuperarAtualizacoes,
-	submeterAtualizacoes,
 } from '../helpers/api'
 import{
 	pegarDataEHoraAtual,
@@ -21,8 +18,6 @@ export const ADICIONAR_PROSPECTOS = 'ADICIONAR_PROSPECTOS'
 export const ALTERAR_PROSPECTO = 'ALTERAR_PROSPECTO'
 export const PEGAR_USUARIO = 'PEGAR_USUARIO'
 export const ALTERAR_USUARIO = 'ALTERAR_USUARIO'
-export const PEGAR_ATUALIZACOES = 'PEGAR_ATUALIZACOES'
-export const ALTERAR_ATUALIZACOES = 'ALTERAR_ATUALIZACOES'
 
 export function limparProspectosNoState(){ 
 	return {
@@ -62,20 +57,6 @@ export function alterarUsuario(usuario){
 	return {
 		type: ALTERAR_USUARIO,
 		usuario,
-	}
-}
-
-export function pegarAtualizacoes(atualizacoes){ 
-	return {
-		type: PEGAR_ATUALIZACOES,
-		atualizacoes,
-	}
-}
-
-export function alterarAtualizacoes(atualizacoes){ 
-	return {
-		type: ALTERAR_ATUALIZACOES,
-		atualizacoes,
 	}
 }
 
@@ -147,21 +128,5 @@ export const pegarSituacoesNoAsyncStorage = () => dispatch => {
 		.then(situacoesNaAsyncStorage => {
 			dispatch(pegarSituacoes(situacoesNaAsyncStorage.situacoes))
 			return situacoesNaAsyncStorage.situacoes 
-		})
-}
-
-export const pegarAtualizacoesNoAsyncStorage = () => dispatch => {
-	return recuperarAtualizacoes()
-		.then(retorno => {
-			dispatch(pegarAtualizacoes(retorno.atualizacoes))
-			return retorno.atualizacoes 
-		})
-}
-
-export const alterarAtualizacoesNoAsyncStorage = (atualizacoes) => dispatch => {
-	return submeterAtualizacoes(atualizacoes)
-		.then(retorno => { 
-			dispatch(alterarAtualizacoes(retorno))
-			return true
 		})
 }

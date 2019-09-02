@@ -175,8 +175,6 @@ class ClubeScreen extends React.Component {
 		} = this.state
 		const { usuario } = this.props
 
-		console.log(clube)
-
 		return (
 			<View style={{ flex: 1, backgroundColor: dark }}>
 				<Header style={[stylesImportar.header, { backgroundColor: dark }]} iosBarStyle="light-content">
