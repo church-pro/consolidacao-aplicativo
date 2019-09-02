@@ -14,6 +14,7 @@ import PontuacaoScreen from '../screens/PontuacaoScreen';
 import ConquistasScreen from '../screens/ConquistasScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import NotificacoesScreen from '../screens/NotificacoesScreen';
+import TabBarIcon from '../componentis/TabBarIcon';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
 import { Icon } from 'react-native-elements'
 import { View, Text, } from 'react-native'
@@ -94,10 +95,12 @@ const Tabs = createBottomTabNavigator(
 		},
 		Notificacoes: {
 			screen: NotificacoesScreen,
-			navigationOptions: {
-				tabBarIcon: ({ tintColor }) => (
-					<View>
-						<Icon name='bell' type='font-awesome' color={tintColor} />
+			navigationOptions: (dados) => ({
+				tabBarIcon: (props) => {
+					console.log('dados: ', dados)
+					return (
+						<View>
+						<Icon name='bell' type='font-awesome' color={props.tintColor} />
 						<View style={{
 							position: 'absolute',
 							right: -2,
@@ -114,8 +117,8 @@ const Tabs = createBottomTabNavigator(
 						</Text>
 					</View>
 				</View>
-				),
-			},
+				)},
+			}),
 		},
 	},
 	{

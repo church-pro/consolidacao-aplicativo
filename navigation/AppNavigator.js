@@ -5,4 +5,4 @@ import { AutenticacaoStack, PrincipalStack, } from './MainTabNavigator';
 export default createSwitchNavigator({
 	Autenticacao: AutenticacaoStack,
 	Principal: PrincipalStack,
-});
+})
