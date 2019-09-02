@@ -35,10 +35,8 @@ export default class App extends React.Component {
 
 	render() {
 		Notifications.addListener(retorno => {
-			console.log('Notifications.addListener')
 			recuperarNotificacoes()
 				.then(notificacoes => {
-					console.log('recuperarNotificacoes: ', notificacoes)
 					let submeter = false
 					if(notificacoes.mensagem === retorno.notificationId){
 						delete notificacoes.mensagem
@@ -54,7 +52,6 @@ export default class App extends React.Component {
 					}
 					if(submeter){
 						submeterNotificacoes(notificacoes)
-							.then(retorno => console.log('submeterNotificacoes: ', retorno))
 					}
 				})
 		})

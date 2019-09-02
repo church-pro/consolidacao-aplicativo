@@ -106,10 +106,8 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 		situacao_id === SITUACAO_IMPORTAR ||
 		situacao_id === SITUACAO_CADASTRO
 	){
-		console.log('situacao_id === SITUACAO_IMPORTAR || SITUACAO_CADASTRO')
 		/* removendo */
 		if(prospectosDepois && prospectosDepois.filter(item => item.situacao_id === SITUACAO_IMPORTAR || item.situacao_id === SITUACAO_CADASTRO).length === 0 && notificacoes.mensagem){
-			console.log('limparNotificacaoMensagem')
 			limparNotificacaoMensagem = true
 		}
 		/* estou adicionando e nao tem pessoas nessa lista entao gero */
@@ -120,18 +118,15 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 				(prospectosAntes.filter(item => item.situacao_id === SITUACAO_IMPORTAR || item.situacao_id === SITUACAO_CADASTRO).length !== 0 && !notificacoes.mensagem && !remover)
 			)
 		){
-			console.log('criarNotificacaoVisita')
 			criarNotificacaoMensagem = true
 		}
 	}
 
 	if(situacao_id === SITUACAO_MENSAGEM){
-		console.log('situacao_id === SITUACAO_MENSAGEM')
 		/* mandei a mensagem  */	
 		/* acabou as pessoa na lista de mensagem */
 		/* entao limpar notificacao mensagem */
 		if(prospectosDepois.filter(item => item.situacao_id === SITUACAO_IMPORTAR || item.situacao_id === SITUACAO_CADASTRO).length === 0 && notificacoes.ligar){
-			console.log('limparNotificacaoMensagem')
 			limparNotificacaoMensagem = true
 		}
 		/* sem nao tem pessoas na lista para ligar entao gerar*/
@@ -139,18 +134,15 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 			prospectosDepois.filter(item => item.situacao_id === SITUACAO_MENSAGEM).length === 0 ||
 			(prospectosDepois.filter(item => item.situacao_id === SITUACAO_MENSAGEM).length !== 0 && !notificacoes.ligar && !remover)
 		){
-			console.log('criarNotificacaoLigar')
 			criarNotificacaoLigar = true
 		}
 	}
 
 	if(situacao_id === SITUACAO_LIGAR){
-		console.log('situacao_id === SITUACAO_LIGAR')
 		/* liguei */	
 		/* acabou as pessoa na lista de ligar */
 		/* entao limpar notificacao ligar */
 		if(prospectosDepois.filter(item => item.situacao_id === SITUACAO_MENSAGEM).length === 0){
-			console.log('limparNotificacaoLigar')
 			limparNotificacaoLigar = true
 		}
 		/* sem nao tem pessoas na lista para visita entao gerar*/
@@ -158,18 +150,15 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 			prospectosDepois.filter(item => item.situacao_id === SITUACAO_LIGAR).length === 0 ||
 			(prospectosDepois.filter(item => item.situacao_id === SITUACAO_LIGAR).length !== 0 && !notificacoes.visita && !remover)
 		){
-			console.log('criarNotificacaoVisita')
 			criarNotificacaoVisita = true
 		}
 	}
 
 	if(situacao_id === SITUACAO_VISITA){
-		console.log('situacao_id === SITUACAO_VISITA')
 		/* liguei visitei	
 		/* acabou as pessoa na lista de visitar */
 		/* entao limpar notificacao visitar */
 		if(prospectosDepois.filter(item => item.situacao_id === SITUACAO_VISITA).length === 0){
-			console.log('limparNotificacaoVisitar')
 			limparNotificacaoVisitar = true
 		}
 	}
@@ -230,7 +219,6 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 		cancelarUmaNotificacao(notificacoes.visitar)
 		delete notificacoes.visitar
 	}
-	console.log('notificacoes: ', notificacoes)
 	await submeterNotificacoes(notificacoes)
 }
 
