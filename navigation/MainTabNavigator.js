@@ -14,7 +14,7 @@ import PontuacaoScreen from '../screens/PontuacaoScreen';
 import ConquistasScreen from '../screens/ConquistasScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import NotificacoesScreen from '../screens/NotificacoesScreen';
-import TabBarIcon from '../componentis/TabBarIcon';
+import TabBarIcon from '../components/TabBarIcon';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
 import { Icon } from 'react-native-elements'
 import { View, Text, } from 'react-native'
@@ -136,6 +136,7 @@ const Tabs = createBottomTabNavigator(
 				backgroundColor: gold,
 			},
 		},
+		tabBarComponent: TabBarIcon,
 	}
 )
 
