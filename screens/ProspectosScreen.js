@@ -71,11 +71,13 @@ class ProspectosScreen extends React.Component {
 											retorno.resultado.no.notificacoes
 												.forEach(notificacaoParaValidar => {
 													let adicionar = true
-													usuario.notificacoes.forEach(item => {
-														if(item.notificacao._id === notificacaoParaValidar._id){
-															adicionar = false
-														}
-													})
+													if(usuario.notificacoes){
+														usuario.notificacoes.forEach(item => {
+															if(item.notificacao._id === notificacaoParaValidar._id){
+																adicionar = false
+															}
+														})
+													}
 													if(adicionar){
 														const novoItem = {
 															visto: false,
@@ -90,28 +92,28 @@ class ProspectosScreen extends React.Component {
 												})
 										}
 										if(retorno.resultado.notificacoesParaTodos){
-											if(usuario.notificacoes){
-												retorno.resultado.notificacoesParaTodos
-													.forEach(notificacaoParaTodos => {
-														let adicionar = true
+											retorno.resultado.notificacoesParaTodos
+												.forEach(notificacaoParaTodos => {
+													let adicionar = true
+													if(usuario.notificacoes){
 														usuario.notificacoes.forEach(item => {
 															if(item.notificacao._id === notificacaoParaTodos._id){
 																adicionar = false
 															}
 														})
-														if(adicionar){
-															const novoItem = {
-																visto: false,
-																notificacao: notificacaoParaTodos,
-															}
-															if(usuario.notificacoes){
-																usuario.notificacoes.push(novoItem)
-															}else{
-																usuario.notificacoes = [novoItem]
-															}
+													}
+													if(adicionar){
+														const novoItem = {
+															visto: false,
+															notificacao: notificacaoParaTodos,
 														}
-													})
-											}
+														if(usuario.notificacoes){
+															usuario.notificacoes.push(novoItem)
+														}else{
+															usuario.notificacoes = [novoItem]
+														}
+													}
+												})
 										}
 										alterarUsuarioNoAsyncStorage(usuario)
 									}

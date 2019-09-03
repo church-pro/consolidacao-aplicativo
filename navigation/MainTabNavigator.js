@@ -14,6 +14,7 @@ import PontuacaoScreen from '../screens/PontuacaoScreen';
 import ConquistasScreen from '../screens/ConquistasScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import NotificacoesScreen from '../screens/NotificacoesScreen';
+import AtualizacoesScreen from '../screens/AtualizacoesScreen';
 import TabBarIcon from '../components/TabBarIcon';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
 import { Icon } from 'react-native-elements'
@@ -73,69 +74,38 @@ const ClubeStack = createStackNavigator(
 	}
 )
 
+const NotificacoesStack = createStackNavigator(
+	{
+		Notificações: NotificacoesScreen,
+		Atualizacoes: AtualizacoesScreen,
+	},
+	{
+		initialRouteName: 'Notificações',
+		headerStyle: {
+			backgroundColor: black,
+			borderBottomColor: black
+		},
+		headerBackTitle: null
+	}
+)
+
 const Tabs = createBottomTabNavigator(
 	{
 		Pessoas: {
 			screen: ProspectosStack,
-			navigationOptions: {
-				tabBarIcon: ({ tintColor }) => (<Icon name='users' type='font-awesome' color={tintColor} />),
-			},
 		},
 		Perfil: {
 			screen: PerfilScreen,
-			navigationOptions: {
-				tabBarIcon: ({ tintColor }) => (<Icon name='user' type='font-awesome' color={tintColor} />),
-			},
 		},
 		Clubes: {
 			screen: ClubeStack,
-			navigationOptions: {
-				tabBarIcon: ({ tintColor }) => (<Icon name='shield' type='font-awesome' color={tintColor} />),
-			},
 		},
-		Notificacoes: {
-			screen: NotificacoesScreen,
-			navigationOptions: (dados) => ({
-				tabBarIcon: (props) => {
-					console.log('dados: ', dados)
-					return (
-						<View>
-						<Icon name='bell' type='font-awesome' color={props.tintColor} />
-						<View style={{
-							position: 'absolute',
-							right: -2,
-							top: -3,
-							backgroundColor: red,
-							height: 15,
-							width: 15,
-							borderRadius: 15,
-							zIndex: 5,
-							justifyContent: 'center'
-						}}>
-						<Text style={{ color: white, textAlign: 'center', fontSize: 10 }}>
-							14
-						</Text>
-					</View>
-				</View>
-				)},
-			}),
+		Notificações: {
+			screen: NotificacoesStack,
 		},
 	},
 	{
 		initialRouteName: 'Pessoas',
-		tabBarOptions: {
-			showIcon: true,
-			showLabel: true,
-			activeTintColor: primary,
-			inactiveTintColor: '#eee',
-			style: {
-				backgroundColor: dark,
-				pading: 10,
-			},
-			indicatorStyle: {
-				backgroundColor: gold,
-			},
-		},
 		tabBarComponent: TabBarIcon,
 	}
 )

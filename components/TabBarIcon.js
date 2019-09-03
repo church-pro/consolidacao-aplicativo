@@ -1,37 +1,115 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text, TouchableOpacity, } from 'react-native';
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
 
 class TabBarIcon extends React.Component {
+	
+	state = {
+		focus: ''
+	}
+
+	componentDidMout(){
+		this.setState({focus: 'Pessoas'})
+	}
+
+	selecionarTab(rota){
+		const {
+			navigation,
+		} = this.props
+		this.setState({focus: rota})
+		navigation.navigate(rota)
+	}
 
 	render() {
 		const {
 			navigation,
+			usuario,
 		} = this.props
 		const {
 			routes,
+			focus,
 		} = navigation.state
+
+		let notificacoes = 0
+		if(usuario.notificacoes && usuario.notificacoes.length > 0){
+			usuario.notificacoes.forEach(item => {
+				if(item.visto === false){
+					notificacoes++
+				}
+			})
+		}
 		return (
 			<View style={{
 				backgroundColor: dark,
 				flexDirection: 'row',
 				alignItems: 'center',
 				justifyContent: 'space-between',
+				padding: 5,
 			}}>
 				{
-					routes.map((rota, indice) => {
-						let nome = ''
-						return <Icon 
-							key={indice}
-							name='shield' 
-							type='font-awesome' 
-							color='#FFFFFF' 
-							style={{
-								marging: 10,
-							}}
-						/>
+					routes.map(rota => {
+						let icone = ''
+						const {
+							routeName,
+						} = rota
+						if(routeName === 'Pessoas'){
+							icone = 'users'
+						}
+						if(routeName === 'Perfil'){
+							icone = 'user'
+						}
+						if(routeName === 'Clubes'){
+							icone = 'shield'
+						}
+						if(routeName === 'Notificações'){
+							icone = 'bell'
+						}
+						return (
+							<TouchableOpacity 
+								key={routeName}
+								onPress={() => this.selecionarTab(routeName)} 
+								style={{
+									borderBottomWidth: focus === routeName ? 2 : 0,
+									borderBottomColor: focus === routeName ? primary : 'transparent',
+									marginRight: 0, flex: 1, padding: 10
+								}} >
+								<Icon 
+									name={icone}
+									type='font-awesome' 
+									color='#FFFFFF' 
+									style={{
+										marging: 8,
+									}}
+								/>
+								{
+									routeName === 'Notificações' &&
+										notificacoes > 0 &&
+										<View style={{
+											position: 'absolute',
+											backgroundColor: red,
+											height: 15,
+											width: 15,
+											borderRadius: 15,
+											zIndex: 5,
+											justifyContent: 'center'
+										}}>
+										<Text style={{ color: white, textAlign: 'center', fontSize: 10 }}>
+											{notificacoes}
+										</Text>
+									</View>
+								}
+								<Text style={{
+									color: focus === routeName ? primary : white,
+									fontSize: 8,
+									textAlign: 'center',
+									fontWeight: focus === routeName ? 'bold' : 'normal'
+								}}>
+								{rota.routeName}
+							</Text>
+						</TouchableOpacity>
+						)
 					})
 				}
 			</View>

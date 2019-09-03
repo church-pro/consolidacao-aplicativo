@@ -1,14 +1,42 @@
 import React from 'react';
-
 import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
-import { lightdark, white, dark, gray } from '../helpers/colors';
-import { Icon } from 'react-native-elements';
-import arrow from '../assets/images/arrow-back.png'
-import { stylesImportar } from '../components/Styles';
+import { primary, lightdark, white, dark, gray } from '../helpers/colors';
+import { connect } from 'react-redux'
+import {
+	alterarUsuarioNoAsyncStorage,
+} from '../actions'
 
 class NotificacoesScreen extends React.Component {
 
+	static navigationOptions = {
+		header: null,
+		gesturesEnabled: false,
+	}
+
+	navegarEAtualizar = async (id) => {
+		const {
+			navigation,
+			usuario,
+			alterarUsuarioNoAsyncStorage,
+		} = this.props
+
+		let itemParaUsar = null
+		usuario.notificacoes = usuario.notificacoes
+			.map(item => {
+				if(item._id === id){
+					item.visto = true
+					itemParaUsar = item
+				}
+				return item
+			})
+		await alterarUsuarioNoAsyncStorage(usuario)
+		navigation.navigate(itemParaUsar.notificacao.paraOndeNavegar)
+	}
+
     render() {
+		const {
+			usuario,
+		} = this.props
         return (
             <View style={{ flex: 1, backgroundColor: dark, padding: 20 }} >
 				<Text style={{ color: white, fontSize: 30, fontWeight: 'bold' }}>
@@ -17,22 +45,31 @@ class NotificacoesScreen extends React.Component {
 
                 <View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
 
-                    {/* REPETIÇÃO ENTRA AQUI */}
-                    <View
-                        style={{
-                            borderTopWidth: 1,
-                            borderTopColor: dark,
-                            padding: 12,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}>
-                            <Text style={{ color: white }}> Atualização </Text>
-                        </View>
-                    </View>
-                    {/* FIM DA REPETIÇÃO */}
+					{
+						usuario &&
+						usuario.notificacoes &&
+						usuario.notificacoes.map((item, indice) => 
+							<TouchableOpacity
+								key={indice}
+								onPress={() => this.navegarEAtualizar(item._id)}
+								style={{
+									borderTopWidth: 1,
+									borderTopColor: dark,
+									padding: 5,
+									backgroundColor: item.visto ? lightdark : primary,
+								}}>
+								<Text style={{ 
+									color: white,
+									fontSize: 24,
+								}}>
+								{item.notificacao.titulo}
+							</Text>
+							<Text style={{ color: white }}>
+								{item.notificacao.corpo}
+							</Text>
+						</TouchableOpacity>
+						)
+					}
 
                 </View>
 
@@ -41,4 +78,16 @@ class NotificacoesScreen extends React.Component {
     }
 }
 
-export default NotificacoesScreen
+const mapStateToProps = ({usuario}) => {
+	return {
+		usuario,
+	}
+}
+
+function mapDispatchToProps(dispatch) {
+	return {
+		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificacoesScreen)
