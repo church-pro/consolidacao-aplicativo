@@ -10,7 +10,7 @@ class TabBarIcon extends React.Component {
 		focus: ''
 	}
 
-	componentDidMout(){
+	componentDidMount(){
 		this.setState({focus: 'Pessoas'})
 	}
 
@@ -29,8 +29,10 @@ class TabBarIcon extends React.Component {
 		} = this.props
 		const {
 			routes,
-			focus,
 		} = navigation.state
+		const {
+			focus,
+		} = this.state
 
 		let notificacoes = 0
 		if(usuario.notificacoes && usuario.notificacoes.length > 0){
@@ -71,14 +73,14 @@ class TabBarIcon extends React.Component {
 								key={routeName}
 								onPress={() => this.selecionarTab(routeName)} 
 								style={{
-									borderBottomWidth: focus === routeName ? 2 : 0,
-									borderBottomColor: focus === routeName ? primary : 'transparent',
-									marginRight: 0, flex: 1, padding: 10
+									borderTopWidth: focus === routeName ? 2 : 0,
+									borderTopColor: focus === routeName ? primary : 'transparent',
+									marginRight: 0, flex: 1, padding: 6
 								}} >
 								<Icon 
 									name={icone}
 									type='font-awesome' 
-									color='#FFFFFF' 
+									color={focus === routeName ? primary : white}
 									style={{
 										marging: 8,
 									}}
