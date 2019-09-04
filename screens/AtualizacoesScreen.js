@@ -50,6 +50,12 @@ class AtualizacoesScreen extends React.Component {
 							'Lembrete de ações',
 						]
 					},
+					{
+						titulo: 'Correção de problema',
+						items: [
+							'Alterar senha corrigido',
+						]
+					},
 				]
 			},
 			{
