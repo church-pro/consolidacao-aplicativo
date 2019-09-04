@@ -18,7 +18,7 @@
       "backgroundColor": "#2D84C3"
     },
 	"notification": {
-		"icon": "./assets/images/icon.png",
+		"icon": "./assets/images/icon_notificacao.png",
 		"color": "#000000"
 	},
     "updates": {

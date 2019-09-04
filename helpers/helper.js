@@ -75,7 +75,7 @@ export function criarNotificacaoLocal(notificacao) {
 			priority: 'high',
 			sticky: false,
 			vibrate: true,
-			icon: './assets/images/icon.png',
+			icon: './assets/images/icon_notificacao.png',
 			color: '#000000',
 		}
 	}
