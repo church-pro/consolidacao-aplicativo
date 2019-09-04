@@ -240,6 +240,7 @@ class ClubesScreen extends React.Component {
 						this.setState({ carregando: true })
 						const retorno = removerClubeNaAPI(dados)
 						this.buscarMeusClubes()
+						Alert.alert('Removeido', 'Clube removido com sucesso!')
 						this.setState({ carregando: false })
 					} else {
 						this.setState({
@@ -271,6 +272,7 @@ class ClubesScreen extends React.Component {
 						this.setState({ carregando: true })
 						const retorno = alterarNomeDoClubeNaAPI(dados)
 						this.buscarMeusClubes()
+						Alert.alert('Sucesso', 'Nome do clube alterado com sucesso!')
 						this.setState({ mostrarCriar: false })
 					} else {
 						this.setState({

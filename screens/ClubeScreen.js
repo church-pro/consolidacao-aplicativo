@@ -139,6 +139,7 @@ class ClubeScreen extends React.Component {
 		this.setState({ carregando: true })
 		const retorno = await removerParticipanteDoClubeNaAPI(dados)
 		this.atualizarClube()
+		Alert.alert('Removido', 'Pessoa removida com sucesso!')
 	}
 
 	removerEBloquearParticipante = async (no_id) => {
@@ -152,6 +153,7 @@ class ClubeScreen extends React.Component {
 		this.setState({ carregando: true })
 		const retorno = await removerParticipanteEBloquearDoClubeNaAPI(dados)
 		this.atualizarClube()
+		Alert.alert('Bloquear', 'Pessoa removida e bloqueada com sucesso!')
 	}
 
 	removerPessoaDaListaNegra = async (no_id) => {
@@ -165,6 +167,7 @@ class ClubeScreen extends React.Component {
 		this.setState({ carregando: true })
 		const retorno = await removerPessoaDaListaNegraNaAPI(dados)
 		this.atualizarClube()
+		Alert.alert('Aviso', 'Pessoa removida da lista negra com sucesso!')
 	}
 
 	render() {

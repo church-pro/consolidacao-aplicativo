@@ -90,6 +90,7 @@ class TabBarIcon extends React.Component {
 										notificacoes > 0 &&
 										<View style={{
 											position: 'absolute',
+											left: -1,
 											backgroundColor: red,
 											height: 15,
 											width: 15,
