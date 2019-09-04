@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import rootReducer from './reducers'
-import { Constants } from 'expo'
+import { Permissions, Constants } from 'expo'
 import { gray, dark, black } from './helpers/colors'
 import { recuperarNotificacoes, submeterNotificacoes, } from './helpers/api'
 
@@ -32,6 +32,10 @@ export default class App extends React.Component {
 	state = {
 		isLoadingComplete: false,
 	};
+
+	async componentDidMount(){
+		await Permissions.askAsync(Permissions.NOTIFICATIONS)
+	}
 
 	render() {
 		Notifications.addListener(retorno => {
