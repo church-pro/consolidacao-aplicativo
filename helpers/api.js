@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-const versaoBanco = '0090'
+const versaoBanco = '0070'
 // banco de teste na versao 70
 const CHAVE_ADMINISTRACAO = 'churchProConsolidacao:administracao' + versaoBanco
 const CHAVE_PROSPECTOS = 'churchProConsolidacao:prospectos' + versaoBanco
@@ -9,8 +9,8 @@ const CHAVE_SITUACOES = 'churchProConsolidacao:situacoes' + versaoBanco
 const CHAVE_NOTIFICACOES = 'churchProConsolidacao:notificacoes' + versaoBanco
 const CHAVE_ATUALIZACOES = 'churchProConsolidacao:atualizacoes' + versaoBanco
 
-//const apiMaster = 'https://api.churchpro.com.br'
-const apiMaster = 'https://homologacao.churchpro.com.br'
+const apiMaster = 'https://api.churchpro.com.br'
+//const apiMaster = 'https://homologacao.churchpro.com.br'
 const headers = {
 	'Content-Type': 'application/json'
 }

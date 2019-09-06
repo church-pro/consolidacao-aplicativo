@@ -687,6 +687,7 @@ class PerfilScreen extends React.Component {
 										editarSenha: false,
 										mostrarEditar: false,
 									})} >
+									<Icon name="user" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: white, fontSize: 20 }}>
 										Editar Nome
 									</Text>
