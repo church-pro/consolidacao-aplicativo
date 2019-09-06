@@ -98,9 +98,6 @@ class TabBarIcon extends React.Component {
 											zIndex: 5,
 											justifyContent: 'center'
 										}}>
-										<Text style={{ color: white, textAlign: 'center', fontSize: 10 }}>
-											{notificacoes}
-										</Text>
 									</View>
 								}
 								<Text style={{

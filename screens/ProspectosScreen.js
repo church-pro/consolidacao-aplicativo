@@ -73,20 +73,17 @@ class ProspectosScreen extends React.Component {
 													let adicionar = true
 													if(usuario.notificacoes){
 														usuario.notificacoes.forEach(item => {
-															if(item.notificacao._id === notificacaoParaValidar._id){
+															if(item.notificacao._id === notificacaoParaValidar.notificacao._id){
 																adicionar = false
 															}
 														})
 													}
 													if(adicionar){
-														const novoItem = {
-															visto: false,
-															notificacao: notificacaoParaValidar,
-														}
+														console.log('adicionando notificcao direta')
 														if(usuario.notificacoes){
-															usuario.notificacoes.push(novoItem)
+															usuario.notificacoes.push(notificacaoParaValidar)
 														}else{
-															usuario.notificacoes = [novoItem]
+															usuario.notificacoes = [notificacaoParaValidar]
 														}
 													}
 												})
@@ -103,6 +100,7 @@ class ProspectosScreen extends React.Component {
 														})
 													}
 													if(adicionar){
+														console.log('adicionando notificcao para todos')
 														const novoItem = {
 															visto: false,
 															notificacao: notificacaoParaTodos,
