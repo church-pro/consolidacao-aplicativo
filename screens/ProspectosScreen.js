@@ -260,7 +260,6 @@ class ProspectosScreen extends React.Component {
 							justifyContent: 'space-between',
 						}}>
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<Icon name='user-circle' type='font-awesome' color={white} containerStyle={{ marginRight: 5 }} size={20} />
 								<Text style={{ color: white }}>
 									{usuario.nome}
 								</Text>

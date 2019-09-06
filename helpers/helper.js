@@ -164,17 +164,15 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 		}
 	}
 
-	// TODO
 	const titulo = 'Lembrete'	
 	let corpo = ''
 	let tempo =  (new Date()).getTime() + 5000
-	//let tempo = ''
 	const dataParaNotificar = pegarDataEHoraAtual(1)[0]
 	const splitData = dataParaNotificar.split('/')
 	let dados = {}
 	if(criarNotificacaoMensagem){
 		corpo = 'Alguém está aguardando sua mensagem!'	
-		//tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
+		tempo = new Date(splitData[2], splitData[1], splitData[0], 8, 0, 0)
 		dados = {
 			titulo,
 			corpo,
@@ -185,7 +183,7 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 	}
 	if(criarNotificacaoLigar){
 		corpo = 'Alguém está aguardando sua ligação!'	
-		//tempo = new Date(splitData[2], splitData[1], splitData[0], 19, 0, 0)
+		tempo = new Date(splitData[2], splitData[1], splitData[0], 19, 0, 0)
 		dados = {
 			titulo,
 			corpo,
@@ -196,7 +194,7 @@ export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, 
 	}
 	if(criarNotificacaoVisita){
 		corpo = 'Alguém está aguardando sua visita!'	
-		//tempo = new Date(splitData[2], splitData[1], splitData[0], 12, 0, 0)
+		tempo = new Date(splitData[2], splitData[1], splitData[0], 12, 0, 0)
 		dados = {
 			titulo,
 			corpo,

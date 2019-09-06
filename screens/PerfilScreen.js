@@ -534,9 +534,6 @@ class PerfilScreen extends React.Component {
 							</Text>
 						</View>
 						<View style={container}>
-							<View style={{ flex: 1, alignItems: "center" }}>
-								<Icon name='user-circle' type='font-awesome' color={white} containerStyle={{ marginRight: 5 }} size={80} />
-							</View>
 							<View style={[{
 								flexDirection: "column", alignItems: "flex-start", paddingVertical: 5,
 								justifyContent: 'space-between',
@@ -689,9 +686,7 @@ class PerfilScreen extends React.Component {
 										editarEmail: false,
 										editarSenha: false,
 										mostrarEditar: false,
-									})}
-								>
-									<Icon name="user" type="font-awesome" color={gray} size={16} containerStyle={{ marginRight: 5 }} />
+									})} >
 									<Text style={{ color: white, fontSize: 20 }}>
 										Editar Nome
 									</Text>
@@ -702,8 +697,7 @@ class PerfilScreen extends React.Component {
 										editarEmail: true,
 										editarSenha: false,
 										mostrarEditar: false,
-									})}
-								>
+									})} >
 									<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: white, fontSize: 20 }}>
 										Editar Email
@@ -715,8 +709,7 @@ class PerfilScreen extends React.Component {
 										editarEmail: false,
 										editarSenha: true,
 										mostrarEditar: false,
-									})}
-								>
+									})} >
 									<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
 									<Text style={{ color: white, fontSize: 20 }}>
 										Editar Senha
