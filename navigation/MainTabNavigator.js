@@ -15,6 +15,8 @@ import ConquistasScreen from '../screens/ConquistasScreen';
 import PerfilScreen from '../screens/PerfilScreen';
 import NotificacoesScreen from '../screens/NotificacoesScreen';
 import AtualizacoesScreen from '../screens/AtualizacoesScreen';
+import MissoesScreen from '../screens/MissoesScreen';
+import MissaoScreen from '../screens/MissaoScreen';
 import TabBarIcon from '../components/TabBarIcon';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
 import { Icon } from 'react-native-elements'
@@ -89,6 +91,21 @@ const NotificacoesStack = createStackNavigator(
 	}
 )
 
+const MissoesStack = createStackNavigator(
+	{
+		Missoes: MissoesScreen,
+		Missao: MissaoScreen,
+	},
+	{
+		initialRouteName: 'Missoes',
+		headerStyle: {
+			backgroundColor: black,
+			borderBottomColor: black
+		},
+		headerBackTitle: null
+	}
+)
+
 const Tabs = createBottomTabNavigator(
 	{
 		Pessoas: {
@@ -102,6 +119,9 @@ const Tabs = createBottomTabNavigator(
 		},
 		Notificações: {
 			screen: NotificacoesStack,
+		},
+		Missões: {
+			screen: MissoesStack,
 		},
 	},
 	{

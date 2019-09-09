@@ -34,11 +34,19 @@ class TabBarIcon extends React.Component {
 			focus,
 		} = this.state
 
-		let notificacoes = 0
+		let temNotificacoesNaoLidas = false
+		let temMissoesNaoLidas = false
 		if(usuario.notificacoes && usuario.notificacoes.length > 0){
 			usuario.notificacoes.forEach(item => {
 				if(item.visto === false){
-					notificacoes++
+					temNotificacoesNaoLidas = true
+				}
+			})
+		}
+		if(usuario.missoes && usuario.missoes.length > 0){
+			usuario.missoes.forEach(item => {
+				if(item.visto === false){
+					temMissoesNaoLidas = true
 				}
 			})
 		}
@@ -68,6 +76,9 @@ class TabBarIcon extends React.Component {
 						if(routeName === 'Notificações'){
 							icone = 'bell'
 						}
+						if(routeName === 'Missões'){
+							icone = 'trophy'
+						}
 						return (
 							<TouchableOpacity 
 								key={routeName}
@@ -86,8 +97,7 @@ class TabBarIcon extends React.Component {
 									}}
 								/>
 								{
-									routeName === 'Notificações' &&
-										notificacoes > 0 &&
+									routeName === 'Notificações' && temNotificacoesNaoLidas &&
 										<View style={{
 											position: 'absolute',
 											right: 1,
@@ -98,8 +108,23 @@ class TabBarIcon extends React.Component {
 											zIndex: 5,
 											justifyContent: 'center'
 										}}>
-										<Text style={{ color: white, textAlign: 'center', fontSize: 10 }}>
-											{notificacoes}
+										<Text>
+										</Text>
+									</View>
+								}
+								{
+									routeName === 'Missões' && temMissoesNaoLidas &&
+										<View style={{
+											position: 'absolute',
+											right: 1,
+											backgroundColor: red,
+											height: 15,
+											width: 15,
+											borderRadius: 15,
+											zIndex: 5,
+											justifyContent: 'center'
+										}}>
+										<Text>
 										</Text>
 									</View>
 								}

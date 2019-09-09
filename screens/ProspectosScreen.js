@@ -73,20 +73,16 @@ class ProspectosScreen extends React.Component {
 													let adicionar = true
 													if(usuario.notificacoes){
 														usuario.notificacoes.forEach(item => {
-															if(item.notificacao._id === notificacaoParaValidar._id){
+															if(item.notificacao._id === notificacaoParaValidar.notificacao._id){
 																adicionar = false
 															}
 														})
 													}
 													if(adicionar){
-														const novoItem = {
-															visto: false,
-															notificacao: notificacaoParaValidar,
-														}
 														if(usuario.notificacoes){
-															usuario.notificacoes.push(novoItem)
+															usuario.notificacoes.push(notificacaoParaValidar)
 														}else{
-															usuario.notificacoes = [novoItem]
+															usuario.notificacoes = [notificacaoParaValidar]
 														}
 													}
 												})
@@ -111,6 +107,53 @@ class ProspectosScreen extends React.Component {
 															usuario.notificacoes.push(novoItem)
 														}else{
 															usuario.notificacoes = [novoItem]
+														}
+													}
+												})
+										}
+										if(retorno.resultado.no.missoes && retorno.resultado.no.missoes.length > 0){
+											retorno.resultado.no.missoes
+												.forEach(missaoParaValidar => {
+													let adicionar = true
+													if(usuario.missoes){
+														usuario.missoes.forEach(item => {
+															if(item.missao._id === missaoParaValidar.missao._id){
+																adicionar = false
+															}
+														})
+													}
+													if(adicionar){
+														if(usuario.missoes){
+															usuario.missoes.push(missaoParaValidar)
+														}else{
+															usuario.missoes = [missaoParaValidar]
+														}
+													}
+												})
+										}
+										if(retorno.resultado.missoesParaTodos){
+											retorno.resultado.missoesParaTodos
+												.forEach(missaoParaTodos => {
+													let adicionar = true
+													if(usuario.missoes){
+														usuario.missoes.forEach(item => {
+															if(item.missoes._id === missaoParaTodos._id){
+																adicionar = false
+															}
+														})
+													}
+													if(adicionar){
+														const novoItem = {
+															visto: false,
+															mensagens: 0,
+															ligacoes: 0,
+															visitas: 0,
+															missao: missaoParaTodos,
+														}
+														if(usuario.missoes){
+															usuario.missoes.push(novoItem)
+														}else{
+															usuario.missoes = [novoItem]
 														}
 													}
 												})
