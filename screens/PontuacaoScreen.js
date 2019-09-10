@@ -75,6 +75,7 @@ class PontuacaoScreen extends React.Component {
 			navigation,
 		} = this.props
 		let qualTela = 'Prospectos'
+		let temConquista = false
 		let dados = {}
 		if (situacao_id === SITUACAO_MENSAGEM) {
 			if (usuario.mensagens === 5) {
@@ -84,6 +85,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 1
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 			if (usuario.mensagens === 35) {
 				qualTela = 'Conquistas'
@@ -92,6 +94,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 2
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 			if (usuario.mensagens === 100) {
 				qualTela = 'Conquistas'
@@ -100,6 +103,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 3
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 		}
 		if (situacao_id === SITUACAO_LIGAR) {
@@ -110,6 +114,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 1
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 			if (usuario.ligacoes === 35) {
 				qualTela = 'Conquistas'
@@ -118,6 +123,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 2
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 			if (usuario.ligacoes === 100) {
 				qualTela = 'Conquistas'
@@ -126,6 +132,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 3
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 		}
 		if (situacao_id === SITUACAO_VISITA) {
@@ -136,6 +143,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 1
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 			if (usuario.visitas === 35) {
 				qualTela = 'Conquistas'
@@ -144,6 +152,7 @@ class PontuacaoScreen extends React.Component {
 					nivel: 2
 				}
 				dados.conquista = conquista
+				temConquista = true
 			}
 			if (usuario.visitas === 100) {
 				qualTela = 'Conquistas'
@@ -152,6 +161,58 @@ class PontuacaoScreen extends React.Component {
 					nivel: 3
 				}
 				dados.conquista = conquista
+				temConquista = true
+			}
+		}
+		if(!temConquista){
+			if(usuario.missoes){
+				let missoesComAcao = []
+				const dataAtual = new Date()
+				usuario.missoes.forEach(item => {
+					let validacaoDeAcao = false
+					const {
+						data_inicial,
+						data_final,
+					} = item.missao
+					const splitDataInicial = data_inicial.split('/')
+					const splitDataFinal = data_final.split('/')
+					let dataInicialJS = new Date()
+					dataInicialJS.setDate(splitDataInicial[0])
+					dataInicialJS.setMonth(splitDataInicial[1] - 1)
+					dataInicialJS.setFullYear(splitDataInicial[2])
+					let dataFinalJS = new Date()
+					dataFinalJS.setDate(splitDataFinal[0])
+					dataFinalJS.setMonth(splitDataFinal[1] - 1)
+					dataFinalJS.setFullYear(splitDataFinal[2])
+
+					/* data atual no periodo da missao */
+					if(dataAtual.getTime() >= dataInicialJS.getTime() &&
+						dataAtual.getTime() <= dataFinalJS.getTime()){
+						if (situacao_id === SITUACAO_MENSAGEM) {
+							if(item.missao.mensagens > 0){
+								validacaoDeAcao = true
+							}
+						}
+						if (situacao_id === SITUACAO_LIGAR) {
+							if(item.missao.ligacoes > 0){
+								validacaoDeAcao = true
+							}
+						}
+						if (situacao_id === SITUACAO_VISITA) {
+							if(item.missao.visitas > 0){
+								validacaoDeAcao = true
+							}
+						}
+					}
+					if(validacaoDeAcao){
+						missoesComAcao.push(item)
+					}
+				})
+				if(missoesComAcao.length > 0){
+					dados.missoes = missoesComAcao
+					dados.situacao_id = situacao_id	
+					qualTela = 'MissoesContagem'
+				}
 			}
 		}
 		dados.qualAba = qualAba

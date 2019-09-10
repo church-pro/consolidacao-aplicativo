@@ -11,14 +11,6 @@ import {
 	ScrollView,
 	Image
 } from 'react-native';
-import {
-	clubesNaAPI,
-	buscarClubesNaAPI,
-	participarDeClubeNaAPI,
-	criarClubeNaAPI,
-	removerClubeNaAPI,
-	alterarNomeDoClubeNaAPI,
-} from '../helpers/api'
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements';
 import { stylesMarcar } from '../components/Styles';
@@ -36,9 +28,7 @@ class MissoesScreen extends React.Component {
 
 	state = {
 		missoes: [],
-		mostrarBuscar: false,
-		mostrarCriar: false,
-		carregando: false,
+		carregando: true,
 	}
 
 	componentDidMount() {
@@ -46,7 +36,10 @@ class MissoesScreen extends React.Component {
 			usuario,
 		} = this.props
 		if(usuario.missoes){
-			this.setState({missoes: usuario.missoes})
+			this.setState({
+				missoes: usuario.missoes,
+				carregando: false,
+			})
 		}
 	}
 

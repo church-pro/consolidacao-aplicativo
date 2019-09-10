@@ -22,12 +22,6 @@ import {
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
-import {
-	atualizarClubeNaAPI,
-	removerParticipanteDoClubeNaAPI,
-	removerParticipanteEBloquearDoClubeNaAPI,
-	removerPessoaDaListaNegraNaAPI,
-} from '../helpers/api'
 
 class MissaoScreen extends React.Component {
 

@@ -91,7 +91,7 @@ export const setarNotificacaoLocal = async (notificacao) => {
 }
 
 export const cancelarUmaNotificacao = async (notificacao_id) => {
-	return await Notifications.dismissNoficationAsync(notificacao_id)
+	return await Notifications.dismissNotificationAsync(notificacao_id)
 }
 
 export const gerarNotificacaoPorSituacao = async (situacao_id, prospectosAntes, prospectosDepois, remover = false) => {
