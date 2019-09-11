@@ -241,6 +241,17 @@ class ClubeScreen extends React.Component {
 										if (no.visitas) {
 											pontos += no.visitas * VALOR_VISITA
 										}
+										if(no.missoes){
+											no.missoes.forEach(item => {
+												if(
+													item.mensagens === item.missao.mensagens &&
+													item.ligacoes === item.missao.ligacoes &&
+													item.visitas === item.missao.visitas
+												){
+													pontos += item.missao.pontos
+												}
+											})
+										}
 										no.pontos = pontos
 										return no
 									})

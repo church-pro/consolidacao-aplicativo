@@ -4,6 +4,14 @@ import { black, white, lightdark, dark, gray, primary, gold, silver, bronze, yel
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements';
 import CPButton from '../components/CPButton';
+import {
+	SITUACAO_MENSAGEM,
+	SITUACAO_LIGAR,
+	SITUACAO_VISITA,
+} from '../helpers/constants'
+import {
+	verificarSeTemProgressoNaMissao,
+} from '../helpers/helper'
 
 class ConquistasScreen extends React.Component {
 
@@ -14,6 +22,25 @@ class ConquistasScreen extends React.Component {
             gesturesEnabled: false,
         }
     }
+
+	ajudadorDeSubmissao(){
+		const { usuario, navigation, qualAba, tipo, } = this.props
+		let qualTela = 'Prospectos'
+		let dados = {}
+		dados.qualAba = qualAba
+		let situacao_id = null
+		if(tipo === 1){
+			situacao_id = SITUACAO_MENSAGEM
+		}
+		if(tipo === 2){
+			situacao_id = SITUACAO_LIGAR
+		}
+		if(tipo === 3){
+			situacao_id = SITUACAO_VISITA
+		}
+		dados, qualTela = verificarSeTemProgressoNaMissao(usuario, dados, qualTela, situacao_id)
+		navigation.navigate(qualTela, dados)
+	}
 
     render() {
         const { usuario, navigation, qualAba, tipo, nivel } = this.props
@@ -140,10 +167,9 @@ class ConquistasScreen extends React.Component {
                     </View>
                 }
 
-
                 <CPButton
-                    title="Obrigado"
-                    OnPress={() => { navigation.navigate('Prospectos', { qualAba }) }}
+                    title="Continuar"
+                    OnPress={() => this.ajudadorDeSubmissao()}
                 />
 
             </View>

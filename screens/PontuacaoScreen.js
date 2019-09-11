@@ -15,6 +15,9 @@ import {
 	VALOR_LIGAR,
 	VALOR_MENSAGEM,
 } from '../helpers/constants'
+import {
+	verificarSeTemProgressoNaMissao,
+} from '../helpers/helper'
 
 class PontuacaoScreen extends React.Component {
 
@@ -165,58 +168,7 @@ class PontuacaoScreen extends React.Component {
 			}
 		}
 		if(!temConquista){
-			if(usuario.missoes){
-				let missoesComAcao = []
-				const dataAtual = new Date()
-				usuario.missoes.forEach(item => {
-					let validacaoDeAcao = false
-					const {
-						data_inicial,
-						data_final,
-					} = item.missao
-					const splitDataInicial = data_inicial.split('/')
-					const splitDataFinal = data_final.split('/')
-					let dataInicialJS = new Date()
-					dataInicialJS.setDate(splitDataInicial[0])
-					dataInicialJS.setMonth(splitDataInicial[1] - 1)
-					dataInicialJS.setFullYear(splitDataInicial[2])
-					let dataFinalJS = new Date()
-					dataFinalJS.setDate(splitDataFinal[0])
-					dataFinalJS.setMonth(splitDataFinal[1] - 1)
-					dataFinalJS.setFullYear(splitDataFinal[2])
-
-					/* data atual no periodo da missao */
-					if(dataAtual.getTime() >= dataInicialJS.getTime() &&
-						dataAtual.getTime() <= dataFinalJS.getTime()){
-						if (situacao_id === SITUACAO_MENSAGEM) {
-							if(item.missao.mensagens > 0 &&
-								item.mensagens < item.missao.mensagens){
-								validacaoDeAcao = true
-							}
-						}
-						if (situacao_id === SITUACAO_LIGAR) {
-							if(item.missao.ligacoes > 0 &&
-								item.ligacoes < item.missao.ligacoes){
-								validacaoDeAcao = true
-							}
-						}
-						if (situacao_id === SITUACAO_VISITA) {
-							if(item.missao.visitas > 0 &&
-								item.visitas < item.missao.visitas){
-								validacaoDeAcao = true
-							}
-						}
-					}
-					if(validacaoDeAcao){
-						missoesComAcao.push(item)
-					}
-				})
-				if(missoesComAcao.length > 0){
-					dados.missoes = missoesComAcao
-					dados.situacao_id = situacao_id	
-					qualTela = 'MissoesContagem'
-				}
-			}
+			dados, qualTela = verificarSeTemProgressoNaMissao(usuario, dados, qualTela, situacao_id)
 		}
 		dados.qualAba = qualAba
 		navigation.navigate(qualTela, dados)

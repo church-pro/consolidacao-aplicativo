@@ -158,7 +158,6 @@ class ProspectosScreen extends React.Component {
 													}
 												})
 										}
-										delete usuario.missoes
 										alterarUsuarioNoAsyncStorage(usuario)
 									}
 								})
@@ -242,6 +241,17 @@ class ProspectosScreen extends React.Component {
 		}
 		if (usuario.visitas) {
 			pontos += usuario.visitas * VALOR_VISITA
+		}
+		if(usuario.missoes){
+			usuario.missoes.forEach(item => {
+				if(
+					item.mensagens === item.missao.mensagens &&
+					item.ligacoes === item.missao.ligacoes &&
+					item.visitas === item.missao.visitas
+				){
+					pontos += item.missao.pontos
+				}
+			})
 		}
 
 		return (
