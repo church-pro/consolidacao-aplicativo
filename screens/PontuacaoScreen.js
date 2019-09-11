@@ -189,17 +189,20 @@ class PontuacaoScreen extends React.Component {
 					if(dataAtual.getTime() >= dataInicialJS.getTime() &&
 						dataAtual.getTime() <= dataFinalJS.getTime()){
 						if (situacao_id === SITUACAO_MENSAGEM) {
-							if(item.missao.mensagens > 0){
+							if(item.missao.mensagens > 0 &&
+								item.mensagens < item.missao.mensagens){
 								validacaoDeAcao = true
 							}
 						}
 						if (situacao_id === SITUACAO_LIGAR) {
-							if(item.missao.ligacoes > 0){
+							if(item.missao.ligacoes > 0 &&
+								item.ligacoes < item.missao.ligacoes){
 								validacaoDeAcao = true
 							}
 						}
 						if (situacao_id === SITUACAO_VISITA) {
-							if(item.missao.visitas > 0){
+							if(item.missao.visitas > 0 &&
+								item.visitas < item.missao.visitas){
 								validacaoDeAcao = true
 							}
 						}
@@ -260,8 +263,7 @@ class PontuacaoScreen extends React.Component {
 						shadowOffset: { width: 5, height: 5, },
 						shadowColor: 'rgba(0,0,0,0.3)',
 						shadowOpacity: 1.5,
-					}}
-				>
+					}} >
 					<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
 						Continuar
 					</Text>

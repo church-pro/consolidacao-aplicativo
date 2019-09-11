@@ -17,6 +17,7 @@ import NotificacoesScreen from '../screens/NotificacoesScreen';
 import AtualizacoesScreen from '../screens/AtualizacoesScreen';
 import MissoesScreen from '../screens/MissoesScreen';
 import MissoesContagemScreen from '../screens/MissoesContagemScreen';
+import MissoesConcluidasScreen from '../screens/MissoesConcluidasScreen';
 import MissaoScreen from '../screens/MissaoScreen';
 import TabBarIcon from '../components/TabBarIcon';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
@@ -50,6 +51,7 @@ const ProspectosStack = createStackNavigator(
 		Pontuacao: PontuacaoScreen,
 		Conquistas: ConquistasScreen,
 		MissoesContagem: MissoesContagemScreen,
+		MissoesConcluidas: MissoesConcluidasScreen,
 		Prospecto: ProspectoScreen,
 	},
 	{

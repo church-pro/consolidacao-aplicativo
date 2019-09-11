@@ -137,7 +137,7 @@ class MarcarDataEHoraScreen extends React.Component {
                         !carregando &&
                         <View>
                             <View style={stylesMarcar.containerInput}>
-                                <Text style={stylesMarcar.labelMarcar}>{DATA}</Text>
+                                <Text style={stylesMarcar.labelMarcar}>{DATA} (*)</Text>
                                 <View style={stylesMarcar.inputContainerStyle}>
                                     <DatePicker
                                         style={{ flex: 1, }}
@@ -160,7 +160,7 @@ class MarcarDataEHoraScreen extends React.Component {
                                 </View>
                             </View>
                             <View style={[stylesMarcar.containerInput, { marginVertical: 10 }]}>
-                                <Text style={stylesMarcar.labelMarcar}>{HORA}</Text>
+                                <Text style={stylesMarcar.labelMarcar}>{HORA} (*)</Text>
                                 <View style={stylesMarcar.inputContainerStyle}>
                                     <DatePicker
                                         style={{ flex: 1 }}

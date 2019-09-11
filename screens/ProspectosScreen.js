@@ -137,7 +137,7 @@ class ProspectosScreen extends React.Component {
 													let adicionar = true
 													if(usuario.missoes){
 														usuario.missoes.forEach(item => {
-															if(item.missoes._id === missaoParaTodos._id){
+															if(item.missao._id === missaoParaTodos._id){
 																adicionar = false
 															}
 														})
@@ -158,6 +158,7 @@ class ProspectosScreen extends React.Component {
 													}
 												})
 										}
+										delete usuario.missoes
 										alterarUsuarioNoAsyncStorage(usuario)
 									}
 								})

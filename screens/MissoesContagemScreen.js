@@ -11,7 +11,6 @@ import {
 	ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux'
-import { Icon } from 'react-native-elements';
 import { ProgressBar, Colors } from 'react-native-paper'
 import {
 	SITUACAO_LIGAR,
@@ -21,6 +20,7 @@ import {
 import {
 	alterarUsuarioNoAsyncStorage,
 } from '../actions'
+import { Icon, } from 'react-native-elements'
 
 class MissoesContagemScreen extends React.Component {
 
@@ -43,6 +43,7 @@ class MissoesContagemScreen extends React.Component {
 		let {
 			missoes,
 			usuario,
+			alterarUsuarioNoAsyncStorage,
 		} = this.props
 
 		missoes = missoes.map(item => {
@@ -75,6 +76,32 @@ class MissoesContagemScreen extends React.Component {
 		})
 	}
 
+	ajudadorDeSubmissao(){
+		this.setState({carregando: true})
+		const {
+			missoes,
+		} = this.state
+	
+		let paraOndeNavegar = 'Prospectos'
+		let missoesConcluidas = []
+		let dados = {}
+		missoes.forEach(item => {
+			if(
+				item.mensagens === item.missao.mensagens &&
+				item.ligacoes === item.missao.ligacoes &&
+				item.visitas === item.missao.visitas
+			){
+				missoesConcluidas.push(item)
+			}
+		})
+		if(missoesConcluidas.length > 0){
+			paraOndeNavegar = 'MissoesConcluidas'
+			dados.missoes = missoesConcluidas
+		}
+		this.setState({carregando: false})
+		this.props.navigation.navigate(paraOndeNavegar, dados)
+	}
+
 	render() {
 		const {
 			missoes,
@@ -85,92 +112,104 @@ class MissoesContagemScreen extends React.Component {
 		} = this.props
 
 		return (
-			<View style={{ flex: 1, backgroundColor: dark }}>
+			<View style={{ flex: 1, backgroundColor: lightdark, alignItems: 'center', padding: 20 }}>
+				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+					<Text style={{ color: white, fontWeight: 'bold', textAlign: 'center', fontSize: 22, marginVertical: 16 }}>
+						Progresso nas Missões
+					</Text>
 
-				{
-					carregando &&
-					<Loading title={'Carregando ...'} />
-				}
-				{
-					!carregando &&
-						<View style={{ paddingTop: 20, paddingHorizontal: 20, flex: 1 }}>
-							<View
-								style={{
-									flexDirection: 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-								}}>
-								<Text style={{ alignSelf: 'center', color: white, fontSize: 30, fontWeight: 'bold' }}>
-									Missões
-								</Text>
-							</View>
-							<ScrollView>
-								<View style={{ backgroundColor: lightdark, borderRadius: 8, marginVertical: 5 }}>
-									{
-										missoes.map(item => {
-											let icone = ''
-											let valor = 0
-											let valorFinal = 0
-											if(situacao_id === SITUACAO_MENSAGEM){
-												icone = 'envelope'
-												valor = item.mensagens
-												valorFinal = item.missao.mensagens
-											}
-											if(situacao_id === SITUACAO_LIGAR){
-												icone = 'phone'
-												valor = item.ligacoes
-												valorFinal = item.missao.ligacoes
-											}
-											if(situacao_id === SITUACAO_VISITA){
-												icone = 'home'
-												valor = item.visitas
-												valorFinal = item.missao.visitas
-											}
+					{
+						carregando &&
+							<Loading title='Carregando...' />
+					}
 
-											const valorDaBarra =  valor / valorFinal
-
-											const retorno =	
-												<View 
-													key={item.missao._id}
-													style={{
-														borderTopWidth: 1,
-														borderTopColor: dark,
-														padding: 12,
-														alignItems: 'center',
-														justifyContent: 'space-between',
-														backgroundColor: dark,
-														borderColor: gray,
-														borderRadius: 6,
-
-													}}>
-													<Text style={{ color: white }}>{item.missao.nome}</Text>
-													<Text style={{ color: white, fontSize: 8, }}>{item.missao.data_inicial} até {item.missao.data_final}</Text>
-													<View style={{ flexDirection: 'row', }}>
-														<Icon type="font-awesome" name={icone} size={30} color={white} />
-														<View style={{ flex: 1, padding: 10, }}>
-															<ProgressBar progress={valorDaBarra} color={primary} style={{ paddingVertical: 0 }} />
-														</View>
-													</View>
-													<View>
-														<Text
-															style={{
-																color: white,
-																alignItems: 'center',
-															}}>
-															{valor}/{valorFinal}
-														</Text>
-													</View>
-
-												</View>
-
-												return retorno
-										})
+					{
+						!carregando &&
+							<View style={{
+								alignItems: 'center',
+								flexDirection: 'column',
+								flex: 1,
+							}}>
+							{
+								missoes.map(item => {
+									let icone = ''
+									let valor = 0
+									let valorFinal = 0
+									if(situacao_id === SITUACAO_MENSAGEM){
+										icone = 'envelope'
+										valor = item.mensagens
+										valorFinal = item.missao.mensagens
 									}
-								</View>
+									if(situacao_id === SITUACAO_LIGAR){
+										icone = 'phone'
+										valor = item.ligacoes
+										valorFinal = item.missao.ligacoes
+									}
+									if(situacao_id === SITUACAO_VISITA){
+										icone = 'home'
+										valor = item.visitas
+										valorFinal = item.missao.visitas
+									}
 
-							</ScrollView>
+									const valorDaBarra =  valor / valorFinal
+
+									const container = {
+										padding: 10,
+										borderWidth: 1,
+										borderColor: gray,
+										borderRadius: 6,
+										marginTop: 10,
+										height: 100,
+										width: 300,
+									}
+
+									const retorno =	
+										<View 
+											key={item.missao._id}
+											style={container}>
+											<Text style={{ color: white, alignSelf: 'center' }}>{item.missao.nome}</Text>
+											<Text style={{ color: white, alignSelf: 'center', fontSize: 8, }}>{item.missao.data_inicial} até {item.missao.data_final}</Text>
+											<View style={{ flexDirection: 'row', }}>
+												<Icon type="font-awesome" name={icone} size={30} color={white} />
+												<View style={{ flex: 1, padding: 10, }}>
+													<ProgressBar progress={valorDaBarra} color={primary} style={{ paddingVertical: 0 }} />
+												</View>
+											</View>
+											<View>
+												<Text
+													style={{
+														color: white,
+														alignSelf: 'center',
+													}}>
+													{valor}/{valorFinal}
+												</Text>
+											</View>
+										</View>
+
+										return retorno
+								})
+							}
 						</View>
-				}
+					}
+
+				</View>
+
+				<TouchableOpacity
+					onPress={() => this.ajudadorDeSubmissao()}
+					style={{
+						width: '100%',
+						backgroundColor: primary,
+						height: 45,
+						borderRadius: 6,
+						justifyContent: 'center',
+						shadowOffset: { width: 5, height: 5, },
+						shadowColor: 'rgba(0,0,0,0.3)',
+						shadowOpacity: 1.5,
+					}} >
+					<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+						Continuar
+					</Text>
+				</TouchableOpacity>
 			</View>
 		)
 	}
