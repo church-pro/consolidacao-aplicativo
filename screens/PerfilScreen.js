@@ -366,6 +366,8 @@ class PerfilScreen extends React.Component {
 		if (usuario.visitas) {
 			pontos += usuario.visitas * VALOR_VISITA
 		}
+
+		let missoesConcluidas = []
 		if(usuario.missoes){
 			usuario.missoes.forEach(item => {
 				if(
@@ -374,6 +376,7 @@ class PerfilScreen extends React.Component {
 					item.visitas === item.missao.visitas
 				){
 					pontos += item.missao.pontos
+					missoesConcluidas.push(item)
 				}
 			})
 		}
@@ -462,19 +465,19 @@ class PerfilScreen extends React.Component {
 
 		let cor = {
 			mensagens: !usuario.mensagens || usuario.mensagens < 5 ? darkGray :
-				usuario.mensagens >= 5 && usuario.mensagens <= 34 ? bronze :
-					usuario.mensagens >= 35 && usuario.mensagens <= 99 ? silver :
-						usuario.mensagens >= 100 ? gold : gold
+			usuario.mensagens >= 5 && usuario.mensagens <= 34 ? bronze :
+			usuario.mensagens >= 35 && usuario.mensagens <= 99 ? silver :
+			usuario.mensagens >= 100 ? gold : gold
 			,
 			ligacoes: !usuario.ligacoes || usuario.ligacoes < 5 ? darkGray :
-				usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? bronze :
-					usuario.ligacoes >= 35 && usuario.ligacoes <= 99 ? silver :
-						usuario.ligacoes >= 100 ? gold : gold
+			usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? bronze :
+			usuario.ligacoes >= 35 && usuario.ligacoes <= 99 ? silver :
+			usuario.ligacoes >= 100 ? gold : gold
 			,
 			visitas: !usuario.visitas || usuario.visitas < 5 ? darkGray :
-				usuario.visitas >= 5 && usuario.visitas <= 34 ? bronze :
-					usuario.visitas >= 35 && usuario.visitas <= 99 ? silver :
-						usuario.visitas >= 100 ? gold : gold
+			usuario.visitas >= 5 && usuario.visitas <= 34 ? bronze :
+			usuario.visitas >= 35 && usuario.visitas <= 99 ? silver :
+			usuario.visitas >= 100 ? gold : gold
 
 		}
 
@@ -504,52 +507,52 @@ class PerfilScreen extends React.Component {
 								textAlign: 'center',
 								fontWeight: perfil === true ? 'bold' : 'normal'
 							}}>Dados</Text>
-						</TouchableOpacity>
+					</TouchableOpacity>
 
-						<TouchableOpacity
+					<TouchableOpacity
+						style={{
+							borderBottomWidth: config ? 2 : 0,
+							borderBottomColor: config ? primary : 'transparent',
+							marginRight: 0, flex: 1, padding: 5
+						}}
+						activeOpacity={1}
+						onPress={() => {
+							this.setState({
+								perfil: false,
+								config: true,
+							})
+						}} >
+						<Text
 							style={{
-								borderBottomWidth: config ? 2 : 0,
-								borderBottomColor: config ? primary : 'transparent',
-								marginRight: 0, flex: 1, padding: 5
-							}}
-							activeOpacity={1}
-							onPress={() => {
-								this.setState({
-									perfil: false,
-									config: true,
-								})
+								color: config === true ? primary : white,
+								fontSize: 13,
+								textAlign: 'center',
+								fontWeight: config === true ? 'bold' : 'normal'
 							}} >
-							<Text
-								style={{
-									color: config === true ? primary : white,
-									fontSize: 13,
-									textAlign: 'center',
-									fontWeight: config === true ? 'bold' : 'normal'
-								}} >
-								Configurações
-								</Text>
-						</TouchableOpacity>
-					</View>
+							Configurações
+						</Text>
+					</TouchableOpacity>
+				</View>
 				}
 				{
 					perfil &&
-					<ScrollView style={{ paddingHorizontal: 20 }}>
-						<View>
-							<Text style={{ color: white, fontSize: 20, fontWeight: 'bold', marginVertical: 8 }}>
-								{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
-							</Text>
-						</View>
-						<View>
-							<Text style={{ color: white }}>
-								Última Atualização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
-							</Text>
-						</View>
-						<View style={container}>
-							<View style={[{
-								flexDirection: "column", alignItems: "flex-start", paddingVertical: 5,
-								justifyContent: 'space-between',
-								flexWrap: 'wrap',
-							}]}
+						<ScrollView style={{ paddingHorizontal: 20 }}>
+							<View>
+								<Text style={{ color: white, fontSize: 20, fontWeight: 'bold', marginVertical: 8 }}>
+									{estouVendoMeuPerfil ? 'Meu Progresso' : 'Progresso do participante'}
+								</Text>
+							</View>
+							<View>
+								<Text style={{ color: white }}>
+									Última Atualização: {usuario.ultima_sincronizacao_data} - {usuario.ultima_sincronizacao_hora}
+								</Text>
+							</View>
+							<View style={container}>
+								<View style={[{
+									flexDirection: "column", alignItems: "flex-start", paddingVertical: 5,
+									justifyContent: 'space-between',
+									flexWrap: 'wrap',
+								}]}
 							>
 								{
 									dados.map(item => {
@@ -571,10 +574,10 @@ class PerfilScreen extends React.Component {
 								}
 								<Text style={{ color: white, fontWeight: "bold" }}>
 									Pontos
-							</Text>
+								</Text>
 								<Text numberOfLines={1} style={{ color: primary }}>
 									{pontos} XP
-							</Text>
+								</Text>
 							</View>
 						</View>
 						<View style={container}>
@@ -590,74 +593,101 @@ class PerfilScreen extends React.Component {
 												backgroundColor: cor.mensagens, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
 												borderWidth: 2, borderColor: '#fff'
 											}}>
-												<Icon type="font-awesome" name="envelope" size={30} color={white} />
-												<View style={{ flexDirection: "row" }}>
-													<Icon name="star" type="font-awesome" color={usuario.mensagens >= 5 ? yellow : gray} size={12} />
-													<Icon name="star" type="font-awesome" color={usuario.mensagens >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
-													<Icon name="star" type="font-awesome" color={usuario.mensagens >= 100 ? yellow : gray} size={12} />
-												</View>
-											</View>
-											<View style={{ backgroundColor: cor.mensagens, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
-												<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
-													{!usuario.mensagens ? '0' : usuario.mensagens} /{
-														!usuario.mensagens || usuario.mensagens < 5 ? ' 5 ' : '' ||
-															usuario.mensagens >= 5 && usuario.mensagens <= 34 ? ' 35 ' : '' ||
-																usuario.mensagens >= 35 ? ' 100 ' : ''
-													}
-												</Text>
+											<Icon type="font-awesome" name="envelope" size={30} color={white} />
+											<View style={{ flexDirection: "row" }}>
+												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 5 ? yellow : gray} size={12} />
+												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+												<Icon name="star" type="font-awesome" color={usuario.mensagens >= 100 ? yellow : gray} size={12} />
 											</View>
 										</View>
-										<View style={{ alignItems: "center" }}>
-											<View style={{
-												backgroundColor: cor.ligacoes, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
-												borderWidth: 2, borderColor: '#fff'
-											}}>
-												<Icon type="font-awesome" name="phone" size={30} color={white} />
-												<View style={{ flexDirection: "row" }}>
-													<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 5 ? yellow : gray} size={12} />
-													<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
-													<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 100 ? yellow : gray} size={12} />
-												</View>
-											</View>
-											<View style={{ backgroundColor: cor.ligacoes, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
-												<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
-													{!usuario.ligacoes ? '0' : usuario.ligacoes} /
-												{
-														!usuario.ligacoes || usuario.ligacoes < 5 ? ' 5 ' : '' ||
-															usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? ' 35 ' : '' ||
-																usuario.ligacoes >= 35 ? ' 100 ' : ''
-													}
-												</Text>
-											</View>
+										<View style={{ backgroundColor: cor.mensagens, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
+											<Text style={{ color: white, textAlign: "center", fontSize: 10 }}>
+												{!usuario.mensagens ? '0' : usuario.mensagens} /{
+													!usuario.mensagens || usuario.mensagens < 5 ? ' 5 ' : '' ||
+														usuario.mensagens >= 5 && usuario.mensagens <= 34 ? ' 35 ' : '' ||
+														usuario.mensagens >= 35 ? ' 100 ' : ''
+												}
+											</Text>
 										</View>
-										<View style={{ alignItems: "center" }}>
-											<View style={{
-												backgroundColor: cor.visitas, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
-												borderWidth: 2, borderColor: '#fff'
-											}}>
-												<Icon type="font-awesome" name="home" size={30} color={white} />
-												<View style={{ flexDirection: "row" }}>
-													<Icon name="star" type="font-awesome" color={usuario.visitas >= 5 ? yellow : gray} size={12} />
-													<Icon name="star" type="font-awesome" color={usuario.visitas >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
-													<Icon name="star" type="font-awesome" color={usuario.visitas >= 100 ? yellow : gray} size={12} />
-												</View>
-											</View>
-											<View style={{ backgroundColor: cor.visitas, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
-												<Text style={{ color: white, textAlign: "center", fontSize: 12 }}>
-													{!usuario.visitas ? '0' : usuario.visitas} /
-												{
-														!usuario.visitas || usuario.visitas < 5 ? ' 5 ' : '' ||
-															usuario.visitas >= 5 && usuario.visitas <= 34 ? ' 35 ' : '' ||
-																usuario.visitas >= 35 ? ' 100 ' : ''
-													}</Text>
-											</View>
+									</View>
+									<View style={{ alignItems: "center" }}>
+										<View style={{
+											backgroundColor: cor.ligacoes, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
+											borderWidth: 2, borderColor: '#fff'
+										}}>
+										<Icon type="font-awesome" name="phone" size={30} color={white} />
+										<View style={{ flexDirection: "row" }}>
+											<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 5 ? yellow : gray} size={12} />
+											<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+											<Icon name="star" type="font-awesome" color={usuario.ligacoes >= 100 ? yellow : gray} size={12} />
 										</View>
-
+									</View>
+									<View style={{ backgroundColor: cor.ligacoes, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
+										<Text style={{ color: white, textAlign: "center", fontSize: 10 }}>
+											{!usuario.ligacoes ? '0' : usuario.ligacoes} /
+											{
+												!usuario.ligacoes || usuario.ligacoes < 5 ? ' 5 ' : '' ||
+													usuario.ligacoes >= 5 && usuario.ligacoes <= 34 ? ' 35 ' : '' ||
+													usuario.ligacoes >= 35 ? ' 100 ' : ''
+											}
+										</Text>
 									</View>
 								</View>
+								<View style={{ alignItems: "center" }}>
+									<View style={{
+										backgroundColor: cor.visitas, height: 80, width: 80, borderRadius: 80 / 2, alignItems: "center", justifyContent: "center",
+										borderWidth: 2, borderColor: '#fff'
+									}}>
+									<Icon type="font-awesome" name="home" size={30} color={white} />
+									<View style={{ flexDirection: "row" }}>
+										<Icon name="star" type="font-awesome" color={usuario.visitas >= 5 ? yellow : gray} size={12} />
+										<Icon name="star" type="font-awesome" color={usuario.visitas >= 35 ? yellow : gray} size={12} containerStyle={{ marginHorizontal: 5 }} />
+										<Icon name="star" type="font-awesome" color={usuario.visitas >= 100 ? yellow : gray} size={12} />
+									</View>
+								</View>
+								<View style={{ backgroundColor: cor.visitas, borderRadius: 20, padding: 2, marginTop: 4, borderWidth: 1, borderColor: white, width: 55 }}>
+									<Text style={{ color: white, textAlign: "center", fontSize: 10 }}>
+										{!usuario.visitas ? '0' : usuario.visitas} /
+										{
+											!usuario.visitas || usuario.visitas < 5 ? ' 5 ' : '' ||
+												usuario.visitas >= 5 && usuario.visitas <= 34 ? ' 35 ' : '' ||
+												usuario.visitas >= 35 ? ' 100 ' : ''
+										}</Text>
+								</View>
+							</View>
+
+						</View>
+					</View>
 
 							}
 						</View>
+
+						{ 
+						missoesConcluidas.length > 0 &&
+								<View style={container}>
+									<View>
+										<Text style={[texto, { fontWeight: 'bold' }]}>
+											Missões Concluídas
+										</Text>
+										{
+											missoesConcluidas.map(item =>
+												<View key={item.missao._id} style={container}>
+													<View style={{justifyContent: 'space-between', flexDirection: 'row',}}>
+														<Text style={[texto, { fontWeight: 'bold' }]}>
+															{item.missao.nome}
+														</Text>
+														<Text style={{color: primary,}}>
+															{item.missao.pontos} XP
+														</Text>
+													</View>
+													<Text style={{ color: white, fontSize: 8, }}>{item.missao.data_inicial} até {item.missao.data_final}</Text>
+												</View>
+											)
+										}
+									</View>
+								</View>
+						}
+
 						<View style={container}>
 							{
 								items.map(item => {
@@ -682,158 +712,158 @@ class PerfilScreen extends React.Component {
 				}
 				{
 					carregando &&
-					<Loading title='Processando' />
+						<Loading title='Processando' />
 				}
 				{
 					!carregando &&
-					config &&
-					<View style={[container, { margin: 20 }]}>
-						{
-							mostrarEditar &&
-							<View>
-								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
-									onPress={() => this.setState({
-										editarNome: true,
-										editarEmail: false,
-										editarSenha: false,
-										mostrarEditar: false,
-									})} >
-									<Text style={{ color: white, fontSize: 20 }}>
-										Editar Nome
-									</Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
-									onPress={() => this.setState({
-										editarNome: false,
-										editarEmail: true,
-										editarSenha: false,
-										mostrarEditar: false,
-									})} >
-									<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
-									<Text style={{ color: white, fontSize: 20 }}>
-										Editar Email
-									</Text>
-								</TouchableOpacity>
-								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
-									onPress={() => this.setState({
-										editarNome: false,
-										editarEmail: false,
-										editarSenha: true,
-										mostrarEditar: false,
-									})} >
-									<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
-									<Text style={{ color: white, fontSize: 20 }}>
-										Editar Senha
-									</Text>
-								</TouchableOpacity>
-								<TouchableOpacity
-									onPress={() => this.perguntarSeQuerSair()}
-									style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
-									<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
-									<Text style={{ color: gray, fontSize: 20 }}>
-										Sair
-									</Text>
-								</TouchableOpacity>
-							</View>
-						}
-						{
-							editarNome &&
-							<View>
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									keyboardAppearance='dark'
-									returnKeyType="next"
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label={NOME}
-									value={nome}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									onChangeText={texto => this.setState({ nome: texto })}
-
-								/>
-
-								<View style={{ flexDirection: 'row', marginTop: 25 }}>
-									<TouchableOpacity
-										style={{
-											backgroundColor: gray,
-											height: 45,
-											borderRadius: 6,
-											flex: 1,
-											justifyContent: 'center',
-											shadowOffset: { width: 5, height: 5, },
-											shadowColor: 'rgba(0,0,0,0.3)',
-											shadowOpacity: 1.0,
-											marginRight: 8,
-										}}
+						config &&
+						<View style={[container, { margin: 20 }]}>
+							{
+								mostrarEditar &&
+								<View>
+									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
 										onPress={() => this.setState({
-											mostrarEditar: true,
-											editarNome: false,
+											editarNome: true,
 											editarEmail: false,
 											editarSenha: false,
-										})}
-									>
-										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-											Voltar
+											mostrarEditar: false,
+										})} >
+										<Text style={{ color: white, fontSize: 20 }}>
+											Editar Nome
+										</Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+										onPress={() => this.setState({
+											editarNome: false,
+											editarEmail: true,
+											editarSenha: false,
+											mostrarEditar: false,
+										})} >
+										<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+										<Text style={{ color: white, fontSize: 20 }}>
+											Editar Email
+										</Text>
+									</TouchableOpacity>
+									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+										onPress={() => this.setState({
+											editarNome: false,
+											editarEmail: false,
+											editarSenha: true,
+											mostrarEditar: false,
+										})} >
+										<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
+										<Text style={{ color: white, fontSize: 20 }}>
+											Editar Senha
 										</Text>
 									</TouchableOpacity>
 									<TouchableOpacity
-										style={{
-											backgroundColor: primary,
-											height: 45,
-											borderRadius: 6,
-											flex: 1,
-											justifyContent: 'center',
-											shadowOffset: { width: 5, height: 5, },
-											shadowColor: 'rgba(0,0,0,0.3)',
-											shadowOpacity: 1.0,
-										}}
-										onPress={() => this.alterarNome()} >
-										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-											Confirmar
+										onPress={() => this.perguntarSeQuerSair()}
+										style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+										<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+										<Text style={{ color: gray, fontSize: 20 }}>
+											Sair
 										</Text>
 									</TouchableOpacity>
-
 								</View>
-							</View>
-						}
-						{
-							editarEmail &&
-							<View>
-								<Text style={{ color: white, alignItems: 'center', padding: 5, }}>
-									Email: {usuario.email}
-								</Text>
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									keyboardType='email-address'
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label="NOVO EMAIL"
-									value={email}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									onChangeText={texto => this.setState({ email: texto })}
-								/>
+							}
+							{
+								editarNome &&
+									<View>
+										<Input
+											containerStyle={styles.containerInput}
+											inputContainerStyle={styles.inputContainerStyle}
+											keyboardAppearance='dark'
+											returnKeyType="next"
+											placeholder=""
+											placeholderTextColor={'#ddd'}
+											autoCorrect={false}
+											label={NOME}
+											value={nome}
+											inputStyle={styles.input}
+											labelStyle={styles.label}
+											onChangeText={texto => this.setState({ nome: texto })}
 
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									keyboardType='email-address'
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label="CONFIRME NOVO EMAIL"
-									value={confirmarEmail}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									onChangeText={texto => this.setState({ confirmarEmail: texto })}
-								/>
+										/>
+
+									<View style={{ flexDirection: 'row', marginTop: 25 }}>
+										<TouchableOpacity
+											style={{
+												backgroundColor: gray,
+												height: 45,
+												borderRadius: 6,
+												flex: 1,
+												justifyContent: 'center',
+												shadowOffset: { width: 5, height: 5, },
+												shadowColor: 'rgba(0,0,0,0.3)',
+												shadowOpacity: 1.0,
+												marginRight: 8,
+											}}
+											onPress={() => this.setState({
+												mostrarEditar: true,
+												editarNome: false,
+												editarEmail: false,
+												editarSenha: false,
+											})}
+										>
+											<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+												Voltar
+											</Text>
+										</TouchableOpacity>
+										<TouchableOpacity
+											style={{
+												backgroundColor: primary,
+												height: 45,
+												borderRadius: 6,
+												flex: 1,
+												justifyContent: 'center',
+												shadowOffset: { width: 5, height: 5, },
+												shadowColor: 'rgba(0,0,0,0.3)',
+												shadowOpacity: 1.0,
+											}}
+											onPress={() => this.alterarNome()} >
+											<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+												Confirmar
+											</Text>
+										</TouchableOpacity>
+
+									</View>
+								</View>
+							}
+							{
+								editarEmail &&
+									<View>
+										<Text style={{ color: white, alignItems: 'center', padding: 5, }}>
+											Email: {usuario.email}
+										</Text>
+										<Input
+											containerStyle={styles.containerInput}
+											inputContainerStyle={styles.inputContainerStyle}
+											keyboardType='email-address'
+											keyboardAppearance='dark'
+											placeholder=""
+											placeholderTextColor={'#ddd'}
+											autoCorrect={false}
+											label="NOVO EMAIL"
+											value={email}
+											inputStyle={styles.input}
+											labelStyle={styles.label}
+											onChangeText={texto => this.setState({ email: texto })}
+										/>
+
+									<Input
+										containerStyle={styles.containerInput}
+										inputContainerStyle={styles.inputContainerStyle}
+										keyboardType='email-address'
+										keyboardAppearance='dark'
+										placeholder=""
+										placeholderTextColor={'#ddd'}
+										autoCorrect={false}
+										label="CONFIRME NOVO EMAIL"
+										value={confirmarEmail}
+										inputStyle={styles.input}
+										labelStyle={styles.label}
+										onChangeText={texto => this.setState({ confirmarEmail: texto })}
+									/>
 
 								<View style={{ flexDirection: 'row', marginTop: 25 }}>
 									<TouchableOpacity
@@ -880,105 +910,105 @@ class PerfilScreen extends React.Component {
 									</TouchableOpacity>
 								</View>
 							</View>
-						}
-						{
-							editarSenha &&
-							<View>
+							}
+							{
+								editarSenha &&
+									<View>
 
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									keyboardType='default'
-									secureTextEntry={true}
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label="ANTIGA SENHA"
-									value={antigaSenha}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									onChangeText={texto => this.setState({ antigaSenha: texto })}
-								/>
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									keyboardType='default'
-									secureTextEntry={true}
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label="NOVA SENHA"
-									value={senha}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									onChangeText={texto => this.setState({ senha: texto })}
-								/>
-								<Input
-									containerStyle={styles.containerInput}
-									inputContainerStyle={styles.inputContainerStyle}
-									keyboardType='default'
-									secureTextEntry={true}
-									keyboardAppearance='dark'
-									placeholder=""
-									placeholderTextColor={'#ddd'}
-									autoCorrect={false}
-									label="CONFIRME NOVA SENHA"
-									value={confirmarSenha}
-									inputStyle={styles.input}
-									labelStyle={styles.label}
-									onChangeText={texto => this.setState({ confirmarSenha: texto })}
-								/>
+										<Input
+											containerStyle={styles.containerInput}
+											inputContainerStyle={styles.inputContainerStyle}
+											keyboardType='default'
+											secureTextEntry={true}
+											keyboardAppearance='dark'
+											placeholder=""
+											placeholderTextColor={'#ddd'}
+											autoCorrect={false}
+											label="ANTIGA SENHA"
+											value={antigaSenha}
+											inputStyle={styles.input}
+											labelStyle={styles.label}
+											onChangeText={texto => this.setState({ antigaSenha: texto })}
+										/>
+										<Input
+											containerStyle={styles.containerInput}
+											inputContainerStyle={styles.inputContainerStyle}
+											keyboardType='default'
+											secureTextEntry={true}
+											keyboardAppearance='dark'
+											placeholder=""
+											placeholderTextColor={'#ddd'}
+											autoCorrect={false}
+											label="NOVA SENHA"
+											value={senha}
+											inputStyle={styles.input}
+											labelStyle={styles.label}
+											onChangeText={texto => this.setState({ senha: texto })}
+										/>
+										<Input
+											containerStyle={styles.containerInput}
+											inputContainerStyle={styles.inputContainerStyle}
+											keyboardType='default'
+											secureTextEntry={true}
+											keyboardAppearance='dark'
+											placeholder=""
+											placeholderTextColor={'#ddd'}
+											autoCorrect={false}
+											label="CONFIRME NOVA SENHA"
+											value={confirmarSenha}
+											inputStyle={styles.input}
+											labelStyle={styles.label}
+											onChangeText={texto => this.setState({ confirmarSenha: texto })}
+										/>
 
-								<View style={{ flexDirection: 'row', marginTop: 25 }}>
-									<TouchableOpacity
-										style={{
-											backgroundColor: gray,
-											height: 45,
-											borderRadius: 6,
-											flex: 1,
-											justifyContent: 'center',
-											shadowOffset: { width: 5, height: 5, },
-											shadowColor: 'rgba(0,0,0,0.3)',
-											shadowOpacity: 1.0,
-											marginRight: 8,
-										}}
-										onPress={() => this.setState({
-											mostrarEditar: true,
-											editarNome: false,
-											editarEmail: false,
-											editarSenha: false,
-											antigaSenha: '',
-											senha: '',
-											confirmarSenha: '',
-										})}
-									>
-										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-											Voltar
-										</Text>
-									</TouchableOpacity>
-									<TouchableOpacity
-										style={{
-											backgroundColor: primary,
-											height: 45,
-											borderRadius: 6,
-											flex: 1,
-											justifyContent: 'center',
-											shadowOffset: { width: 5, height: 5, },
-											shadowColor: 'rgba(0,0,0,0.3)',
-											shadowOpacity: 1.0,
-										}}
-										onPress={() => this.alterarSenha()}
-									>
-										<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-											Confirmar
-										</Text>
-									</TouchableOpacity>
+									<View style={{ flexDirection: 'row', marginTop: 25 }}>
+										<TouchableOpacity
+											style={{
+												backgroundColor: gray,
+												height: 45,
+												borderRadius: 6,
+												flex: 1,
+												justifyContent: 'center',
+												shadowOffset: { width: 5, height: 5, },
+												shadowColor: 'rgba(0,0,0,0.3)',
+												shadowOpacity: 1.0,
+												marginRight: 8,
+											}}
+											onPress={() => this.setState({
+												mostrarEditar: true,
+												editarNome: false,
+												editarEmail: false,
+												editarSenha: false,
+												antigaSenha: '',
+												senha: '',
+												confirmarSenha: '',
+											})}
+										>
+											<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+												Voltar
+											</Text>
+										</TouchableOpacity>
+										<TouchableOpacity
+											style={{
+												backgroundColor: primary,
+												height: 45,
+												borderRadius: 6,
+												flex: 1,
+												justifyContent: 'center',
+												shadowOffset: { width: 5, height: 5, },
+												shadowColor: 'rgba(0,0,0,0.3)',
+												shadowOpacity: 1.0,
+											}}
+											onPress={() => this.alterarSenha()}
+										>
+											<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
+												Confirmar
+											</Text>
+										</TouchableOpacity>
+									</View>
 								</View>
-							</View>
-						}
-					</View>
+							}
+						</View>
 				}
 			</LinearGradient>
 		)
