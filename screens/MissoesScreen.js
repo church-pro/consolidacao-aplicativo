@@ -16,6 +16,9 @@ import { Icon } from 'react-native-elements';
 import { stylesMarcar } from '../components/Styles';
 import empty from '../assets/images/empty.png'
 import sad from '../assets/images/sad.png'
+import {
+	alterarUsuarioNoAsyncStorage,
+} from '../actions'
 
 class MissoesScreen extends React.Component {
 
@@ -41,6 +44,26 @@ class MissoesScreen extends React.Component {
 				carregando: false,
 			})
 		}
+	}
+
+	async selecionarMissao(itemSelecionado){
+		const {
+			navigation,
+			usuario,
+			alterarUsuarioNoAsyncStorage
+		} = this.props
+
+		usuario.missoes = usuario.missoes.map(item => {
+			if(itemSelecionado.missao._id === item.missao._id){
+				itemSelecionado.visto = true
+				return itemSelecionado
+			}else{
+				return item
+			}
+		})
+
+		await alterarUsuarioNoAsyncStorage(usuario)
+		navigation.navigate('Missao', {item: itemSelecionado})
 	}
 
 	render() {
@@ -97,7 +120,7 @@ class MissoesScreen extends React.Component {
 													}}
 													key={item.missao._id}>
 													<TouchableOpacity
-														onPress={() => navigation.navigate('Missao', {item})}
+														onPress={() => this.selecionarMissao(item)}
 														style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-between' }}>
 														<View>
 															<Text style={{ color: white }}>{item.missao.nome}</Text>
@@ -125,4 +148,10 @@ const mapStateToProps = ({ usuario }) => {
 	return { usuario }
 }
 
-export default connect(mapStateToProps, null)(MissoesScreen)
+const mapDispatchToProps = (dispatch) => {
+	return {
+		alterarUsuarioNoAsyncStorage: (usuario) => dispatch(alterarUsuarioNoAsyncStorage(usuario)),
+	}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MissoesScreen)
