@@ -47,6 +47,7 @@ class MissoesScreen extends React.Component {
 	}
 
 	async selecionarMissao(itemSelecionado){
+		this.setState({carregando: true})
 		const {
 			navigation,
 			usuario,
@@ -63,6 +64,7 @@ class MissoesScreen extends React.Component {
 		})
 
 		await alterarUsuarioNoAsyncStorage(usuario)
+		await this.setState({carregando: false})
 		navigation.navigate('Missao', {item: itemSelecionado})
 	}
 
