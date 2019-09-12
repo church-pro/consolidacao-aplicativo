@@ -35,6 +35,17 @@ class AtualizacoesScreen extends React.Component {
 
 		const items = [
 			{
+				titulo: '12/09/2019',
+				subTitulos: [
+					{
+						titulo: 'Missões',
+						items: [
+							'Sistema de missões e pontos extras',
+						]
+					},
+				]
+			},
+			{
 				titulo: '05/09/2019',
 				subTitulos: [
 					{
