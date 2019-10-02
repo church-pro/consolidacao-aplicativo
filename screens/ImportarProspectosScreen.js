@@ -12,9 +12,10 @@ import {
 import { Icon } from 'react-native-elements'
 import { Header, Title, Left, Body, Right } from 'native-base'
 import { connect } from 'react-redux'
-import { Permissions, Contacts } from 'expo'
+import * as  Permissions from 'expo-permissions'
+import * as Contacts from 'expo-contacts'
 import { white, lightdark, dark, black, primary, gray } from '../helpers/colors'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import {
     adicionarProspectosAoAsyncStorage,
     alterarUsuarioNoAsyncStorage,

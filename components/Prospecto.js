@@ -27,6 +27,7 @@ import {
 	SITUACAO_MENSAGEM,
 	SITUACAO_LIGAR,
 	SITUACAO_REMOVIDO,
+	SITUACAO_VISITA,
 } from '../helpers/constants'
 import {
 	pegarDataEHoraAtual,
@@ -126,6 +127,10 @@ class Prospecto extends React.Component {
 			valorDaBarra = 0.75
 		}
 
+		let onPress = () => { this.setState({ mostrarOpcoes: !mostrarOpcoes }) }
+		if(prospecto.situacao_id === SITUACAO_VISITA){
+			onPress = () => console.log('onPress')
+		}
 		return (
 			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id} >
 				<View>
@@ -168,13 +173,14 @@ class Prospecto extends React.Component {
 
 					<TouchableOpacity
 						style={stylesProspecto.containerProspecto}
-						onPress={() => { this.setState({ mostrarOpcoes: !mostrarOpcoes }) }} >
+						onPress={onPress} >
 						<View style={stylesProspecto.containerName}>
 							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 								<Text numberOfLines={1} style={[stylesProspecto.text]}>{prospecto.nome}</Text>
 							</View>
 							{
 								prospecto.data &&
+									prospecto.situacao_id !== SITUACAO_VISITA &&
 									<View style={[stylesProspecto.containerBadge, { justifyContent: 'flex-start', }]}>
 										<View style={stylesProspecto.badge}>
 											<Text style={stylesProspecto.textBadge}>
@@ -184,19 +190,22 @@ class Prospecto extends React.Component {
 									</View>
 							}
 						</View>
-						<View style={stylesProspecto.containerActions}>
-							<TouchableOpacity
-								style={{
-									height: 40,
-									width: 40,
-									borderRadius: 40 / 2
-								}}
-								onPress={() => { this.setState({ mostrarOpcoes: !mostrarOpcoes }) }}
-								hitSlop={{ top: 15, right: 15, bottom: 15, left: 0 }} >
-								<Icon name={!mostrarOpcoes ? 'angle-down' : 'angle-up'} type='font-awesome' color={white} type='font-awesome' size={26}
-									containerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} />
-							</TouchableOpacity>
-						</View>
+						{
+							prospecto.situacao_id !== SITUACAO_VISITA &&
+								<View style={stylesProspecto.containerActions}>
+									<TouchableOpacity
+										style={{
+											height: 40,
+											width: 40,
+											borderRadius: 40 / 2
+										}}
+										onPress={() => { this.setState({ mostrarOpcoes: !mostrarOpcoes }) }}
+										hitSlop={{ top: 15, right: 15, bottom: 15, left: 0 }} >
+										<Icon name={!mostrarOpcoes ? 'angle-down' : 'angle-up'} type='font-awesome' color={white} type='font-awesome' size={26}
+											containerStyle={{ justifyContent: 'center', alignItems: 'center', flex: 1 }} />
+									</TouchableOpacity>
+								</View>
+						}
 					</TouchableOpacity>
 
 					{

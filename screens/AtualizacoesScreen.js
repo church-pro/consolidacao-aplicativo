@@ -10,7 +10,7 @@ import {
 	NetInfo,
 	Alert
 } from 'react-native';
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import { stylesImportar } from '../components/Styles'
 import { Header, Title, Left, Body, Right } from 'native-base'
 import arrow from '../assets/images/arrow-back.png'

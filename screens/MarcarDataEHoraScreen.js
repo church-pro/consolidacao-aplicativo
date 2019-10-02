@@ -23,7 +23,7 @@ import {
     pegarDataEHoraAtual,
 	sincronizacaoRapida,
 } from '../helpers/helper'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import Loading from '../components/Loading';
 import { stylesMarcar } from '../components/Styles'
 import CPButton from '../components/CPButton';

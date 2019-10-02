@@ -17,15 +17,17 @@ import {
 	SITUACAO_CADASTRO, SALVAR, NOME, DDD, TELEFONE, LABEL_EMAIL, NOVO_CONTATO,
 } from '../helpers/constants'
 import { connect } from 'react-redux'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import CPButton from '../components/CPButton';
 import {
 	pegarDataEHoraAtual
 } from '../helpers/helper'
 import {
 	submeterSituacoes,
-	gerarNotificacaoPorSituacao,
 } from '../helpers/api'
+import {
+	gerarNotificacaoPorSituacao,
+} from '../helpers/helper'
 import Loading from '../components/Loading'
 import { styles, stylesImportar } from '../components/Styles';
 import arrow from '../assets/images/arrow-back.png'

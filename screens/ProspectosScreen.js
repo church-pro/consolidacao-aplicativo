@@ -8,7 +8,7 @@ import {
 	Image,
 	NetInfo,
 } from 'react-native';
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import { white, gold, dark, lightdark, black, primary, gray, red } from '../helpers/colors'
 import ListaDeProspectos from '../components/ListaDeProspectos'
 import { connect } from 'react-redux'
@@ -45,10 +45,10 @@ class ProspectosScreen extends React.Component {
 
 	state = {
 		carregando: true,
-		busca: null,
 		buscaMensagem: true,
 		buscaTelefone: false,
 		buscaVisita: false,
+		buscaAlcancados: false,
 		sincronizando: false,
 		mostraModal: false,
 	}
@@ -212,23 +212,38 @@ class ProspectosScreen extends React.Component {
 			sincronizando,
 		} = this.state
 
-		let { busca, buscaMensagem, buscaTelefone, buscaVisita, buscaEvento } = this.state
+		let { buscaMensagem, buscaTelefone, buscaVisita, buscaAlcancados } = this.state
 
-		if (buscaMensagem !== false || buscaTelefone !== false || buscaVisita !== false || buscaEvento !== false) {
-
+		let filtrar = false;
+		if (buscaMensagem !== false || buscaTelefone !== false || buscaVisita !== false || buscaAlcancados !== false) {
+			filtrar = true;
+		}
+		if(filtrar){
 			prospectosFiltrados = prospectosFiltrados.filter(item => {
-				const itemData = item.situacao_id.toString()
-				let textData = ''
-				if (buscaMensagem === true) {
-					textData = '1'
+				if(buscaMensagem){
+					if(
+						item.situacao_id === SITUACAO_IMPORTAR ||
+						item.situacao_id === SITUACAO_CADASTRO
+					){
+						return true
+					}
 				}
-				if (buscaTelefone === true) {
-					textData = '2'
+				if(buscaTelefone){
+					if(item.situacao_id === SITUACAO_MENSAGEM){
+						return true
+					}
 				}
-				if (buscaVisita === true) {
-					textData = '3'
+				if(buscaVisita){
+					if(item.situacao_id === SITUACAO_LIGAR){
+						return true
+					}
 				}
-				return itemData.indexOf(textData) > -1
+				if(buscaAlcancados){
+					if(item.situacao_id === SITUACAO_VISITA){
+						return true
+					}
+				}
+				return false
 			})
 		}
 
@@ -339,7 +354,7 @@ class ProspectosScreen extends React.Component {
 										buscaMensagem: !buscaMensagem,
 										buscaTelefone: false,
 										buscaVisita: false,
-										buscaEvento: false
+										buscaAlcancados: false,
 									})
 								}} >
 								<Text style={{
@@ -362,7 +377,7 @@ class ProspectosScreen extends React.Component {
 										buscaMensagem: false,
 										buscaTelefone: !buscaTelefone,
 										buscaVisita: false,
-										buscaEvento: false,
+										buscaAlcancados: false,
 									})
 								}} >
 								<Text
@@ -388,7 +403,7 @@ class ProspectosScreen extends React.Component {
 										buscaMensagem: false,
 										buscaTelefone: false,
 										buscaVisita: !buscaVisita,
-										buscaEvento: false,
+										buscaAlcancados: false,
 									})
 								}} >
 								<Text
@@ -401,6 +416,32 @@ class ProspectosScreen extends React.Component {
 									Visitar
 							</Text>
 							</TouchableOpacity>
+							<TouchableOpacity
+								style={{
+									borderBottomWidth: buscaAlcancados ? 2 : 0,
+									borderBottomColor: buscaAlcancados ? primary : 'transparent',
+									marginRight: 0, flex: 1, padding: 5
+								}}
+								activeOpacity={1}
+								onPress={() => {
+									this.setState({
+										buscaMensagem: false,
+										buscaTelefone: false,
+										buscaVisita: false,
+										buscaAlcancados: !buscaAlcancados,
+									})
+								}} >
+								<Text
+									style={{
+										color: buscaAlcancados === true ? primary : white,
+										fontSize: 12,
+										textAlign: 'center',
+										fontWeight: buscaAlcancados === true ? 'bold' : 'normal'
+									}} >
+									Alcançados
+							</Text>
+							</TouchableOpacity>
+	
 						</View>
 						{
 							prospectosFiltrados.length === 0 ?
@@ -452,7 +493,8 @@ function mapStateToProps({ prospectos, usuario, }) {
 		prospecto.situacao_id === SITUACAO_IMPORTAR ||
 		prospecto.situacao_id === SITUACAO_CADASTRO ||
 		prospecto.situacao_id === SITUACAO_MENSAGEM ||
-		prospecto.situacao_id === SITUACAO_LIGAR
+		prospecto.situacao_id === SITUACAO_LIGAR ||
+		prospecto.situacao_id === SITUACAO_VISITA
 	)
 	return {
 		prospectosFiltrados,

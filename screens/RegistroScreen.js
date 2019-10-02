@@ -15,7 +15,7 @@ import {
 	registrarNaAPI,
 } from '../helpers/api'
 import { connect } from 'react-redux'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import CPButton from '../components/CPButton';
 import { styles, stylesMarcar } from '../components/Styles'
 import Loading from '../components/Loading';

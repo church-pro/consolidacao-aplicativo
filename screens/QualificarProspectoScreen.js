@@ -12,7 +12,7 @@ import { white, lightdark, dark, gray, gold, black } from '../helpers/colors'
 import { connect } from 'react-redux'
 import { alterarProspectoNoAsyncStorage } from '../actions'
 import { SITUACAO_CONVIDAR } from '../helpers/constants'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import CPButton from '../components/CPButton';
 
 class QualificarProspectoScreen extends React.Component {

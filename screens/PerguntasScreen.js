@@ -37,7 +37,7 @@ import {
 	recuperarProspectos,
 } from '../helpers/api'
 import CPButton from '../components/CPButton'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import {
 	pegarDataEHoraAtual,
 	montarObjetoParaPerguntas,

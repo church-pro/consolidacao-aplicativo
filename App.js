@@ -1,12 +1,15 @@
 import React from 'react'
 import { Platform, StatusBar, StyleSheet, View, } from 'react-native'
-import { AppLoading, Asset, Font, Icon, Notifications, } from 'expo'
+import { AppLoading, Notifications, } from 'expo'
+import * as Font from 'expo-font'
+import * as Icon from '@expo/vector-icons'
 import AppNavigator from './navigation/AppNavigator'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import rootReducer from './reducers'
-import { Permissions, Constants } from 'expo'
+import Constants from 'expo-constants'
+import * as Permissions from 'expo-permissions'
 import { gray, dark, black } from './helpers/colors'
 import { recuperarNotificacoes, submeterNotificacoes, } from './helpers/api'
 
@@ -84,7 +87,7 @@ export default class App extends React.Component {
 		return Promise.all([
 			Font.loadAsync({
 				Roboto: require('native-base/Fonts/Roboto.ttf'),
-				Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+				'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
 				...Icon.Ionicons.font,
 			}),
 		]);

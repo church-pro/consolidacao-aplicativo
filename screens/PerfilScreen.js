@@ -9,7 +9,7 @@ import {
 	NetInfo,
 } from 'react-native';
 import { connect } from 'react-redux'
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import {
 	VALOR_VISITA,
 	VALOR_LIGAR,

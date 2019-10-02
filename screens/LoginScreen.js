@@ -22,7 +22,7 @@ import {
 } from '../helpers/api'
 import { connect } from 'react-redux'
 import CPButton from '../components/CPButton';
-import { LinearGradient } from 'expo'
+import { LinearGradient } from 'expo-linear-gradient'
 import logo from '../assets/images/churchpro_branco.png'
 import { stylesLogin } from '../components/Styles'
 import Loading from '../components/Loading';
