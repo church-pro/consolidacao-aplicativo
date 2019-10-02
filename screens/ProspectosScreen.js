@@ -99,6 +99,7 @@ class ProspectosScreen extends React.Component {
 														})
 													}
 													if(adicionar){
+														console.log('adicionando notificcao para todos')
 														const novoItem = {
 															visto: false,
 															notificacao: notificacaoParaTodos,
@@ -198,8 +199,6 @@ class ProspectosScreen extends React.Component {
 
 		this.props.navigation.navigate('Atualizacoes')
 	}
-
-
 
 	render() {
 		let {

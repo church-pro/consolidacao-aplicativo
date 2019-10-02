@@ -716,89 +716,90 @@ class PerfilScreen extends React.Component {
 				}
 				{
 					!carregando &&
-						config &&
-						<View style={[container, { margin: 20 }]}>
-							{
-								mostrarEditar &&
-								<View>
-									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
-										onPress={() => this.setState({
-											editarNome: true,
-											editarEmail: false,
-											editarSenha: false,
-											mostrarEditar: false,
-										})} >
-										<Text style={{ color: white, fontSize: 20 }}>
-											Editar Nome
-										</Text>
-									</TouchableOpacity>
-									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
-										onPress={() => this.setState({
-											editarNome: false,
-											editarEmail: true,
-											editarSenha: false,
-											mostrarEditar: false,
-										})} >
-										<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
-										<Text style={{ color: white, fontSize: 20 }}>
-											Editar Email
-										</Text>
-									</TouchableOpacity>
-									<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
-										onPress={() => this.setState({
-											editarNome: false,
-											editarEmail: false,
-											editarSenha: true,
-											mostrarEditar: false,
-										})} >
-										<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
-										<Text style={{ color: white, fontSize: 20 }}>
-											Editar Senha
-										</Text>
-									</TouchableOpacity>
+					config &&
+					<View style={[container, { margin: 20 }]}>
+						{
+							mostrarEditar &&
+							<View>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+									onPress={() => this.setState({
+										editarNome: true,
+										editarEmail: false,
+										editarSenha: false,
+										mostrarEditar: false,
+									})} >
+									<Icon name="user" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: white, fontSize: 20 }}>
+										Editar Nome
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+									onPress={() => this.setState({
+										editarNome: false,
+										editarEmail: true,
+										editarSenha: false,
+										mostrarEditar: false,
+									})} >
+									<Icon name="at" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: white, fontSize: 20 }}>
+										Editar Email
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}
+									onPress={() => this.setState({
+										editarNome: false,
+										editarEmail: false,
+										editarSenha: true,
+										mostrarEditar: false,
+									})} >
+									<Icon name="lock" type="font-awesome" color={gray} size={16.5} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: white, fontSize: 20 }}>
+										Editar Senha
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									onPress={() => this.perguntarSeQuerSair()}
+									style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+									<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
+									<Text style={{ color: gray, fontSize: 20 }}>
+										Sair
+									</Text>
+								</TouchableOpacity>
+							</View>
+						}
+						{
+							editarNome &&
+							<View>
+								<Input
+									containerStyle={styles.containerInput}
+									inputContainerStyle={styles.inputContainerStyle}
+									keyboardAppearance='dark'
+									returnKeyType="next"
+									placeholder=""
+									placeholderTextColor={'#ddd'}
+									autoCorrect={false}
+									label={NOME}
+									value={nome}
+									inputStyle={styles.input}
+									labelStyle={styles.label}
+									onChangeText={texto => this.setState({ nome: texto })}
+
+								/>
+
+								<View style={{ flexDirection: 'row', marginTop: 25 }}>
 									<TouchableOpacity
-										onPress={() => this.perguntarSeQuerSair()}
-										style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
-										<Icon name="sign-out" type="font-awesome" color={gray} size={15} containerStyle={{ marginRight: 5 }} />
-										<Text style={{ color: gray, fontSize: 20 }}>
-											Sair
-										</Text>
-									</TouchableOpacity>
-								</View>
-							}
-							{
-								editarNome &&
-									<View>
-										<Input
-											containerStyle={styles.containerInput}
-											inputContainerStyle={styles.inputContainerStyle}
-											keyboardAppearance='dark'
-											returnKeyType="next"
-											placeholder=""
-											placeholderTextColor={'#ddd'}
-											autoCorrect={false}
-											label={NOME}
-											value={nome}
-											inputStyle={styles.input}
-											labelStyle={styles.label}
-											onChangeText={texto => this.setState({ nome: texto })}
-
-										/>
-
-									<View style={{ flexDirection: 'row', marginTop: 25 }}>
-										<TouchableOpacity
-											style={{
-												backgroundColor: gray,
-												height: 45,
-												borderRadius: 6,
-												flex: 1,
-												justifyContent: 'center',
-												shadowOffset: { width: 5, height: 5, },
-												shadowColor: 'rgba(0,0,0,0.3)',
-												shadowOpacity: 1.0,
-												marginRight: 8,
-											}}
-											onPress={() => this.setState({
+										style={{
+											backgroundColor: gray,
+											height: 45,
+											borderRadius: 6,
+											flex: 1,
+											justifyContent: 'center',
+											shadowOffset: { width: 5, height: 5, },
+											shadowColor: 'rgba(0,0,0,0.3)',
+											shadowOpacity: 1.0,
+											marginRight: 8,
+										}}
+										onPress={() => this.setState({
 												mostrarEditar: true,
 												editarNome: false,
 												editarEmail: false,
