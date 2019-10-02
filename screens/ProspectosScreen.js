@@ -99,7 +99,6 @@ class ProspectosScreen extends React.Component {
 														})
 													}
 													if(adicionar){
-														console.log('adicionando notificcao para todos')
 														const novoItem = {
 															visto: false,
 															notificacao: notificacaoParaTodos,
