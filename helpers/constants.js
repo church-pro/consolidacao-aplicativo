@@ -1,3 +1,5 @@
+export const adMobAndroid = 'ca-app-pub-6689947841260748~9304933781'
+
 export const VALOR_MENSAGEM = 5
 export const VALOR_LIGAR = 25
 export const VALOR_VISITA = 70

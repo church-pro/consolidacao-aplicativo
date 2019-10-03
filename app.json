@@ -32,8 +32,11 @@
       "bundleIdentifier": "br.com.churchpro",
       "buildNumber": "3"
     },
-    "android": {
-      "package": "br.com.churchpro.exp"
+	"android": {
+		"package": "br.com.churchpro.exp",
+		"config":{
+			"googleMobileAdsAppId": "ca-app-pub-6689947841260748~9304933781"
+		}
     }
   }
 }

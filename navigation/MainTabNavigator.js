@@ -19,6 +19,7 @@ import MissoesScreen from '../screens/MissoesScreen';
 import MissoesContagemScreen from '../screens/MissoesContagemScreen';
 import MissoesConcluidasScreen from '../screens/MissoesConcluidasScreen';
 import MissaoScreen from '../screens/MissaoScreen';
+import AnuncioScreen from '../screens/AnuncioScreen';
 import TabBarIcon from '../components/TabBarIcon';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
 import { Icon } from 'react-native-elements'
@@ -53,6 +54,7 @@ const ProspectosStack = createStackNavigator(
 		MissoesContagem: MissoesContagemScreen,
 		MissoesConcluidas: MissoesConcluidasScreen,
 		Prospecto: ProspectoScreen,
+		Anuncio: AnuncioScreen,
 	},
 	{
 		initialRouteName: 'Prospectos',

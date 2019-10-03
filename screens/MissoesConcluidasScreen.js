@@ -41,7 +41,7 @@ class MissoesConcluidasScreen extends React.Component {
 			missoes,
 		} = this.state
 
-		let paraOndeNavegar = 'Prospectos'
+		let paraOndeNavegar = 'Anuncio'
 		this.props.navigation.navigate(paraOndeNavegar)
 	}
 

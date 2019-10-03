@@ -25,7 +25,7 @@ class ConquistasScreen extends React.Component {
 
 	ajudadorDeSubmissao(){
 		const { usuario, navigation, qualAba, tipo, } = this.props
-		let qualTela = 'Prospectos'
+		let qualTela = 'Anuncio'
 		let dados = {}
 		dados.qualAba = qualAba
 		let situacao_id = null

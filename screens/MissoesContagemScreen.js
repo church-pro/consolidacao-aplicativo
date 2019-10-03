@@ -82,7 +82,7 @@ class MissoesContagemScreen extends React.Component {
 			missoes,
 		} = this.state
 	
-		let paraOndeNavegar = 'Prospectos'
+		let paraOndeNavegar = 'Anuncio'
 		let missoesConcluidas = []
 		let dados = {}
 		missoes.forEach(item => {

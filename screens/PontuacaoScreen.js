@@ -77,7 +77,7 @@ class PontuacaoScreen extends React.Component {
 			qualAba,
 			navigation,
 		} = this.props
-		let qualTela = 'Prospectos'
+		let qualTela = 'Anuncio'
 		let temConquista = false
 		let dados = {}
 		if (situacao_id === SITUACAO_MENSAGEM) {

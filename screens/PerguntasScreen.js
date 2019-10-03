@@ -229,7 +229,7 @@ class PerguntasScreen extends React.Component {
 						mensagem = 'Ação concluída! A pessoa está na aba MENSAGEM'
 					}
 					Alert.alert('Progresso', mensagem)
-					navigation.navigate('Prospectos', {qualAba})
+					navigation.navigate('Anuncio', {qualAba})
 				}
 			}
 
