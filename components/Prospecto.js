@@ -131,6 +131,7 @@ class Prospecto extends React.Component {
 		if(prospecto.situacao_id === SITUACAO_VISITA){
 			onPress = () => console.log('onPress')
 		}
+
 		return (
 			<Card containerStyle={stylesProspecto.containerCard} key={prospecto.id} >
 				<View>
@@ -175,9 +176,7 @@ class Prospecto extends React.Component {
 						style={stylesProspecto.containerProspecto}
 						onPress={onPress} >
 						<View style={stylesProspecto.containerName}>
-							<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-								<Text numberOfLines={1} style={[stylesProspecto.text]}>{prospecto.nome}</Text>
-							</View>
+							<Text numberOfLines={1} style={{...stylesProspecto.text, }}>{prospecto.nome}</Text>
 							{
 								prospecto.data &&
 									prospecto.situacao_id !== SITUACAO_VISITA &&
