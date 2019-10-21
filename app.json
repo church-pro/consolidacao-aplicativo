@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "ChurchPro",
-    "description": "Church Pro Consolidação",
-    "slug": "church-pro-consolidacao",
+    "name": "On Fire",
+    "description": "On Fire",
+    "slug": "on-fire",
     "privacy": "public",
     "sdkVersion": "35.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "0.0.1",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -29,11 +29,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "br.com.churchpro",
+      "bundleIdentifier": "br.com.onfire",
       "buildNumber": "3"
     },
 	"android": {
-		"package": "br.com.churchpro.exp",
+		"package": "br.com.onfire.exp",
 		"config":{
 			"googleMobileAdsAppId": "ca-app-pub-6689947841260748~9304933781"
 		}
