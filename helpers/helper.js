@@ -827,3 +827,33 @@ export const verificarSeTemProgressoNaMissao = (usuario, dados, qualTela, situac
 	}
 	return dados, qualTela
 }
+
+export const missoesValidas = (usuario) => {
+	let missoes = []
+	if(usuario.missoes){
+		const dataAtual = new Date()
+		usuario.missoes.forEach(item => {
+			const {
+				data_inicial,
+				data_final,
+			} = item.missao
+			const splitDataInicial = data_inicial.split('/')
+			const splitDataFinal = data_final.split('/')
+			let dataInicialJS = new Date()
+			dataInicialJS.setDate(splitDataInicial[0])
+			dataInicialJS.setMonth(splitDataInicial[1] - 1)
+			dataInicialJS.setFullYear(splitDataInicial[2])
+			let dataFinalJS = new Date()
+			dataFinalJS.setDate(splitDataFinal[0])
+			dataFinalJS.setMonth(splitDataFinal[1] - 1)
+			dataFinalJS.setFullYear(splitDataFinal[2])
+
+			/* data atual no periodo da missao */
+			if(dataAtual.getTime() >= dataInicialJS.getTime() &&
+				dataAtual.getTime() <= dataFinalJS.getTime()){
+				missoes.push(item)
+			}
+		})
+	}
+	return missoes
+}

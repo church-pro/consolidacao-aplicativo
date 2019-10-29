@@ -3,6 +3,9 @@ import { View, Text, TouchableOpacity, } from 'react-native';
 import { connect } from 'react-redux'
 import { Icon } from 'react-native-elements';
 import { primary, black, dark, gold, red, white, } from '../helpers/colors'
+import {
+	missoesValidas,
+} from '../helpers/helper'
 
 class TabBarIcon extends React.Component {
 	
@@ -44,7 +47,8 @@ class TabBarIcon extends React.Component {
 			})
 		}
 		if(usuario.missoes && usuario.missoes.length > 0){
-			usuario.missoes.forEach(item => {
+			const missoes = missoesValidas(usuario)
+			missoes.forEach(item => {
 				if(item.visto === false){
 					temMissoesNaoLidas = true
 				}

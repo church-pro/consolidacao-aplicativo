@@ -19,6 +19,9 @@ import sad from '../assets/images/sad.png'
 import {
 	alterarUsuarioNoAsyncStorage,
 } from '../actions'
+import {
+	missoesValidas,
+} from '../helpers/helper'
 
 class MissoesScreen extends React.Component {
 
@@ -36,11 +39,11 @@ class MissoesScreen extends React.Component {
 
 	componentDidMount() {
 		const {
-			usuario,
+			missoes,
 		} = this.props
-		if(usuario.missoes){
+		if(missoes){
 			this.setState({
-				missoes: usuario.missoes,
+				missoes,
 				carregando: false,
 			})
 		}
@@ -147,7 +150,11 @@ class MissoesScreen extends React.Component {
 }
 
 const mapStateToProps = ({ usuario }) => {
-	return { usuario }
+	const missoes = missoesValidas(usuario)
+	return { 
+		usuario,
+		missoes,
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {

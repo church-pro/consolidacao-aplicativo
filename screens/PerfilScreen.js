@@ -417,6 +417,10 @@ class PerfilScreen extends React.Component {
 				valor: null,
 			},
 			{
+				label: 'Alcançados',
+				valor: usuario.visitas ? usuario.visitas : 0,
+			},
+			{
 				label: 'Importações',
 				valor: usuario.importacoes ? usuario.importacoes : 0,
 			},
