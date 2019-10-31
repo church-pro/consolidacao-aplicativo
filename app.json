@@ -34,7 +34,7 @@
     },
 	"android": {
 		"package": "br.com.onfire.exp",
-		"versionCode": 2,
+		"versionCode": 3,
 		"config":{
 			"googleMobileAdsAppId": "ca-app-pub-6689947841260748~9304933781"
 		}
