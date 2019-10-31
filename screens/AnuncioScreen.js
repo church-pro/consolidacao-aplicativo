@@ -44,7 +44,7 @@ class AnuncioScreen extends React.Component {
 		return (
 			<View style={{ flex: 1, backgroundColor: lightdark, padding: 20 }}>
 				<Text style={{ color: white, fontWeight: 'bold', textAlign: 'center', fontSize: 22, marginVertical: 16 }}>
-					Este anuncio ajuda a manter o projeto grátis
+					Este anúncio ajuda a manter o projeto grátis
 				</Text>
 				{
 					mostrarBotoes &&
@@ -57,32 +57,11 @@ class AnuncioScreen extends React.Component {
 				}
 				<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 10, }}>
 					<AdMobBanner
-						key='banner'
-						ref={(input) => { this.banner = input; }}
-						style={{margin: 10,}}
-						bannerSize="banner"
+						bannerSize="mediumRectangle"
 						adUnitID="ca-app-pub-6689947841260748/8147764780"
-						onDidFailToReceiveAdWithError={this.bannerError} />
+						onDidFailToReceiveAdWithError={this.bannerError}>
+					</AdMobBanner>
 				</View>
-				{
-					mostrarBotoes &&
-						<TouchableOpacity
-							onPress={() => this.banner.onPress()}
-							style={{
-								width: '100%',
-								backgroundColor: primary,
-								height: 45,
-								borderRadius: 6,
-								justifyContent: 'center',
-								shadowOffset: { width: 5, height: 5, },
-								shadowColor: 'rgba(0,0,0,0.3)',
-								shadowOpacity: 1.5,
-							}} >
-							<Text style={{ textAlign: "center", fontSize: 16, color: white }}>
-								Saiba Mais
-							</Text>
-						</TouchableOpacity>
-				}
 			</View>
 		)
 	}
