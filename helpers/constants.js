@@ -21,7 +21,7 @@ export const SITUACAO_VISITEI_MAS_NAO_CONVIDEI = 14
 export const SITUACAO_EVENTO_NAO_VEIO = 15
 export const SITUACAO_CADASTRO = 16
 
-export const CHURCH_PRO = "CHURCH PRO"
+export const CHURCH_PRO = "OnFire"
 
 // TABS
 export const TITULO_TAB_MENSAGEM = "Mensagem"
@@ -35,7 +35,7 @@ export const REGISTRO = "Registro"
 export const NOVO_CONTATO = "Novo Contato"
 
 // LOADING
-export const ENTRANDO = "Entrando no ChurchPro"
+export const ENTRANDO = "Entrando no OnFire"
 
 // LOGIN
 export const EMAIL = "Seu Email"
