@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "cover",
-      "backgroundColor": "#2D84C3"
+      "backgroundColor": "#000000"
     },
 	"notification": {
 		"icon": "./assets/images/icon_notificacao.png",
@@ -34,7 +34,7 @@
     },
 	"android": {
 		"package": "br.com.onfire.exp",
-		"versionCode": 4,
+		"versionCode": 5,
 		"config":{
 			"googleMobileAdsAppId": "ca-app-pub-6689947841260748~9304933781"
 		}
