@@ -21,7 +21,7 @@ export const SITUACAO_VISITEI_MAS_NAO_CONVIDEI = 14
 export const SITUACAO_EVENTO_NAO_VEIO = 15
 export const SITUACAO_CADASTRO = 16
 
-export const CHURCH_PRO = "OnFire"
+export const CHURCH_PRO = "CHURCH PRO"
 
 // TABS
 export const TITULO_TAB_MENSAGEM = "Mensagem"
